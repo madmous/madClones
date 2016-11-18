@@ -1,0 +1,86 @@
+.Board-Item {
+	width: 25%;
+	padding: 0 16px 16px 0;
+}
+
+.Board-Tile {
+	color: #fff;
+	display: block;
+	line-height: 20px;
+	padding: 8px 12px;
+	border-radius: 3px;
+	position: relative;
+	background-size: cover;
+	background-position: center center;
+}
+
+.Board-Tile {
+	background-color: rgb(0, 121, 191);
+}
+
+.Board-Tile:hover,
+.Board-Tile-Add:hover {
+	cursor: pointer;
+}
+
+.Board-Tile:hover {
+	background-color: rgb(0, 92, 145);
+}
+
+.Board-Tile-Add:hover {
+	background-color: #d6d9db;
+}
+
+.Board-Tile-Add {
+  display: flex;
+	height: 100%;
+  font-weight: 400;
+  color: #8c8c8c;
+	align-items: center;
+	justify-content: center;
+	background-color: #E2E4E6;
+}
+
+.Board-Tile-Title {
+	display: block;
+	min-height: 5pc;
+	position: relative;
+	padding: 0 36px 20px 0;
+}
+
+.Board-Tile-Title span {
+	font-size: 1pc;
+	font-weight: 700;
+	overflow: hidden;
+	max-height: 40px;
+	display: inline-block;
+}
+
+.Board-Item-Tile-Option {    
+	width: 20px;
+	height: 20px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	position: absolute;
+	top: 8px;
+	right: -20px;
+	opacity: 0;
+	transition: opacity 1.5s;
+	
+}
+
+.Board-Item-Tile-Starred {
+	color: yellow;
+}
+
+.Board-Item-Tile-Starred,
+.Board-Tile:hover .Board-Item-Tile-Option {
+	font-weight: 700;
+	right: 8px;
+	opacity: 1;
+}
+
+.Board-Item-Tile-Option:hover {   
+	font-size: 20px;
+}

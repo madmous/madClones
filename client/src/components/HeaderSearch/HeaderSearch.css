@@ -1,0 +1,35 @@
+.Header-Board-Search {
+	z-index: 1;
+	float: left;
+	height: 100%;
+	margin: 0 8px 0 0;
+	position: relative;
+}
+
+.Header-Board-Search-Input {
+	margin: 0;
+	z-index: 1;
+	float: left;
+	height: 100%;
+	border: none;
+	font-size: 13px;
+	padding-left: 8px;
+	border-radius: 3px;
+	padding-right: 30px;
+	background-color: rgba(255,255,255,.3);
+}
+
+.Header-Board-Search-Icon {
+	top: 0;
+	right: 0;
+	z-index: 2;
+	width: 30px;
+	height: 30px;
+	color: #fff;
+	display: flex;
+	font-size: 1pc;
+	font-size: 20px;
+	cursor: pointer;
+	line-height: 30px;
+	position: absolute;
+}

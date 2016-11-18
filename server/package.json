@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "start:debug": "node --inspect ./src/index",
+    "start": "node ./src/index"
+  },
+  "devDependencies": {
+    "graphql": "^0.8.1"
+  },
+  "dependencies": {
+    "async": "^2.1.2",
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-graphql": "^0.6.1",
+    "global": "^4.3.1",
+    "helmet": "^3.1.0",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.7",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^2.2.1",
+    "winston": "^2.3.0"
+  }
+}

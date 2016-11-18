@@ -1,0 +1,22 @@
+.Header-Board-Button {
+	position: relative;
+	margin-right: 8px;
+	padding: 0 0 0 26px;
+}
+
+.Header-Board-Button-Text {
+	padding: 0 8px;
+}
+
+.Header-Board-Button-Icon {
+	top: 0;
+	left: 0;
+	font-size: 18px;
+	position: absolute;
+
+	display: flex;
+	width: 30px;
+	height: 30px;
+	justify-content: center;
+	align-items: center;
+}

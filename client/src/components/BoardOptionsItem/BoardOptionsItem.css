@@ -1,0 +1,31 @@
+.BoardOptionsItem {
+	color: #8c8c8c;
+	margin-left: 8px;
+	position: relative;
+	border-radius: 3px;
+	display: inline-block;
+	padding: 6px 9pt 6px 28px;
+	background-color: #EDEFF0;
+}
+
+.BoardOptionsItem-Icon {
+  top: 6px;
+	left: 6px;
+	width: 18px;
+	height: 18px;
+	display: flex;
+	line-height: 18px;
+  position: absolute;
+	align-items: center;
+	justify-content: center;
+}
+
+.BoardOptionsItem:hover {
+  cursor: pointer;
+	background-color: #d6d9db;
+}
+
+.BoardOptionsItem:hover .BoardOptionsItem-Name {
+	color: black;
+	text-decoration: underline;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "nocache",
+  "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
+  "contributors": [
+    "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
+  ],
+  "description": "Middleware to destroy caching",
+  "version": "2.0.0",
+  "license": "MIT",
+  "keywords": [
+    "helmet",
+    "security",
+    "express",
+    "connect",
+    "nocache",
+    "caching",
+    "cache"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/helmetjs/nocache.git"
+  },
+  "bugs": "https://github.com/helmetjs/nocache/issues",
+  "scripts": {
+    "pretest": "standard",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "connect": "^3.4.0",
+    "mocha": "^2.3.4",
+    "standard": "^7.1.2",
+    "supertest": "^2.0.0"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it"
+    ]
+  }
+}

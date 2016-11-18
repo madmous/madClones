@@ -1,0 +1,22 @@
+.Boards {
+  padding: 16px;
+  margin: 16px 0;
+  flex-direction: column;
+}
+
+.Boards-Create {
+  margin-bottom: 20px;
+  display: block;
+  color: #8c8c8c;
+}
+
+.Boards-Create span {
+  padding: 6px 8px;
+  text-decoration: underline;
+}
+
+.Boards-Create span:hover {
+  background: #D6DADC;
+  color: #4d4d4d;
+  cursor: pointer;
+}
