@@ -57,15 +57,14 @@ to another level by making you think about the correct data structure, api and a
 
 ## Contribution guidelines
 
-Slacks and Trello are our main communication and management tools.
+Slacks and Trello are our main communication and management tools and Github to handle pull requests
 These are the steps to see your changes in develop.
 
 1. No direct commit on master or develop
 2. Create a branch from develop with the same name as the trello card name
 3. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side)
-4. Make a pull request
-5. When there is a pull request, checkout the branch, run unit tests, then test the functionnality that was added, read the code and add comments.
-6. End to end testing are not required for now.
+4. Make a pull request (contributors should checkout the branch, run unit tests, then test the functionnality that was added, read the code and add comments).
+5. End to end testing are not required for now.
 
 ## Contributor list
 
