@@ -2,7 +2,7 @@
 
 [Trello](http://trello.com) clone being built with NodeJS, Express, MongoDB, React and Redux.
 
-Being a fan of Software Craftmanship, TDD, BDD and CI practices, this project's main goal is to follow 
+I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
 all the coding standard and best practices. 
 
 A high understanding of Javascript or any frameworks used is necessary to contribute.
@@ -49,7 +49,7 @@ React : [AirBnB](https://github.com/airbnb/javascript/tree/master/react) and
 NodeJS : again I will redirect you to [RisingStack](https://blog.risingstack.com/node-js-best-practices/).
 They are awesome and they care about open source.
 
-Slacks : our slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
+[Slacks](https://weclone.slack.com/messages/trello/) : our slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
 the questions, but also answers will benefit all of us.
 
 [CodinGame](https://www.codingame.com/home) : practicing your algorithm solving skills is a great way to write better code. CodingGame will push you 
