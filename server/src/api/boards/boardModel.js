@@ -1,19 +1,7 @@
 const mongoose = require ('mongoose');
 const bcrypt   = require ('bcrypt');
 
-const Schema   = mongoose.Schema;
-
-const BoardSchema = new Schema({
-  idUser: {
-    type: Schema.Types.ObjectId,
-    unique: true,
-    required: true
-  },
-  idOrganization: {
-    type: Schema.Types.ObjectId,
-    unique: true,
-    required: true
-  },
+const BoardSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true

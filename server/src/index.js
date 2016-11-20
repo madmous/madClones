@@ -3,13 +3,9 @@
 const bodyParser = require ('body-parser');
 const express    = require ('express');
 const winston    = require ('winston');
-const helmet	 = require ('helmet');
+const helmet     = require ('helmet');
 
-const organizationRoutes  = require ('./api/organizations/organizationRoutes');
-const boardStarRoutes  	  = require ('./api/boardStars/boardStarRoutes');
-const boardRoutes  		  = require ('./api/boards/boardRoutes');
-const userRoutes  		  = require ('./api/users/userRoutes');
-const homeRoutes  		  = require ('./api/home/homeRoutes');
+const userRoutes = require ('./api/users/userRoutes');
 
 const log = require ('./libs/winston')(module);
 const db  = require ('./config/db');
@@ -23,11 +19,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.disable('x-powered-by');
-app.use('/api/organizations', organizationRoutes);
-app.use('/api/boardStars'	, boardStarRoutes);
-app.use('/api/boards'		, boardRoutes);
-app.use('/api/users'		, userRoutes);
-app.use('/api/home'			, homeRoutes);
+
+app.use('/api/users', userRoutes);
 
 app.get('*', (req, res) => {
 	res.status(404).json({

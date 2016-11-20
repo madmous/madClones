@@ -1,15 +1,16 @@
 const mongoose = require ('mongoose');
 const bcrypt   = require ('bcrypt');
 
-const Schema   = mongoose.Schema;
+const organizationSchema = require ('../organizations/organizationModel').schema;
+const boardStarSchema    = require ('../boardStars/boardStarModel.js').schema;
 
-const UserSchema = new Schema({
-  userName: {
+const UserSchema = new mongoose.Schema({
+  name: {
     type: String,
     unique: true,
     required: true
   },
-  fullName: {
+  fullname: {
     type: String,
     required: true
   },
@@ -25,7 +26,9 @@ const UserSchema = new Schema({
     type: String,
     unique: true,
     required: true
-  }
+  },
+  organizations: [organizationSchema],
+  boardStars: [boardStarSchema]
 });
 
 UserSchema.pre('save', function (callback) {

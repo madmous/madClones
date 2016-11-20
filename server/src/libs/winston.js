@@ -1,6 +1,6 @@
-const winston = require('winston');
+const winston = require ('winston');
 
-function getLogger(module) {
+function getLogger (module) {
   let path = module.filename.split('/').slice(-2).join('/');
 
   return new winston.Logger({

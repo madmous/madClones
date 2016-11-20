@@ -1,9 +1,9 @@
 const mongoose = require ('mongoose');
 const bcrypt   = require ('bcrypt');
 
-const Schema   = mongoose.Schema;
+const boarSchema = require ('../boards/boardModel.js').schema;
 
-const OrganizationSchema = new Schema({
+const OrganizationSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -12,9 +12,7 @@ const OrganizationSchema = new Schema({
     type: String,
     required: true
   },
-  boards: {
-  	type: []
-  }
+  boards: [boardSchema]
 });
 
 module.exports = mongoose.model('Organization', OrganizationSchema);

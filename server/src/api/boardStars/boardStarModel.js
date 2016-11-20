@@ -1,9 +1,7 @@
 const mongoose = require ('mongoose');
 const bcrypt   = require ('bcrypt');
 
-const Schema   = mongoose.Schema;
-
-const BoardStarSchema = new Schema({
+const BoardStarSchema = new mongoose.Schema({
   id: {
     type: Schema.Types.ObjectId,
     unique: true,
