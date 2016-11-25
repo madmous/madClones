@@ -20,7 +20,7 @@ A high understanding of Javascript or any frameworks used is necessary to contri
 
 * Star the repo
 * Follow me on twitter [@datmadmmous](https://twitter.com/datmadmous)
-* Submit pull requests
+* Submit pull requests and improve the repo overall quality
 * Join [WeClone](https://weclone.slack.com/messages) slack channel and ask questions 
 
 ## Prerequisite
