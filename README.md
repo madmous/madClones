@@ -7,6 +7,22 @@ all the coding standard and best practices.
 
 A high understanding of Javascript or any frameworks used is necessary to contribute.
 
+## Main technologies
+
+* React (react-create-app)
+* Redux
+* Bootstrap
+* NodeJS
+* Express
+* MongoDB
+
+## Support
+
+* Star the repo
+* Follow me on twitter [@datmadmmous](https://twitter.com/datmadmous)
+* Submit pull requests
+* Join [WeClone](https://weclone.slack.com/messages) slack channel and ask questions 
+
 ## Prerequisite
 
 Before you install the project, make sure [Yarn](https://yarnpkg.com/en/docs/install) (prefered one) or Npm 
@@ -67,5 +83,7 @@ These are the steps to see your changes in develop.
 5. End to end testing are not required for now.
 
 ## Contributor list
+
+## License
 
 ## Credits, Inspiration, Alternatives
