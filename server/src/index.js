@@ -5,7 +5,7 @@ const express    = require ('express');
 const winston    = require ('winston');
 const helmet     = require ('helmet');
 
-const userRoutes = require ('./api/users/userRoutes');
+const userRoutes = require ('./api/v1/users/userRoutes');
 
 const log = require ('./libs/winston')(module);
 const db  = require ('./config/db');

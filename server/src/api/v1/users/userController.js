@@ -1,13 +1,14 @@
 'use strict';
 
-const async     = require ('async');
+const async = require ('async');
 
-const userModel = require ('./userModel');
-const boardModel = require ('../boards/boardModel');
-const boardStarModel = require ('../boardStars/boardStarModel');
-const organizationModel = require ('../organizations/organizationModel');
+const models = require ('../../../models/index');
+const config = require ('../../../config/config');
 
-const config    = require ('../../config/config');
+const organizationModel = models.organizationModel;
+const boardStarModel    = models.boardStarModel;
+const boardModel        = models.boardModel;
+const userModel         = models.userModel;
 
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 

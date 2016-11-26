@@ -1,9 +1,11 @@
 const mongoose = require ('mongoose');
 const bcrypt   = require ('bcrypt');
 
-const boarSchema = require ('../boards/boardModel.js').schema;
+const boardSchema = require ('../boards/boardModel').schema;
 
-const OrganizationSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const OrganizationSchema = new Schema({
   name: {
     type: String,
     required: true

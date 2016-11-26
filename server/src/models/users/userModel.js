@@ -4,7 +4,9 @@ const bcrypt   = require ('bcrypt');
 const organizationSchema = require ('../organizations/organizationModel').schema;
 const boardStarSchema    = require ('../boardStars/boardStarModel.js').schema;
 
-const UserSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
   name: {
     type: String,
     unique: true,
