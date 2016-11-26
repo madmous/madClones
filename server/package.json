@@ -1,10 +1,19 @@
 {
+  "name": "trello-clone-api",
+  "version": "0.1.0",
   "scripts": {
+    "start": "node ./src/index",
     "start:debug": "node --inspect ./src/index",
-    "start": "node ./src/index"
+    "test": "./node_modules/.bin/mocha --recursive",
+    "test:cover": "istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*.spec.js"
   },
   "devDependencies": {
-    "graphql": "^0.8.1"
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "graphql": "^0.8.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
   },
   "dependencies": {
     "async": "^2.1.2",
