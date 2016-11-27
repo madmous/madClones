@@ -17,6 +17,12 @@ router.get('/:id/organizations', (req, res) => {
   userController.findOrganizations(req, res);
 });
 
+// TO DO
+
+/*router.get('/:id/organizations/:idOrganization', (req, res) => {
+  userController.findOrganizationById(req, res);
+});*/
+
 router.get('/:id/organizations/:idOrganization/boards', (req, res) => {
   userController.findBoardsByOrganization(req, res);
 });
