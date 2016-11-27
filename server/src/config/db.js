@@ -1,26 +1,35 @@
 'user strict';
 
 const mongoose = require ('mongoose');
-const dbURI 	 = require ('./config').database;
 const log 	 	 = require ('../libs/winston')(module);
 
-mongoose.connect(dbURI); 
+const dbURI = require ('../config/config').database;
 
-mongoose.connection.on('connected', () => {  
-  log.info('Mongoose default connection open to ' + dbURI);
-}); 
+let db = {};
 
-mongoose.connection.on('error', (err) => {  
-  log.error('Mongoose default connection error: ' + err);
-}); 
+db.connect = () => {
+  const mongooseConnection = mongoose.connection;
 
-mongoose.connection.on('disconnected', () => {  
-  log.info('Mongoose default connection disconnected'); 
-});
+  mongoose.connect(dbURI);
 
-process.on('SIGINT', () => {  
-  mongoose.connection.close( () => { 
-    log.info('Mongoose default connection disconnected through app termination'); 
-    process.exit(0); 
+  mongooseConnection.on('connected', () => {  
+    log.info('Mongoose default connection connected to ' + dbURI);
+  });
+
+  mongooseConnection.on('error', (err) => {  
+    log.error('Mongoose default connection error: ' + err);
   }); 
-});
+
+  mongooseConnection.on('disconnected', () => {
+    log.info('Mongoose default connection disconnected'); 
+  });
+
+  process.on('SIGINT', () => {  
+    mongooseConnection.close( () => { 
+      log.info('Mongoose default connection disconnected through app termination'); 
+      process.exit(0); 
+    }); 
+  });
+}
+
+module.exports = db;

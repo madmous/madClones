@@ -4,8 +4,9 @@
   "scripts": {
     "start": "node ./src/index",
     "start:debug": "node --inspect ./src/index",
-    "test": "./node_modules/.bin/mocha --recursive",
-    "test:cover": "istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*.spec.js"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive",
+    "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha --inspect --recursive --debug-brk",
+    "test:cover": "NODE_ENV=test istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*.spec.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",

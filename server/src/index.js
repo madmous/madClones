@@ -7,8 +7,10 @@ const helmet     = require ('helmet');
 
 const userRoutes = require ('./api/v1/users/userRoutes');
 
-const log = require ('./libs/winston')(module);
-const db  = require ('./config/db');
+const config  = require ('./config/config');
+const log     = require ('./libs/winston')(module);
+const dbTest  = require ('./config/dbTest');
+const db      = require ('./config/db');
 
 const port = 3001;
 
@@ -20,7 +22,7 @@ app.use(bodyParser.json());
 
 app.disable('x-powered-by');
 
-app.use('/api/users', userRoutes);
+app.use('/api/v1/users', userRoutes);
 
 app.get('*', (req, res) => {
 	res.status(404).json({
@@ -34,6 +36,8 @@ let server = app.listen(port, (err) => {
 
   if (err) {
     log.error('something bad happened', err);
+  } else if (process.env.NODE_ENV !== 'test') {
+    db.connect();
   }
 
   log.info(`server is listening on ${port}`);
