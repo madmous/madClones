@@ -193,7 +193,7 @@ userController.save = (req, res) => {
         cbErrorMsg.missingEmailError = 'Please enter your email'; 
       } 
 
-      if (!isNameValid) {
+      if (!isPasswordValid) {
         cbErrorMsg.missingPasswordError = 'Please enter your password';
       } 
 
