@@ -4,6 +4,7 @@ const async = require ('async');
 
 const models = require ('../../../models/index');
 const config = require ('../../../config/config');
+const log    = require ('../../../libs/winston')(module);
 
 const organizationModel = models.organizationModel;
 const boardStarModel    = models.boardStarModel;
@@ -107,7 +108,7 @@ userController.findOrganizations = (req, res) => {
       }
     ], (err, results) => { 
       if (err) {
-        return res.status(400).json({
+        return res.status(404).json({
           data: {
             error: err
           }
@@ -128,6 +129,12 @@ userController.findBoardsByOrganization = (req, res) => {
     return res.status(400).json({
       data: {
         error: 'Please enter a valid user id'
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.idOrganization)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid organization id'
       }
     });
   } else {
@@ -214,27 +221,36 @@ userController.save = (req, res) => {
       if (user) {
         callback('That name is already taken');
       } else {
-        let user = new userModel({
+        const user = new userModel({
           name: req.body.name,
           fullname: req.body.fullname,
           password: req.body.password,
           initials: req.body.initials,
           email: req.body.email
         });
-        callback(null, user);
+
+        user.save(callback);
       }
-    },
-    (user, callback) => {
-      user.save(callback);
     },
     (user, numAffected, callback) => {
       if (!user) {
-        callback('User was not saved successfully');
+        const msg = 'User was not saved successfully';
+        
+        log.info(msg);
+        callback(msg);
       } else {
-        callback(null, 'Success');          
+        const res = {
+          message: 'success',
+          data: {}
+        };
+
+        res.data.id = user._id;
+
+        log.info('User was saved successfully');
+        callback(null, res);          
       }
     }
-  ], (err, results) => { 
+  ], (err, response) => { 
     if (err) {
       return res.status(400).json({
         data: {
@@ -243,11 +259,7 @@ userController.save = (req, res) => {
       });
     } 
 
-    return res.status(200).json({
-      data: {
-        message: results
-      }
-    });
+    return res.status(200).json({response});
   });
 };
 
@@ -465,12 +477,14 @@ userController.saveBoardStar = (req, res) => {
 };
 
 userController.remove = (req, res) => {
+
   if(objectIdRegex.test(req.params.id)) {
     async.waterfall([  
       (callback) => {
         userModel.findById(req.params.id, callback);
       },
       (user, callback) => {
+
         if (!user) {
           callback('That user does not exist');
         } else {
@@ -478,6 +492,7 @@ userController.remove = (req, res) => {
         }
       },
       (user, callback) => {
+
         if (!user) {
           callback('Sorry. I could not remove that user');
         } else {
@@ -485,6 +500,7 @@ userController.remove = (req, res) => {
         }
       }
     ], (err, results) => { 
+
       if (err) {
         return res.status(404).json({
           data: {

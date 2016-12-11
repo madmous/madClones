@@ -36,7 +36,9 @@ let server = app.listen(port, (err) => {
 
   if (err) {
     log.error('something bad happened', err);
-  } else if (process.env.NODE_ENV !== 'test') {
+  } else if (process.env.NODE_ENV === 'test') {
+     dbTest.connect();
+  } else {
     db.connect();
   }
 

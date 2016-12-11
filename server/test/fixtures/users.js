@@ -2,6 +2,7 @@ const async = require ('async');
 
 const models = require ('../../src/models/index');
 const config = require ('../../src/config/config');
+const log	 = require ('../../src/libs/winston')(module);
 
 const organizationModel = models.organizationModel;
 const boardStarModel    = models.boardStarModel;
