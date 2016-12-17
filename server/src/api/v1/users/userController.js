@@ -265,6 +265,7 @@ userController.save = (req, res) => {
 
 userController.saveOrganization = (req, res) => {
   let cbErrorMsg = {};
+  let organizationId = null;
 
   const isNameValid = req.body.name !== undefined;
   const isDisplayNameValid = req.body.displayName !== undefined;
@@ -309,6 +310,8 @@ userController.saveOrganization = (req, res) => {
           displayName: req.body.displayName
         });
 
+        organizationId = organization._id;
+
         user.organizations.push(organization);
 
         user.save(callback);
@@ -317,10 +320,16 @@ userController.saveOrganization = (req, res) => {
         if (!user) {
           callback('Error while saving organization');
         } else {
-          callback(null, 'Success');          
+          const res = {
+            message: 'Success',
+            data: {}
+          };
+
+          res.data.id = organizationId;
+          callback(null, res);          
         }
       }
-    ], (err, results) => { 
+    ], (err, response) => {
       if (err) {
         return res.status(400).json({
           data: {
@@ -329,16 +338,14 @@ userController.saveOrganization = (req, res) => {
         });
       } 
 
-      return res.status(200).json({
-        data: {
-          message: results
-        }
-      });
+      return res.status(200).json({response});
     });
   }
 };
 
 userController.saveBoard = (req, res) => {
+  let boardId = null;
+
   if (req.body.name === undefined) {
     return res.status(400).json({
       data: {
@@ -376,6 +383,8 @@ userController.saveBoard = (req, res) => {
           name: req.body.name
         });
 
+        boardId = board._id;
+
         let organization = user.organizations.id(req.params.idOrganization);
 
         if (organization === null) {
@@ -389,10 +398,16 @@ userController.saveBoard = (req, res) => {
         if (!user) {
           callback('Error while saving the board');
         } else {
-          callback(null, 'Success');          
+          const res = {
+            message: 'Success',
+            data: {}
+          };
+
+          res.data.id = boardId;
+          callback(null, res);    
         }
       }
-    ], (err, results) => { 
+    ], (err, response) => { 
       if (err) {
         return res.status(400).json({
           data: {
@@ -401,11 +416,7 @@ userController.saveBoard = (req, res) => {
         });
       } 
 
-      return res.status(200).json({
-        data: {
-          message: results
-        }
-      });
+      return res.status(200).json({response});
     });
   }
 };
@@ -531,6 +542,12 @@ userController.removeOrganization = (req, res) => {
         error: 'Please enter a valid user id'
       }
     });
+  } else if (!objectIdRegex.test(req.params.idOrganization)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid organization id'
+      }
+    });
   } else {
     async.waterfall([
       (callback) => {
@@ -542,10 +559,10 @@ userController.removeOrganization = (req, res) => {
         } else {
           let organization = user.organizations.id(req.params.idOrganization);
 
-          if (organization === undefined) {
+          if (!organization) {
             callback('That organization does not exist');
           } else {
-            organizations.remove();
+            organization.remove();
             user.save(callback);
           }
         }
