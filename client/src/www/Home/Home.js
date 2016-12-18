@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Header, Boards } from '../../components/index';
 
+import { Root } from '../../containers/index';
+
 import './Home.css';
 
 export default class Home extends Component {
