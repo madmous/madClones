@@ -422,11 +422,24 @@ userController.saveBoard = (req, res) => {
 };
 
 userController.saveBoardStar = (req, res) => {
+  let boardStarId = null;
 
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
       data: {
         error: 'Please enter a valid user id'
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.idOrganization)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid organization id'
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
       }
     });
   } else {
@@ -456,6 +469,8 @@ userController.saveBoardStar = (req, res) => {
             let boardStar = new boardStarModel({
               id: board.id
             });
+
+            boardStarId = boardStar._id;
             
             user.boardStars.push(boardStar);
             user.save(callback);
@@ -466,10 +481,16 @@ userController.saveBoardStar = (req, res) => {
         if (!user) {
           callback('Error while saving the board star');
         } else {
-          callback(null, 'Success');          
+         const res = {
+            message: 'Success',
+            data: {}
+          };
+
+          res.data.id = boardStarId;
+          callback(null, res);             
         }
       }
-    ], (err, results) => { 
+    ], (err, response) => { 
       if (err) {
         return res.status(400).json({
           data: {
@@ -478,11 +499,7 @@ userController.saveBoardStar = (req, res) => {
         });
       } 
 
-      return res.status(200).json({
-        data: {
-          message: results
-        }
-      });
+      return res.status(200).json({response});
     });
   }
 };
@@ -619,19 +636,20 @@ userController.removeBoard = (req, res) => {
               callback('That board does not exist');
             } else {
 
-                let boardStars = user.boardStars;
+              let boardStars = user.boardStars;
 
-                if (boardStars.length !==0) {
-                  for (let boardStar of boardStars) {
-                    if (boardStar.id == req.params.idBoard) {
-                      user.boardStars.id(boardStar._id).remove();
-                      board.remove();
-                      user.save(callback);
-                    }
+              if (boardStars.length !==0) {
+                for (let boardStar of boardStars) {
+                  if (boardStar.id == req.params.idBoard) {
+                    user.boardStars.id(boardStar._id).remove();
+                    board.remove();
+                    user.save(callback);
                   }
-                } else {
-                  callback('This board is not a board star');
                 }
+              } else {
+                board.remove();
+                user.save(callback);
+              }
             }
           }
         }
@@ -668,6 +686,12 @@ userController.removeBoardStar = (req, res) => {
         error: 'Please enter a valid user id'
       }
     });
+  } else if (!objectIdRegex.test(req.params.idBoardStar)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board star id'
+      }
+    });
   } else {
     async.waterfall([
       (callback) => {
@@ -679,7 +703,7 @@ userController.removeBoardStar = (req, res) => {
         } else {
           let boardStar = user.boardStars.id(req.params.idBoardStar);
               
-          if (boardStar === null) {
+          if (!boardStar) {
             callback('That board star does not exist');
           } else {
             boardStar.remove();
@@ -713,8 +737,42 @@ userController.removeBoardStar = (req, res) => {
 };
 
 userController.update = (req, res) => {
-  if(objectIdRegex.test(req.params.id)) {
-    async.waterfall([  
+  let cbErrorMsg = {};
+
+  const isNameValid = req.body.name !== undefined;
+  const isFullNameValid = req.body.fullname !== undefined;
+  const isInitialsValid = req.body.initials !== undefined;
+
+  if (!isNameValid) {
+    cbErrorMsg.missingNameError = 'Please enter your name'; 
+  } 
+
+  if (!isFullNameValid) {
+    cbErrorMsg.missingFullNameError = 'Please enter your full name'; 
+  } 
+
+  if (!isInitialsValid) {
+    cbErrorMsg.missingInitialsError = 'Please enter your initials'; 
+  }
+
+  if (!isNameValid || 
+      !isFullNameValid || 
+      !isInitialsValid) {
+
+    return res.status(400).json({
+      data: {
+        error: cbErrorMsg
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.id)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid user id'
+      }
+    });
+
+  } else {
+    async.waterfall([
       (callback) => {
         userModel.findById(req.params.id, callback);
       },
@@ -749,24 +807,45 @@ userController.update = (req, res) => {
 
       return res.status(200).json({
         data: {
-          info: results
+          message: results
         }
       });
     });
-  } else {
+  }
+}
+
+userController.updateOrganization = (req, res) => {
+  let cbErrorMsg = {};
+
+  const isOrgNameValid = req.body.name !== undefined;
+  const isOrgDisplayNameValid = req.body.displayName !== undefined;
+
+  if (!isOrgNameValid) {
+    cbErrorMsg.missingOrgNameError = 'Please enter the org name'; 
+  } 
+
+  if (!isOrgDisplayNameValid) {
+    cbErrorMsg.missingOrgDisplayNameError = 'Please enter the org display name'; 
+  }
+
+  if (!isOrgNameValid || 
+      !isOrgDisplayNameValid) {
+
+    return res.status(400).json({
+      data: {
+        error: cbErrorMsg
+      }
+    });
+  } else  if (!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
       data: {
         error: 'Please enter a valid user id'
       }
     });
-  } 
-}
-
-userController.updateOrganization = (req, res) => {
-  if(!objectIdRegex.test(req.params.id)) {
+  } else if (!objectIdRegex.test(req.params.idOrganization)) { 
     return res.status(400).json({
       data: {
-        error: 'Please enter a valid user id'
+        error: 'Please enter a valid org id'
       }
     });
   } else {
@@ -780,7 +859,7 @@ userController.updateOrganization = (req, res) => {
         } else {
           let organization = user.organizations.id(req.params.idOrganization);
 
-          if (organization === undefined) {
+          if (!organization) {
             callback('That organization does not exist');
           } else {
             organization.name = req.body.name;
@@ -816,10 +895,29 @@ userController.updateOrganization = (req, res) => {
 };
 
 userController.updateBoard = (req, res) => {
-  if(!objectIdRegex.test(req.params.id)) {
+  if (req.body.name === undefined) {
+
+    return res.status(400).json({
+      data: {
+        error: 'Please enter the board name'
+      }
+    });
+  } else if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
       data: {
         error: 'Please enter a valid user id'
+      }
+    });
+  } else if(!objectIdRegex.test(req.params.idOrganization)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid org id'
+      }
+    });
+  } else if(!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
       }
     });
   } else {
@@ -833,12 +931,12 @@ userController.updateBoard = (req, res) => {
         } else {
           let organization = user.organizations.id(req.params.idOrganization);
 
-          if (organization === undefined) {
+          if (!organization) {
             callback('That organization does not exist');
           } else {
             let board = organization.boards.id(req.params.idBoard);
 
-            if (board === undefined) {
+            if (!board) {
               callback('That board does not exist');
             } else {
               board.name = req.body.name;

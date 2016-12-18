@@ -21,6 +21,7 @@ describe('User controller testing ' , function () {
 
 	let userObjectId = null;
 	let orgObjectId  = null;
+	let boardStarId	 = null;
 	let boardId			 = null;
 
 	describe('POST', function () {
@@ -190,7 +191,6 @@ describe('User controller testing ' , function () {
 				});
 		});
 
-
 		it (usersUrl + ':id/organizations/:idOrganization/boards', function (done) {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + 'fdsg' + '/boards')
@@ -285,6 +285,51 @@ describe('User controller testing ' , function () {
 
 		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
 			chai.request(app)
+				.post(usersUrl + 'fdsd' + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
+				.end(function(err, res) {
+
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.post(usersUrl + userObjectId + '/organizations/' + 'fdsfs' + '/boards/' + boardId + '/boardstars')
+				.end(function(err, res) {
+
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + 'fdsf' + '/boardstars')
+				.end(function(err, res) {
+
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
 				.post(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
 
@@ -336,6 +381,8 @@ describe('User controller testing ' , function () {
 					if (err && 'response' in err && 'error' in err.response) {
 						log.error(err.response.error.text);
 					}
+
+					boardStarId = res.res.body.response.data.id;
 
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -521,11 +568,36 @@ describe('User controller testing ' , function () {
 
 	describe('PUT', function () {
 
+		const userUpdate = {
+			name: 'newTestName', 
+			fullname: 'newFullName', 
+			initials: 'NI'
+		};
+
+		const orgUpdate = {
+			name: 'newTestName',
+			displayName: 'newDisplayName'
+		};
+
+		const boardUpdate = { name: 'newName'};
+
 		it (usersUrl + ':id', function (done) {
 			chai.request(app)
-				.put(usersUrl + 'fsfesf')
+				.put(usersUrl + userObjectId)
+				.send({})
 				.end(function(err, res) {
-					assert.equal(res.status, '400', 'statusCode is 400');
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id', function (done) {
+			chai.request(app)
+				.put(usersUrl + 'fdfds')
+				.send(userUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
 
 					done();
 				});
@@ -534,17 +606,194 @@ describe('User controller testing ' , function () {
 		it (usersUrl + ':id', function (done) {
 			chai.request(app)
 				.put(usersUrl + mongoose.Types.ObjectId())
+				.send(userUpdate)
 				.end(function(err, res) {
-					assert.equal(res.status, '404', 'statusCode is 404');
+					assert.equal(res.status, '404', 'statusCode equals 404');
 
 					done();
 				});
 		});
 
-		it (usersUrl, function (done) {
+		it (usersUrl + ':id', function (done) {
 			chai.request(app)
-				.put(usersUrl + users[0]._id)
-				.send({name : 'chaiTestUserModified'})
+				.put(usersUrl + userObjectId)
+				.send(userUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '200', 'statusCode equals 200');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + 'dsfsf' + '/organizations/' + orgObjectId)
+				.send(orgUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + 'fdsfd')
+				.send(orgUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId)
+				.send(orgUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId())
+				.send(orgUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId)
+				.send({})
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId)
+				.send({name: 'newName'})
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId)
+				.send({dispayName: 'newDisplayName'})
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId)
+				.send(orgUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '200', 'statusCode equals 200');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + 'fdsf' + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.send(boardUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + 'fdsf' + '/boards/' + boardId)
+				.send(boardUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + 'fdsf')
+				.send(boardUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.send(boardUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards/' + boardId)
+				.send(boardUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + mongoose.Types.ObjectId())
+				.send(boardUpdate)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.send()
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'statusCode equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.put(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.send(boardUpdate)
 				.end(function(err, res) {
 					assert.equal(res.status, '200', 'statusCode equals 200');
 
@@ -553,7 +802,187 @@ describe('User controller testing ' , function () {
 		});
 	});
 
-	describe('Delete', function () {
+	describe('DELETE', function () {
+
+		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
+			chai.request(app)
+				.delete(usersUrl + 'fdsfds' + '/boardstars/' + boardStarId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/boardstars/' + 'fdfs')
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
+			chai.request(app)
+				.delete(usersUrl + mongoose.Types.ObjectId() + '/boardstars/' + boardStarId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/boardstars/' + mongoose.Types.ObjectId())
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/boardstars/' + boardStarId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '200', 'status equals 200');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + 'fdgf' + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + 'dxvv' + '/boards/' + boardId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + 'fdxfxd')
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});		
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards/' + boardId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + mongoose.Types.ObjectId())
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.end(function(err, res) {
+					
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '200', 'status equals 200');
+
+					done();
+				});
+		});
 
 		it (usersUrl + ':id/organizations/:idOrganization', function (done) {
 			chai.request(app)
