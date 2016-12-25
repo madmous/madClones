@@ -43,9 +43,11 @@ export default class Board extends Component {
   getUserClass() {
     if (this.props.displayBoardOptions) {
       return <FontAwesome name="users" />
-    } else {
-     return <FontAwesome name="user" />
+    } else if (this.props.isStarredBoard) {
+      return <FontAwesome name="star" />
     }
+
+    return <FontAwesome name="user" />
   }
 
   render() {
@@ -66,6 +68,7 @@ export default class Board extends Component {
 
 Board.propTypes = {
   displayBoardOptions: PropTypes.bool,
+  isStarredBoard: PropTypes.bool,
   boardTitle: PropTypes.string.isRequired,
   boards: PropTypes.array.isRequired
 }

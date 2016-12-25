@@ -32,6 +32,7 @@ const initialState = {
   isFetchingSuccessful : false,
   user: {
     organizations: [],
+    boardStars: [],
     boards: []
   }
 }

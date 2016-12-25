@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import './BoardItem.css';
@@ -39,4 +39,9 @@ export default class BoardItem extends Component {
       </li>
     );
   }
+}
+
+BoardItem.propTypes = {
+  isActiveBoard: PropTypes.bool.isRequired,
+  boardName: PropTypes.string.isRequired
 }
