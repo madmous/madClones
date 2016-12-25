@@ -73,17 +73,29 @@ to another level by making you think about the correct data structure, api and a
 
 ## Contribution guidelines
 
-Slacks and Trello are our main communication and management tools and Github to handle pull requests
+Slacks and Trello are my main communication and management tools and Github to handle pull requests
 These are the steps to see your changes in develop.
 
 1. No direct commit on master or develop
-2. Create a branch from develop with the same name as the trello card name
-3. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side)
-4. Make a pull request (contributors should checkout the branch, run unit tests, then test the functionnality that was added, read the code and add comments).
-5. End to end testing are not required for now.
+2. Ask to be added to channel trello board
+3. Create a branch from develop with the same name as the trello card name
+4. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side)
+5. Make a pull request (contributors should checkout the branch, run unit tests, then test the functionnality that was added, read the code and add comments).
+6. End to end testing are not required for now.
 
-## Contributor list
+## Updates
 
-## License
+## Achievements
+
+* Reach 91.67% test coverage on the trello clone server
+* Add redux and hook it up with the react application
+
+## Areas for Improvements / involvement
+
+* Make starred boards have a yellow active star in both the starred board section and their organization section
+* Display the organization name when boards within an organization are starred
+* Add a white background color to each board section (star, user and users)
+* Add a flat structure the nested server response
+* Add a login section
 
 ## Credits, Inspiration, Alternatives
