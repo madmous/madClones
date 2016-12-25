@@ -31,6 +31,10 @@ router.post('/', (req, res) => {
   userController.save(req, res);
 });
 
+router.post('/:id/boards', (req, res) => {
+  userController.saveUserBoard(req, res);
+});
+
 router.post('/:id/organizations', (req, res) => {
   userController.saveOrganization(req, res);
 });

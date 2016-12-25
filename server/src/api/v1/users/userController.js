@@ -20,7 +20,7 @@ userController.findAll = (req, res) => {
     (callback) => {
       userModel.
         find().
-        select('name fullname initials email boardStars organizations').
+        select('name fullname initials email boards boardStars organizations').
         exec(callback);
     },
     (user, callback) =>{
@@ -59,7 +59,7 @@ userController.findById = (req, res) => {
       (callback) => {
         userModel.
           findById(req.params.id).
-          select('name fullname initials email boardStars organizations').
+          select('name fullname initials email boards boardStars organizations').
           exec(callback);
       },
       (user, callback) => {
@@ -330,6 +330,72 @@ userController.saveOrganization = (req, res) => {
         }
       }
     ], (err, response) => {
+      if (err) {
+        return res.status(400).json({
+          data: {
+            error: err
+          }
+        });
+      } 
+
+      return res.status(200).json({response});
+    });
+  }
+};
+
+userController.saveUserBoard = (req, res) => {
+  let boardId = null;
+
+  if (req.body.name === undefined) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a board name'
+      }
+    });
+  }
+
+  if(!objectIdRegex.test(req.params.id)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid user id'
+      }
+    });
+  } else {
+    async.waterfall([
+      (callback) => {
+        userModel.findById(req.params.id, callback);
+      },
+      (user, callback) => {
+        if (!user) {
+          callback('That user does not exist');
+        } else {
+          callback(null, user);
+        }
+      },
+      (user, callback) => {
+        let board = new boardModel({
+          name: req.body.name
+        });
+
+        boardId = board._id;
+
+        user.boards.push(board);
+        user.save(callback);
+      },
+      (user, numRowAffected, callback) => {
+        if (!user) {
+          callback('Error while saving the board');
+        } else {
+          const res = {
+            message: 'Success',
+            data: {}
+          };
+
+          res.data.id = boardId;
+          callback(null, res);    
+        }
+      }
+    ], (err, response) => { 
       if (err) {
         return res.status(400).json({
           data: {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { HeaderSearch, HeaderBoard, HeaderUser } from '../index';
+import { HeaderSearch, HeaderBoard } from '../index';
+import { HeaderUser } from '../../containers/index';
 
 import './Header.css';
 

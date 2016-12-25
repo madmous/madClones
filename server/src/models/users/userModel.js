@@ -3,6 +3,7 @@ const bcrypt   = require ('bcrypt');
 
 const organizationSchema = require ('../organizations/organizationModel').schema;
 const boardStarSchema    = require ('../boardStars/boardStarModel.js').schema;
+const boardSchema        = require ('../boards/boardModel').schema;
 
 const Schema = mongoose.Schema;
 
@@ -29,6 +30,7 @@ const UserSchema = new Schema({
     unique: true,
     required: true
   },
+  boards: [boardSchema],
   organizations: [organizationSchema],
   boardStars: [boardStarSchema]
 });

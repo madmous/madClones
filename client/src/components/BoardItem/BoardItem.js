@@ -18,7 +18,7 @@ export default class BoardItem extends Component {
       return (
         <div className="Board-Tile">
           <span className="Board-Tile-Title">
-            <span title="Madmous">Madmous</span>
+            <span title="Madmous">{ this.props.boardName }</span>
           </span>
           { this.isStarredBoard() }
         </div>

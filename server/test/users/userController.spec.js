@@ -95,6 +95,68 @@ describe('User controller testing ' , function () {
 				});
 		});
 
+		it (usersUrl + ':id/boards', function (done) {
+			chai.request(app)
+				.post(usersUrl + 'gfdg' + '/boards')
+				.send(userOrgBoardTest)
+				.end(function(err, res) {
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards', function (done) {
+			chai.request(app)
+				.post(usersUrl + mongoose.Types.ObjectId() + '/boards')
+				.send(userOrgBoardTest)
+				.end(function(err, res) {
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards', function (done) {
+			chai.request(app)
+				.post(usersUrl + userObjectId + '/boards')
+				.send({})
+				.end(function(err, res) {
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards', function (done) {
+			chai.request(app)
+				.post(usersUrl + userObjectId + '/boards')
+				.send(userOrgBoardTest)
+				.end(function(err, res) {
+					if (err && 'response' in err && 'error' in err.response) {
+						log.error(err.response.error.text);
+					}
+
+					boardId = res.res.body.response.data.id;
+
+					assert.equal(res.status, '200', 'status equals 200');
+
+					done();
+				});
+		});
+
 		it (usersUrl + ':id/organizations', function (done) {
 			chai.request(app)
 				.post(usersUrl + '7fgdgfdg' + '/organizations')

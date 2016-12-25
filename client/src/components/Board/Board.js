@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import { BoardItem, BoardOptions } from '../index';
 
 import './Board.css';
 
-class Board extends Component {
-  getBoardList() {
+export default class Board extends Component {
+  
+  getBoardList(boards) {
+
+    const boardItems = boards && boards.map((board) => {
+      return (
+				<BoardItem boardName={board.name} isActiveBoard={true} key={board._id} />
+      );
+    });
+
     return (
       <ul className="Board-List">
-        <BoardItem isActiveBoard={true} isStarredBoard={true} />
-        <BoardItem isActiveBoard={true} />
-        <BoardItem isActiveBoard={false} />
+        { boardItems }
       </ul>
     );
   }
@@ -24,58 +30,42 @@ class Board extends Component {
     );
   }
 
-  getBoards() {
-    if (this.props.isPersonalBoard) {
+  getBoardOptions() {
+    if (this.props.displayBoardOptions) {
       return (
-        <div className="Board">
-          <div className="Board-Header">
-            <div className="Board-Header-Icon">
-              <FontAwesome name="user" />
-            </div>
-            <h3>Personal Boards</h3>
-          </div>
-          { this.getBoardList() }
+        <div className="Board-Header-Options">
+          <BoardOptions />
         </div>
       )
     }
+  }
 
-    if (this.props.isStarredBoard) {
-      return (
-        <div className="Board">
-          <div className="Board-Header">
-            <div className="Board-Header-Icon">
-              <FontAwesome name="user" />
-            </div>
-            <h3>Starred Boards</h3>
-          </div>
-          { this.getStarredBoardList() }
-        </div>
-      )
+  getUserClass() {
+    if (this.props.displayBoardOptions) {
+      return <FontAwesome name="users" />
+    } else {
+     return <FontAwesome name="user" />
     }
-
-    return (
-      <div className="Board">
-        <div className="Board-Header">
-          <div className="Board-Header-Icon">
-            <FontAwesome name="users" />
-          </div>
-          <h3>Freelance</h3>
-          <div className="Board-Header-Options">
-            <BoardOptions />
-          </div>
-        </div>
-        { this.getBoardList() }
-      </div>
-    )
   }
 
   render() {
     return (
-      <div>
-        { this.getBoards() }
+      <div className="Board">
+        <div className="Board-Header">
+          <div className="Board-Header-Icon">
+            { this.getUserClass() }
+          </div>
+          <h3>{ this.props.boardTitle}</h3>
+          { this.getBoardOptions() }
+        </div>
+        { this.getBoardList(this.props.boards) }
       </div>
-    );
+    )
   }
 }
 
-export default Board;
+Board.propTypes = {
+  displayBoardOptions: PropTypes.bool,
+  boardTitle: PropTypes.string.isRequired,
+  boards: PropTypes.array.isRequired
+}
