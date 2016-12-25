@@ -487,6 +487,76 @@ userController.saveBoard = (req, res) => {
   }
 };
 
+userController.saveUserBoardStar = (req, res) => {
+  let boardStarId = null;
+
+  if(!objectIdRegex.test(req.params.id)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid user id'
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
+      }
+    });
+  } else {
+    async.waterfall([
+      (callback) => {
+        userModel.findById(req.params.id, callback);
+      },
+      (user, callback) => {
+        if (!user) {
+          callback('That user does not exist');
+        } else {
+          callback(null, user);
+        }
+      },
+      (user, callback) => {
+        let board = user.boards.id(req.params.idBoard);
+
+        if (board === null ) {
+          callback('That board does not exist');
+        } else {
+          let boardStar = new boardStarModel({
+            id: board.id
+          });
+
+          boardStarId = boardStar._id;
+          
+          user.boardStars.push(boardStar);
+          user.save(callback);
+        }
+      },
+      (user, numRowAffected, callback) => {
+        if (!user) {
+          callback('Error while saving the board star');
+        } else {
+         const res = {
+            message: 'Success',
+            data: {}
+          };
+
+          res.data.id = boardStarId;
+          callback(null, res);             
+        }
+      }
+    ], (err, response) => { 
+      if (err) {
+        return res.status(400).json({
+          data: {
+            error: err
+          }
+        });
+      } 
+
+      return res.status(200).json({response});
+    });
+  }
+};
+
 userController.saveBoardStar = (req, res) => {
   let boardStarId = null;
 

@@ -43,6 +43,10 @@ router.post('/:id/organizations/:idOrganization/boards', (req, res) => {
   userController.saveBoard(req, res);
 });
 
+router.post('/:id/boards/:idBoard/boardstars', (req, res) => {
+  userController.saveUserBoardStar(req, res);
+});
+
 router.post('/:id/organizations/:idOrganization/boards/:idBoard/boardstars', (req, res) => {
   userController.saveBoardStar(req, res);
 });
