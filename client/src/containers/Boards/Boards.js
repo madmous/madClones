@@ -8,8 +8,7 @@ import './Boards.css';
 class Boards extends Component {  
   render() {
     return (
-			<div className="Boards">
-
+      <div className="Boards">
         { this.getStarredBoards() }
         { this.getPersonalBoards() }
         { this.getOrganizationBoards() }
@@ -38,12 +37,7 @@ class Boards extends Component {
 
   canBoardsBeRendered() {
     const { isFetchingSuccessful, isFetching } = this.props;
-
-    if (!isFetching && isFetchingSuccessful) {
-      return true;
-    }
-
-    return false;
+    return (!isFetching && isFetchingSuccessful);
   }
 
   getPersonalBoards() {
@@ -79,13 +73,9 @@ class Boards extends Component {
           />
         );
       }
-
-      return null;
     });
 
-    return (
-      organizationItem
-    );
+    return organizationItem;
   }
 }
 
