@@ -6,38 +6,19 @@ import { BoardItem, BoardOptions } from '../index';
 import './Board.css';
 
 export default class Board extends Component {
-  
-  getBoardList(boards) {
-
-    const boardItems = boards && boards.map((board) => {
-      return (
-				<BoardItem boardName={board.name} isActiveBoard={true} key={board._id} />
-      );
-    });
-
+  render() {
     return (
-      <ul className="Board-List">
-        { boardItems }
-      </ul>
-    );
-  }
-
-  getStarredBoardList() {
-    return (
-      <ul className="Board-List">
-        <BoardItem isActiveBoard={true} isStarredBoard={true} />
-      </ul>
-    );
-  }
-
-  getBoardOptions() {
-    if (this.props.displayBoardOptions) {
-      return (
-        <div className="Board-Header-Options">
-          <BoardOptions />
+      <div className="Board">
+        <div className="Board-Header">
+          <div className="Board-Header-Icon">
+            { this.getUserClass() }
+          </div>
+          <h3>{ this.props.boardTitle}</h3>
+          { this.getBoardOptions() }
         </div>
-      )
-    }
+        { this.getBoardList() }
+      </div>
+    )
   }
 
   getUserClass() {
@@ -50,25 +31,89 @@ export default class Board extends Component {
     return <FontAwesome name="user" />
   }
 
-  render() {
-    return (
-      <div className="Board">
-        <div className="Board-Header">
-          <div className="Board-Header-Icon">
-            { this.getUserClass() }
-          </div>
-          <h3>{ this.props.boardTitle}</h3>
-          { this.getBoardOptions() }
+  getBoardOptions() {
+    if (this.props.displayBoardOptions) {
+      return (
+        <div className="Board-Header-Options">
+          <BoardOptions />
         </div>
-        { this.getBoardList(this.props.boards) }
-      </div>
-    )
+      )
+    }
+  }
+  
+  getBoardList() {
+    const { boardsToDisplay, isStarredBoard } = this.props;
+    const boardItems = boardsToDisplay && boardsToDisplay.map((board) => {
+      
+      if (!isStarredBoard && this.isBoardInStarredBoards(board)) {
+        return (
+          <BoardItem 
+            isStarredBoard={true}
+            isActiveBoard={true} 
+            boardName={board.name} 
+            key={board._id} 
+          />
+        );
+      }
+
+      if (isStarredBoard) {
+        return (
+          <BoardItem 
+            organizationName={board.organizationName}
+            isStarredBoard={true}
+            isActiveBoard={true} 
+            boardName={board.name} 
+            key={board._id} 
+          />
+        );
+      } else {
+        return (
+          <BoardItem 
+            isStarredBoard={false}
+            isActiveBoard={true} 
+            boardName={board.name} 
+            key={board._id} 
+          />
+        );
+      }
+    });
+
+    if (!this.props.isStarredBoard) {
+      boardItems.push(
+        <BoardItem 
+          isStarredBoard={false}
+          isActiveBoard={false} 
+          boardName='Create new board...'
+          key={boardItems.length} 
+        />
+      )
+    }
+
+    return (
+      <ul className="Board-List">
+        { boardItems }
+      </ul>
+    );
+  }
+
+  isBoardInStarredBoards(board) {
+    let isBoardInStarredBoards = false;
+    const starredBoards = this.props.starredBoards;
+
+    starredBoards.forEach((starredBoard) => {
+      if (starredBoard._id === board._id) {
+        isBoardInStarredBoards = true;
+      }
+    });
+
+    return isBoardInStarredBoards;
   }
 }
 
 Board.propTypes = {
-  displayBoardOptions: PropTypes.bool,
-  isStarredBoard: PropTypes.bool,
+  displayBoardOptions: PropTypes.bool.isRequired,
+  boardsToDisplay: PropTypes.array.isRequired,
+  isStarredBoard: PropTypes.bool.isRequired,
+  starredBoards: PropTypes.array,
   boardTitle: PropTypes.string.isRequired,
-  boards: PropTypes.array.isRequired
 }

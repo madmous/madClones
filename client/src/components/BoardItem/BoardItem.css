@@ -48,12 +48,20 @@
 	padding: 0 36px 20px 0;
 }
 
-.Board-Tile-Title span {
+.Board-Tile-Title-Name {
 	font-size: 1pc;
 	font-weight: 700;
 	overflow: hidden;
 	max-height: 40px;
 	display: inline-block;
+}
+
+.Board-Tile-Title-SubName {
+	color: rgba(255,255,255,.65);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .Board-Item-Tile-Option {    

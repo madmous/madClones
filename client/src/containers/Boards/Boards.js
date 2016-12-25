@@ -5,7 +5,36 @@ import { Board } from '../../components/index';
 
 import './Boards.css';
 
-class Boards extends Component {
+class Boards extends Component {  
+  render() {
+    return (
+			<div className="Boards">
+
+        { this.getStarredBoards() }
+        { this.getPersonalBoards() }
+        { this.getOrganizationBoards() }
+
+        <div className="Boards-Create">
+          <span>Create a new team...</span>
+        </div>
+      </div>
+    );
+  }
+
+  getStarredBoards() {
+    const { starredBoards, boardStars } = this.props;
+
+    if (this.canBoardsBeRendered() && boardStars && boardStars.length > 0) {
+      return (
+        <Board 
+          displayBoardOptions={false}
+          boardsToDisplay={starredBoards}
+          isStarredBoard={true}
+          boardTitle="Starred Board" 
+        />
+      )
+    }
+  }
 
   canBoardsBeRendered() {
     const { isFetchingSuccessful, isFetching } = this.props;
@@ -17,23 +46,35 @@ class Boards extends Component {
     return false;
   }
 
-  getBoards(boards) {
+  getPersonalBoards() {
+    const { starredBoards, boards } = this.props.boards;
+
     if (this.canBoardsBeRendered() && boards && boards.length > 0) {
       return (
-        <Board boardTitle="Personal Board" boards={boards}/>
+        <Board 
+          displayBoardOptions={false}
+          boardsToDisplay={boards}
+          isStarredBoard={true}
+          starredBoards={starredBoards}
+          boardTitle="Personal Board" 
+          boards
+        />
       )
     }
   }
 
-  getOrganizationBoards(organizations) {
-
+  getOrganizationBoards() {
+    const { organizations, starredBoards } = this.props;
     const organizationItem = organizations.map((organization) => {
+
       if (this.canBoardsBeRendered() && organization.boards && organization.boards.length > 0) {
         return (
           <Board 
             displayBoardOptions={true}
+            boardsToDisplay={organization.boards} 
+            isStarredBoard={false}
+            starredBoards={starredBoards}
             boardTitle={organization.displayName} 
-            boards={organization.boards} 
             key={organization._id} 
           />
         );
@@ -46,88 +87,11 @@ class Boards extends Component {
       organizationItem
     );
   }
-
-  getStarredBoards(boards, organizationBoards, boardStars) {
-
-    if (this.canBoardsBeRendered() && boardStars && boardStars.length > 0) {
-      return (
-        <Board 
-          isStarredBoard={true}
-          boardTitle="Starred Board" 
-          boards={this.buildBoardsFromBoardstar(boards, organizationBoards, boardStars)}
-        />
-      )
-    }
-  }
-
-  buildBoardsFromBoardstar(boards, organizations, boardStars) {
-    const boardsByOrganization = this.buildBoardsByOrganization(organizations);
-
-    let boardsfromBoardStars = [];
-    let boardStar = {};
-
-    const isBoardInBoardByOrganization = (element) => {
-      let isBoardInBoardByOrganization = false;
-
-      if (boardStar._id === element.id) {
-        isBoardInBoardByOrganization = true;
-      }
-
-      return isBoardInBoardByOrganization;
-    }
-
-    for (let boardByOrganization in boardsByOrganization) {
-      
-      if (boardsByOrganization.hasOwnProperty(boardByOrganization)) {
-        boardsByOrganization[boardByOrganization].forEach((board) => {
-          boardStar = board;
-          
-          if (boardStars.find(isBoardInBoardByOrganization)) {
-            boardsfromBoardStars.push(board);
-          }
-        })
-      }
-    }
-
-    return boardsfromBoardStars;
-  }
-
-  buildBoardsByOrganization(organizations) {
-    let boardsByOrganization = {};
-
-    organizations.forEach((organization) => {
-      const organizationDisplayName = organization.displayName;
-      
-      if (!boardsByOrganization[organizationDisplayName]) {
-        boardsByOrganization[organizationDisplayName] = [];
-      }
-
-      boardsByOrganization[organizationDisplayName].push(...organization.boards);
-    });
-
-    return boardsByOrganization;
-  }
-  
-  render() {
-    const { organizations, boardStars, boards } = this.props;
-
-    return (
-			<div className="Boards">
-
-        { this.getStarredBoards(boards, organizations, boardStars) }
-        { this.getBoards(boards) }
-        { this.getOrganizationBoards(organizations) }
-
-        <div className="Boards-Create">
-          <span>Create a new team...</span>
-        </div>
-      </div>
-    );
-  }
 }
 
 Boards.propTypes = {
   isFetchingSuccessful: PropTypes.bool.isRequired,
+  starredBoards: PropTypes.array.isRequired,
   organizations: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   boardStars: PropTypes.array.isRequired,
@@ -136,6 +100,7 @@ Boards.propTypes = {
 
 function mapStateToProps(state) {
   const { isFetchingSuccessful } = state.authentication;
+  const { starredBoards } = state.authentication;
   const { organizations } = state.authentication.user;
   const { boardStars } = state.authentication.user;
   const { isFetching } = state.authentication;
@@ -143,6 +108,7 @@ function mapStateToProps(state) {
 
   return {
     isFetchingSuccessful,
+    starredBoards,
     organizations,
     boardStars,
     isFetching,

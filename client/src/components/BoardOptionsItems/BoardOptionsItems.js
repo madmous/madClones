@@ -5,6 +5,14 @@ import { BoardOptionsItem } from '../index';
 import './BoardOptionsItems.css';
 
 export default class BoardOptionsItems extends Component {
+  render() {
+    return (
+      <div className="BoardOptionsItems">
+        { this.getBoardOptionsItemList() }
+      </div>
+    );
+  }
+  
   getBoardOptionsItemList() {
     return (
       <ul className="BoardOptions-List">
@@ -12,14 +20,6 @@ export default class BoardOptionsItems extends Component {
         <BoardOptionsItem boardName="Members" iconName="user"/>
         <BoardOptionsItem boardName="Settings" iconName="sun-o"/>
       </ul>
-    );
-  }
-
-  render() {
-    return (
-      <div className="BoardOptionsItems">
-        { this.getBoardOptionsItemList() }
-      </div>
     );
   }
 }

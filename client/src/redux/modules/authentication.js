@@ -17,7 +17,6 @@ function receiveUser(user) {
 }
 
 export function fetchUser() {
-  
   return dispatch => {
     dispatch(requestUser())
 
@@ -30,6 +29,7 @@ export function fetchUser() {
 const initialState = {
   isFetching: false,
   isFetchingSuccessful : false,
+  starredBoards: [],
   user: {
     organizations: [],
     boardStars: [],
@@ -46,9 +46,70 @@ export default function authentication(state = initialState, action) {
     case RECEIVE_USER:
       return Object.assign({}, state, {
         isFetchingSuccessful: true,
+        starredBoards: buildBoardsFromBoardstar(action.user),
         isFetching: false,
-        user: action.user
+        user: action.user,
       })
     default: return state;
   }
+}
+
+function buildBoardsFromBoardstar(user) {
+  const { boards, organizations, boardStars } = user;
+  const boardsByOrganization = buildBoardsByOrganization(organizations);
+
+  let boardsFromBoardStars = [];
+  let boardStar = [];
+
+  const isBoardInBoardByOrganization = (element) => {
+    let isBoardInBoardByOrganization = false;
+
+    if (boardStar._id === element.id) {
+      isBoardInBoardByOrganization = true;
+    }
+
+    return isBoardInBoardByOrganization;
+  }
+
+  for (let boardByOrganization in boardsByOrganization) {
+    
+    if (boardsByOrganization.hasOwnProperty(boardByOrganization)) {
+      boardsByOrganization[boardByOrganization].forEach((board) => {
+        let boardCopy = { ...board };
+
+        boardCopy.organizationName = boardByOrganization;
+        boardStar = { ...boardCopy };
+        
+        if (boardStars.find(isBoardInBoardByOrganization)) {
+          boardsFromBoardStars.push(boardCopy);
+        }
+      })
+    }
+  }
+
+  boards.forEach((board) => {
+    boardStar = board;
+    
+    if (boardStars.find(isBoardInBoardByOrganization)) {
+      boardsFromBoardStars.push(board);
+    }
+  })
+
+  return boardsFromBoardStars;
+}
+
+function buildBoardsByOrganization(organizations) {
+  let boardsByOrganization = {};
+
+  organizations.forEach((organization) => {
+    const organizationDisplayName = organization.displayName;
+    
+    if (!boardsByOrganization[organizationDisplayName]) {
+      boardsByOrganization[organizationDisplayName] = [];
+    }
+
+    boardsByOrganization[organizationDisplayName].push(...organization.boards);
+  });
+
+  return boardsByOrganization;
 }

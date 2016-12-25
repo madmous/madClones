@@ -92,10 +92,12 @@ These are the steps to see your changes in develop.
 
 ## Areas for Improvements / involvement
 
-* Make starred boards have a yellow active star in both the starred board section and their organization section
-* Display the organization name when boards within an organization are starred
 * Add a white background color to each board section (star, user and users)
 * Add a flat structure the nested server response
+* Add unit test on the trello clone client
+* Add create a new board feature
+* Add create a new team feature
 * Add a login section
+* Make UI responsive
 
 ## Credits, Inspiration, Alternatives
