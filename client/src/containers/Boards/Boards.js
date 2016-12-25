@@ -47,14 +47,14 @@ class Boards extends Component {
   }
 
   getPersonalBoards() {
-    const { starredBoards, boards } = this.props.boards;
+    const { starredBoards, boards } = this.props;
 
     if (this.canBoardsBeRendered() && boards && boards.length > 0) {
       return (
         <Board 
           displayBoardOptions={false}
           boardsToDisplay={boards}
-          isStarredBoard={true}
+          isStarredBoard={false}
           starredBoards={starredBoards}
           boardTitle="Personal Board" 
           boards
