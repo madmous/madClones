@@ -2,10 +2,9 @@
 
 [Trello](http://trello.com) clone being built with NodeJS, Express, MongoDB, React and Redux.
 
+Web addict and javascript passionate. I am curious by anything new and learn frameworks by cloning amazing apps.
 I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
-all the coding standard and best practices. 
-
-A high understanding of Javascript or any frameworks used is necessary to contribute.
+all the coding standard and best practices.
 
 ## Main technologies
 
