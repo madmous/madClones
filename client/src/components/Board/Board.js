@@ -84,7 +84,7 @@ export default class Board extends Component {
           isStarredBoard={false}
           isActiveBoard={false} 
           boardName='Create new board...'
-          key={boardItems.length} 
+          key={boardItems.length}
         />
       )
     }
