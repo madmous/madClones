@@ -92,12 +92,12 @@ These are the steps to see your changes in develop.
 ## Areas for Improvements / involvement
 
 * Add a white background color to each board section (star, user and users)
-* Add a flat structure the nested server response
-* Add unit tests on the trello clone client
 * Add create a new board feature
 * Add create a new team feature
 * Add star/unstar board feature
 * Add a login section
 * Make UI responsive
+* Add normalizr
+* Add enzyme
 
 ## Credits, Inspiration, Alternatives
