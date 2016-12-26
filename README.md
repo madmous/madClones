@@ -92,6 +92,7 @@ These are the steps to see your changes in develop.
 ## Areas for Improvements / involvement
 
 * Add a white background color to each board section (star, user and users)
+* Work on a better model for the store and the response from server
 * Add create a new board feature
 * Add create a new team feature
 * Add star/unstar board feature
