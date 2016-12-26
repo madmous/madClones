@@ -771,21 +771,8 @@ userController.removeBoard = (req, res) => {
             if (board === null) {
               callback('That board does not exist');
             } else {
-
-              let boardStars = user.boardStars;
-
-              if (boardStars.length !==0) {
-                for (let boardStar of boardStars) {
-                  if (boardStar.id == req.params.idBoard) {
-                    user.boardStars.id(boardStar._id).remove();
-                    board.remove();
-                    user.save(callback);
-                  }
-                }
-              } else {
-                board.remove();
-                user.save(callback);
-              }
+              board.remove();
+              user.save(callback);
             }
           }
         }
