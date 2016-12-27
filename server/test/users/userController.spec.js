@@ -49,11 +49,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl)
 				.send(userTest)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -65,14 +60,9 @@ describe('User controller testing ' , function () {
 				.post(usersUrl)
 				.send(userTest)
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '200', 'status equals 200');
 
-					userObjectId = res.res.body.response.data.id;
+					userObjectId = res.res.body.data.user._id;
 
 					done();
 				});
@@ -84,11 +74,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl)
 				.send(userTest)
 				.end(function(err, res) {
-					
-					if (err != null && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -100,10 +85,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + 'gfdg' + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -115,10 +96,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + mongoose.Types.ObjectId() + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -130,10 +107,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/boards')
 				.send({})
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -145,12 +118,7 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
-					boardId = res.res.body.response.data.id;
-
+					boardId = res.res.body.data.user.boards[0]._id;
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -162,11 +130,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + '7fgdgfdg' + '/organizations')
 				.send(userOrgTest)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -178,11 +141,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + mongoose.Types.ObjectId() + '/organizations')
 				.send(userOrgTest)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -194,11 +152,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations')
 				.send({name: 'name'})
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -210,11 +163,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations')
 				.send({displayName: 'displayName'})
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -226,13 +174,8 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations')
 				.send(userOrgTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '200', 'status equals 200');
-
-					orgObjectId = res.res.body.response.data.id;
+					orgObjectId = res.res.body.data.user.organizations[0]._id;
 
 					done();
 				});
@@ -243,10 +186,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + 'fdsdf' + '/organizations/' + orgObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -258,10 +197,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations/' + 'fdsg' + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -273,10 +208,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -288,10 +219,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -303,10 +230,6 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards')
 				.send({})
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -318,11 +241,7 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
-					boardId = res.res.body.response.data.id;
+					boardId = res.res.body.data.user.organizations[0].boards[0]._id;
 
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -334,11 +253,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + 'fdsd' + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -349,11 +263,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + 'fdsd' + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -364,11 +273,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + 'fdsfs' + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -379,11 +283,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + 'fdsf' + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -394,11 +293,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -409,11 +303,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -424,11 +313,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + mongoose.Types.ObjectId() + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -439,12 +323,7 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
-					boardStarId = res.res.body.response.data.id;
+					boardStarId = res.res.body.data.user.boardStars[0]._id;
 
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -537,10 +416,6 @@ describe('User controller testing ' , function () {
 					'/boards'
 				)
 				.end(function(err, res) {
-					
-					if (err != null && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
 					assert.equal(res.status, '400', 'statusCode is 400');
 
 					done();
@@ -557,10 +432,6 @@ describe('User controller testing ' , function () {
 					'/boards'
 				)
 				.end(function(err, res) {
-					
-					if (err != null && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
 					assert.equal(res.status, '400', 'statusCode is 400');
 
 					done();
@@ -577,10 +448,6 @@ describe('User controller testing ' , function () {
 					'/boards'
 				)
 				.end(function(err, res) {
-					
-					if (err != null && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
 					assert.equal(res.status, '400', 'statusCode is 400');
 
 					done();
@@ -597,10 +464,6 @@ describe('User controller testing ' , function () {
 					'/boards'
 				)
 				.end(function(err, res) {
-					
-					if (err != null && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
 					assert.equal(res.status, '400', 'statusCode is 400');
 
 					done();
@@ -617,10 +480,6 @@ describe('User controller testing ' , function () {
 					'/boards'
 				)
 				.end(function(err, res) {
-					
-					if (err != null && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
 					assert.equal(res.status, '200', 'statusCode is 200');
 
 					done();
@@ -870,11 +729,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + 'fdsfds' + '/boardstars/' + boardStarId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -885,11 +739,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/boardstars/' + 'fdfs')
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -900,11 +749,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + mongoose.Types.ObjectId() + '/boardstars/' + boardStarId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -915,11 +759,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/boardstars/' + mongoose.Types.ObjectId())
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -930,11 +769,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/boardstars/' + boardStarId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -945,11 +779,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + 'fdgf' + '/organizations/' + orgObjectId + '/boards/' + boardId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -960,11 +789,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + 'dxvv' + '/boards/' + boardId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -975,11 +799,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + 'fdxfxd')
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -990,11 +809,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards/' + boardId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1005,11 +819,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards/' + boardId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1020,11 +829,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + mongoose.Types.ObjectId())
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1035,11 +839,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -1050,11 +849,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1065,11 +859,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + 'gfdgfg')
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1080,11 +869,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId())
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1095,11 +879,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + 'fdsf' + '/organizations/' + orgObjectId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '400', 'status equals 400');
 
 					done();
@@ -1110,11 +889,6 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId)
 				.end(function(err, res) {
-					
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -1141,15 +915,11 @@ describe('User controller testing ' , function () {
 				});
 		});
 
+		// TODO : fix unit test -> 404 
 		it (usersUrl, function (done) {
 			chai.request(app)
 				.delete(usersUrl + userObjectId)
 				.end(function(err, res) {
-
-					if (err && 'response' in err && 'error' in err.response) {
-						log.error(err.response.error.text);
-					}
-
 					assert.equal(res.status, '200', 'statusCode equals 200');
 
 					done();

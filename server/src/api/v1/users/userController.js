@@ -30,18 +30,18 @@ userController.findAll = (req, res) => {
         callback(null, user);
       }
     }
-  ], (err, results) => { 
-    if (err) {
+  ], (error, users) => { 
+    if (error) {
       return res.status(500).json({
         data: {
-          error: err
+          error
         }
       });
     } 
 
     return res.status(200).json({
       data: {
-        users: results
+        users
       }
     });
   });
@@ -69,17 +69,17 @@ userController.findById = (req, res) => {
           callback(null, user);          
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(404).json({
           data: {
-            error: err
+            error
           }
         });
       } else {
         return res.status(200).json({
           data: {
-            users: results
+            user
           }
         });
       }
@@ -103,21 +103,21 @@ userController.findOrganizations = (req, res) => {
         if (!user) {
           callback('That user does not exist');
         } else {
-          callback(null, user.organizations);
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(404).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          organizations: results
+          user
         }
       });
     });
@@ -151,22 +151,22 @@ userController.findBoardsByOrganization = (req, res) => {
           if (organization === null) {
             callback('That organization does not exist');
           } else {
-            callback(null, organization.boards);
+            callback(null, user);
           }
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          boards: results
+          user
         }
       });
     });
@@ -239,33 +239,30 @@ userController.save = (req, res) => {
         log.info(msg);
         callback(msg);
       } else {
-        const res = {
-          message: 'success',
-          data: {}
-        };
-
-        res.data.id = user._id;
 
         log.info('User was saved successfully');
-        callback(null, res);          
+        callback(null, user);          
       }
     }
-  ], (err, response) => { 
-    if (err) {
+  ], (error, user) => { 
+    if (error) {
       return res.status(400).json({
         data: {
-          error: err
+          error
         }
       });
     } 
 
-    return res.status(200).json({response});
+    return res.status(200).json({
+      data: {
+        user
+      }
+    });
   });
 };
 
 userController.saveOrganization = (req, res) => {
   let cbErrorMsg = {};
-  let organizationId = null;
 
   const isNameValid = req.body.name !== undefined;
   const isDisplayNameValid = req.body.displayName !== undefined;
@@ -310,8 +307,6 @@ userController.saveOrganization = (req, res) => {
           displayName: req.body.displayName
         });
 
-        organizationId = organization._id;
-
         user.organizations.push(organization);
 
         user.save(callback);
@@ -320,31 +315,28 @@ userController.saveOrganization = (req, res) => {
         if (!user) {
           callback('Error while saving organization');
         } else {
-          const res = {
-            message: 'Success',
-            data: {}
-          };
-
-          res.data.id = organizationId;
-          callback(null, res);          
+          callback(null, user);          
         }
       }
-    ], (err, response) => {
-      if (err) {
+    ], (error, user) => {
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
-      return res.status(200).json({response});
+      return res.status(200).json({
+        data: {
+          user
+        }
+      });
     });
   }
 };
 
 userController.saveUserBoard = (req, res) => {
-  let boardId = null;
 
   if (req.body.name === undefined) {
     return res.status(400).json({
@@ -377,8 +369,6 @@ userController.saveUserBoard = (req, res) => {
           name: req.body.name
         });
 
-        boardId = board._id;
-
         user.boards.push(board);
         user.save(callback);
       },
@@ -386,31 +376,28 @@ userController.saveUserBoard = (req, res) => {
         if (!user) {
           callback('Error while saving the board');
         } else {
-          const res = {
-            message: 'Success',
-            data: {}
-          };
-
-          res.data.id = boardId;
-          callback(null, res);    
+          callback(null, user);    
         }
       }
-    ], (err, response) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
-      return res.status(200).json({response});
+      return res.status(200).json({
+        data: {
+          user
+        }
+      });
     });
   }
 };
 
 userController.saveBoard = (req, res) => {
-  let boardId = null;
 
   if (req.body.name === undefined) {
     return res.status(400).json({
@@ -449,14 +436,13 @@ userController.saveBoard = (req, res) => {
           name: req.body.name
         });
 
-        boardId = board._id;
-
         let organization = user.organizations.id(req.params.idOrganization);
 
         if (organization === null) {
           callback('That organization does not exist');
         } else {
           organization.boards.push(board);
+
           user.save(callback);
         }
       },
@@ -464,31 +450,28 @@ userController.saveBoard = (req, res) => {
         if (!user) {
           callback('Error while saving the board');
         } else {
-          const res = {
-            message: 'Success',
-            data: {}
-          };
-
-          res.data.id = boardId;
-          callback(null, res);    
+          callback(null, user);    
         }
       }
-    ], (err, response) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
-      return res.status(200).json({response});
+      return res.status(200).json({
+        data: {
+          user
+        }
+      });
     });
   }
 };
 
 userController.saveUserBoardStar = (req, res) => {
-  let boardStarId = null;
 
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
@@ -523,8 +506,6 @@ userController.saveUserBoardStar = (req, res) => {
           let boardStar = new boardStarModel({
             id: board.id
           });
-
-          boardStarId = boardStar._id;
           
           user.boardStars.push(boardStar);
           user.save(callback);
@@ -534,31 +515,28 @@ userController.saveUserBoardStar = (req, res) => {
         if (!user) {
           callback('Error while saving the board star');
         } else {
-         const res = {
-            message: 'Success',
-            data: {}
-          };
-
-          res.data.id = boardStarId;
-          callback(null, res);             
+          callback(null, user);             
         }
       }
-    ], (err, response) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
-      return res.status(200).json({response});
+      return res.status(200).json({
+        data: {
+          user
+        }
+      });
     });
   }
 };
 
 userController.saveBoardStar = (req, res) => {
-  let boardStarId = null;
 
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
@@ -605,8 +583,6 @@ userController.saveBoardStar = (req, res) => {
             let boardStar = new boardStarModel({
               id: board.id
             });
-
-            boardStarId = boardStar._id;
             
             user.boardStars.push(boardStar);
             user.save(callback);
@@ -617,25 +593,23 @@ userController.saveBoardStar = (req, res) => {
         if (!user) {
           callback('Error while saving the board star');
         } else {
-         const res = {
-            message: 'Success',
-            data: {}
-          };
-
-          res.data.id = boardStarId;
-          callback(null, res);             
+          callback(null, user);             
         }
       }
-    ], (err, response) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
-      return res.status(200).json({response});
+      return res.status(200).json({
+        data: {
+          user
+        }
+      });
     });
   }
 };
@@ -643,6 +617,12 @@ userController.saveBoardStar = (req, res) => {
 userController.remove = (req, res) => {
 
   if(objectIdRegex.test(req.params.id)) {
+    return res.status(404).json({
+      data: {
+        error: 'Please enter a valid user id'
+      }
+    });
+  } else {
     async.waterfall([  
       (callback) => {
         userModel.findById(req.params.id, callback);
@@ -660,30 +640,24 @@ userController.remove = (req, res) => {
         if (!user) {
           callback('Sorry. I could not remove that user');
         } else {
-          callback(null, 'success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
+    ], (error, user) => { 
 
-      if (err) {
+      if (error) {
         return res.status(404).json({
           data: {
-            error: err
+            error
           }
         });
       }
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
-    });
-  } else {
-    return res.status(404).json({
-      data: {
-        error: 'Please enter a valid user id'
-      }
     });
   }
 }
@@ -724,21 +698,21 @@ userController.removeOrganization = (req, res) => {
         if (!user) {
           callback('Sorry I could not remove that organization');
         } else {
-          callback(null, 'Success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
     });
@@ -781,21 +755,21 @@ userController.removeBoard = (req, res) => {
         if (!user) {
           callback('Sorry I could not remove that board star');
         } else {
-          callback(null, 'Success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
     });
@@ -838,21 +812,21 @@ userController.removeBoardStar = (req, res) => {
         if (!user) {
           callback('Sorry I could not remove that boardStar');
         } else {
-          callback(null, 'Success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
     });
@@ -916,21 +890,21 @@ userController.update = (req, res) => {
         if (!user) {
           callback('Sorry. I could not update that user');
         } else {
-          callback(null, 'Success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(404).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
     });
@@ -996,21 +970,21 @@ userController.updateOrganization = (req, res) => {
         if (!user) {
           callback('Sorry I could not update that organization');
         } else {
-          callback(null, 'Success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
     });
@@ -1072,21 +1046,21 @@ userController.updateBoard = (req, res) => {
         if (!user) {
           callback('Sorry I could not update that board');
         } else {
-          callback(null, 'Success');
+          callback(null, user);
         }
       }
-    ], (err, results) => { 
-      if (err) {
+    ], (error, user) => { 
+      if (error) {
         return res.status(400).json({
           data: {
-            error: err
+            error
           }
         });
       } 
 
       return res.status(200).json({
         data: {
-          message: results
+          user
         }
       });
     });
