@@ -1,28 +1,28 @@
 import fetch from 'isomorphic-fetch'
 
-export const REQUEST_USER = 'REQUEST_USER'
-export const RECEIVE_USER = 'RECEIVE_USER'
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
 
-function requestUser() {
+function loadUserRequest() {
   return {
-    type: REQUEST_USER
+    type: LOAD_USER_REQUEST
   }
 }
 
-function receiveUser(user) {
+function loadUserSuccess(user) {
   return {
-    type: RECEIVE_USER,
+    type: LOAD_USER_SUCCESS,
     user
   }
 }
 
-export function fetchUser() {
+export function loadUser() {
   return dispatch => {
-    dispatch(requestUser())
+    dispatch(loadUserRequest())
 
     return fetch(`http://localhost:3001/api/v1/users`)
       .then(response => response.json())
-      .then(json => dispatch(receiveUser(json.data.users[0])))
+      .then(json => dispatch(loadUserSuccess(json.data.users[0])))
   }
 }
 
@@ -39,11 +39,11 @@ const initialState = {
 
 export default function authentication(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_USER:
+    case LOAD_USER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
       })
-    case RECEIVE_USER:
+    case LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetchingSuccessful: true,
         starredBoards: buildBoardsFromBoardstar(action.user),

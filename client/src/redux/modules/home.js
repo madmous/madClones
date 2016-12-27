@@ -1,24 +1,24 @@
 import fetch from 'isomorphic-fetch'
 
-export const ADD_BOARD = 'ADD_BOARD'
-export const RECEIVE_RESPONSE = 'RECEIVE_RESPONSE'
+export const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST'
+export const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS'
 
-function addBoard() {
+function addBoardRequest() {
   return {
-    type: ADD_BOARD
+    type: ADD_BOARD_REQUEST
   }
 }
 
-function receiveResponse(homeResponse) {
+function addBoardSuccess(homeResponse) {
   return {
-    type: RECEIVE_RESPONSE,
+    type: ADD_BOARD_SUCCESS,
     homeResponse
   }
 }
 
-export function fetchBoard(userId, orgId, boardName) {
+export function addBoard(userId, orgId, boardName) {
   return dispatch => {
-    dispatch(addBoard())
+    dispatch(addBoardRequest())
 
     return fetch(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards`, 
       { method: 'POST', 
@@ -28,23 +28,23 @@ export function fetchBoard(userId, orgId, boardName) {
         },
       })
       .then(response => response.json())
-      .then(json => dispatch(receiveResponse(json.response.message)))
+      .then(json => dispatch(addBoardSuccess(json.response.message)))
   }
 }
 
 const initialState = {
   isBoardFetching: false,
-  isBoardFetchingSuccessful : false,
+  isBoardFetchingSuccessful: false,
   homeResponse: []
 }
 
 export default function home(state = initialState, action) {
   switch (action.type) {
-    case ADD_BOARD:
+    case ADD_BOARD_REQUEST:
       return Object.assign({}, state, {
         isBoardFetching: true,
       })
-    case RECEIVE_RESPONSE:
+    case ADD_BOARD_SUCCESS:
       return Object.assign({}, state, {
         isBoardFetchingSuccessful: true,
         isBoardFetching: false,
