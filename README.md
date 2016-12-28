@@ -101,6 +101,6 @@ These are the steps to see your changes in develop.
 
 ## Credits, Inspiration, Alternatives
 
-## More informations
+## Repository structure
 
-Check the [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/README.md) and the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/README.md) readme
+The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which is the react application and the ser the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which is the express server.
