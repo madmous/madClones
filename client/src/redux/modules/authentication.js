@@ -9,10 +9,16 @@ function loadUserRequest() {
   }
 }
 
-function loadUserSuccess(dataResponse) {
+function loadUserSuccess(loadUserResponse) {
   return {
     type: LOAD_USER_SUCCESS,
-    dataResponse
+    loadUserResponse
+  }
+}
+
+export function loadUserIfNeeded(loadUserResponse) {
+  return dispatch => {
+    dispatch(loadUserSuccess(loadUserResponse))
   }
 }
 
@@ -47,10 +53,10 @@ export default function authentication(state = initialState, action) {
         isFetching: false,
         isFetchingSuccessful: true,
 
-        user: action.dataResponse.user,
-        boards: action.dataResponse.boards,
-        organizations: action.dataResponse.organizations,
-        starredBoards: action.dataResponse.starredBoards
+        user: action.loadUserResponse.user,
+        boards: action.loadUserResponse.boards,
+        organizations: action.loadUserResponse.organizations,
+        starredBoards: action.loadUserResponse.starredBoards
       })
     default: return state;
   }

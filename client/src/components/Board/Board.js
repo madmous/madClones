@@ -48,7 +48,7 @@ export default class Board extends Component {
       return (
          <BoardItem 
           organizationName={board.organizationName}
-          isStarredBoard={board.isStarredBoard}
+          isStarredBoardItem={board.isStarredBoard}
           isActiveBoard={true} 
           boardName={board.name} 
           key={board._id} 
@@ -60,6 +60,7 @@ export default class Board extends Component {
       boardItems.push(
         <BoardItem 
           isActiveBoard={false} 
+          organizationId={this.props.organizationId}
           boardName='Create new board...'
           key={boardItems.length}
         />
@@ -77,6 +78,7 @@ export default class Board extends Component {
 Board.propTypes = {
   displayBoardOptions: PropTypes.bool.isRequired,
   boardsToDisplay: PropTypes.array.isRequired,
-  isStarredBoard: PropTypes.bool,
-  boardTitle: PropTypes.string.isRequired
+  boardTitle: PropTypes.string.isRequired,
+  organizationId: PropTypes.string,
+  isStarredBoard: PropTypes.bool
 }

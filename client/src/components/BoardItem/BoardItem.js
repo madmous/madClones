@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 
-import { fetchBoard } from '../../redux/modules/home';
+import { addBoard } from '../../redux/modules/home';
 
 import './BoardItem.css';
 
@@ -41,8 +41,9 @@ class BoardItem extends Component {
   }
 
   addBoard(board) {
-    const { dispatch, organizations, user } = this.props;
-    dispatch(fetchBoard(user._id, organizations[0]._id, 'TT'));
+    const { dispatch, organizationId, user } = this.props;
+    
+    dispatch(addBoard(user._id, organizationId, 'TT'));
   }
 
   getBoardItemSubName() {
@@ -56,7 +57,7 @@ class BoardItem extends Component {
   }
 
   isStarredBoard() {
-    if (this.props.isStarredBoard) {
+    if (this.props.isStarredBoardItem) {
       return <FontAwesome name="star-o" className="Board-Item-Tile-Option Board-Item-Tile-Starred" />
     }
 
@@ -67,21 +68,18 @@ class BoardItem extends Component {
 BoardItem.propTypes = {
   isActiveBoard: PropTypes.bool.isRequired,
   organizationName: PropTypes.string,
+  isStarredBoardItem: PropTypes.bool,
   boardName: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state) {
   const { isBoardFetchingSuccessful } = state.home;
-  const { homeResponse } = state.home;
   const { isBoardFetching } = state.home;
-  const { organizations } = state.authentication.user;
   const { user } = state.authentication;
 
   return {
     isBoardFetchingSuccessful,
-    homeResponse,
     isBoardFetching,
-    organizations,
     user
   };
 }

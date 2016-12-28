@@ -44,7 +44,7 @@ class Boards extends Component {
   }
 
   getPersonalBoards() {
-    const { starredBoards, boards } = this.props;
+    const { boards } = this.props;
 
     let personalBoard = null;
 
@@ -62,7 +62,7 @@ class Boards extends Component {
   }
 
   getOrganizationBoards() {
-    const { organizations, starredBoards } = this.props;
+    const { organizations } = this.props;
 
     let organizationItem = organizations.map((organization) => {
 
@@ -71,6 +71,7 @@ class Boards extends Component {
           <Board 
             displayBoardOptions={true}
             boardsToDisplay={organization.boards} 
+            organizationId={organization._id}
             boardTitle={organization.displayName} 
             key={organization._id} 
           />
