@@ -1,6 +1,6 @@
 ## Description
 
-[Trello](http://trello.com){:target="_blank"} clone being built with NodeJS, Express, MongoDB, React and Redux.
+[Trello](http://trello.com) clone being built with NodeJS, Express, MongoDB, React and Redux.
 
 Web addict and javascript passionate. I am curious by anything new and learn frameworks by cloning amazing apps.
 I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
@@ -18,14 +18,14 @@ all the coding standard and best practices.
 ## Support
 
 * Star the repo
-* Follow me on twitter [@datmadmmous](https://twitter.com/datmadmous){:target="_blank"}
+* Follow me on twitter [@datmadmmous](https://twitter.com/datmadmous)
 * Submit pull requests and improve the repo overall quality
-* Join [WeClone](https://weclone.slack.com/messages){:target="_blank"} slack channel and ask questions 
+* Join [WeClone](https://weclone.slack.com/messages) slack channel and ask questions 
 
 ## Prerequisite
 
-Before you install the project, make sure [Yarn](https://yarnpkg.com/en/docs/install){:target="_blank"} (prefered one) or Npm 
-and [MongoDB](https://docs.mongodb.com/v3.2/administration/install-community/){:target="_blank"} are installed.
+Before you install the project, make sure [Yarn](https://yarnpkg.com/en/docs/install) (prefered one) or Npm 
+and [MongoDB](https://docs.mongodb.com/v3.2/administration/install-community/) are installed.
 
 ## Installation instructions
 
@@ -55,19 +55,19 @@ Once your package management is installed these commands will run your applicati
 
 ## Where to get help
 
-[ES6](https://github.com/airbnb/javascript){:target="_blank"} : if you want to quickly be up to date with javascript best practices, 
+[ES6](https://github.com/airbnb/javascript) : if you want to quickly be up to date with javascript best practices, 
 AirBNB repo is a gold mine. Read it.
 
-React : [AirBnB](https://github.com/airbnb/javascript/tree/master/react){:target="_blank"} and 
-[RisingStack](https://blog.risingstack.com/react-js-best-practices-for-2016/){:target="_blank"}
+React : [AirBnB](https://github.com/airbnb/javascript/tree/master/react) and 
+[RisingStack](https://blog.risingstack.com/react-js-best-practices-for-2016/)
 
-NodeJS : again I will redirect you to [RisingStack](https://blog.risingstack.com/node-js-best-practices/){:target="_blank"}.
+NodeJS : again I will redirect you to [RisingStack](https://blog.risingstack.com/node-js-best-practices/).
 They are awesome and they care about open source.
 
-[Slacks](https://weclone.slack.com/messages/trello/){:target="_blank"} : my slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
+[Slacks](https://weclone.slack.com/messages/trello/) : my slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
 the questions, but also answers will benefit all members.
 
-[CodinGame](https://www.codingame.com/home){:target="_blank"} : practicing your algorithm solving skills is a great way to write better code. CodinGame will push you 
+[CodinGame](https://www.codingame.com/home) : practicing your algorithm solving skills is a great way to write better code. CodinGame will push you 
 to another level by making you think about the correct data structure, api and algorith, to use.
 
 ## Contribution guidelines
@@ -103,5 +103,4 @@ These are the steps to see your changes in develop.
 
 ## Repository structure
 
-The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/){:target="_blank"} which is the react application and the ser 
-the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/){:target="_blank"} which is the express server.
+The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which is the react application and the ser the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which is the express server.
