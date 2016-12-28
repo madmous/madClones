@@ -103,4 +103,4 @@ These are the steps to see your changes in develop.
 
 ## Repository structure
 
-The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which is the react application and the ser the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which is the express server.
+The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which is the react application and the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which is the express server.
