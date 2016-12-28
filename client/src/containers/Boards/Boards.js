@@ -21,10 +21,12 @@ class Boards extends Component {
   }
 
   getStarredBoards() {
-    const { starredBoards, boardStars } = this.props;
+    const { starredBoards } = this.props;
 
-    if (this.canBoardsBeRendered() && boardStars && boardStars.length > 0) {
-      return (
+    let starredBoard = null;
+
+    if (this.canBoardsBeRendered() && starredBoards && starredBoards.length > 0) {
+      starredBoard = (
         <Board 
           displayBoardOptions={false}
           boardsToDisplay={starredBoards}
@@ -33,41 +35,42 @@ class Boards extends Component {
         />
       )
     }
+
+    return starredBoard;
   }
 
   canBoardsBeRendered() {
-    const { isFetchingSuccessful, isFetching } = this.props;
-    return (!isFetching && isFetchingSuccessful);
+    return (!this.props.isFetching && this.props.isFetchingSuccessful);
   }
 
   getPersonalBoards() {
     const { starredBoards, boards } = this.props;
 
+    let personalBoard = null;
+
     if (this.canBoardsBeRendered() && boards && boards.length > 0) {
-      return (
+      personalBoard = (
         <Board 
           displayBoardOptions={false}
           boardsToDisplay={boards}
-          isStarredBoard={false}
-          starredBoards={starredBoards}
-          boardTitle="Personal Board" 
-          boards
+          boardTitle="Personal Board"
         />
       )
     }
+
+    return personalBoard;
   }
 
   getOrganizationBoards() {
     const { organizations, starredBoards } = this.props;
-    const organizationItem = organizations.map((organization) => {
+
+    let organizationItem = organizations.map((organization) => {
 
       if (this.canBoardsBeRendered() && organization.boards && organization.boards.length > 0) {
         return (
           <Board 
             displayBoardOptions={true}
             boardsToDisplay={organization.boards} 
-            isStarredBoard={false}
-            starredBoards={starredBoards}
             boardTitle={organization.displayName} 
             key={organization._id} 
           />
@@ -84,25 +87,25 @@ Boards.propTypes = {
   starredBoards: PropTypes.array.isRequired,
   organizations: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  boardStars: PropTypes.array.isRequired,
-  boards: PropTypes.array.isRequired
+  boards: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   const { isFetchingSuccessful } = state.authentication;
   const { starredBoards } = state.authentication;
-  const { organizations } = state.authentication.user;
-  const { boardStars } = state.authentication.user;
+  const { organizations } = state.authentication;
   const { isFetching } = state.authentication;
-  const { boards } = state.authentication.user;
+  const { boards } = state.authentication;
+  const { user } = state.authentication;
 
   return {
     isFetchingSuccessful,
     starredBoards,
     organizations,
-    boardStars,
     isFetching,
-    boards
+    boards,
+    user
   };
 }
 

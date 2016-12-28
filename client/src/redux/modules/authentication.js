@@ -9,10 +9,10 @@ function loadUserRequest() {
   }
 }
 
-function loadUserSuccess(user) {
+function loadUserSuccess(dataResponse) {
   return {
     type: LOAD_USER_SUCCESS,
-    user
+    dataResponse
   }
 }
 
@@ -20,21 +20,20 @@ export function loadUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`http://localhost:3001/api/v1/users`)
+    return fetch(`http://localhost:3001/api/v1/users/5864309da51e2929acb8b896`)
       .then(response => response.json())
-      .then(json => dispatch(loadUserSuccess(json.data.users[0])))
+      .then(json => dispatch(loadUserSuccess(json.data)))
   }
 }
 
 const initialState = {
+  isFetchingSuccessful: false,
   isFetching: false,
-  isFetchingSuccessful : false,
-  starredBoards: [],
-  user: {
-    organizations: [],
-    boardStars: [],
-    boards: []
-  }
+
+  user: {},
+  boards: [],
+  organizations: [],
+  starredBoards: []
 }
 
 export default function authentication(state = initialState, action) {
@@ -45,71 +44,14 @@ export default function authentication(state = initialState, action) {
       })
     case LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
-        isFetchingSuccessful: true,
-        starredBoards: buildBoardsFromBoardstar(action.user),
         isFetching: false,
-        user: action.user,
+        isFetchingSuccessful: true,
+
+        user: action.dataResponse.user,
+        boards: action.dataResponse.boards,
+        organizations: action.dataResponse.organizations,
+        starredBoards: action.dataResponse.starredBoards
       })
     default: return state;
   }
-}
-
-function buildBoardsFromBoardstar(user) {
-  const { boards, organizations, boardStars } = user;
-  const boardsByOrganization = buildBoardsByOrganization(organizations);
-
-  let boardsFromBoardStars = [];
-  let boardStar = [];
-
-  const isBoardInBoardByOrganization = (element) => {
-    let isBoardInBoardByOrganization = false;
-
-    if (boardStar._id === element.id) {
-      isBoardInBoardByOrganization = true;
-    }
-
-    return isBoardInBoardByOrganization;
-  }
-
-  for (let boardByOrganization in boardsByOrganization) {
-    
-    if (boardsByOrganization.hasOwnProperty(boardByOrganization)) {
-      boardsByOrganization[boardByOrganization].forEach((board) => {
-        let boardCopy = { ...board };
-
-        boardCopy.organizationName = boardByOrganization;
-        boardStar = { ...boardCopy };
-        
-        if (boardStars.find(isBoardInBoardByOrganization)) {
-          boardsFromBoardStars.push(boardCopy);
-        }
-      })
-    }
-  }
-
-  boards.forEach((board) => {
-    boardStar = board;
-    
-    if (boardStars.find(isBoardInBoardByOrganization)) {
-      boardsFromBoardStars.push(board);
-    }
-  })
-
-  return boardsFromBoardStars;
-}
-
-function buildBoardsByOrganization(organizations) {
-  let boardsByOrganization = {};
-
-  organizations.forEach((organization) => {
-    const organizationDisplayName = organization.displayName;
-    
-    if (!boardsByOrganization[organizationDisplayName]) {
-      boardsByOrganization[organizationDisplayName] = [];
-    }
-
-    boardsByOrganization[organizationDisplayName].push(...organization.boards);
-  });
-
-  return boardsByOrganization;
 }

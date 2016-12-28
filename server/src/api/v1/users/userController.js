@@ -15,6 +15,18 @@ const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
 let userController = {};
 
+function formatResponse(pUser) {
+  return {
+    user: {
+      _id: pUser._id,
+      fullname: pUser.fullname,
+    },
+    boards: pUser.boards,
+    organizations: pUser.organizations,
+    starredBoards: pUser.boardStars
+  } 
+}
+
 userController.findAll = (req, res) => {
   async.waterfall([  
     (callback) => {
@@ -78,9 +90,7 @@ userController.findById = (req, res) => {
         });
       } else {
         return res.status(200).json({
-          data: {
-            user
-          }
+          data: formatResponse(user)
         });
       }
     });
@@ -116,9 +126,7 @@ userController.findOrganizations = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -165,9 +173,7 @@ userController.findBoardsByOrganization = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -254,9 +260,7 @@ userController.save = (req, res) => {
     } 
 
     return res.status(200).json({
-      data: {
-        user
-      }
+      data: formatResponse(user)
     });
   });
 };
@@ -328,9 +332,7 @@ userController.saveOrganization = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -389,9 +391,7 @@ userController.saveUserBoard = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -463,9 +463,7 @@ userController.saveBoard = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -503,8 +501,11 @@ userController.saveUserBoardStar = (req, res) => {
         if (board === null ) {
           callback('That board does not exist');
         } else {
+          board.isStarredBoard = true;
+
           let boardStar = new boardStarModel({
-            id: board.id
+            id: board.id,
+            name: board.name
           });
           
           user.boardStars.push(boardStar);
@@ -528,9 +529,7 @@ userController.saveUserBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -574,14 +573,17 @@ userController.saveBoardStar = (req, res) => {
         if (organization === null) {
           callback('That organization does not exist');
         } else {
-
           let board = organization.boards.id(req.params.idBoard);
 
           if (board === null ) {
             callback('That board does not exist');
           } else {
+            board.isStarredBoard = true;
+
             let boardStar = new boardStarModel({
-              id: board.id
+              id: board.id,
+              name: board.name,
+              organizationName: organization.name
             });
             
             user.boardStars.push(boardStar);
@@ -606,9 +608,7 @@ userController.saveBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -616,7 +616,7 @@ userController.saveBoardStar = (req, res) => {
 
 userController.remove = (req, res) => {
 
-  if(objectIdRegex.test(req.params.id)) {
+  if(!objectIdRegex.test(req.params.id)) {
     return res.status(404).json({
       data: {
         error: 'Please enter a valid user id'
@@ -654,9 +654,7 @@ userController.remove = (req, res) => {
       }
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -711,9 +709,7 @@ userController.removeOrganization = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -768,9 +764,7 @@ userController.removeBoard = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -825,9 +819,7 @@ userController.removeBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -903,9 +895,7 @@ userController.update = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -983,9 +973,7 @@ userController.updateOrganization = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -1059,9 +1047,7 @@ userController.updateBoard = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          user
-        }
+        data: formatResponse(user)
       });
     });
   }

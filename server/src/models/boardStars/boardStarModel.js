@@ -7,6 +7,17 @@ const BoardStarSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId,
     required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  organizationName: {
+    type: String
+  },
+  isStarredBoard: {
+    type: Boolean, 
+    default: true
   }
 });
 

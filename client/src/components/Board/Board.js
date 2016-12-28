@@ -42,46 +42,23 @@ export default class Board extends Component {
   }
   
   getBoardList() {
-    const { boardsToDisplay, isStarredBoard } = this.props;
+    const { boardsToDisplay } = this.props;
     const boardItems = boardsToDisplay && boardsToDisplay.map((board) => {
-      
-      if (!isStarredBoard && this.isBoardInStarredBoards(board)) {
-        return (
-          <BoardItem 
-            isStarredBoard={true}
-            isActiveBoard={true} 
-            boardName={board.name} 
-            key={board._id} 
-          />
-        );
-      }
 
-      if (isStarredBoard) {
-        return (
-          <BoardItem 
-            organizationName={board.organizationName}
-            isStarredBoard={true}
-            isActiveBoard={true} 
-            boardName={board.name} 
-            key={board._id} 
-          />
-        );
-      } else {
-        return (
-          <BoardItem 
-            isStarredBoard={false}
-            isActiveBoard={true} 
-            boardName={board.name} 
-            key={board._id} 
-          />
-        );
-      }
+      return (
+         <BoardItem 
+          organizationName={board.organizationName}
+          isStarredBoard={board.isStarredBoard}
+          isActiveBoard={true} 
+          boardName={board.name} 
+          key={board._id} 
+        />
+      )
     });
 
     if (!this.props.isStarredBoard) {
       boardItems.push(
         <BoardItem 
-          isStarredBoard={false}
           isActiveBoard={false} 
           boardName='Create new board...'
           key={boardItems.length}
@@ -95,25 +72,11 @@ export default class Board extends Component {
       </ul>
     );
   }
-
-  isBoardInStarredBoards(board) {
-    let isBoardInStarredBoards = false;
-    const starredBoards = this.props.starredBoards;
-
-    starredBoards.forEach((starredBoard) => {
-      if (starredBoard._id === board._id) {
-        isBoardInStarredBoards = true;
-      }
-    });
-
-    return isBoardInStarredBoards;
-  }
 }
 
 Board.propTypes = {
   displayBoardOptions: PropTypes.bool.isRequired,
   boardsToDisplay: PropTypes.array.isRequired,
-  isStarredBoard: PropTypes.bool.isRequired,
-  starredBoards: PropTypes.array,
-  boardTitle: PropTypes.string.isRequired,
+  isStarredBoard: PropTypes.bool,
+  boardTitle: PropTypes.string.isRequired
 }

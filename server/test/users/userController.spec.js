@@ -118,7 +118,7 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					boardId = res.res.body.data.user.boards[0]._id;
+					boardId = res.res.body.data.boards[0]._id;
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -175,7 +175,7 @@ describe('User controller testing ' , function () {
 				.send(userOrgTest)
 				.end(function(err, res) {
 					assert.equal(res.status, '200', 'status equals 200');
-					orgObjectId = res.res.body.data.user.organizations[0]._id;
+					orgObjectId = res.res.body.data.organizations[0]._id;
 
 					done();
 				});
@@ -241,7 +241,7 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					boardId = res.res.body.data.user.organizations[0].boards[0]._id;
+					boardId = res.res.body.data.organizations[0].boards[0]._id;
 
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -323,7 +323,7 @@ describe('User controller testing ' , function () {
 			chai.request(app)
 				.post(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars')
 				.end(function(err, res) {
-					boardStarId = res.res.body.data.user.boardStars[0]._id;
+					boardStarId = res.res.body.data.starredBoards[0]._id;
 
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -915,7 +915,6 @@ describe('User controller testing ' , function () {
 				});
 		});
 
-		// TODO : fix unit test -> 404 
 		it (usersUrl, function (done) {
 			chai.request(app)
 				.delete(usersUrl + userObjectId)

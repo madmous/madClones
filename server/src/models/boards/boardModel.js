@@ -13,6 +13,10 @@ const BoardSchema = new Schema({
   },
   createdAt: {
     type: Date
+  },
+  isStarredBoard: {
+    type: Boolean, 
+    default: false
   }
 });
 
