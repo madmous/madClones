@@ -86,10 +86,9 @@ These are the steps to see your changes in develop.
 
 ## Achievements
 
-* Reach 91.67% test coverage on the trello clone server
-* Add redux and hook it up with the react application
-
 ## Areas for Improvements / involvement
+
+* Release version 1.0.0
 
 * Add a white background color to each board section (star, user and users)
 * Work on a better model for the store and the response from server
@@ -98,7 +97,10 @@ These are the steps to see your changes in develop.
 * Add star/unstar board feature
 * Add a login section
 * Make UI responsive
-* Add normalizr
 * Add enzyme
 
 ## Credits, Inspiration, Alternatives
+
+## More informations
+
+Check the [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/README.md) and the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/README.md) readme
