@@ -4,6 +4,10 @@ import FontAwesome from 'react-fontawesome';
 
 import './HeaderUser.css';
 
+const propTypes = {
+  user: PropTypes.object.isRequired
+}
+
 class HeaderUser extends Component {
 
   render() {
@@ -23,10 +27,6 @@ class HeaderUser extends Component {
   }
 }
 
-HeaderUser.propTypes = {
-  user: PropTypes.object.isRequired
-}
-
 function mapStateToProps(state) {
   const { user } = state.authentication;
 
@@ -34,5 +34,7 @@ function mapStateToProps(state) {
     user
   };
 }
+
+HeaderUser.propTypes = propTypes;
 
 export default connect(mapStateToProps)(HeaderUser);

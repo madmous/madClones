@@ -14,6 +14,6 @@ export default class Header extends Component {
 				<span className="Header-Logo"></span>
 				<HeaderUser />
 			</div>
-    );
+		);
   }
 }

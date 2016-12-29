@@ -5,6 +5,15 @@ import { Board } from '../../components/index';
 
 import './Boards.css';
 
+const propTypes = {
+  isFetchingSuccessful: PropTypes.bool.isRequired,
+  starredBoards: PropTypes.array.isRequired,
+  organizations: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  boards: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
+}
+
 class Boards extends Component {  
   render() {
     return (
@@ -30,7 +39,7 @@ class Boards extends Component {
         <Board 
           displayBoardOptions={false}
           boardsToDisplay={starredBoards}
-          isStarredBoard={true}
+          isStarredBoard
           boardTitle="Starred Board" 
         />
       )
@@ -69,7 +78,7 @@ class Boards extends Component {
       if (this.canBoardsBeRendered() && organization.boards && organization.boards.length > 0) {
         return (
           <Board 
-            displayBoardOptions={true}
+            displayBoardOptions
             boardsToDisplay={organization.boards} 
             organizationId={organization._id}
             boardTitle={organization.displayName} 
@@ -81,15 +90,6 @@ class Boards extends Component {
 
     return organizationItem;
   }
-}
-
-Boards.propTypes = {
-  isFetchingSuccessful: PropTypes.bool.isRequired,
-  starredBoards: PropTypes.array.isRequired,
-  organizations: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  boards: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
@@ -109,5 +109,7 @@ function mapStateToProps(state) {
     user
   };
 }
+
+Boards.propTypes = propTypes;
 
 export default connect(mapStateToProps)(Boards);

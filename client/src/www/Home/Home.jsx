@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { Header } from '../../components/index';
 import { Boards } from '../../containers/index';
 
-import { loadUser } from '../../redux/modules/authentication';
+import { getUser } from '../../redux/modules/authentication';
 
 import './Home.css';
+
+const propTypes = {
+  user: PropTypes.object.isRequired
+};
 
 class Home extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(loadUser());
+    dispatch(getUser());
   }
 
   render() {
@@ -31,5 +35,7 @@ function mapStateToProps(state) {
     user
   };
 }
+
+Home.propTypes = propTypes;
 
 export default connect(mapStateToProps)(Home);

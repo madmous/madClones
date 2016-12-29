@@ -1,9 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
-import { BoardItem, BoardOptions } from '../index';
+import { BoardOptions } from '../index';
+import { BoardItem } from '../../containers/index';
 
 import './Board.css';
+
+const propTypes = {
+  displayBoardOptions: PropTypes.bool.isRequired,
+  boardsToDisplay: PropTypes.array.isRequired,
+  boardTitle: PropTypes.string.isRequired,
+  organizationId: PropTypes.string,
+  isStarredBoard: PropTypes.bool
+}
+
+const defaultProps = {
+  organizationId: '',
+  isStarredBoard: false
+}
 
 export default class Board extends Component {
   render() {
@@ -49,7 +63,7 @@ export default class Board extends Component {
          <BoardItem 
           organizationName={board.organizationName}
           isStarredBoardItem={board.isStarredBoard}
-          isActiveBoard={true} 
+          isActiveBoard
           boardName={board.name} 
           key={board._id} 
         />
@@ -75,10 +89,5 @@ export default class Board extends Component {
   }
 }
 
-Board.propTypes = {
-  displayBoardOptions: PropTypes.bool.isRequired,
-  boardsToDisplay: PropTypes.array.isRequired,
-  boardTitle: PropTypes.string.isRequired,
-  organizationId: PropTypes.string,
-  isStarredBoard: PropTypes.bool
-}
+Board.propTypes = propTypes;
+Board.defaultProps = defaultProps;

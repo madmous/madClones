@@ -6,18 +6,30 @@ import { addBoard } from '../../redux/modules/home';
 
 import './BoardItem.css';
 
-class BoardItem extends Component {
-  render() {
-    return (
-      <li className="Board-Item">
-  			{ this.isActiveBoard() }
-      </li>
-    );
-  }
+const propTypes = {
+  isActiveBoard: PropTypes.bool.isRequired,
+  organizationName: PropTypes.string,
+  isStarredBoardItem: PropTypes.bool,
+  boardName: PropTypes.string.isRequired
+}
 
+const defaultTypes = {
+  organizationName: '',
+  isStarredBoardItem: false
+}
+
+class BoardItem extends Component {
   constructor(props) {
     super(props);
     this.addBoard = this.addBoard.bind(this);
+  }
+
+  render() {
+    return (
+      <li className="Board-Item">
+        { this.isActiveBoard() }
+      </li>
+    );
   }
 
   isActiveBoard() {
@@ -65,13 +77,6 @@ class BoardItem extends Component {
   }
 }
 
-BoardItem.propTypes = {
-  isActiveBoard: PropTypes.bool.isRequired,
-  organizationName: PropTypes.string,
-  isStarredBoardItem: PropTypes.bool,
-  boardName: PropTypes.string.isRequired
-}
-
 function mapStateToProps(state) {
   const { isBoardFetchingSuccessful } = state.home;
   const { isBoardFetching } = state.home;
@@ -83,5 +88,8 @@ function mapStateToProps(state) {
     user
   };
 }
+
+BoardItem.propTypes = propTypes;
+BoardItem.defaultTypes = propTypes;
 
 export default connect(mapStateToProps)(BoardItem);
