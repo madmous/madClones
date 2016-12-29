@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-import { loadUserIfNeeded } from '../../redux/modules/authentication';
+import { updateUser } from '../../redux/modules/authentication';
 
 export const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST'
 export const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS'
@@ -20,18 +20,18 @@ function addBoardSuccess() {
 export function addBoard(userId, orgId, boardName) {
 
   if (orgId) {
-    return saveOrganizationBoard(userId, orgId, boardName);
-  } else {
-    return savePersonalBoard(userId, boardName);
+    return saveBoard(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards`, boardName);
   }
+
+  return saveBoard(`http://localhost:3001/api/v1/users/${userId}/boards`, boardName);
   
 }
 
-function saveOrganizationBoard(userId, orgId, boardName) {
+function saveBoard(url, boardName) {
   return dispatch => {
     dispatch(addBoardRequest())
 
-    return fetch(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards`, 
+    return fetch(url, 
       { method: 'POST', 
         body: 'name=' + boardName,
         headers: {
@@ -41,26 +41,7 @@ function saveOrganizationBoard(userId, orgId, boardName) {
       .then(response => response.json())
       .then(json => {
         dispatch(addBoardSuccess())
-        dispatch(loadUserIfNeeded(json.data))
-      })
-  }
-}
-
-function savePersonalBoard(userId, boardName) {
-  return dispatch => {
-    dispatch(addBoardRequest())
-
-    return fetch(`http://localhost:3001/api/v1/users/${userId}/boards`, 
-      { method: 'POST', 
-        body: 'name=' + boardName,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-        },
-      })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(addBoardSuccess())
-        dispatch(loadUserIfNeeded(json.data))
+        dispatch(updateUser(json.data))
       })
   }
 }

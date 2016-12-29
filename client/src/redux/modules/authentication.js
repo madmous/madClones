@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch'
 
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+export const UPDATE_USER = 'UPDATE_USER'
 
 function loadUserRequest() {
   return {
@@ -9,26 +10,31 @@ function loadUserRequest() {
   }
 }
 
-function loadUserSuccess(loadUserResponse) {
+function loadUserSuccess() {
   return {
-    type: LOAD_USER_SUCCESS,
-    loadUserResponse
+    type: LOAD_USER_SUCCESS
   }
 }
 
-export function loadUserIfNeeded(loadUserResponse) {
-  return dispatch => {
-    dispatch(loadUserSuccess(loadUserResponse))
+export function updateUser(payload) {
+  return {
+    type: UPDATE_USER,
+    payload
   }
 }
 
-export function loadUser() {
+export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
     return fetch(`http://localhost:3001/api/v1/users/5864309da51e2929acb8b896`)
       .then(response => response.json())
-      .then(json => dispatch(loadUserSuccess(json.data)))
+      .then(json => {
+        const payload = json.data;
+
+        dispatch(loadUserSuccess())
+        dispatch(updateUser(payload))
+      })
   }
 }
 
@@ -51,12 +57,14 @@ export default function authentication(state = initialState, action) {
     case LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        isFetchingSuccessful: true,
-
-        user: action.loadUserResponse.user,
-        boards: action.loadUserResponse.boards,
-        organizations: action.loadUserResponse.organizations,
-        starredBoards: action.loadUserResponse.starredBoards
+        isFetchingSuccessful: true
+      })
+    case UPDATE_USER:
+      return Object.assign({}, state, {
+        user: action.payload.user,
+        boards: action.payload.boards,
+        organizations: action.payload.organizations,
+        starredBoards: action.payload.starredBoards
       })
     default: return state;
   }
