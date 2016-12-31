@@ -726,11 +726,70 @@ describe('User controller testing ' , function () {
 
 	describe('DELETE', function () {
 
-		it (usersUrl + ':id/boards/:idBoard/boardstars', function (done) {
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
 			chai.request(app)
-				.delete(usersUrl + userObjectId + '/boards/' + userBoardId + '/boardstars/')
+				.delete(usersUrl + 'vfv' + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars/')
 				.end(function(err, res) {
-					log.info(err);
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.delete(usersUrl + mongoose.Types.ObjectId() + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars/')
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + 'dv' + '/boards/' + boardId + '/boardstars/')
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + mongoose.Types.ObjectId() + '/boards/' + boardId + '/boardstars/')
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + mongoose.Types.ObjectId() + '/boardstars/')
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + 'fdsfd' + '/boardstars/')
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + '/:id/organizations/:idOrganization/boards/:idBoard/boardstars', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId + '/boardstars/')
+				.end(function(err, res) {
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
