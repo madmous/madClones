@@ -1,8 +1,11 @@
+import Form from './Form/Form';
 import Boards from './Boards/Boards';
-
+import BoardItem from './BoardItem/BoardItem';
 import HeaderUser from './HeaderUser/HeaderUser';
 
-export { 
+export {
+	Form,
 	Boards,
+	BoardItem,
 	HeaderUser
 }

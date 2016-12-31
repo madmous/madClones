@@ -4,17 +4,19 @@ import FontAwesome from 'react-fontawesome';
 
 import './HeaderUser.css';
 
+const propTypes = {
+  fullName: PropTypes.string.isRequired
+}
+
 class HeaderUser extends Component {
 
   render() {
-    const { user } = this.props
-
     return (
       <div className="Header-User">
         <FontAwesome name="plus" className="Header-Button-Icon Header-User-Add" />
         <span className="Header-Button Header-User-Menu">
           <span className="Header-User-Image"></span>
-          <span className="Header-User-Name">{ user.fullname }</span>
+          <span className="Header-User-Name">{ this.props.fullName }</span>
         </span>
         <FontAwesome name="info" className="Header-Button-Icon Header-Button Header-User-Info" />
         <FontAwesome name="bell-o" className="Header-Button-Icon Header-User-Notifications" />
@@ -23,16 +25,14 @@ class HeaderUser extends Component {
   }
 }
 
-HeaderUser.propTypes = {
-  user: PropTypes.object.isRequired
-}
-
 function mapStateToProps(state) {
-  const { user } = state.authentication;
+  const { fullName } = state.user;
 
   return {
-    user
+    fullName 
   };
 }
+
+HeaderUser.propTypes = propTypes;
 
 export default connect(mapStateToProps)(HeaderUser);

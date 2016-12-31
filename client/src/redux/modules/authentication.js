@@ -1,115 +1,65 @@
 import fetch from 'isomorphic-fetch'
 
-export const REQUEST_USER = 'REQUEST_USER'
-export const RECEIVE_USER = 'RECEIVE_USER'
+import { updateOrganizations } from './organization'
+import { updateStarredBoards } from './starredBoard'
+import { updateBoards } from './board'
+import { updateUser } from './user'
 
-function requestUser() {
+export const UPDATE_USER = 'UPDATE_USER'
+export const UPDATE_BOARDS = 'UPDATE_BOARDS'
+export const UPDATE_ORGANIZATIONS = 'UPDATE_ORGANIZATIONS'
+export const UPDATE_STARRED_BOARDS = 'UPDATE_STARRED_BOARDS'
+
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+
+function loadUserRequest() {
   return {
-    type: REQUEST_USER
+    type: LOAD_USER_REQUEST
   }
 }
 
-function receiveUser(user) {
+function loadUserSuccess() {
   return {
-    type: RECEIVE_USER,
-    user
+    type: LOAD_USER_SUCCESS
   }
 }
 
-export function fetchUser() {
+export function getUser() {
   return dispatch => {
-    dispatch(requestUser())
+    dispatch(loadUserRequest())
 
-    return fetch(`http://localhost:3001/api/v1/users`)
+    return fetch(`http://localhost:3001/api/v1/users/586806d85a8941270e59d7b7`)
       .then(response => response.json())
-      .then(json => dispatch(receiveUser(json.data.users[0])))
+      .then(json => {
+        const payload = json.data;
+
+        dispatch(loadUserSuccess())
+        
+        dispatch(updateUser(payload))
+        dispatch(updateOrganizations(payload))
+        dispatch(updateStarredBoards(payload))
+        dispatch(updateBoards(payload))
+      })
   }
 }
 
 const initialState = {
-  isFetching: false,
-  isFetchingSuccessful : false,
-  starredBoards: [],
-  user: {
-    organizations: [],
-    boardStars: [],
-    boards: []
-  }
+  isFetchingSuccessful: false,
+  isFetching: false
 }
 
 export default function authentication(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_USER:
+    case LOAD_USER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
       })
-    case RECEIVE_USER:
+    case LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
-        isFetchingSuccessful: true,
-        starredBoards: buildBoardsFromBoardstar(action.user),
         isFetching: false,
-        user: action.user,
+        isFetchingSuccessful: true
       })
     default: return state;
   }
-}
-
-function buildBoardsFromBoardstar(user) {
-  const { boards, organizations, boardStars } = user;
-  const boardsByOrganization = buildBoardsByOrganization(organizations);
-
-  let boardsFromBoardStars = [];
-  let boardStar = [];
-
-  const isBoardInBoardByOrganization = (element) => {
-    let isBoardInBoardByOrganization = false;
-
-    if (boardStar._id === element.id) {
-      isBoardInBoardByOrganization = true;
-    }
-
-    return isBoardInBoardByOrganization;
-  }
-
-  for (let boardByOrganization in boardsByOrganization) {
-    
-    if (boardsByOrganization.hasOwnProperty(boardByOrganization)) {
-      boardsByOrganization[boardByOrganization].forEach((board) => {
-        let boardCopy = { ...board };
-
-        boardCopy.organizationName = boardByOrganization;
-        boardStar = { ...boardCopy };
-        
-        if (boardStars.find(isBoardInBoardByOrganization)) {
-          boardsFromBoardStars.push(boardCopy);
-        }
-      })
-    }
-  }
-
-  boards.forEach((board) => {
-    boardStar = board;
-    
-    if (boardStars.find(isBoardInBoardByOrganization)) {
-      boardsFromBoardStars.push(board);
-    }
-  })
-
-  return boardsFromBoardStars;
-}
-
-function buildBoardsByOrganization(organizations) {
-  let boardsByOrganization = {};
-
-  organizations.forEach((organization) => {
-    const organizationDisplayName = organization.displayName;
-    
-    if (!boardsByOrganization[organizationDisplayName]) {
-      boardsByOrganization[organizationDisplayName] = [];
-    }
-
-    boardsByOrganization[organizationDisplayName].push(...organization.boards);
-  });
-
-  return boardsByOrganization;
 }

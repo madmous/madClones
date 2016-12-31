@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import './BoardOptionsItem.css';
+
+const propTypes = {
+  iconName: PropTypes.string.isRequired,
+  boardName: PropTypes.string.isRequired
+}
 
 export default class BoardOptionsItem extends Component {
   render() {
@@ -15,3 +20,6 @@ export default class BoardOptionsItem extends Component {
     );
   }
 }
+
+BoardOptionsItem.propTypes = propTypes;
+
