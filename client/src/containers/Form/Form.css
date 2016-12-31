@@ -1,0 +1,118 @@
+.Form,
+.Form-Header {
+	color: #4d4d4d;
+  line-height: 18px;
+}
+
+.Form {
+  padding: 0 10px 10px;
+	max-height: 256px;
+	width: 300px;
+  z-index: 70;
+  overflow: hidden;
+	background: #fff;
+	right: -9999px;
+  border-radius: 3px;
+  border: 1px solid #D6DADC;
+  border-bottom-color: #C4C9CC;
+	box-shadow: 0 1px 6px rgba(0,0,0,.15);
+	right: 32px;
+  bottom: 16px;
+	position: fixed;
+}
+
+.Form-Shown {
+	display: block
+}
+
+.Form-Hidden {
+	display: none;
+}
+
+.Form-Header {
+  font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
+	height: 36px;
+  position: relative;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.Form-Header span {
+	text-align: center;
+	box-sizing: border-box;
+	color: #8c8c8c;
+	display: block;
+	line-height: 36px;
+	border-bottom: 1px solid #D6DADC;
+	margin: 0 10px;
+	overflow: hidden;
+	padding: 0 2pc;
+	position: relative;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	z-index: 1;
+}
+
+.Form-Header-Close {
+	display: inline-block;
+	font-family: trellicons;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+	color: #999;
+	height: 18px;
+	line-height: 18px;
+	width: 18px;
+	font-size: 9pt;
+	padding: 10px 10px 10px 4px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+}
+
+.Form-Header-Close:before {
+    content: "\e915";
+}
+
+.Form-SubmitButton {
+  font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
+	min-height: 34px;
+	border-radius: 3px;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: 700;
+	line-height: 22px;
+	margin: 8px 4px 0 0;
+	padding: 7px 20px;
+	text-align: center;
+	border: none;
+	padding-left: 30px;
+  padding-right: 30px;
+	background: linear-gradient(to bottom,#61BD4F 0,#5AAC44 100%);
+  box-shadow: 0 1px 0 #3F6F21;
+  color: #fff;
+}
+
+.Form-BoardTitle {
+	color: #4d4d4d;
+  font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
+  line-height: 18px;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	background-color: #E2E4E6;
+	border: 1px solid #CDD2D4;
+	border-radius: 3px;
+	display: block;
+	min-height: 34px;
+	padding: 7px;
+	margin: 4px 0 9pt;
+  width: 100%;
+}
+
+.Form-BoardTitle:focus {
+	background-color: white;
+}

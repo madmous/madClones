@@ -57,12 +57,30 @@ export default class Board extends Component {
   
   getBoardList() {
     const { boardsToDisplay } = this.props;
+    let organizationId = '';
+
     const boardItems = boardsToDisplay && boardsToDisplay.map((board) => {
+
+      let boardId = board._id;
+
+      if (board.organizationId) {
+        organizationId = board.organizationId;
+      } else {
+        organizationId = this.props.organizationId;
+      }
+
+      if (board.id && board.isStarredBoard) {
+        boardId = board.id;
+      } else {
+        boardId = board._id;
+      }
 
       return (
          <BoardItem 
           organizationName={board.organizationName}
           isStarredBoardItem={board.isStarredBoard}
+          organizationId={organizationId}
+          boardId={boardId}
           isActiveBoard
           boardName={board.name} 
           key={board._id} 

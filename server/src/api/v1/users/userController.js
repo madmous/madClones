@@ -583,7 +583,8 @@ userController.saveBoardStar = (req, res) => {
             let boardStar = new boardStarModel({
               id: board.id,
               name: board.name,
-              organizationName: organization.name
+              organizationName: organization.name,
+              organizationId: organization.id
             });
             
             user.boardStars.push(boardStar);
@@ -715,6 +716,65 @@ userController.removeOrganization = (req, res) => {
   }
 };
 
+userController.removeUserBoard = (req, res) => {
+
+  if(!objectIdRegex.test(req.params.id)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid user id'
+      }
+    });
+  } else  if(!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
+      }
+    });
+  } else {
+    async.waterfall([
+      (callback) => {
+        userModel.findById(req.params.id, callback);
+      },
+      (user, callback) => {
+
+        if (!user) {
+          callback('User does not exist');
+        } else {
+          let board = user.boards.id(req.params.idBoard);
+
+          if (board === null) {
+            callback('That board does not exist');
+          } else {
+            board.remove();
+            user.save(callback);
+          }
+        }
+      },
+      (user, numRowAffected, callback) => {
+
+        if (!user) {
+          callback('Sorry I could not remove that board');
+        } else {
+          callback(null, user);
+        }
+      }
+    ], (error, user) => { 
+
+      if (error) {
+        return res.status(400).json({
+          data: {
+            error
+          }
+        });
+      } 
+
+      return res.status(200).json({
+        data: formatResponse(user)
+      });
+    });
+  }
+};
+
 userController.removeBoard = (req, res) => {
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
@@ -771,16 +831,23 @@ userController.removeBoard = (req, res) => {
 };
 
 userController.removeBoardStar = (req, res) => {
+
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
       data: {
         error: 'Please enter a valid user id'
       }
     });
-  } else if (!objectIdRegex.test(req.params.idBoardStar)) {
+  } else if (!objectIdRegex.test(req.params.idOrganization)) {
     return res.status(400).json({
       data: {
-        error: 'Please enter a valid board star id'
+        error: 'Please enter a valid organization id'
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
       }
     });
   } else {
@@ -790,23 +857,44 @@ userController.removeBoardStar = (req, res) => {
       },
       (user, callback) => {
         if (!user) {
-          callback('User does not exist');
+          callback('That user does not exist');
         } else {
-          let boardStar = user.boardStars.id(req.params.idBoardStar);
-              
-          if (!boardStar) {
-            callback('That board star does not exist');
+          callback(null, user);
+        }
+      },
+      (user, callback) => {
+        let organization = user.organizations.id(req.params.idOrganization);
+
+        if (organization === null) {
+          callback('That organization does not exist');
+        } else {
+          let board = organization.boards.id(req.params.idBoard);
+
+          if (!board) {
+            callback('That board does not exist');
           } else {
-            boardStar.remove();
-            user.save(callback);
+
+            if (board.isStarredBoard) {
+              const index = starredBoardIndex(user.boardStars, board._id);
+
+              if (index !== null) {
+                board.isStarredBoard = false;
+
+                user.boardStars[index].remove();
+              }
+
+              user.save(callback);
+            } else {
+              callback('This board is not starred');
+            }
           }
         }
       },
       (user, numRowAffected, callback) => {
         if (!user) {
-          callback('Sorry I could not remove that boardStar');
+          callback('Error while saving the board star');
         } else {
-          callback(null, user);
+          callback(null, user);             
         }
       }
     ], (error, user) => { 
@@ -824,6 +912,90 @@ userController.removeBoardStar = (req, res) => {
     });
   }
 };
+
+userController.removeUserBoardStar = (req, res) => {
+
+  if(!objectIdRegex.test(req.params.id)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid user id'
+      }
+    });
+  } else if (!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
+      }
+    });
+  } else {
+    async.waterfall([
+      (callback) => {
+        userModel.findById(req.params.id, callback);
+      },
+      (user, callback) => {
+        if (!user) {
+          callback('That user does not exist');
+        } else {
+          callback(null, user);
+        }
+      },
+      (user, callback) => {
+        let board = user.boards.id(req.params.idBoard);
+
+        if (!board) {
+          callback('That board does not exist');
+        } else {
+
+          if (board.isStarredBoard) {
+            const index = starredBoardIndex(user.boardStars, board._id);
+
+            if (index !== null) {
+              board.isStarredBoard = false;
+
+              user.boardStars[index].remove();
+            }
+
+            user.save(callback);
+          } else {
+            callback('This board is not starred');
+          }
+        }
+      },
+      (user, numRowAffected, callback) => {
+        if (!user) {
+          callback('Error while saving the board star');
+        } else {
+          callback(null, user);             
+        }
+      }
+    ], (error, user) => { 
+      if (error) {
+        return res.status(400).json({
+          data: {
+            error
+          }
+        });
+      } 
+
+      return res.status(200).json({
+        data: formatResponse(user)
+      });
+    });
+  }
+};
+
+function starredBoardIndex(starredBoards, boardId) {
+  let starredBoardIndex = null;
+
+  starredBoards.forEach((starredBoard, index) => {
+    if (starredBoard.id.equals(boardId)) {
+      starredBoardIndex = index;
+      return false;
+    }
+  })
+
+  return starredBoardIndex;
+}
 
 userController.update = (req, res) => {
   let cbErrorMsg = {};

@@ -1,8 +1,17 @@
 import fetch from 'isomorphic-fetch'
 
+import { updateOrganizations } from './organization'
+import { updateStarredBoards } from './starredBoard'
+import { updateBoards } from './board'
+import { updateUser } from './user'
+
+export const UPDATE_USER = 'UPDATE_USER'
+export const UPDATE_BOARDS = 'UPDATE_BOARDS'
+export const UPDATE_ORGANIZATIONS = 'UPDATE_ORGANIZATIONS'
+export const UPDATE_STARRED_BOARDS = 'UPDATE_STARRED_BOARDS'
+
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
-export const UPDATE_USER = 'UPDATE_USER'
 
 function loadUserRequest() {
   return {
@@ -16,36 +25,28 @@ function loadUserSuccess() {
   }
 }
 
-export function updateUser(payload) {
-  return {
-    type: UPDATE_USER,
-    payload
-  }
-}
-
 export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`http://localhost:3001/api/v1/users/5864309da51e2929acb8b896`)
+    return fetch(`http://localhost:3001/api/v1/users/586806d85a8941270e59d7b7`)
       .then(response => response.json())
       .then(json => {
         const payload = json.data;
 
         dispatch(loadUserSuccess())
+        
         dispatch(updateUser(payload))
+        dispatch(updateOrganizations(payload))
+        dispatch(updateStarredBoards(payload))
+        dispatch(updateBoards(payload))
       })
   }
 }
 
 const initialState = {
   isFetchingSuccessful: false,
-  isFetching: false,
-
-  user: {},
-  boards: [],
-  organizations: [],
-  starredBoards: []
+  isFetching: false
 }
 
 export default function authentication(state = initialState, action) {
@@ -58,13 +59,6 @@ export default function authentication(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
         isFetchingSuccessful: true
-      })
-    case UPDATE_USER:
-      return Object.assign({}, state, {
-        user: action.payload.user,
-        boards: action.payload.boards,
-        organizations: action.payload.organizations,
-        starredBoards: action.payload.starredBoards
       })
     default: return state;
   }

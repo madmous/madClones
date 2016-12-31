@@ -6,12 +6,9 @@ import { Board } from '../../components/index';
 import './Boards.css';
 
 const propTypes = {
-  isFetchingSuccessful: PropTypes.bool.isRequired,
   starredBoards: PropTypes.array.isRequired,
   organizations: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   boards: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired
 }
 
 class Boards extends Component {  
@@ -30,7 +27,7 @@ class Boards extends Component {
   }
 
   getStarredBoards() {
-    const { starredBoards } = this.props;
+    const { starredBoards, organizationId } = this.props;
 
     let starredBoard = null;
 
@@ -75,7 +72,7 @@ class Boards extends Component {
 
     let organizationItem = organizations.map((organization) => {
 
-      if (this.canBoardsBeRendered() && organization.boards && organization.boards.length > 0) {
+      if (this.canBoardsBeRendered() && organization.boards) {
         return (
           <Board 
             displayBoardOptions
@@ -93,20 +90,20 @@ class Boards extends Component {
 }
 
 function mapStateToProps(state) {
-  const { isFetchingSuccessful } = state.authentication;
-  const { starredBoards } = state.authentication;
-  const { organizations } = state.authentication;
+  const { starredBoards } = state.starredBoard;
+  const { organizations } = state.organization;
+  const { boards } = state.board;
+
   const { isFetching } = state.authentication;
-  const { boards } = state.authentication;
-  const { user } = state.authentication;
+  const { isFetchingSuccessful } = state.authentication;
 
   return {
-    isFetchingSuccessful,
     starredBoards,
     organizations,
-    isFetching,
     boards,
-    user
+
+    isFetching,
+    isFetchingSuccessful
   };
 }
 

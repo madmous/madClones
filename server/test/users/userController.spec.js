@@ -22,7 +22,8 @@ describe('User controller testing ' , function () {
 	let userObjectId = null;
 	let orgObjectId  = null;
 	let boardStarId	 = null;
-	let boardId			 = null;
+	let userBoardId	 = null;
+	let boardId		 = null;
 
 	describe('POST', function () {
 		const userTest = {
@@ -118,7 +119,7 @@ describe('User controller testing ' , function () {
 				.post(usersUrl + userObjectId + '/boards')
 				.send(userOrgBoardTest)
 				.end(function(err, res) {
-					boardId = res.res.body.data.boards[0]._id;
+					userBoardId = res.res.body.data.boards[0]._id;
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -725,50 +726,11 @@ describe('User controller testing ' , function () {
 
 	describe('DELETE', function () {
 
-		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
+		it (usersUrl + ':id/boards/:idBoard/boardstars', function (done) {
 			chai.request(app)
-				.delete(usersUrl + 'fdsfds' + '/boardstars/' + boardStarId)
+				.delete(usersUrl + userObjectId + '/boards/' + userBoardId + '/boardstars/')
 				.end(function(err, res) {
-					assert.equal(res.status, '400', 'status equals 400');
-
-					done();
-				});
-		});
-
-		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
-			chai.request(app)
-				.delete(usersUrl + userObjectId + '/boardstars/' + 'fdfs')
-				.end(function(err, res) {
-					assert.equal(res.status, '400', 'status equals 400');
-
-					done();
-				});
-		});
-
-		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
-			chai.request(app)
-				.delete(usersUrl + mongoose.Types.ObjectId() + '/boardstars/' + boardStarId)
-				.end(function(err, res) {
-					assert.equal(res.status, '400', 'status equals 400');
-
-					done();
-				});
-		});
-
-		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
-			chai.request(app)
-				.delete(usersUrl + userObjectId + '/boardstars/' + mongoose.Types.ObjectId())
-				.end(function(err, res) {
-					assert.equal(res.status, '400', 'status equals 400');
-
-					done();
-				});
-		});
-
-		it (usersUrl + ':id/boardstars/:idBoardStar', function (done) {
-			chai.request(app)
-				.delete(usersUrl + userObjectId + '/boardstars/' + boardStarId)
-				.end(function(err, res) {
+					log.info(err);
 					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
@@ -838,6 +800,56 @@ describe('User controller testing ' , function () {
 		it (usersUrl + ':id/organizations/:idOrganization/boards/:idBoard', function (done) {
 			chai.request(app)
 				.delete(usersUrl + userObjectId + '/organizations/' + orgObjectId + '/boards/' + boardId)
+				.end(function(err, res) {
+					assert.equal(res.status, '200', 'status equals 200');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + 'fdvc' + '/boards/' + userBoardId)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + mongoose.Types.ObjectId() + '/boards/' + userBoardId)
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/boards/' + 'fdgdfgd')
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/boards/' + mongoose.Types.ObjectId())
+				.end(function(err, res) {
+					assert.equal(res.status, '400', 'status equals 400');
+
+					done();
+				});
+		});
+
+		it (usersUrl + ':id/boards/:idBoard', function (done) {
+			chai.request(app)
+				.delete(usersUrl + userObjectId + '/boards/' + userBoardId)
 				.end(function(err, res) {
 					assert.equal(res.status, '200', 'status equals 200');
 

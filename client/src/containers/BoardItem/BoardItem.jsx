@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 
-import { addBoard } from '../../redux/modules/home';
+import { addBoard, openModal, addBoardStar, removeBoardStar } from '../../redux/modules/board';
+import { Form} from '../../containers/index';
 
 import './BoardItem.css';
 
 const propTypes = {
+  userId: PropTypes.string.isRequired,
+  organizationId: PropTypes.string.isRequired,
+  boardItemId: PropTypes.string,
   isActiveBoard: PropTypes.bool.isRequired,
   organizationName: PropTypes.string,
   isStarredBoardItem: PropTypes.bool,
@@ -15,19 +19,20 @@ const propTypes = {
 
 const defaultTypes = {
   organizationName: '',
-  isStarredBoardItem: false
+  isStarredBoardItem: false,
+  boardItemId: ''
 }
 
-class BoardItem extends Component {
-  constructor(props) {
-    super(props);
-    this.addBoard = this.addBoard.bind(this);
-  }
+let organizationId = '';
 
+class BoardItem extends Component {
   render() {
     return (
       <li className="Board-Item">
         { this.isActiveBoard() }
+        <Form 
+          isModalOpen={this.props.isModalOpen} 
+          onSubmit={this.addBoard} />
       </li>
     );
   }
@@ -35,7 +40,7 @@ class BoardItem extends Component {
   isActiveBoard() {
     if (this.props.isActiveBoard) {
       return (
-        <div className="Board-Tile" onClick={() => { this.addBoard(this) }}>
+        <div className="Board-Tile">
           <span className="Board-Tile-Title">
             <span className="Board-Tile-Title-Name">{ this.props.boardName }</span>
             { this.getBoardItemSubName() }
@@ -46,16 +51,10 @@ class BoardItem extends Component {
     }
 
     return (
-      <div className="Board-Tile-Add" onClick={() => { this.addBoard(this) }}>
+      <div className="Board-Tile-Add" onClick={ this.openModal }>
         <span>{ this.props.boardName }</span>
       </div>
     )
-  }
-
-  addBoard(board) {
-    const { dispatch, organizationId, user } = this.props;
-    
-    dispatch(addBoard(user._id, organizationId, 'TT'));
   }
 
   getBoardItemSubName() {
@@ -69,27 +68,56 @@ class BoardItem extends Component {
   }
 
   isStarredBoard() {
+
     if (this.props.isStarredBoardItem) {
-      return <FontAwesome name="star-o" className="Board-Item-Tile-Option Board-Item-Tile-Starred" />
+      return (
+        <FontAwesome 
+          name="star-o" 
+          className="Board-Item-Tile-Option Board-Item-Tile-Starred" 
+          onClick={ this.starOrUnstarBoard }
+        />
+      )
     }
 
-    return <FontAwesome name="star-o" className="Board-Item-Tile-Option" />
+    return (
+      <FontAwesome name="star-o" className="Board-Item-Tile-Option" onClick={ this.starOrUnstarBoard }/>
+    )
+  }
+
+  addBoard = (formInput) => {
+    const { dispatch, userId } = this.props;
+
+    dispatch(addBoard(userId, organizationId, formInput.name));
+  }
+
+  openModal = (event) => {
+    event.preventDefault();
+
+    organizationId = this.props.organizationId;
+
+    this.props.dispatch(openModal({isModalOpen: true}))
+	}
+
+  starOrUnstarBoard = () => {
+    const { userId, isStarredBoardItem, boardId, organizationId, dispatch } = this.props;
+
+    if (isStarredBoardItem) {
+      dispatch(removeBoardStar(userId, organizationId, boardId));
+    } else {
+      dispatch(addBoardStar(userId, organizationId, boardId));
+    }
   }
 }
 
 function mapStateToProps(state) {
-  const { isBoardFetchingSuccessful } = state.home;
-  const { isBoardFetching } = state.home;
-  const { user } = state.authentication;
+  const { userId } = state.user;
 
   return {
-    isBoardFetchingSuccessful,
-    isBoardFetching,
-    user
+    userId
   };
 }
 
 BoardItem.propTypes = propTypes;
-BoardItem.defaultTypes = propTypes;
+BoardItem.defaultTypes = defaultTypes;
 
 export default connect(mapStateToProps)(BoardItem);

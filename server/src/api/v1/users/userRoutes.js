@@ -65,12 +65,20 @@ router.delete('/:id/organizations/:idOrganization', (req, res) => {
   userController.removeOrganization(req, res);
 });
 
+router.delete('/:id/boards/:idBoard', (req, res) => {
+  userController.removeUserBoard(req, res);
+});
+
 router.delete('/:id/organizations/:idOrganization/boards/:idBoard', (req, res) => {
   userController.removeBoard(req, res);
 });
 
-router.delete('/:id/boardstars/:idBoardStar', (req, res) => {
+router.delete('/:id/organizations/:idOrganization/boards/:idBoard/boardstars', (req, res) => {
   userController.removeBoardStar(req, res);
+});
+
+router.delete('/:id/boards/:idBoard/boardstars', (req, res) => {
+  userController.removeUserBoardStar(req, res);
 });
 
 module.exports = router;
