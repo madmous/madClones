@@ -27,38 +27,6 @@ function formatResponse(pUser) {
   } 
 }
 
-userController.findAll = (req, res) => {
-  async.waterfall([  
-    (callback) => {
-      userModel.
-        find().
-        select('name fullname initials email boards boardStars organizations').
-        exec(callback);
-    },
-    (user, callback) =>{
-      if (!user) {
-        callback({error: 'Error getting users'});
-      } else {
-        callback(null, user);
-      }
-    }
-  ], (error, users) => { 
-    if (error) {
-      return res.status(500).json({
-        data: {
-          error : [error]
-        }
-      });
-    } 
-
-    return res.status(200).json({
-      data: {
-        users
-      }
-    });
-  });
-};
-
 userController.findById = (req, res) => {
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
