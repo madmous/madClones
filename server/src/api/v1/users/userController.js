@@ -46,7 +46,7 @@ userController.findAll = (req, res) => {
     if (error) {
       return res.status(500).json({
         data: {
-          error
+          error : [error]
         }
       });
     } 
@@ -182,7 +182,7 @@ userController.findBoardsByOrganization = (req, res) => {
 userController.save = (req, res) => {
   async.waterfall([
     (callback) => {
-      let cbErrorMsg = {};
+      let cbErrorMsg = [];
 
       const isNameValid = req.body.name !== undefined;
       const isFullNameValid = req.body.fullname !== undefined;
@@ -191,23 +191,23 @@ userController.save = (req, res) => {
       const isPasswordValid = req.body.password !== undefined;
 
       if (!isNameValid) {
-        cbErrorMsg.missingNameError = 'Please enter your name'; 
+        cbErrorMsg.push('Please enter your name'); 
       } 
 
       if (!isFullNameValid) {
-        cbErrorMsg.missingFullNameError = 'Please enter your full name'; 
+        cbErrorMsg.push('Please enter your full name'); 
       } 
 
       if (!isInitialsValid) {
-        cbErrorMsg.missingInitialsError = 'Please enter your initials'; 
+        cbErrorMsg.push('Please enter your initials'); 
       } 
 
       if (!isEmailValid) {
-        cbErrorMsg.missingEmailError = 'Please enter your email'; 
+        cbErrorMsg.push('Please enter your email'); 
       } 
 
       if (!isPasswordValid) {
-        cbErrorMsg.missingPasswordError = 'Please enter your password';
+        cbErrorMsg.push('Please enter your password');
       } 
 
       if (!isNameValid || 
@@ -266,23 +266,23 @@ userController.save = (req, res) => {
 };
 
 userController.saveOrganization = (req, res) => {
-  let cbErrorMsg = {};
+  let cbErrorMsg = [];
 
   const isNameValid = req.body.name !== undefined;
   const isDisplayNameValid = req.body.displayName !== undefined;
 
   if (!isNameValid) {
-    cbErrorMsg.missingNameError = 'Please enter an organization name'; 
+    cbErrorMsg.push('Please enter an organization name'); 
   } 
 
   if (!isDisplayNameValid) {
-    cbErrorMsg.missingDisplayNameError = 'Please enter an organization display name';
+    cbErrorMsg.push('Please enter an organization display name');
   }
 
   if (!isNameValid || !isDisplayNameValid) {
     return res.status(400).json({
       data: {
-        error: cbErrorMsg
+        uiError: cbErrorMsg
       }
     });
   }
@@ -339,11 +339,14 @@ userController.saveOrganization = (req, res) => {
 };
 
 userController.saveUserBoard = (req, res) => {
+  const errorMessage = [];
 
   if (req.body.name === undefined) {
+    errorMessage.push('Please enter a board name');
+
     return res.status(400).json({
       data: {
-        error: 'Please enter a board name'
+        uiError: errorMessage
       }
     });
   }
@@ -398,11 +401,14 @@ userController.saveUserBoard = (req, res) => {
 };
 
 userController.saveBoard = (req, res) => {
+  const errorMessage = [];
 
   if (req.body.name === undefined) {
+    errorMessage.push('Please enter a board name');
+
     return res.status(400).json({
       data: {
-        error: 'Please enter a board name'
+        uiError: errorMessage
       }
     });
   }
@@ -410,7 +416,7 @@ userController.saveBoard = (req, res) => {
   if(!objectIdRegex.test(req.params.id)) {
     return res.status(400).json({
       data: {
-        error: 'Please enter a valid user id'
+        error: 'Please enter a valid userId'
       }
     });
   } else if (!objectIdRegex.test(req.params.idOrganization)) {
@@ -454,6 +460,7 @@ userController.saveBoard = (req, res) => {
         }
       }
     ], (error, user) => { 
+      
       if (error) {
         return res.status(400).json({
           data: {

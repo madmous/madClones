@@ -2,8 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 
-import { addBoard, openModal, addBoardStar, removeBoardStar } from '../../redux/modules/board';
-import { Form} from '../../containers/index';
+import { addBoard, addBoardStar, removeBoardStar } from '../../redux/modules/board';
+import { closeAllModals, openCreateBoardModal } from '../../redux/modules/modals';
+
+import { CreateBoard } from '../../containers/index';
 
 import './BoardItem.css';
 
@@ -30,9 +32,7 @@ class BoardItem extends Component {
     return (
       <li className="Board-Item">
         { this.isActiveBoard() }
-        <Form 
-          isModalOpen={this.props.isModalOpen} 
-          onSubmit={this.addBoard} />
+        <CreateBoard onSubmit={this.addBoard} />
       </li>
     );
   }
@@ -93,9 +93,11 @@ class BoardItem extends Component {
   openModal = (event) => {
     event.preventDefault();
 
+    const { dispatch } = this.props;
     organizationId = this.props.organizationId;
 
-    this.props.dispatch(openModal({isModalOpen: true}))
+    dispatch(closeAllModals());
+    dispatch(openCreateBoardModal());
 	}
 
   starOrUnstarBoard = () => {

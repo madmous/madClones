@@ -1,21 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import FontAwesome from 'react-fontawesome';
 
+import { closeCreateBoardModal } from '../../../redux/modules/modals';
 
-import { closeModal } from '../../redux/modules/board';
+import '../Form.css'
 
-import './Form.css'
+const propTypes = {
+  isCreateBoardModalOpen: PropTypes.bool.isRequired
+}
 
-class ContactForm extends Component {
+class CreateBoard extends Component {
   render() {
     const { handleSubmit } = this.props;
 		
     return (
 			<div className={this.getClassName()}>
 				<div className="Form-Header">
-					<span className="Form-Header-Title">Create Board</span>
-					<a href="#" className="Form-Header-Close" onClick={(event) => { this.closeModal() }}></a>
+					<span className="Form-Header-Title">Create Board 
+						<FontAwesome 
+							name="times" 
+							className="Form-Header-Close-Button" 
+							onClick={(event) => { this.closeModal() }} 
+						/>
+					</span>
 				</div>
 				<div>
 					<form onSubmit={handleSubmit}>
@@ -39,7 +48,7 @@ class ContactForm extends Component {
   }
 
 	getClassName() {
-		if (this.props.isModalOpen) {
+		if (this.props.isCreateBoardModalOpen) {
 			return "Form Form-Shown"
 		}
 
@@ -47,21 +56,23 @@ class ContactForm extends Component {
 	}
 
 	closeModal() {
-		this.props.dispatch(closeModal({isModalOpen: false}))
+		this.props.dispatch(closeCreateBoardModal())
 	}
 }
 
-ContactForm = reduxForm({
-  form: 'contact' // a unique name for this form
-})(ContactForm);
+CreateBoard = reduxForm({
+  form: 'createBoardForm' // a unique name for this form
+})(CreateBoard);
 
 function mapStateToProps(state) {
-	const { isModalOpen } = state.board;
+	const { isCreateBoardModalOpen } = state.modals;
 
 	return {
-		isModalOpen
+		isCreateBoardModalOpen
 	}
 }
 
-export default connect(mapStateToProps)(ContactForm);
+CreateBoard.propTypes = propTypes;
+
+export default connect(mapStateToProps)(CreateBoard);
 

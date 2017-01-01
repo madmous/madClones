@@ -37,7 +37,7 @@
   text-align: center;
 }
 
-.Form-Header span {
+.Form-Header-Title {
 	text-align: center;
 	box-sizing: border-box;
 	color: #8c8c8c;
@@ -53,20 +53,10 @@
 	z-index: 1;
 }
 
-.Form-Header-Close {
-	display: inline-block;
-	font-family: trellicons;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font-style: normal;
-	font-weight: 400;
-	text-align: center;
-	text-decoration: none;
-	color: #999;
+.Form-Header-Close-Button {
 	height: 18px;
 	line-height: 18px;
 	width: 18px;
-	font-size: 9pt;
 	padding: 10px 10px 10px 4px;
 	position: absolute;
 	top: 0;
@@ -74,8 +64,9 @@
 	z-index: 2;
 }
 
-.Form-Header-Close:before {
-    content: "\e915";
+.Form-Header-Close-Button:hover {
+	cursor: pointer;
+	color: black;
 }
 
 .Form-SubmitButton {

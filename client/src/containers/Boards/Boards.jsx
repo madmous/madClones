@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { addOrganization } from '../../redux/modules/organization';
+import { closeAllModals, openCreateOrganizationModal } from '../../redux/modules/modals';
+
 import { Board } from '../../components/index';
+import { CreateOrganization} from '../../containers/index';
 
 import './Boards.css';
 
@@ -20,14 +24,16 @@ class Boards extends Component {
         { this.getOrganizationBoards() }
 
         <div className="Boards-Create">
-          <span>Create a new team...</span>
+          <span onClick={ this.openModal }>Create a new team...</span>
         </div>
+
+        <CreateOrganization onSubmit={this.addOrganization} />
       </div>
     );
   }
 
   getStarredBoards() {
-    const { starredBoards, organizationId } = this.props;
+    const { starredBoards } = this.props;
 
     let starredBoard = null;
 
@@ -87,9 +93,25 @@ class Boards extends Component {
 
     return organizationItem;
   }
+
+  addOrganization = (formInput) => {
+    const { dispatch, userId } = this.props;
+
+    dispatch(addOrganization(userId, formInput.name));
+  }
+
+  openModal = (event) => {
+    const { dispatch } = this.props
+    event.preventDefault();
+
+    dispatch(closeAllModals());
+    dispatch(openCreateOrganizationModal());
+	}
 }
 
 function mapStateToProps(state) {
+  const { userId } = state.user;
+
   const { starredBoards } = state.starredBoard;
   const { organizations } = state.organization;
   const { boards } = state.board;
@@ -98,6 +120,8 @@ function mapStateToProps(state) {
   const { isFetchingSuccessful } = state.authentication;
 
   return {
+    userId, 
+
     starredBoards,
     organizations,
     boards,

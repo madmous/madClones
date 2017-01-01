@@ -8,3 +8,4 @@ This project was entirely written from scratch.
 
 * Normalize the response before sending it back
 * Replace callbacks with promises
+* Add passport library

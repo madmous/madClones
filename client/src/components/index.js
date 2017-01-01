@@ -7,6 +7,8 @@ import Header from './Header/Header';
 import HeaderBoard from './HeaderBoard/HeaderBoard';
 import HeaderSearch from './HeaderSearch/HeaderSearch';
 
+import Notification from './Notification/Notification';
+
 export { 
 	Board,
 	BoardOptions,
@@ -15,5 +17,7 @@ export {
 
 	Header,
 	HeaderBoard,
-	HeaderSearch
+	HeaderSearch,
+
+	Notification
 }

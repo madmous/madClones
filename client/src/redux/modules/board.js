@@ -2,6 +2,9 @@ import fetch from 'isomorphic-fetch'
 
 import { updateOrganizations } from './organization'
 import { updateStarredBoards } from './starredBoard'
+import { updateNotification } from './notification'
+import { hideNotification } from './notification'
+import { closeAllModals } from './modals'
 
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
@@ -9,6 +12,7 @@ export const UPDATE_BOARDS = 'UPDATE_BOARDS'
 
 export const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST'
 export const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS'
+export const ADD_BOARD_FAIL = 'ADD_BOARD_FAIL'
 
 export const STAR_BOARD = 'STAR_BOARD'
 export const UNSTAR_BOARD = 'UNSTAR_BOARD'
@@ -30,6 +34,13 @@ function addBoardRequest() {
 function addBoardSuccess() {
   return {
     type: ADD_BOARD_SUCCESS
+  }
+}
+
+function addBoardFail(payload) {
+  return {
+    type: ADD_BOARD_FAIL,
+    payload
   }
 }
 
@@ -92,6 +103,49 @@ export function closeModal(payload) {
 	}
 }
 
+export function addBoard(userId, orgId, boardName) {
+
+  if (orgId) {
+    return saveBoard(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards`, boardName);
+  }
+
+  return saveBoard(`http://localhost:3001/api/v1/users/${userId}/boards`, boardName);
+}
+
+function saveBoard(url, boardName) {
+  return dispatch => {
+    dispatch(addBoardRequest())
+
+    return fetch(url, 
+      { method: 'POST', 
+        body: JSON.stringify({
+          name: boardName
+        }),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+      })
+      .then(response => response.json())
+      .then(json => {
+        const jsonData = json.data;
+
+        if (jsonData.uiError || jsonData.error) {
+          dispatch(addBoardFail(jsonData));
+          dispatch(updateNotification(jsonData.uiError));
+
+          setTimeout(() => {
+            dispatch(hideNotification())
+          }, 3000)
+        } else {
+          dispatch(closeAllModals());
+          dispatch(addBoardSuccess());
+          dispatch(updateBoards(jsonData));
+          dispatch(updateOrganizations(jsonData));
+        }
+      })
+  }
+}
+
 export function addBoardStar(userId, orgId, boardId) {
 
   if (orgId === '') {
@@ -128,18 +182,21 @@ function saveBoardStar(url, method) {
       .then(response => response.json())
       .then(json => {
         const jsonData = json.data;
+        const jsonDataError = jsonData.error;
 
         if (method === 'POST') {
 
-          if (jsonData.error) {
+          if (jsonDataError) {
             dispatch(starBoardFail(jsonData));
+            dispatch(updateNotification(jsonDataError));
           } else {
             dispatch(starBoardSuccess());
           }
         } else if (method === 'DELETE') {
 
-          if (jsonData.error) {
+          if (jsonDataError) {
             dispatch(unstarBoardFail(jsonData));
+            dispatch(updateNotification(jsonDataError));
           } else {
             dispatch(unstarBoardSuccess());
           }
@@ -152,37 +209,6 @@ function saveBoardStar(url, method) {
         }
       }
     )
-  }
-}
-
-export function addBoard(userId, orgId, boardName) {
-
-  if (orgId) {
-    return saveBoard(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards`, boardName);
-  }
-
-  return saveBoard(`http://localhost:3001/api/v1/users/${userId}/boards`, boardName);
-}
-
-function saveBoard(url, boardName) {
-  return dispatch => {
-    dispatch(addBoardRequest())
-
-    return fetch(url, 
-      { method: 'POST', 
-        body: 'name=' + boardName,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-        },
-      })
-      .then(response => response.json())
-      .then(json => {
-        const jsonData = json.data;
-
-        dispatch(addBoardSuccess());
-        dispatch(updateBoards(jsonData));
-        dispatch(updateOrganizations(jsonData));
-      })
   }
 }
 
@@ -206,6 +232,12 @@ export default function board(state = initialState, action) {
       return Object.assign({}, state, {
         isBoardFetchingSuccessful: true,
         isBoardFetching: false
+      })
+    case ADD_BOARD_FAIL:
+      return Object.assign({}, state, {
+        isBoardFetchingSuccessful: false,
+        isBoardFetching: false,
+        errorMessage: action.payload.error
       })
     case STAR_BOARD_REQUEST:
       return Object.assign({}, state, {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Header } from '../../components/index';
+import { Header, Notification } from '../../components/index';
 import { Boards} from '../../containers/index';
 
 import { getUser } from '../../redux/modules/authentication';
@@ -19,17 +19,30 @@ class Home extends Component {
       <div className="Home">
         <Header />
         <Boards />
+        { this.getNotificationErrorMessage() }
       </div>
     );
+  }
+
+  getNotificationErrorMessage() {
+    const { errorMessages } = this.props;
+
+    if (errorMessages && errorMessages.length > 0) {
+      return (
+        <Notification errorMessages={errorMessages} />
+      )
+    }
   }
 }
 
 function mapStateToProps(state) {
   const { userId, fullName } = state.user;
+  const { errorMessages } = state.notification;
 
   return {
-    userId,
-    fullName
+    errorMessages,
+    fullName,
+    userId
   };
 }
 

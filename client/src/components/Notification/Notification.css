@@ -1,0 +1,21 @@
+.Notification {
+	position: fixed;
+	right: 4px;
+	top: 40px;
+	z-index: 21;
+	max-width: 270px;
+
+	background-color: #EB5A46;
+  border-color: #F5D3CE;
+
+	border-radius: 3px;
+	margin-top: 4px;
+	overflow: hidden;
+	padding: 4px 8px;
+}
+
+.Notification-Item {
+	border-radius: 3px;
+	color: #fff;
+	font-weight: 700;
+}
