@@ -1,16 +1,20 @@
 'use strict';
 
 const bodyParser = require ('body-parser');
+const passport   = require ('passport');
 const express    = require ('express');
 const winston    = require ('winston');
 const helmet     = require ('helmet');
 
-const userRoutes = require ('./api/v1/users/userRoutes');
+const loginRoutes = require ('./api/v1/login/loginRoutes');
+const userRoutes  = require ('./api/v1/users/userRoutes');
 
 const config  = require ('./config/config');
 const log     = require ('./libs/winston')(module);
 const dbTest  = require ('./config/dbTest');
 const db      = require ('./config/db');
+
+const passportController = require ('./utils/passportController');
 
 const port = 3001;
 
@@ -31,7 +35,7 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 app.use(allowCrossDomain);
-
+app.use(passport.initialize());
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -39,6 +43,7 @@ app.use(bodyParser.json());
 app.disable('x-powered-by');
 
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/login', passportController.isAuthenticated, loginRoutes);
 
 app.get('*', (req, res) => {
 	res.status(404).json({
