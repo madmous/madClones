@@ -3,7 +3,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Main Libraries
 
 * Redux
-* React router
+* React Router
+* React Router Redux
 * Redux Form
 * Font Awesome
 
