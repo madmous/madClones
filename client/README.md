@@ -1,5 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+## Main Libraries
+
+* Redux
+* React router
+* Redux Form
+* Font Awesome
+
 ## Achievements
 
 * Add redux and hook it up with the react application

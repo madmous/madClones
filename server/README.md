@@ -1,5 +1,11 @@
 This project was entirely written from scratch.
 
+## Main Libraries
+
+* Passport (basic and jwt strategies)
+* JWT simple
+* Winston
+
 ## Achievements
 
 * Reach 91.67% test coverage

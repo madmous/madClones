@@ -1,3 +1,5 @@
+This repo is under active development. I am working on it daily and will release the 1.0.0 very soon.
+
 ## Description
 
 [Trello](http://trello.com) clone being built with NodeJS, Express, MongoDB, React and Redux.
@@ -9,8 +11,6 @@ all the coding standard and best practices.
 ## Main technologies
 
 * React (react-create-app)
-* Redux
-* Bootstrap
 * NodeJS
 * Express
 * MongoDB
