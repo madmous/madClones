@@ -13,5 +13,7 @@ This project was entirely written from scratch.
 
 ## Areas for Improvements / involvement
 
+* Refactor userController into multiple controllers : users, organizations, boards
 * Replace callbacks with promises
+* Add a loginController
 * Add passport library
