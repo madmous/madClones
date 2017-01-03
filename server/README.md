@@ -9,9 +9,9 @@ This project was entirely written from scratch.
 ## Achievements
 
 * Reach 91.67% test coverage
+* Improve the database schema and send back a response that can be used without normalizing it
 
 ## Areas for Improvements / involvement
 
-* Normalize the response before sending it back
 * Replace callbacks with promises
 * Add passport library
