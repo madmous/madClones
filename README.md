@@ -1,19 +1,20 @@
-This repo is under active development. I am working on it daily and will release the 1.0.0 very soon.
+This repo is under active development. I am working on it daily and will release the 1.0.0 very soon. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
 
 ## Description
 
-[Trello](http://trello.com) clone being built with NodeJS, Express, MongoDB, React and Redux.
+[Trello](http://trello.com) clone being built with MongoDB, Express, React, NodeJS; my mean stack revisited.
 
-Web addict and javascript passionate. I am curious by anything new and learn frameworks by cloning amazing apps.
 I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
 all the coding standard and best practices.
 
 ## Main technologies
 
+* MongoDB
+* Express
 * React
 * NodeJS
-* Express
-* MongoDB
+
+
 
 ## Support
 
@@ -96,8 +97,8 @@ These are the steps to see your changes in develop.
 * Make UI responsive
 * Add enzyme
 
-## Credits, Inspiration, Alternatives
-
 ## Repository structure
 
 The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which is the react application and the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which is the express server.
+
+I am very happy with the way both applications are structured and working daily to improve on it.
