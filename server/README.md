@@ -13,7 +13,9 @@ This project was entirely written from scratch.
 
 ## Areas for Improvements / involvement
 
-* Refactor userController into multiple controllers : users, organizations, boards
+* Add unit tests for new controllers
 * Replace callbacks with promises
-* Add a loginController
-* Add passport library
+
+--
+
+* Added basic authentication for login and token authentication on all remaining routes

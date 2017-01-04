@@ -16,7 +16,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Areas for Improvements / involvement
 
 * Add a white background color to each board section (star, user and users)
-* Add a login section
 * Make UI responsive
-* Add react router
 * Add enzyme

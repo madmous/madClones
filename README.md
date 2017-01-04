@@ -89,9 +89,6 @@ These are the steps to see your changes in develop.
 
 * Release version 1.0.0
 * Add a white background color to each board section (star, user and users)
-* Work on a better model for the store and the response from server
-* Add react router and react router redux
-* Add a login section
 * Make UI responsive
 * Add enzyme
 
