@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
+import { routerReducer } from 'react-router-redux'
 
 import authentication from './authentication'
 import organization from './organization'
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   modals,
   board,
   form: formReducer,
-  user
+  user,
+  routing: routerReducer
 })
 
 export default rootReducer;

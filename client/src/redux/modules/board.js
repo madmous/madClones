@@ -106,10 +106,10 @@ export function closeModal(payload) {
 export function addBoard(userId, orgId, boardName) {
 
   if (orgId) {
-    return saveBoard(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards`, boardName);
+    return saveBoard(`http://localhost:3001/api/v1/organizations/${orgId}/boards`, boardName);
   }
 
-  return saveBoard(`http://localhost:3001/api/v1/users/${userId}/boards`, boardName);
+  return saveBoard(`http://localhost:3001/api/v1/boards`, boardName);
 }
 
 function saveBoard(url, boardName) {
@@ -122,7 +122,8 @@ function saveBoard(url, boardName) {
           name: boardName
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'JWT ' + localStorage.getItem('userId')
         },
       })
       .then(response => response.json())
@@ -149,18 +150,18 @@ function saveBoard(url, boardName) {
 export function addBoardStar(userId, orgId, boardId) {
 
   if (orgId === '') {
-    return saveBoardStar(`http://localhost:3001/api/v1/users/${userId}/boards/${boardId}/boardstars`, 'POST');
+    return saveBoardStar(`http://localhost:3001/api/v1/boards/${boardId}/boardstars`, 'POST');
   }
 
-  return saveBoardStar(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
+  return saveBoardStar(`http://localhost:3001/api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
 }
 
 export function removeBoardStar(userId, orgId, boardId) {
   if (orgId === '') {
-    return saveBoardStar(`http://localhost:3001/api/v1/users/${userId}/boards/${boardId}/boardstars`, 'DELETE');
+    return saveBoardStar(`http://localhost:3001/api/v1/boards/${boardId}/boardstars`, 'DELETE');
   }
 
-  return saveBoardStar(`http://localhost:3001/api/v1/users/${userId}/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
+  return saveBoardStar(`http://localhost:3001/api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
 }
 
 function saveBoardStar(url, method) {
@@ -176,7 +177,8 @@ function saveBoardStar(url, method) {
     return fetch(url, 
       { method: method, 
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+          'Authorization': 'JWT ' + localStorage.getItem('userId')
         },
       })
       .then(response => response.json())

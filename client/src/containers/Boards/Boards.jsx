@@ -60,7 +60,7 @@ class Boards extends Component {
 
     let personalBoard = null;
 
-    if (this.canBoardsBeRendered() && boards && boards.length > 0) {
+    if (this.canBoardsBeRendered() && boards) {
       personalBoard = (
         <Board 
           displayBoardOptions={false}

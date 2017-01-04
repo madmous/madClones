@@ -10,30 +10,20 @@ const userModel = models.userModel;
 
 let loginController = {};
 
-function formatResponse(pUser) {
-  return {
-    user: {
-      _id: pUser._id,
-      fullname: pUser.fullname,
-    },
-    boards: pUser.boards,
-    organizations: pUser.organizations,
-    starredBoards: pUser.boardStars
-  } 
-}
-
 loginController.authenticate = (req, res) => {
 
-	if (req.err) {
-		return res.status(400).json({
-			data: {
-				error: req.err
+	const token = req.user;
+
+  if (!token) {
+    return res.status(404).json({
+      error : req.err
+    });
+  } else {
+    return res.status(200).json({
+      data: {
+				token: token
 			}
-		});
-	} else if(req.user) {
-		return res.status(200).json({
-			data: formatResponse(req.user)
-		});
+    });
 	}
 };
 

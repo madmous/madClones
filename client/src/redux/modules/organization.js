@@ -53,7 +53,7 @@ export function closeModal(payload) {
 }
 
 export function addOrganization(userId, organizationName) {
-  return saveOrganization(`http://localhost:3001/api/v1/users/${userId}/organizations`, organizationName);
+  return saveOrganization(`http://localhost:3001/api/v1/organizations`, organizationName);
 }
 
 function saveOrganization(url, organizationName) {
@@ -67,7 +67,8 @@ function saveOrganization(url, organizationName) {
           displayName: organizationName,
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'JWT ' + localStorage.getItem('userId')
         },
       })
       .then(response => response.json())

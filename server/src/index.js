@@ -6,15 +6,18 @@ const express    = require ('express');
 const winston    = require ('winston');
 const helmet     = require ('helmet');
 
-const loginRoutes = require ('./api/v1/login/loginRoutes');
-const userRoutes  = require ('./api/v1/users/userRoutes');
+const organizationRoutes  = require ('./api/v1/organizations/organizationRoutes');
+const signUpRoutes        = require ('./api/v1/signUp/signUpRoutes');
+const boardRoutes         = require ('./api/v1/board/boardRoutes');
+const loginRoutes         = require ('./api/v1/login/loginRoutes');
+const userRoutes          = require ('./api/v1/users/userRoutes');
 
 const config  = require ('./config/config');
 const log     = require ('./libs/winston')(module);
 const dbTest  = require ('./config/dbTest');
 const db      = require ('./config/db');
 
-const passportController = require ('./utils/passportController');
+const passportMiddleweare = require ('./utils/passportMiddleweare');
 
 const port = 3001;
 
@@ -42,8 +45,11 @@ app.use(bodyParser.json());
 
 app.disable('x-powered-by');
 
-app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/login', passportController.isAuthenticated, loginRoutes);
+app.use('/api/v1/login', passportMiddleweare.isAuthenticatedWithBasic, loginRoutes);
+app.use('/api/v1/signup', signUpRoutes);
+app.use('/api/v1/users', passportMiddleweare.isAuthenticatedWithToken, userRoutes);
+app.use('/api/v1/organizations', passportMiddleweare.isAuthenticatedWithToken, organizationRoutes);
+app.use('/api/v1/boards', passportMiddleweare.isAuthenticatedWithToken, boardRoutes);
 
 app.get('*', (req, res) => {
 	res.status(404).json({

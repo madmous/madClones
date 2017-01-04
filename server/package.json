@@ -27,6 +27,7 @@
     "express-graphql": "^0.6.1",
     "global": "^4.3.1",
     "helmet": "^3.1.0",
+    "jwt-simple": "^0.5.1",
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0",
     "nodemon": "^1.11.0",
