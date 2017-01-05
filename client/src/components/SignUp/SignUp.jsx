@@ -6,7 +6,7 @@ import { signUp } from '../../redux/modules/authentication';
 
 import './SignUp.css';
 
-class SignUp extends Component {
+export default class SignUp extends Component {
   render() {
     return (
       <div className="SignUp">
@@ -16,16 +16,6 @@ class SignUp extends Component {
   }
 
   signUp = (formInput) => {
-    this.props.dispatch(signUp(formInput));
+    this.props.authenticationActions.signUp(formInput);
   }
 }
-
-function mapStateToProps(state) {
-  const { isAuthenticatingSuccessful } = state.authentication;
-
-  return {
-    isAuthenticatingSuccessful
-  };
-}
-
-export default connect(mapStateToProps)(SignUp);

@@ -8,15 +8,15 @@ import { closeAllModals } from './modals'
 import { updateBoards } from './board'
 import { updateUser } from './user'
 
-export const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
-export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
+const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
+const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
 
-export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
-export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
-export const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
+const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
+const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
+const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
 
-export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
-export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
+const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
 
 function authenticationRequest() {
   return {

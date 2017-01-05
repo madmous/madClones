@@ -7,7 +7,7 @@ import { LoginForm } from '../../containers/index';
 
 import './Login.css';
 
-class Login extends Component {
+export default class Login extends Component {
   render() {
     return (
       <div className="Login">
@@ -17,16 +17,6 @@ class Login extends Component {
   }
 
   authenticate = (formInput) => {
-    this.props.dispatch(authenticate(formInput.username, formInput.password));
+    this.props.authenticationActions.authenticate(formInput.username, formInput.password);
   }
 }
-
-function mapStateToProps(state) {
-  const { isAuthenticatingSuccessful } = state.authentication;
-
-  return {
-    isAuthenticatingSuccessful
-  };
-}
-
-export default connect(mapStateToProps)(Login);

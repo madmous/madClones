@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { Header, Notification } from '../../components/index';
 import { Boards} from '../../containers/index';
 
-import { getUser } from '../../redux/modules/authentication';
-
 import './Home.css';
 
-class Home extends Component {
+export default class Home extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(getUser());
+    this.props.authenticationActions.getUser();
   }
 
   render() {
@@ -34,16 +30,3 @@ class Home extends Component {
     }
   }
 }
-
-function mapStateToProps(state) {
-  const { userId, fullName } = state.user;
-  const { errorMessages } = state.notification;
-
-  return {
-    errorMessages,
-    fullName,
-    userId
-  };
-}
-
-export default connect(mapStateToProps)(Home);
