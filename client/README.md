@@ -12,6 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * Add redux and hook it up with the react application
 * Add redux form to create organizations and boards
+* Refactor structure and organize the application by routes/views
 
 ## Areas for Improvements / involvement
 
@@ -23,3 +24,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * Added a login section
 * Added a signup section to create a new user
+* Added authentication checks to the home route 
