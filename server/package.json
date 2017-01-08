@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "author": "Moustapha Amadou Diouf",
   "license": "MIT",
+  "main": "./src/index.js",
   "scripts": {
     "start": "NODE_ENV=dev node ./src/index",
     "start:debug": "NODE_ENV=dev node --inspect ./src/index",
