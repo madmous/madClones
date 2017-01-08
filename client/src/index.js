@@ -4,9 +4,9 @@ import { Provider } from 'react-redux'
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import HomeContainer from './routes/Home/HomeContainer';
-import LoginContainer from './routes/Login/LoginContainer';
-import SignUpContainer from './routes/SignUp/SignUpContainer';
+import Home from './routes/Home/HomeContainer';
+import Login from './routes/Login/LoginContainer';
+import SignUp from './routes/SignUp/SignUpContainer';
 
 import requiresAuth from './shared/components/requiresAuth/requiresAuth'
 
@@ -20,9 +20,9 @@ const history = syncHistoryWithStore(browserHistory, store)
 ReactDOM.render(
   <Provider store={store}>
      <Router history={history}>
-      <Route path="/login" component={LoginContainer} />
-      <Route path="/signup" component={SignUpContainer} />
-      <Route path="/" component={HomeContainer} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/" component={requiresAuth(Home)} />
     </Router>
   </Provider>,
   document.getElementById('root')
