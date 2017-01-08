@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-import { authenticateUser } from '../../../Login/Login/modules/login'
+import { authenticateUser } from '../../../login/Login/modules/login'
 import { push } from 'react-router-redux';
 
 const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'

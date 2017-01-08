@@ -11,7 +11,7 @@ class LoginForm extends Component {
     return (
 			<div className="Login-Form">
 				<div className="Login-Form-Header">
-					<span className="Login-Form-Header-Title">Log in Trello</span>
+					<span className="Login-Form-Header-Title">Log in Trello Clone</span>
 				</div>
 				<div>
 					<form onSubmit={handleSubmit}>

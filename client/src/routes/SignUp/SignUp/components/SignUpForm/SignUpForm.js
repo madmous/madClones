@@ -11,7 +11,7 @@ class SignUpForm extends Component {
     return (
 			<div className="SignUp-Form">
 				<div className="SignUp-Form-Header">
-					<span className="SignUp-Form-Header-Title">Create a Trello Account</span>
+					<span className="SignUp-Form-Header-Title">Create a Trello Clone Account</span>
 				</div>
 				<div>
 					<form onSubmit={handleSubmit}>

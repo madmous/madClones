@@ -19,9 +19,16 @@ function authenticationSuccess() {
   }
 }
 
-export function authenticateUser() {
+function authenticateUser() {
   return {
     type: AUTHENTICATE_USER
+  }
+}
+
+export function authenticateIfNeeded() {
+  return dispatch => {
+    dispatch(authenticateUser());
+    dispatch(push('/'));
   }
 }
 
