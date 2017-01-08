@@ -1,9 +1,11 @@
 {
   "name": "trello-clone-api",
   "version": "0.1.0",
+  "author": "Moustapha Amadou Diouf",
+  "license": "MIT",
   "scripts": {
-    "start": "node ./src/index",
-    "start:debug": "node --inspect ./src/index",
+    "start": "NODE_ENV=dev node ./src/index",
+    "start:debug": "NODE_ENV=dev node --inspect ./src/index",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.spec.js",
     "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha --inspect --recursive --debug-brk",
     "test:cover": "NODE_ENV=test istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*.spec.js"
@@ -35,5 +37,8 @@
     "passport-http": "^0.3.0",
     "passport-jwt": "^2.2.1",
     "winston": "^2.3.0"
+  },
+  "engines": {
+    "node": "6.9.1"
   }
 }
