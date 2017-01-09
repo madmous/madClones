@@ -91,6 +91,7 @@ These are the steps to see your changes in develop.
 * Add a white background color to each board section (star, user and users)
 * Make UI responsive
 * Add enzyme
+* Add show card feature to board item 
 
 ## Repository structure
 
