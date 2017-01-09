@@ -15,6 +15,7 @@ This project was entirely written from scratch.
 
 * Add unit tests for new controllers
 * Replace callbacks with promises
+* Setup docker for nodejs and mongodb
 
 --
 
