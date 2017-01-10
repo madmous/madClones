@@ -1,7 +1,7 @@
 version: "2"
 services:
   web:
-    image: madmous/trelloClone
+    image: madmous/trelloclone
     ports:
       - "80:80"
     links:
