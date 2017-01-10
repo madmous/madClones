@@ -31,7 +31,7 @@ export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`http://localhost:3001/api/v1/users/`, 
+    return fetch(`api/v1/users/`, 
       { method: 'GET',
         headers: {
           'Authorization': 'JWT ' + localStorage.getItem('userId')

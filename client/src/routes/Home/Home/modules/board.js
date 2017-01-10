@@ -57,10 +57,10 @@ export function closeModal(payload) {
 export function addBoard(userId, orgId, boardName) {
 
   if (orgId) {
-    return saveBoard(`http://localhost:3001/api/v1/organizations/${orgId}/boards`, boardName);
+    return saveBoard(`api/v1/organizations/${orgId}/boards`, boardName);
   }
 
-  return saveBoard(`http://localhost:3001/api/v1/boards`, boardName);
+  return saveBoard(`api/v1/boards`, boardName);
 }
 
 function saveBoard(url, boardName) {

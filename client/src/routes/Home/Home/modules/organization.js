@@ -53,7 +53,7 @@ export function closeModal(payload) {
 }
 
 export function addOrganization(userId, organizationName) {
-  return saveOrganization(`http://localhost:3001/api/v1/organizations`, organizationName);
+  return saveOrganization(`api/v1/organizations`, organizationName);
 }
 
 function saveOrganization(url, organizationName) {

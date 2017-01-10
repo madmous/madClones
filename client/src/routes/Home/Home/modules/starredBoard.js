@@ -60,18 +60,18 @@ function unstarBoardFail(payload) {
 export function addBoardStar(userId, orgId, boardId) {
 
   if (orgId === '') {
-    return saveBoardStar(`http://localhost:3001/api/v1/boards/${boardId}/boardstars`, 'POST');
+    return saveBoardStar(`api/v1/boards/${boardId}/boardstars`, 'POST');
   }
 
-  return saveBoardStar(`http://localhost:3001/api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
+  return saveBoardStar(`api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
 }
 
 export function removeBoardStar(userId, orgId, boardId) {
   if (orgId === '') {
-    return saveBoardStar(`http://localhost:3001/api/v1/boards/${boardId}/boardstars`, 'DELETE');
+    return saveBoardStar(`api/v1/boards/${boardId}/boardstars`, 'DELETE');
   }
 
-  return saveBoardStar(`http://localhost:3001/api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
+  return saveBoardStar(`api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
 }
 
 function saveBoardStar(url, method) {

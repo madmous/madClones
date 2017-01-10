@@ -30,7 +30,7 @@ export function createUser(formInput) {
   return dispatch => {
     dispatch(signUpRequest())
 
-    return fetch(`http://localhost:3001/api/v1/signup`, 
+    return fetch(`api/v1/signup`, 
       { method: 'POST',
         body: JSON.stringify({
           name: formInput.username,

@@ -19,7 +19,7 @@ function authenticationSuccess() {
   }
 }
 
-function authenticateUser() {
+export function authenticateUser() {
   return {
     type: AUTHENTICATE_USER
   }
@@ -36,7 +36,7 @@ export function authenticate(username, password) {
   return dispatch => {
     dispatch(authenticationRequest())
 
-    return fetch(`http://localhost:3001/api/v1/login`, 
+    return fetch(`api/v1/login`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
