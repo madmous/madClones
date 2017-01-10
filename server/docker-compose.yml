@@ -3,7 +3,7 @@ services:
   web:
     image: madmous/trelloclone
     ports:
-      - "80:80"
+      - "80:3001"
     links:
       - mongo
   mongo:
