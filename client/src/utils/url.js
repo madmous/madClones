@@ -1,0 +1,1 @@
+export const url = 'http://ec2-52-56-65-177.eu-west-2.compute.amazonaws.com/';

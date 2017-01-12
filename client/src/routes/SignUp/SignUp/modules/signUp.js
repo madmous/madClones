@@ -3,6 +3,8 @@ import fetch from 'isomorphic-fetch'
 import { authenticateUser } from '../../../Login/Login/modules/login'
 import { push } from 'react-router-redux';
 
+import { url } from '../../../../utils/url'
+
 const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
 const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
 const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
@@ -30,7 +32,7 @@ export function createUser(formInput) {
   return dispatch => {
     dispatch(signUpRequest())
 
-    return fetch(`api/v1/signup`, 
+    return fetch(url + `api/v1/signup`, 
       { method: 'POST',
         body: JSON.stringify({
           name: formInput.username,
