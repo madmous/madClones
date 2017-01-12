@@ -19,7 +19,7 @@ const db      = require ('./config/db');
 
 const passportMiddleweare = require ('./utils/passportMiddleweare');
 
-const port = 3001;
+const port = 80;
 
 const app = express ();
 

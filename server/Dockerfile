@@ -5,7 +5,7 @@ COPY . /src/app
 WORKDIR /src/app
 RUN npm install --production
 
-ENV PORT 3001
+ENV PORT 80
 EXPOSE  $PORT
 
 CMD ["npm", "start"]
