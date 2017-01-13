@@ -5,7 +5,6 @@ const passport   = require ('passport');
 const express    = require ('express');
 const winston    = require ('winston');
 const helmet     = require ('helmet');
-const cors       = require('cors');
 
 const organizationRoutes  = require ('./api/v1/organizations/organizationRoutes');
 const signUpRoutes        = require ('./api/v1/signUp/signUpRoutes');
@@ -16,6 +15,7 @@ const userRoutes          = require ('./api/v1/users/userRoutes');
 const config  = require ('./config/config');
 const log     = require ('./libs/winston')(module);
 const dbTest  = require ('./config/dbTest');
+const cors    = require ('cors');
 const db      = require ('./config/db');
 
 const passportMiddleweare = require ('./utils/passportMiddleweare');
@@ -24,11 +24,11 @@ const port = 80;
 
 const app = express ();
 
+app.use(cors());
 app.use(passport.initialize());
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.user(cors());
 
 app.disable('x-powered-by');
 
