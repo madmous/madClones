@@ -89,12 +89,12 @@ These are the steps to see your changes in develop.
 
 ## Achievements
 
+* Release version 1.0.0
 * Deploy react client on amazon web services S3
 * Deploy express server on amazon web services ECS
 
 ## Areas for Improvements / involvement
 
-* Release version 1.0.0
 * Add a white background color to each board section (star, user and users)
 * Make UI responsive
 * Add enzyme
