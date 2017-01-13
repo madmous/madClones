@@ -2,6 +2,8 @@ import { updateOrganizations } from './organization'
 import { updateNotification } from './notification'
 import { updateBoards } from './board'
 
+import { url } from '../../../../utils/url';
+
 const UPDATE_STARRED_BOARDS = 'UPDATE_STARRED_BOARDS'
 
 const STAR_BOARD_REQUEST = 'STAR_BOARD_REQUEST'
@@ -60,21 +62,21 @@ function unstarBoardFail(payload) {
 export function addBoardStar(userId, orgId, boardId) {
 
   if (orgId === '') {
-    return saveBoardStar(`api/v1/boards/${boardId}/boardstars`, 'POST');
+    return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'POST');
   }
 
-  return saveBoardStar(`api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
+  return saveBoardStar(url + `api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
 }
 
 export function removeBoardStar(userId, orgId, boardId) {
   if (orgId === '') {
-    return saveBoardStar(`api/v1/boards/${boardId}/boardstars`, 'DELETE');
+    return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'DELETE');
   }
 
-  return saveBoardStar(`api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
+  return saveBoardStar(url + `api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
 }
 
-function saveBoardStar(url, method) {
+function saveBoardStar(urlToFetch, method) {
 
   return dispatch => {
 
@@ -84,7 +86,7 @@ function saveBoardStar(url, method) {
       dispatch(unstarBoardRequest());
     }
 
-    return fetch(url, 
+    return fetch(urlToFetch, 
       { method: method, 
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',

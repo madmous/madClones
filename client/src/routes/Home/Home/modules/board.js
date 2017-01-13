@@ -5,6 +5,8 @@ import { updateNotification } from './notification'
 import { hideNotification } from './notification'
 import { closeAllModals } from './modals'
 
+import { url } from '../../../../utils/url.js';
+
 const OPEN_MODAL = 'OPEN_MODAL'
 const CLOSE_MODAL = 'CLOSE_MODAL'
 
@@ -57,10 +59,10 @@ export function closeModal(payload) {
 export function addBoard(userId, orgId, boardName) {
 
   if (orgId) {
-    return saveBoard(`api/v1/organizations/${orgId}/boards`, boardName);
+    return saveBoard(url + `api/v1/organizations/${orgId}/boards`, boardName);
   }
 
-  return saveBoard(`api/v1/boards`, boardName);
+  return saveBoard(url + `api/v1/boards`, boardName);
 }
 
 function saveBoard(url, boardName) {

@@ -1,5 +1,9 @@
 This repo is under active development. I am working on it daily and will release the 1.0.0 very soon. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
 
+## Live demo
+
+[SignUp](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/)
+
 ## Description
 
 [Trello](http://trello.com) clone being built with MongoDB, Express, React, NodeJS; my mean stack revisited.
@@ -84,6 +88,9 @@ These are the steps to see your changes in develop.
 ## Updates
 
 ## Achievements
+
+* Deploy react client on amazon web services S3
+* Deploy express server on amazon web services ECS
 
 ## Areas for Improvements / involvement
 

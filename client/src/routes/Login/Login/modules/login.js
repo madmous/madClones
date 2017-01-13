@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
-
 import { push } from 'react-router-redux';
+
+import { url } from '../../../../utils/url.js';
 
 const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
 const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
@@ -36,7 +37,7 @@ export function authenticate(username, password) {
   return dispatch => {
     dispatch(authenticationRequest())
 
-    return fetch(`api/v1/login`, 
+    return fetch(url + `api/v1/login`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

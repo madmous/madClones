@@ -3,6 +3,8 @@ import fetch from 'isomorphic-fetch'
 import { updateNotification, hideNotification } from './notification'
 import { closeAllModals } from './modals'
 
+import { url } from '../../../../utils/url.js';
+
 const UPDATE_ORGANIZATIONS = 'UPDATE_ORGANIZATIONS'
 
 const OPEN_MODAL = 'OPEN_MODAL'
@@ -53,7 +55,7 @@ export function closeModal(payload) {
 }
 
 export function addOrganization(userId, organizationName) {
-  return saveOrganization(`api/v1/organizations`, organizationName);
+  return saveOrganization(url + `api/v1/organizations`, organizationName);
 }
 
 function saveOrganization(url, organizationName) {

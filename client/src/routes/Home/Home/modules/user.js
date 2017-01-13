@@ -3,6 +3,8 @@ import { updateStarredBoards } from './starredBoard'
 import { closeAllModals } from './modals'
 import { updateBoards } from './board'
 
+import { url } from '../../../../utils/url';
+
 const UPDATE_USER = 'UPDATE_USER'
 
 const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
@@ -31,7 +33,7 @@ export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`api/v1/users/`, 
+    return fetch(url + `api/v1/users/`, 
       { method: 'GET',
         headers: {
           'Authorization': 'JWT ' + localStorage.getItem('userId')
