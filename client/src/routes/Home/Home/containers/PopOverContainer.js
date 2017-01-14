@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import PopOver from '../components/PopOver/PopOver';
 
-import * as LoginActionCreators from '../../../Login/Login/modules/login';
 import * as PopOverActionCreators from '../modules/popOver';
+import * as LoginActionCreators from '../../../Login/Login/modules/login';
 
 const mapStateToProps = (state) => {
   const { fullName } = state.user;
