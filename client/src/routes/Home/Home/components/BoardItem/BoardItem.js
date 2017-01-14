@@ -30,6 +30,7 @@ export default function BoardItem(props) {
 
     organizationId = props.organizationId;
 
+    props.popOverActions.hidePopOver();
     props.modalsActions.closeAllModals();
     props.modalsActions.openCreateBoardModal();
 	}

@@ -5,6 +5,7 @@ import BoardItem from '../components/BoardItem/BoardItem'
 
 import * as boardActionCreators from '../modules/board';
 import * as modalsActionCreators from '../modules/modals';
+import * as popOverActionCreators from '../modules/popOver';
 import * as starredBoardActionCreators from '../modules/starredBoard';
 
 function mapStateToProps(state) {
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch) => {
   return { 
     boardActions: bindActionCreators(boardActionCreators, dispatch),
     modalsActions: bindActionCreators(modalsActionCreators, dispatch),
+    popOverActions: bindActionCreators(popOverActionCreators, dispatch),
     starredBoardActions: bindActionCreators(starredBoardActionCreators, dispatch)
   }
 }

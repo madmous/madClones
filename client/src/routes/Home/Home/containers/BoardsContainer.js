@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 
 import Boards from '../components/Boards/Boards';
 
-import * as organizationActionCreators from '../modules/organization';
-import * as modalsActionCreators from '../modules/modals';
 import * as boardActionCreators from '../modules/board';
+import * as modalsActionCreators from '../modules/modals';
+import * as popOverActionCreators from '../modules/popOver';
+import * as organizationActionCreators from '../modules/organization';
 
 const mapStateToProps = (state) => {
   const { userId } = state.user;
@@ -32,8 +33,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return { 
     boardActions: bindActionCreators(boardActionCreators, dispatch),
-    organizationActions: bindActionCreators(organizationActionCreators, dispatch),
-    modalsActions: bindActionCreators(modalsActionCreators, dispatch)
+    modalsActions: bindActionCreators(modalsActionCreators, dispatch),
+    popOverActions: bindActionCreators(popOverActionCreators, dispatch),
+    organizationActions: bindActionCreators(organizationActionCreators, dispatch)
   }
 }
 

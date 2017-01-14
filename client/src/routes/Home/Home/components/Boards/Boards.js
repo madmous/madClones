@@ -78,6 +78,7 @@ export default function Boards(props) {
   const addOrganization = (formInput) => {
     const { userId } = props;
 
+    props.modalsActions.closeAllModals();
     props.organizationActions.addOrganization(userId, formInput.name);
   }
 
@@ -86,6 +87,7 @@ export default function Boards(props) {
 
     props.modalsActions.closeAllModals();
     props.modalsActions.openCreateOrganizationModal();
+    props.popOverActions.hidePopOver();
 	}
 
   return (
