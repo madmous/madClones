@@ -10,6 +10,7 @@ import HeaderUser from './HeaderUser/HeaderUser';
 import HeaderBoard from './HeaderBoard/HeaderBoard';
 import HeaderSearch from './HeaderSearch/HeaderSearch';
 
+import PopOver from './PopOver/PopOver';
 import Notification from './Notification/Notification';
 
 export { 
@@ -25,5 +26,6 @@ export {
 	HeaderBoard,
 	HeaderSearch,
 
+	PopOver,
 	Notification
 }

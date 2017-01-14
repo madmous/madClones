@@ -2,11 +2,14 @@ import fetch from 'isomorphic-fetch'
 import { push } from 'react-router-redux';
 
 import { url } from '../../../../utils/url.js';
+import { closeAllModals } from '../../../Home/Home/modules/modals';
 
 const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
 const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
 
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
+
+const UN_AUTHENTICATE_USER = 'UN_AUTHENTICATE_USER'
 
 function authenticationRequest() {
   return {
@@ -57,6 +60,23 @@ export function authenticate(username, password) {
   }
 }
 
+function unAuthenticateUser() {
+  return {
+    type: UN_AUTHENTICATE_USER
+  }
+}
+
+export function logoutUser() {
+  return dispatch => {
+    dispatch(closeAllModals());
+
+    localStorage.removeItem('userId');
+
+    dispatch(unAuthenticateUser());
+    dispatch(push('/'));
+  }
+}
+
 const initialState = {
   isAuthenticatingSuccessful: false,
   isAuthenticating : false,
@@ -78,6 +98,10 @@ export default function login(state = initialState, action) {
     case AUTHENTICATE_USER:
       return Object.assign({}, state, {
         isAuthenticated: true
+      })
+    case UN_AUTHENTICATE_USER:
+      return Object.assign({}, state, {
+        isAuthenticated: false
       })
     default: return state;
   }

@@ -1,11 +1,11 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
 
-import Boards from '../components/Boards/Boards'
+import Boards from '../components/Boards/Boards';
 
-import * as boardActionCreators from '../modules/board';
-import * as modalsActionCreators from '../modules/modals';
 import * as organizationActionCreators from '../modules/organization';
+import * as modalsActionCreators from '../modules/modals';
+import * as boardActionCreators from '../modules/board';
 
 const mapStateToProps = (state) => {
   const { userId } = state.user;

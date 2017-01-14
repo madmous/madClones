@@ -42,5 +42,6 @@
   },
   "engines": {
     "node": "6.9.1"
-  }
+  },
+  "proxy": "http:://localhost"
 }

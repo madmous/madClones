@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Header, Notification } from './components/index';
-import { Boards } from './containers/index';
+import { Boards, PopOver } from './containers/index';
 
 import './Home.css';
 
@@ -16,6 +16,7 @@ export default class Home extends Component {
         <Header />
         <Boards />
         { this.getNotificationErrorMessage() }
+        { this.getPopOver() }
       </div>
     );
   }
@@ -26,6 +27,14 @@ export default class Home extends Component {
     if (errorMessages && errorMessages.length > 0) {
       return (
         <Notification errorMessages={errorMessages} />
+      )
+    }
+  }
+
+  getPopOver() {
+    if (this.props.displayPopOver) {
+      return (
+        <PopOver />
       )
     }
   }

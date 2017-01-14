@@ -5,6 +5,7 @@ import { routerReducer } from 'react-router-redux'
 import organization from '../routes/Home/Home/modules/organization'
 import starredBoard from '../routes/Home/Home/modules/starredBoard'
 import notification from '../routes/Home/Home/modules/notification'
+import popOver from '../routes/Home/Home/modules/popOver'
 import modals from '../routes/Home/Home/modules/modals'
 import board from '../routes/Home/Home/modules/board'
 import user from '../routes/Home/Home/modules/user'
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
 	organization,
 	starredBoard,
 	notification,
+	popOver,
 	modals,
 	board,
 	user,

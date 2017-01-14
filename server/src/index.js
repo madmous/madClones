@@ -46,7 +46,7 @@ app.get('*', (req, res) => {
 });
 
 let server = app.listen(port, (err) => {
-  let port = server.address().port;
+  server.address().port;
 
   if (err) {
     log.error('something bad happened', err);

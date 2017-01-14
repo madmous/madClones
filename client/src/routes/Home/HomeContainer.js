@@ -6,12 +6,14 @@ import Home from './Home/Home'
 import * as userActionCreators from './Home/modules/user';
 
 const mapStateToProps = (state) => {
-  const { fullName } = state.user;
   const { isAuthenticated } = state.login;
+  const { displayPopOver } = state.popOver;
   const { errorMessages } = state.notification;
+  const { fullName } = state.user;
 
   return {
     isAuthenticated,
+    displayPopOver,
     errorMessages,
     fullName
   };
