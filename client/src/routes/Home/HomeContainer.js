@@ -11,16 +11,18 @@ const mapStateToProps = (state) => {
   const { isFocusOnPopHover } = state.popOver;
   const { isAuthenticated } = state.login;
   const { isFocusOnModal } = state.modals;
-  const { displayPopOver } = state.popOver;
+  const { isPopOverOpen } = state.popOver;
   const { errorMessages } = state.notification;
+  const { isModalOpen } = state.modals;
   const { fullName } = state.user;
 
   return {
     isFocusOnPopHover,
     isAuthenticated,
     isFocusOnModal,
-    displayPopOver,
+    isPopOverOpen,
     errorMessages,
+    isModalOpen,
     fullName
   };
 }

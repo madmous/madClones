@@ -53,31 +53,37 @@ export function blurOnModal() {
 const initialState = {
 	isCreateOrganizationModalOpen: false,
 	isCreateBoardModalOpen: false,
-	isFocusOnModal: false
+	isFocusOnModal: false,
+	isModalOpen: false
 }
 
 export default function modals(state = initialState, action) {
   switch (action.type) {
 		case OPEN_CREATE_BOARD_MODAL:
 			return Object.assign({}, state, {
-				isCreateBoardModalOpen: true
+				isCreateBoardModalOpen: true,
+				isModalOpen: true
 			})
 		case OPEN_CREATE_ORGANIZATION_MODAL:
 			return Object.assign({}, state, {
-				isCreateOrganizationModalOpen: true
+				isCreateOrganizationModalOpen: true,
+				isModalOpen: true
 			})
     case CLOSE_ALL_MODALS:
     	return Object.assign({}, state, {
+				isCreateOrganizationModalOpen: false,
 				isCreateBoardModalOpen: false,
-				isCreateOrganizationModalOpen: false
+				isModalOpen: false
     	})
 		case CLOSE_CREATE_BOARD_MODAL:
 			return Object.assign({}, state, {
-				isCreateBoardModalOpen: false
+				isCreateBoardModalOpen: false,
+				isModalOpen: false
 			})
 		case CLOSE_CREATE_ORGANIZATION_MODAL:
 			return Object.assign({}, state, {
-				isCreateOrganizationModalOpen: false
+				isCreateOrganizationModalOpen: false,
+				isModalOpen: false
 			})
 		case FOCUS_MODAL:
 			return Object.assign({}, state, {

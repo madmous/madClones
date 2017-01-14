@@ -22,22 +22,40 @@ export default class Home extends Component {
   }
 
   handleDocumentClick () {
-    const props = this.props;
+    const { 
+      isFocusOnPopHover, 
+      popOverActions,
+      isFocusOnModal, 
+      isPopOverOpen, 
+      modalActions,
+      isModalOpen
+    } = this.props;
     
-    if (!props.isFocusOnPopHover) {
-      props.popOverActions.hidePopOver();
+    if (!isFocusOnModal && isModalOpen) {
+      modalActions.closeAllModals();
     }
 
-    if (!props.isFocusOnModal) {
-      props.modalActions.closeAllModals();
+    if (!isFocusOnPopHover && isPopOverOpen) {
+      popOverActions.hidePopOver();
     }
   }
 
   handleEscKey () {
+    const { 
+      popOverActions,
+      isPopOverOpen,
+      modalActions,
+      isModalOpen
+    } = this.props;
+
     if (event.keyCode === 27) {
-      this.props.popOverActions.hidePopOver();
-      this.props.modalActions.closeAllModals();
-    }
+       
+      if (isModalOpen) {
+        modalActions.closeAllModals();   
+      } else if(isPopOverOpen) {
+        popOverActions.hidePopOver();
+      }
+    } 
   }
 
   getNotificationErrorMessage () {
@@ -51,7 +69,7 @@ export default class Home extends Component {
   }
 
   getPopOver () {
-    if (this.props.displayPopOver) {
+    if (this.props.isPopOverOpen) {
       return (
         <PopOver />
       )

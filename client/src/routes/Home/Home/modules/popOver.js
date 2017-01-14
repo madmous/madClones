@@ -30,18 +30,18 @@ export function blurOnPopHover() {
 
 const initialState = {
   isFocusOnPopHover: false,
-  displayPopOver: false
+  isPopOverOpen: false
 }
 
 export default function popOver(state = initialState, action) {
   switch (action.type) {
     case SHOW_POP_OVER:
       return Object.assign({}, state, {
-        displayPopOver: true,
+        isPopOverOpen: true,
       })
     case HIDE_POP_OVER:
       return Object.assign({}, state, {
-        displayPopOver: false,
+        isPopOverOpen: false,
       })
     case FOCUS_POP_HOVER:
       return Object.assign({}, state, {
