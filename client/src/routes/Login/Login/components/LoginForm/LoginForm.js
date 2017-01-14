@@ -29,7 +29,7 @@ class LoginForm extends Component {
 							<label htmlFor="password">Password</label>
 							<Field
 								className="Login-Form-Password"
-								autoFocus={true}
+								autoFocus={false}
 								type="text" 
 								name="password"
 								value="" 

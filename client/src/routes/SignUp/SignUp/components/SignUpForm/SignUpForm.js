@@ -29,7 +29,7 @@ class SignUpForm extends Component {
 							<label htmlFor="fullname">Full Name</label>
 							<Field
 								className="SignUp-Form-FullName"
-								autoFocus={true}
+								autoFocus={false}
 								type="text" 
 								name="fullname"
 								value="" 
@@ -39,7 +39,7 @@ class SignUpForm extends Component {
 							<label htmlFor="initials">Initials</label>
 							<Field
 								className="SignUp-Form-Initials"
-								autoFocus={true}
+								autoFocus={false}
 								type="text" 
 								name="initials"
 								value="" 
@@ -49,7 +49,7 @@ class SignUpForm extends Component {
 							<label htmlFor="email">Email</label>
 							<Field
 								className="SignUp-Form-Email"
-								autoFocus={true}
+								autoFocus={false}
 								type="text" 
 								name="email"
 								value="" 
@@ -59,7 +59,7 @@ class SignUpForm extends Component {
 							<label htmlFor="password">Password</label>
 							<Field
 								className="SignUp-Form-Password"
-								autoFocus={true}
+								autoFocus={false}
 								type="text" 
 								name="password"
 								value="" 

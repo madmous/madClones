@@ -33,6 +33,7 @@ class CreateBoard extends Component {
 							<Field 
 								className="Form-BoardTitle"
 								type="text" 
+								autoFocus={true}
 								name="name" 
 								placeholder="Like “School Research” for example…" 
 								value="" 
