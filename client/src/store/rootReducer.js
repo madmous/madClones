@@ -2,17 +2,17 @@ import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
 
-import organization from '../routes/Home/Home/modules/organization'
-import starredBoard from '../routes/Home/Home/modules/starredBoard'
-import notification from '../routes/Home/Home/modules/notification'
-import popOver from '../routes/Home/Home/modules/popOver'
-import modals from '../routes/Home/Home/modules/modals'
-import board from '../routes/Home/Home/modules/board'
-import user from '../routes/Home/Home/modules/user'
+import organization from '../pages/home/Home/modules/organization'
+import starredBoard from '../pages/home/Home/modules/starredBoard'
+import notification from '../pages/home/Home/modules/notification'
+import popOver from '../pages/home/Home/modules/popOver'
+import modals from '../pages/home/Home/modules/modals'
+import board from '../pages/home/Home/modules/board'
+import user from '../pages/home/Home/modules/user'
 
-import login from '../routes/Login/Login/modules/login'
+import login from '../pages/login/Login/modules/login'
 
-import signUp from '../routes/SignUp/SignUp/modules/signUp'
+import signUp from '../pages/signup/SignUp/modules/signUp'
 
 const rootReducer = combineReducers({
 	organization,

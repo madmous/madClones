@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import { push } from 'react-router-redux';
 
 import { url } from '../../../../utils/url.js';
-import { closeAllModals } from '../../../Home/Home/modules/modals';
+import { closeAllModals } from '../../../home/Home/modules/modals';
 
 const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
 const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
