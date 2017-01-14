@@ -2,8 +2,8 @@ This repo is under active development. I am working on it daily and will release
 
 ## Live demo
 
-[SignUp](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/) and start using the application.
-Expect a lot of changes so database clear is to be expected.
+[SignUp](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/) and start using the application. The redux logger was added to show the process.
+Expect a lot of changes and database to be cleared often.
 
 ## Description
 
