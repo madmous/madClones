@@ -12,6 +12,10 @@
   width: 300px;
 }
 
+.PopOver:focus {
+	outline: none;
+}
+
 .PopOver-Header {
   height: 36px;
   position: relative;

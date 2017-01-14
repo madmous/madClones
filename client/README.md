@@ -17,9 +17,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Areas for Improvements / involvement
 
-* Add a white background color to each board section (star, user and users)
+* Add a higher order components to add blur and focus events on PopOver, CreateOrganization/Board
 * Make UI responsive
 * Add enzyme
+* Add a white background color to each board section (star, user and users)
 
 --
 

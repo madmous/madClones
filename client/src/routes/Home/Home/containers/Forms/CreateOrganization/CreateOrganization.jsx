@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
+import { bindActionCreators } from 'redux';
 
-import { closeCreteOrganizationModal } from '../../../modules/modals';
+import * as ModalActionCreators from '../../../modules/modals';
 
 import '../Form.css'
 
@@ -12,7 +13,12 @@ class CreateOrganization extends Component {
     const { handleSubmit } = this.props;
 		
     return (
-			<div className={this.getClassName()}>
+			<div 
+        className={this.getClassName()} 
+        tabIndex="0" 
+				onFocus={() => { this.focusOnPopHover(true) }}
+				onBlur={() => { this.focusOnPopHover(false) }} 
+      >
 				<div className="Form-Header">
 				<span className="Form-Header-Title">Create Team 
 						<FontAwesome 
@@ -43,6 +49,15 @@ class CreateOrganization extends Component {
     );
   }
 
+  focusOnPopHover (isFocusOnPopHover) {
+    
+    if (isFocusOnPopHover) {
+      this.props.modalActions.focusOnModal();
+    } else {
+      this.props.modalActions.blurOnModal();
+    }
+  }
+
 	getClassName() {
 		if (this.props.isCreateOrganizationModalOpen) {
 			return "Form Form-Shown"
@@ -52,7 +67,7 @@ class CreateOrganization extends Component {
 	}
 
 	closeModal() {
-		this.props.dispatch(closeCreteOrganizationModal())
+		this.props.modalActions.closeCreteOrganizationModal()
 	}
 }
 
@@ -68,5 +83,11 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(CreateOrganization);
+function mapDispatchToProps(dispatch) {
+  return { 
+    modalActions: bindActionCreators(ModalActionCreators, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateOrganization);
 

@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
-import { closeCreateBoardModal } from '../../../modules/modals';
+import * as ModalActionCreators from '../../../modules/modals';
 
 import '../Form.css'
 
@@ -16,8 +17,13 @@ class CreateBoard extends Component {
     const { handleSubmit } = this.props;
 		
     return (
-			<div className={this.getClassName()}>
-				<div className="Form-Header">
+			<div 
+				className={this.getClassName()} 
+				tabIndex="0" 
+				onFocus={() => { this.focusOnPopHover(true) }}
+				onBlur={() => { this.focusOnPopHover(false) }} 
+			>
+				<div className="Form-Header" >
 					<span className="Form-Header-Title">Create Board 
 						<FontAwesome 
 							name="times" 
@@ -48,6 +54,15 @@ class CreateBoard extends Component {
     );
   }
 
+	focusOnPopHover (isFocusOnPopHover) {
+    
+    if (isFocusOnPopHover) {
+      this.props.modalActions.focusOnModal();
+    } else {
+      this.props.modalActions.blurOnModal();
+    }
+  }
+
 	getClassName() {
 		if (this.props.isCreateBoardModalOpen) {
 			return "Form Form-Shown"
@@ -57,7 +72,7 @@ class CreateBoard extends Component {
 	}
 
 	closeModal() {
-		this.props.dispatch(closeCreateBoardModal())
+		this.props.modalActions.closeCreateBoardModal()
 	}
 }
 
@@ -73,7 +88,13 @@ function mapStateToProps(state) {
 	}
 }
 
+function mapDispatchToProps(dispatch) {
+  return { 
+    modalActions: bindActionCreators(ModalActionCreators, dispatch)
+  }
+}
+
 CreateBoard.propTypes = propTypes;
 
-export default connect(mapStateToProps)(CreateBoard);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBoard);
 

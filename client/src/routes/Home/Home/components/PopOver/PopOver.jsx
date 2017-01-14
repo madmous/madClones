@@ -18,14 +18,28 @@ export default function PopOver(props) {
     props.loginActions.logoutUser();
   }
 
+  const focusOnPopHover = (isFocusOnPopHover) => {
+    
+    if (isFocusOnPopHover) {
+      props.popOverActions.focusOnPopHover();
+    } else {
+      props.popOverActions.blurOnPopHover();
+    }
+  }
+
   return ( 
-    <div className="PopOver">
+    <div 
+      className="PopOver" 
+      tabIndex="0" 
+      onFocus={() => { focusOnPopHover(true) }}
+      onBlur={() => { focusOnPopHover(false) }}
+    >
       <div className="PopOver-Header">
         <span className="PopOver-Header-Title">{ props.fullName }
           <FontAwesome 
             name="times" 
             className="PopOver-Header-Close-Button" 
-            onClick={() => { hidePopOver() }} 
+            onClick={() => { hidePopOver() }}
           />
         </span>
       </div>

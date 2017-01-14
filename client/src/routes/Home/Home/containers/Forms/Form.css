@@ -21,6 +21,10 @@
 	position: fixed;
 }
 
+.Form:focus {
+	outline: none;
+}
+
 .Form-Shown {
 	display: block
 }

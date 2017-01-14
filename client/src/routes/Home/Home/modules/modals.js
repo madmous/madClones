@@ -5,6 +5,9 @@ const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
 const CLOSE_CREATE_BOARD_MODAL = 'CLOSE_CREATE_BOARD_MODAL'
 const CLOSE_CREATE_ORGANIZATION_MODAL = 'CLOSE_CREATE_ORGANIZATION_MODAL'
 
+const BLUR_MODAL = 'BLUR_MODAL'
+const FOCUS_MODAL = 'FOCUS_MODAL'
+
 export function closeAllModals() {
   return {
 		type: CLOSE_ALL_MODALS
@@ -35,9 +38,22 @@ export function closeCreteOrganizationModal() {
 	}
 }
 
+export function focusOnModal() {
+  return {
+    type: FOCUS_MODAL,
+  }
+}
+
+export function blurOnModal() {
+  return {
+    type: BLUR_MODAL,
+  }
+}
+
 const initialState = {
+	isCreateOrganizationModalOpen: false,
 	isCreateBoardModalOpen: false,
-	isCreateOrganizationModalOpen: false
+	isFocusOnModal: false
 }
 
 export default function modals(state = initialState, action) {
@@ -62,6 +78,14 @@ export default function modals(state = initialState, action) {
 		case CLOSE_CREATE_ORGANIZATION_MODAL:
 			return Object.assign({}, state, {
 				isCreateOrganizationModalOpen: false
+			})
+		case FOCUS_MODAL:
+			return Object.assign({}, state, {
+				isFocusOnModal: true
+			})
+		case BLUR_MODAL:
+			return Object.assign({}, state, {
+				isFocusOnModal: false
 			})
     default: return state;
   }
