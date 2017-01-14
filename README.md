@@ -2,7 +2,8 @@ This repo is under active development. I am working on it daily and will release
 
 ## Live demo
 
-[SignUp](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/)
+[SignUp](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/) and start using the application.
+Expect a lot of changes so database clear is to be expected.
 
 ## Description
 
@@ -87,6 +88,8 @@ These are the steps to see your changes in develop.
 
 ## Updates
 
+* 1.0.0 first release of trello clone
+
 ## Achievements
 
 * Release version 1.0.0
@@ -96,6 +99,7 @@ These are the steps to see your changes in develop.
 ## Areas for Improvements / involvement
 
 * Add a white background color to each board section (star, user and users)
+* Work on board header in home page : list boards and create features
 * Make UI responsive
 * Add enzyme
 * Add show card feature to board item 
