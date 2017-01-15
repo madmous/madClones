@@ -59,7 +59,7 @@ class LoginForm extends Component {
 						<div className="Login-Form-Fiels">
 							<label htmlFor="username">Name</label>
 							<Field
-								className= { this.getUsernameClass() }
+								className={ this.getUsernameClass() }
 								autoFocus={true}
 								type="text" 
 								name="username"
@@ -69,9 +69,9 @@ class LoginForm extends Component {
 							/>
 							<label htmlFor="password">Password</label>
 							<Field
-								className= { this.getPasswordClass() }
+								className={ this.getPasswordClass() }
 								autoFocus={false}
-								type="text" 
+								type="password" 
 								name="password"
 								value="" 
 								component="input"

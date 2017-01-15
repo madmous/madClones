@@ -60,7 +60,7 @@ class SignUpForm extends Component {
 							<Field
 								className="SignUp-Form-Password"
 								autoFocus={false}
-								type="text" 
+								type="password" 
 								name="password"
 								value="" 
 								component="input"
