@@ -37,7 +37,7 @@ export default function popOver(state = initialState, action) {
   switch (action.type) {
     case SHOW_POP_OVER:
       return Object.assign({}, state, {
-        isPopOverOpen: true,
+        isPopOverOpen: true
       })
     case HIDE_POP_OVER:
       return Object.assign({}, state, {

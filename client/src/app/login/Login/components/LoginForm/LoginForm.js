@@ -5,6 +5,46 @@ import { Field, reduxForm } from 'redux-form';
 import './LoginForm.css'
 
 class LoginForm extends Component {
+
+	getErrorMessage() {
+		const { errorMessage } = this.props;
+		let message = '';
+
+		if (errorMessage.usernameErr) {
+			message = errorMessage.usernameErr
+		} else if (errorMessage.passwordErr) {
+			message = errorMessage.passwordErr;
+		}
+
+		if (errorMessage.usernameErr || errorMessage.passwordErr) {
+			return (
+				<div className="Login-Form-Error">
+					<p>{ message }</p>
+				</div>
+			);
+		} else return null;
+	}
+
+	getUsernameClass() {
+		let usernameClass = "Login-Form-Username";
+		
+		if (this.props.errorMessage.usernameErr) {
+			usernameClass += " Error"; 
+		}
+
+		return usernameClass;
+	}
+
+	getPasswordClass() {
+		let usernameClass = "Login-Form-Password";
+		
+		if (this.props.errorMessage.passwordErr) {
+			usernameClass += " Error"; 
+		}
+
+		return usernameClass;
+	}
+	
   render() {
     const { handleSubmit } = this.props;
 		
@@ -13,12 +53,13 @@ class LoginForm extends Component {
 				<div className="Login-Form-Header">
 					<span className="Login-Form-Header-Title">Log in Trello Clone</span>
 				</div>
+				{ this.getErrorMessage() }
 				<div>
 					<form onSubmit={handleSubmit}>
 						<div className="Login-Form-Fiels">
 							<label htmlFor="username">Name</label>
 							<Field
-								className="Login-Form-Username"
+								className= { this.getUsernameClass() }
 								autoFocus={true}
 								type="text" 
 								name="username"
@@ -28,7 +69,7 @@ class LoginForm extends Component {
 							/>
 							<label htmlFor="password">Password</label>
 							<Field
-								className="Login-Form-Password"
+								className= { this.getPasswordClass() }
 								autoFocus={false}
 								type="text" 
 								name="password"
@@ -51,9 +92,11 @@ LoginForm = reduxForm({
 
 function mapStateToProps(state) {
 	const { isAuthenticated } = state.user;
+	const { errorMessage } = state.login;
 
 	return {
-		isAuthenticated
+		isAuthenticated,
+		errorMessage
 	}
 }
 

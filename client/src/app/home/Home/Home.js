@@ -7,26 +7,16 @@ import './Home.css';
 
 export default class Home extends Component {
 
-  componentWillMount (){
-    document.addEventListener("click", this.handleDocumentClick.bind(this), false);
-    document.addEventListener("keydown", this.handleEscKey.bind(this), false);
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener("click", this.handleDocumentClick.bind(this), false);
-    document.removeEventListener("keydown", this.handleEscKey.bind(this), false);
-  }
-
   componentDidMount () {
     this.props.userActions.getUser();
   }
 
   handleDocumentClick () {
     const { 
-      isFocusOnPopHover, 
+      isFocusOnPopHover,
       popOverActions,
-      isFocusOnModal, 
-      isPopOverOpen, 
+      isFocusOnModal,
+      isPopOverOpen,
       modalActions,
       isModalOpen
     } = this.props;
@@ -78,7 +68,12 @@ export default class Home extends Component {
 
   render () {
     return (
-      <div className="Home">
+      <div 
+        className="Home"
+        tabIndex="0" 
+        onClickCapture={() => { this.handleDocumentClick() }}
+        onKeyDown={() => { this.handleEscKey() }}
+      >
         <Header />
         <Boards />
         { this.getNotificationErrorMessage() }

@@ -6,6 +6,7 @@ import { closeAllModals } from '../../../home/Home/modules/modals';
 
 const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
 const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
+const AUTHENTICATION_FAIL = 'AUTHENTICATION_FAIL'
 
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
 
@@ -20,6 +21,13 @@ function authenticationRequest() {
 function authenticationSuccess() {
   return {
     type: AUTHENTICATION_SUCCESS
+  }
+}
+
+function authenticationFail(payload) {
+  return {
+    type: AUTHENTICATION_FAIL,
+    payload
   }
 }
 
@@ -49,13 +57,17 @@ export function authenticate(username, password) {
       })
       .then(response => response.json())
       .then(json => {
-        const payload = json.data;
+        const jsonData = json.data;
 
-        dispatch(authenticationSuccess());
+        if (jsonData.uiError || jsonData.error) {
+          dispatch(authenticationFail(jsonData));
+        } else {
+          dispatch(authenticationSuccess());
 
-        localStorage.setItem('userId', payload.token);
+          localStorage.setItem('userId', jsonData.token);
 
-        dispatch(push('/'));
+          dispatch(push('/'));
+        }
       })
   }
 }
@@ -80,7 +92,9 @@ export function logoutUser() {
 const initialState = {
   isAuthenticatingSuccessful: false,
   isAuthenticating : false,
-  isAuthenticated: false
+  isAuthenticated: false,
+
+  errorMessage: {}
 }
 
 export default function login(state = initialState, action) {
@@ -88,12 +102,21 @@ export default function login(state = initialState, action) {
     case AUTHENTICATION_REQUEST:
       return Object.assign({}, state, {
         isAuthenticating: true,
+        errorMessage: {}
       })
     case AUTHENTICATION_SUCCESS:
       return Object.assign({}, state, {
-        isAuthenticating: false,
         isAuthenticatingSuccessful: true,
+        isAuthenticating: false,
         isAuthenticated: true
+      })
+    case AUTHENTICATION_FAIL:
+      return Object.assign({}, state, {
+        isAuthenticatingSuccessful: false,
+        isAuthenticating: false,
+        isAuthenticated: false,
+
+        errorMessage: action.payload.uiError
       })
     case AUTHENTICATE_USER:
       return Object.assign({}, state, {

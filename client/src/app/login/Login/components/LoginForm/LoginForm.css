@@ -17,6 +17,19 @@
 	margin-top: 1.6em;
 }
 
+
+.Login-Form-Error {
+  text-align: left;
+}
+
+.Login-Form-Error p {
+  border-radius: 4px;
+  background: #f5d3ce;
+  border: 1px solid #eb5a46;
+  display: inline-block;
+  padding: .5em 1em;
+}
+
 .Login label {
 	font-weight: 300;
 }
@@ -46,6 +59,11 @@
 	text-shadow: none;
 }
 
+.Error {
+  background: #fbedeb;
+  border: 1px solid #ec9488;
+}
+
 .Login-Form-SubmitButton {
 	background: linear-gradient(to bottom, #61bd4f 0, #5aac44 100%);
 	box-shadow: 0 2px 0 #3f6f21;
@@ -58,4 +76,12 @@
 	text-decoration: none;
 	border: 0;
 	border-radius: .3em;
+}
+
+.Login-Form-SubmitButton:hover {
+  background: #068742;
+}
+
+.Login-Form-SubmitButton:focus {
+  outline: none
 }

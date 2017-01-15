@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import SignUp from './pages/signup/SignUpContainer';
-import Boards from './pages/login/LoginContainer';
-import Login from './pages/login/LoginContainer';
-import Home from './pages/home/HomeContainer';
+import SignUp from './app/signup/SignUpContainer';
+import Boards from './app/login/LoginContainer';
+import Login from './app/login/LoginContainer';
+import Home from './app/home/HomeContainer';
 
 import configureStore from './store/configureStore';
 
 import { RequiresAuthentication } from './utils/authentiationWrappers';
-import { authenticateIfNeeded } from './pages/login/Login/modules/login';
+import { authenticateIfNeeded } from './app/login/Login/modules/login';
 
 import './index.css';
 
