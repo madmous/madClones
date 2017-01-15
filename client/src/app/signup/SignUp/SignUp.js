@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import React from 'react';
 
 import { SignUpForm } from './components/index';
@@ -12,6 +13,7 @@ export default function SignUp(props) {
   return (
 		<div className="SignUp">
 			<SignUpForm onSubmit={signUp} />
+      <p>Already have an account? <Link to={`/login`}>Log in</Link></p>
 		</div>
 	);
 }

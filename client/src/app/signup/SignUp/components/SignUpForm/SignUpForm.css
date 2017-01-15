@@ -62,3 +62,11 @@
 	border: 0;
 	border-radius: .3em;
 }
+
+.SignUp-Form-SubmitButton:hover {
+  background: #068742;
+}
+
+.SignUp-Form-SubmitButton:focus {
+  outline: none
+}

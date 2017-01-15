@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import React from 'react';
 
 import { LoginForm } from './components/index';
@@ -12,6 +13,7 @@ export default function Login(props) {
   return (
     <div className="Login">
       <LoginForm onSubmit={authenticate} />
+      <p>Don't have an account? <Link to={`/signup`}>Create a Trello Clone Account</Link></p>
     </div>
   );
 }
