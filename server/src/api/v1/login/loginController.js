@@ -12,16 +12,18 @@ let loginController = {};
 
 loginController.authenticate = (req, res) => {
 
-	const token = req.user;
+	const reqUser = req.user;
 
-  if (!token) {
+  if (reqUser.err) {
     return res.status(404).json({
-      error : req.err
+      data: {
+        uiError : reqUser.err
+      }
     });
   } else {
     return res.status(200).json({
       data: {
-				token: token
+				token: reqUser.token
 			}
     });
 	}

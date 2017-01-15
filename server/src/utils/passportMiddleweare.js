@@ -21,7 +21,7 @@ passport.use(new BasicStrategy(
 			}
 
       if (!user) { 
-				return callback(null, false); 
+        return callback(null, { err: {usernameErr: 'There is not an account for this username' } }); 
 			}
 
       user.arePasswordsMatching(password, function(err, isMatch) {
@@ -31,12 +31,12 @@ passport.use(new BasicStrategy(
         }
 
         if (!isMatch) { 
-          return callback(null, false); 
+          return callback(null, { err: { passwordErr: 'Invalid password' } }); 
         }
 
         const token = jwt.encode(user._id, secret)
 
-        return callback(null, token);
+        return callback(null, { token: token });
       });
     });
   }
@@ -48,19 +48,19 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
 opts.secretOrKey = secret;
 
 passport.use(new JwtStrategy(opts, 
-  function(jwt_payload, done) {
+  function(jwt_payload, callback) {
     const userId = jwt_payload;
     
     userModel.findById(userId, function(err, user) {
         
         if (err) {
-            return done(err, false);
+            return callback(err, false);
         }
 
         if (user) {
-            done(null, user);
+            callback(null, user);
         } else {
-            done(null, false);
+            callback(null, false);
         }
     });
 }));

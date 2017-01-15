@@ -29,7 +29,9 @@ userController.getUser = (req, res) => {
 
   if (!user) {
     return res.status(404).json({
-      error : req.err
+      data: {
+        error: req.err
+      }
     });
   } else {
     return res.status(200).json({
