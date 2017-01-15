@@ -2,7 +2,7 @@ This repo is under active development. I am working on it daily and will release
 
 ## Live demo
 
-[SignUp](hhttp://d2et1tad5mldzf.cloudfront.net/signup) and start using the application or [Login](http://d2et1tad5mldzf.cloudfront.net/) with Test (name) and Test(password)
+[SignUp](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/signup) and start using the application or [Login](http://trello-clone-client.s3-website.eu-west-2.amazonaws.com/) with Test (name) and Test(password)
 The redux logger was added to show the process.
 Expect a lot of changes and database to be cleared often.
 
