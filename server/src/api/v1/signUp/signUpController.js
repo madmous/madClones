@@ -16,7 +16,7 @@ let signUpController = {};
 signUpController.saveUser = (req, res) => {
   async.waterfall([
     (callback) => {
-      let cbErrorMsg = [];
+      let cbErrorMsg = {};
 
       const isNameValid = req.body.name !== undefined;
       const isFullNameValid = req.body.fullname !== undefined;
@@ -25,23 +25,23 @@ signUpController.saveUser = (req, res) => {
       const isPasswordValid = req.body.password !== undefined;
 
       if (!isNameValid) {
-        cbErrorMsg.push('Please enter your name'); 
+        cbErrorMsg.usernameErr = 'Please enter your name'; 
       } 
 
       if (!isFullNameValid) {
-        cbErrorMsg.push('Please enter your full name'); 
+        cbErrorMsg.fullnameErr = 'Please enter your full name'; 
       } 
 
       if (!isInitialsValid) {
-        cbErrorMsg.push('Please enter your initials'); 
+        cbErrorMsg.initialsErr = 'Please enter your initials'; 
       } 
 
       if (!isEmailValid) {
-        cbErrorMsg.push('Please enter your email'); 
+        cbErrorMsg.emailErr = 'Please enter your email'; 
       } 
 
       if (!isPasswordValid) {
-        cbErrorMsg.push('Please enter your password');
+        cbErrorMsg.passwordErr = 'Please enter your password';
       } 
 
       if (!isNameValid || 
@@ -59,7 +59,7 @@ signUpController.saveUser = (req, res) => {
     },
     (user, callback) => {
       if (user) {
-        callback('That name is already taken');
+        callback({ usernameErr: 'That name is already taken' });
       } else {
         const user = new userModel({
           name: req.body.name,
@@ -86,9 +86,9 @@ signUpController.saveUser = (req, res) => {
     }
   ], (error, user) => { 
     if (error) {
-      return res.status(400).json({
+      return res.status(404).json({
         data: {
-          error
+          uiError : error
         }
       });
     } 

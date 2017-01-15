@@ -1,4 +1,5 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
+import { change } from 'redux-form';
 
 import { authenticateUser } from '../../../login/Login/modules/login'
 import { push } from 'react-router-redux';
@@ -50,7 +51,16 @@ export function createUser(formInput) {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(signUpFail(jsonData.error));
+          dispatch(signUpFail(jsonData.uiError));
+
+          if (jsonData.uiError.usernameErr) {
+            dispatch(change('signUpForm', 'username', ''))
+          }
+          
+          if (jsonData.uiError.emailErr) {
+            dispatch(change('signUpForm', 'email', ''))
+          }
+
         } else {
           dispatch(signUpSuccess());
           dispatch(authenticateUser());
@@ -67,7 +77,7 @@ const initialState = {
   isFetchingSuccessful: false,
   isFetching: false,
 
-  errorMessage: '',
+  errorMessage: {},
 }
 
 export default function signUp(state = initialState, action) {
@@ -75,17 +85,20 @@ export default function signUp(state = initialState, action) {
     case SIGN_UP_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
+
+        errorMessage: {}
       })
     case SIGN_UP_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
-        isFetchingSuccessful: true
+        isFetchingSuccessful: true,
+        isFetching: false
       })
     case SIGN_UP_FAIL:
       return Object.assign({}, state, {
-        isFetching: false,
         isFetchingSuccessful: true,
-        errorMessage: action.payload.error
+        isFetching: false,
+
+        errorMessage: action.payload
       })
     default: return state;
   }

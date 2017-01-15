@@ -5,6 +5,97 @@ import { Field, reduxForm } from 'redux-form';
 import './SignUpForm.css'
 
 class SignUpForm extends Component {
+
+	getUserNameClass() {
+		let usernameClass = "SignUp-Form-Username";
+		
+		if (this.props.errorMessage.usernameErr) {
+			usernameClass += " Error"; 
+		}
+
+		return usernameClass;
+	}
+
+	getUserNameErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.usernameErr) {
+			return errorMessage.usernameErr;
+		}
+	}
+
+	getFullNameClass() {
+		let fullNameClass = "SignUp-Form-FullName";
+		
+		if (this.props.errorMessage.fullnameErr) {
+			fullNameClass += " Error"; 
+		}
+
+		return fullNameClass;
+	}
+
+	getFullNameErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.fullnameErr) {
+			return errorMessage.fullnameErr;
+		}
+	}
+
+	getInitialsClass() {
+		let initialsClass = "SignUp-Form-Initials";
+		
+		if (this.props.errorMessage.passwordErr) {
+			initialsClass += " Error"; 
+		}
+
+		return initialsClass;
+	}
+
+	getInitialsErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.initialsErr) {
+			return errorMessage.initialsErr;
+		}
+	}
+
+	getEmailClass() {
+		let emailClass = "SignUp-Form-Email";
+		
+		if (this.props.errorMessage.emailErr) {
+			emailClass += " Error"; 
+		}
+
+		return emailClass;
+	}
+
+	getEmailErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.emailErr) {
+			return errorMessage.emailErr;
+		}
+	}
+
+	getPasswordClass() {
+		let passwordClass = "SignUp-Form-Email";
+		
+		if (this.props.errorMessage.passwordErr) {
+			passwordClass += " Error"; 
+		}
+
+		return passwordClass;
+	}
+
+	getPasswordErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.passwordErr) {
+			return errorMessage.passwordErr;
+		}
+	}
+
   render() {
     const { handleSubmit } = this.props;
 		
@@ -18,7 +109,9 @@ class SignUpForm extends Component {
 						<div className="SignUp-Form-Fiels">
 							<label htmlFor="username">Name</label>
 							<Field
-								className="SignUp-Form-Username"
+								placeholder={ this.getUserNameErrorMessage() }
+								className={ this.getUserNameClass() }
+								ref="usernameInput"
 								autoFocus={true}
 								type="text" 
 								name="username"
@@ -28,7 +121,8 @@ class SignUpForm extends Component {
 							/>
 							<label htmlFor="fullname">Full Name</label>
 							<Field
-								className="SignUp-Form-FullName"
+								placeholder={ this.getFullNameErrorMessage() }
+								className={ this.getFullNameClass() }
 								autoFocus={false}
 								type="text" 
 								name="fullname"
@@ -38,7 +132,8 @@ class SignUpForm extends Component {
 							/>
 							<label htmlFor="initials">Initials</label>
 							<Field
-								className="SignUp-Form-Initials"
+								placeholder={ this.getInitialsErrorMessage() }
+								className={ this.getInitialsClass() }
 								autoFocus={false}
 								type="text" 
 								name="initials"
@@ -48,7 +143,8 @@ class SignUpForm extends Component {
 							/>
 							<label htmlFor="email">Email</label>
 							<Field
-								className="SignUp-Form-Email"
+								placeholder={ this.getEmailErrorMessage() }
+								className={ this.getEmailClass() }
 								autoFocus={false}
 								type="text" 
 								name="email"
@@ -58,7 +154,8 @@ class SignUpForm extends Component {
 							/>
 							<label htmlFor="password">Password</label>
 							<Field
-								className="SignUp-Form-Password"
+								placeholder={ this.getPasswordErrorMessage() }
+								className={ this.getPasswordClass() }
 								autoFocus={false}
 								type="password" 
 								name="password"
@@ -76,14 +173,18 @@ class SignUpForm extends Component {
 }
 
 SignUpForm = reduxForm({
-  form: 'signUpForm' // a unique name for this form
+  form: 'signUpForm'
 })(SignUpForm);
 
 function mapStateToProps(state) {
 	const { isAuthenticated } = state.signUp;
+	const { errorMessage } = state.signUp;
+	const { signUpForm } = state.form
 
 	return {
-		isAuthenticated
+		isAuthenticated,
+		errorMessage,
+		signUpForm
 	}
 }
 

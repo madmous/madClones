@@ -6,25 +6,6 @@ import './LoginForm.css'
 
 class LoginForm extends Component {
 
-	getErrorMessage() {
-		const { errorMessage } = this.props;
-		let message = '';
-
-		if (errorMessage.usernameErr) {
-			message = errorMessage.usernameErr
-		} else if (errorMessage.passwordErr) {
-			message = errorMessage.passwordErr;
-		}
-
-		if (errorMessage.usernameErr || errorMessage.passwordErr) {
-			return (
-				<div className="Login-Form-Error">
-					<p>{ message }</p>
-				</div>
-			);
-		} else return null;
-	}
-
 	getUsernameClass() {
 		let usernameClass = "Login-Form-Username";
 		
@@ -33,6 +14,14 @@ class LoginForm extends Component {
 		}
 
 		return usernameClass;
+	}
+
+	getUserNameErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.usernameErr) {
+			return errorMessage.usernameErr;
+		}
 	}
 
 	getPasswordClass() {
@@ -44,6 +33,14 @@ class LoginForm extends Component {
 
 		return usernameClass;
 	}
+
+	getPasswordErrorMessage() {
+		const { errorMessage } = this.props;
+
+		if (errorMessage.passwordErr) {
+			return errorMessage.passwordErr;
+		}
+	}
 	
   render() {
     const { handleSubmit } = this.props;
@@ -53,12 +50,12 @@ class LoginForm extends Component {
 				<div className="Login-Form-Header">
 					<span className="Login-Form-Header-Title">Log in Trello Clone</span>
 				</div>
-				{ this.getErrorMessage() }
 				<div>
 					<form onSubmit={handleSubmit}>
 						<div className="Login-Form-Fiels">
 							<label htmlFor="username">Name</label>
 							<Field
+								placeholder={ this.getUserNameErrorMessage() }
 								className={ this.getUsernameClass() }
 								autoFocus={true}
 								type="text" 
@@ -69,6 +66,7 @@ class LoginForm extends Component {
 							/>
 							<label htmlFor="password">Password</label>
 							<Field
+								placeholder={ this.getPasswordErrorMessage() }
 								className={ this.getPasswordClass() }
 								autoFocus={false}
 								type="password" 

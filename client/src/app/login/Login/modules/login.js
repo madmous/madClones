@@ -1,5 +1,6 @@
-import fetch from 'isomorphic-fetch'
 import { push } from 'react-router-redux';
+import fetch from 'isomorphic-fetch';
+import { change } from 'redux-form';
 
 import { url } from '../../../../utils/url.js';
 import { closeAllModals } from '../../../home/Home/modules/modals';
@@ -61,6 +62,15 @@ export function authenticate(username, password) {
 
         if (jsonData.uiError || jsonData.error) {
           dispatch(authenticationFail(jsonData));
+
+          if (jsonData.uiError.usernameErr) {
+            dispatch(change('LoginForm', 'username', ''))
+          }
+          
+          if (jsonData.uiError.passwordErr) {
+            dispatch(change('LoginForm', 'password', ''))
+          }
+
         } else {
           dispatch(authenticationSuccess());
 
