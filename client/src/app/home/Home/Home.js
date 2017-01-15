@@ -8,6 +8,7 @@ import './Home.css';
 export default class Home extends Component {
 
   componentDidMount () {
+    document.title = 'Boards | Trello';
     this.props.userActions.getUser();
   }
 
