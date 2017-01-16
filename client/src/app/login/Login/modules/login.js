@@ -64,11 +64,11 @@ export function authenticate(username, password) {
           dispatch(authenticationFail(jsonData));
 
           if (jsonData.uiError.usernameErr) {
-            dispatch(change('LoginForm', 'username', ''))
+            dispatch(change('loginForm', 'username', ''))
           }
           
           if (jsonData.uiError.passwordErr) {
-            dispatch(change('LoginForm', 'password', ''))
+            dispatch(change('loginForm', 'password', ''))
           }
 
         } else {
