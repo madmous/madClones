@@ -26,8 +26,6 @@ let organizationId = '';
 export default function BoardItem(props) {
 
   const openModal = (event) => {
-    event.preventDefault();
-
     organizationId = props.organizationId;
 
     props.popOverActions.hidePopOver();

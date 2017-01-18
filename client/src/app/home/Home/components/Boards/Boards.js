@@ -78,7 +78,6 @@ export default function Boards(props) {
   const addOrganization = (formInput) => {
     const { userId } = props;
 
-    props.modalsActions.closeAllModals();
     props.organizationActions.addOrganization(userId, formInput.name);
   }
 
