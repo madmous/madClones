@@ -13,14 +13,13 @@ const loginRoutes         = require ('./api/v1/login/loginRoutes');
 const userRoutes          = require ('./api/v1/users/userRoutes');
 
 const config  = require ('./config/config');
-const log     = require ('./libs/winston')(module);
 const dbTest  = require ('./config/dbTest');
+const port    = require ('./config/config').port;
 const cors    = require ('cors');
+const log     = require ('./libs/winston')(module);
 const db      = require ('./config/db');
 
 const passportMiddleweare = require ('./utils/passportMiddleweare');
-
-const port = 80;
 
 const app = express ();
 
