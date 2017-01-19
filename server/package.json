@@ -5,7 +5,8 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "start": "NODE_ENV=dev node ./src/index",
+    "start": "NODE_ENV=production node ./src/index",
+    "start:dev": "NODE_ENV=development node ./src/index",
     "start:debug": "NODE_ENV=dev node --inspect ./src/index",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.spec.js",
     "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha --inspect --recursive --debug-brk",
