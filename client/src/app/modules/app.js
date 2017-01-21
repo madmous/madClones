@@ -1,3 +1,5 @@
+import { logoutUser } from '../routes/login/modules/login';
+
 import { url } from '../../utils/url';
 
 const UPDATE_USER = 'UPDATE_USER'
@@ -42,7 +44,13 @@ export function getUser() {
           'Authorization': 'JWT ' + localStorage.getItem('userId')
         },
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logoutUser());
+        } else {
+          return response.json();
+        }
+      })
       .then(json => {
         const jsonData = json.data;
 

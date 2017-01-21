@@ -1,7 +1,8 @@
-import { updateOrganizations } from './organization'
-import { updateStarredBoards } from './starredBoard'
-import { closeAllModals } from './modals'
-import { updateBoards } from './board'
+import { updateOrganizations } from './organization';
+import { updateStarredBoards } from './starredBoard';
+import { closeAllModals } from './modals';
+import { updateBoards } from './board';
+import { logoutUser } from '../../login/modules/login';
 
 import { url } from '../../../../utils/url';
 
@@ -38,7 +39,13 @@ export function getHome() {
           'Authorization': 'JWT ' + localStorage.getItem('userId')
         },
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logoutUser());
+        } else {
+          return response.json();
+        }
+      })
       .then(json => {
         const jsonData = json.data;
 

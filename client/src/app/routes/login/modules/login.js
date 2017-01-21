@@ -1,6 +1,6 @@
+import { change } from 'redux-form';
 import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
-import { change } from 'redux-form';
 
 import { url } from '../../../../utils/url.js';
 import { closeAllModals } from '../../home/modules/modals';
@@ -41,7 +41,6 @@ export function authenticateUser() {
 export function authenticateIfNeeded() {
   return dispatch => {
     dispatch(authenticateUser());
-    //dispatch(push('/'));
   }
 }
 
