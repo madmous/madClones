@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { PopOver } from './containers/index';
 import { Header } from './components/index';
 
 import './App.css'
 
-export default function App(props) {
+export default class App extends Component {
 
-  const handleDocumentClick = () => {
+  componentDidMount () {
+    this.props.appActions.getUser();
+  }
+
+  handleDocumentClick = () => {
     const { 
       isFocusOnPopHover,
       popOverActions,
@@ -15,7 +19,7 @@ export default function App(props) {
       isPopOverOpen,
       modalActions,
       isModalOpen
-    } = props;
+    } = this.props;
     
     if (!isFocusOnModal && isModalOpen) {
       modalActions.closeAllModals();
@@ -26,13 +30,13 @@ export default function App(props) {
     }
   }
 
-  const handleEscKey = event => {
+  handleEscKey = event => {
     const { 
       popOverActions,
       isPopOverOpen,
       modalActions,
       isModalOpen
-    } = props;
+    } = this.props;
 
     if (event.keyCode === 27) {
        
@@ -44,23 +48,25 @@ export default function App(props) {
     } 
   }
 
-  const getPopOver = () => {
-    if (props.isPopOverOpen) {
+  getPopOver = () => {
+    if (this.props.isPopOverOpen) {
       return (
         <PopOver />
       )
     }
   }
 
-  return (
-    <div 
-      className="App" tabIndex="0" 
-      onClickCapture={ handleDocumentClick }
-      onKeyDown={ handleEscKey } 
-    >
-      <Header />
-      { props.children }
-      { getPopOver() }
-    </div>
-  )
+  render() {
+    return (
+      <div 
+        className="App" tabIndex="0" 
+        onClickCapture={ this.handleDocumentClick }
+        onKeyDown={ this.handleEscKey } 
+      >
+        <Header />
+        { this.props.children }
+        { this.getPopOver() }
+      </div>
+    )
+  }
 }

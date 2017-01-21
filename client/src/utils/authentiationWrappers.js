@@ -1,5 +1,5 @@
 import { UserAuthWrapper } from 'redux-auth-wrapper';
-import { push, replace } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 export const RequiresAuthentication = UserAuthWrapper({
   authSelector: state => state.login,

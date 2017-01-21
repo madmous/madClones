@@ -12,14 +12,14 @@ import {
 import { popOverActionCreators } from '../../../modules/index';
 
 const mapStateToProps = state => {
-  const { userId } = state.user;
+  const { userId } = state.app;
 
   const { starredBoards } = state.starredBoard;
   const { organizations } = state.organization;
   const { boards } = state.board;
 
-  const { isFetchingUserSuccessful } = state.user;
-  const { isFetchingUser } = state.user;
+  const { isFetchingUserSuccessful } = state.app;
+  const { isFetchingUser } = state.app;
 
   return {
     userId, 

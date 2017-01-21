@@ -12,7 +12,7 @@ import {
 import { popOverActionCreators } from '../../../modules/index';
 
 const mapStateToProps = state => {
-  const { userId } = state.user;
+  const { userId } = state.app;
 
   return {
     userId

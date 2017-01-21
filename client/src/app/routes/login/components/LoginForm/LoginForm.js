@@ -89,7 +89,7 @@ LoginForm = reduxForm({
 })(LoginForm);
 
 function mapStateToProps(state) {
-	const { isAuthenticated } = state.user;
+	const { isAuthenticated } = state.app;
 	const { errorMessage } = state.login;
 
 	return {

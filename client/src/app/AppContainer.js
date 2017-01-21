@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import App from './App';
 
-import {
-  modalActionCreators,
-  userActionCreators
-} from './routes/home/modules/index';
+import { modalActionCreators } from './routes/home/modules/index';
 
-import { popOverActionCreators } from './modules/index';
+import { 
+  popOverActionCreators,
+  appActionCreators, 
+} from './modules/index';
 
 const mapStateToProps = state => {
   const { isFocusOnPopHover } = state.popOver;
@@ -17,7 +17,7 @@ const mapStateToProps = state => {
   const { isPopOverOpen } = state.popOver;
   const { errorMessages } = state.notification;
   const { isModalOpen } = state.modals;
-  const { fullName } = state.user;
+  const { fullName } = state.app;
 
   return {
     isFocusOnPopHover,
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
   return { 
     popOverActions: bindActionCreators(popOverActionCreators, dispatch),
     modalActions: bindActionCreators(modalActionCreators, dispatch),
-    userActions: bindActionCreators(userActionCreators, dispatch)
+    appActions: bindActionCreators(appActionCreators, dispatch),
   }
 }
 

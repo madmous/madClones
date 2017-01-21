@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 
-import './BoardWrapper.css';
+import './BoardView.css';
 
 export default class BoardWrapper extends Component {
+
+  componentDidMount () {
+    document.title = 'BoardView | Trello';
+  }
 
   render () {
     return (

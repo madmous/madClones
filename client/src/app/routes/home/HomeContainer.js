@@ -5,7 +5,7 @@ import Home from './Home';
 
 import {
   modalActionCreators,
-  userActionCreators
+  homeActionCreators
 } from './modules/index';
 
 import { popOverActionCreators } from '../../modules/index';
@@ -17,7 +17,7 @@ const mapStateToProps = state => {
   const { isPopOverOpen } = state.popOver;
   const { errorMessages } = state.notification;
   const { isModalOpen } = state.modals;
-  const { fullName } = state.user;
+  const { fullName } = state.app;
 
   return {
     isFocusOnPopHover,
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
   return { 
     popOverActions: bindActionCreators(popOverActionCreators, dispatch),
     modalActions: bindActionCreators(modalActionCreators, dispatch),
-    userActions: bindActionCreators(userActionCreators, dispatch)
+    homeActions: bindActionCreators(homeActionCreators, dispatch)
   }
 }
 

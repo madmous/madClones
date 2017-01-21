@@ -1,14 +1,10 @@
-import { updateOrganizations } from './organization'
-import { updateStarredBoards } from './starredBoard'
-import { closeAllModals } from './modals'
-import { updateBoards } from './board'
-
-import { url } from '../../../../utils/url';
+import { url } from '../../../../../../utils/url';
 
 const UPDATE_USER = 'UPDATE_USER'
 
 const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
 const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+const LOAD_USER_FAIL = 'LOAD_USER_FAIL'
 
 function loadUserRequest() {
   return {
@@ -19,6 +15,13 @@ function loadUserRequest() {
 function loadUserSuccess() {
   return {
     type: LOAD_USER_SUCCESS
+  }
+}
+
+function loadUserFail(payload) {
+  return {
+    type: LOAD_USER_FAIL,
+    payload
   }
 }
 
@@ -41,26 +44,25 @@ export function getUser() {
       })
       .then(response => response.json())
       .then(json => {
-        const payload = json.data;
+        const jsonData = json.data;
 
-        dispatch(closeAllModals());
-        dispatch(loadUserSuccess())
-        
-        dispatch(updateUser(payload))
-        dispatch(updateOrganizations(payload))
-        dispatch(updateStarredBoards(payload))
-        dispatch(updateBoards(payload))
+        if (jsonData.uiError || jsonData.error) {
+          dispatch(loadUserFail(jsonData))
+        } else {
+          dispatch(loadUserSuccess())
+          dispatch(updateUser(jsonData));
+        }
       })
   }
 }
 
 const initialState = {
-  userId: '',
-  fullName: '',
   errorMessage: '',
+  fullName: '',
+  userId: '',
 
-  isFetchingUser: false,
-  isFetchingUserSuccessful: false
+  isFetchingUserSuccessful: false,
+  isFetchingUser: false
 }
 
 export default function user(state = initialState, action) {
@@ -71,8 +73,15 @@ export default function user(state = initialState, action) {
       })
     case LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
+        isFetchingUserSuccessful: true,
+        isFetchingUSer: false
+      })
+    case LOAD_USER_FAIL:
+      return Object.assign({}, state, {
+        isFetchingUserSuccessful: false,
         isFetchingUSer: false,
-        isFetchingUserSuccessful: true
+
+        errorMessage: action.payload.error
       })
     case UPDATE_USER:
       return Object.assign({}, state, {

@@ -11,12 +11,11 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { RequiresAuthentication } from './utils/authentiationWrappers';
-import { IsAuthenticated } from './utils/authentiationWrappers';
 
 import { authenticateIfNeeded } from '../src/app/routes/login/modules/login';
 import configureStore from './store/configureStore';
 
-import BoardWrapper from './app/routes/home/routes/boards/BoardWrapperContainer';
+import BoardView from './app/routes/home/routes/boardView/BoardViewContainer';
 import SignUp from './app/routes/signUp/SignUpContainer';
 import Login from './app/routes/login/LoginContainer';
 import Home from './app/routes/home/HomeContainer';
@@ -38,7 +37,7 @@ ReactDOM.render(
       <Route path="signup" component={SignUp} />
       <Route path="/" component={RequiresAuthentication(App)} >
         <IndexRoute component={Home} />
-        <Route path="boards/:id" component={BoardWrapper} />
+        <Route path="boards/:id" component={BoardView} />
       </Route>
     </Router>
   </Provider>,

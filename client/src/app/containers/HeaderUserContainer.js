@@ -7,7 +7,7 @@ import { modalActionCreators } from '../routes/home/modules/index';
 import HeaderUser from '../components/HeaderUser/HeaderUser';
 
 const mapStateToProps = state => {
-  const { fullName } = state.user;
+  const { fullName } = state.app;
 
   return {
     fullName
