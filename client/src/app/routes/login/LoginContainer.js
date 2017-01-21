@@ -7,15 +7,18 @@ import * as loginActionCreators from './modules/login';
 
 const mapStateToProps = state => {
   const { isAuthenticatingSuccessful } = state.login;
+  const { isAuthenticated } = state.login;
 
   return {
-    isAuthenticatingSuccessful
+    isAuthenticatingSuccessful,
+    isAuthenticated
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginActions: bindActionCreators(loginActionCreators, dispatch)
+    loginActions: bindActionCreators(loginActionCreators, dispatch),
+    dispatch
   }
 }
 

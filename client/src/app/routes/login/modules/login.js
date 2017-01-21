@@ -45,7 +45,7 @@ export function authenticateIfNeeded() {
   }
 }
 
-export function authenticate(username, password) {
+export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest())
 
@@ -53,7 +53,7 @@ export function authenticate(username, password) {
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'Basic ' + btoa(username + ':' + password)
+          'Authorization': 'Basic ' + btoa(formInputs.username + ':' + formInputs.password)
         },
       })
       .then(response => response.json())
@@ -75,8 +75,12 @@ export function authenticate(username, password) {
           dispatch(authenticationSuccess());
 
           localStorage.setItem('userId', jsonData.token);
-
-          dispatch(push('/'));
+          
+          if (redirectUrl && redirectUrl.query && redirectUrl.query.redirect) {
+            dispatch(push(redirectUrl.query.redirect))
+          } else {
+            dispatch(push('/'));
+          }
         }
       })
   }

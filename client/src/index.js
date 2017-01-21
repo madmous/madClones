@@ -11,6 +11,8 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { RequiresAuthentication } from './utils/authentiationWrappers';
+import { IsAuthenticated } from './utils/authentiationWrappers';
+
 import { authenticateIfNeeded } from '../src/app/routes/login/modules/login';
 import configureStore from './store/configureStore';
 
@@ -21,8 +23,6 @@ import Home from './app/routes/home/HomeContainer';
 import App from './app/AppContainer';
 
 import './index.css';
-
-const Authenticated = RequiresAuthentication(props => props.children);
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);

@@ -7,14 +7,19 @@ import * as signUpActionCreators from './modules/signUp'
 
 const mapStateToProps = state => {
   const { isAuthenticatingSuccessful } = state.signUp;
+  const { isAuthenticated } = state.login;
 
   return {
-    isAuthenticatingSuccessful
+    isAuthenticatingSuccessful,
+    isAuthenticated
   };
 }
 
 const mapDispatchToProps = dispatch => {
-  return { signUpActions: bindActionCreators(signUpActionCreators, dispatch) }
+  return { 
+    signUpActions: bindActionCreators(signUpActionCreators, dispatch),
+    dispatch 
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

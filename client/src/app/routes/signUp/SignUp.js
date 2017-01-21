@@ -1,11 +1,24 @@
-import { Link } from 'react-router';
 import React, { Component } from 'react';
+import { push } from 'react-router-redux';
+import { Link } from 'react-router';
 
 import { SignUpForm } from './components/index';
 
 import './SignUp.css';
 
 export default class SignUp extends Component {
+
+  componentWillMount() {
+    const { isAuthenticated, dispatch, location } = this.props;
+
+    if (isAuthenticated) {
+      if (location && location.query && location.query.redirect) {
+        dispatch(push(location.query.redirect));
+      } else {
+        dispatch(push('/'));
+      }
+    }
+  }
 
   componentDidMount () {
      document.title = 'Create a Trello Clone Accout';
