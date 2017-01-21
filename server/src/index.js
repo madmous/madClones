@@ -11,6 +11,7 @@ const signUpRoutes        = require ('./api/v1/signUp/signUpRoutes');
 const boardRoutes         = require ('./api/v1/board/boardRoutes');
 const loginRoutes         = require ('./api/v1/login/loginRoutes');
 const userRoutes          = require ('./api/v1/users/userRoutes');
+const homeRoutes          = require ('./api/v1/home/homeRoutes');
 
 const config  = require ('./config/config');
 const dbTest  = require ('./config/dbTest');
@@ -31,11 +32,14 @@ app.use(bodyParser.json());
 
 app.disable('x-powered-by');
 
-app.use('/api/v1/login', passportMiddleweare.isAuthenticatedWithBasic, loginRoutes);
 app.use('/api/v1/signup', signUpRoutes);
-app.use('/api/v1/users', passportMiddleweare.isAuthenticatedWithToken, userRoutes);
+
+app.use('/api/v1/login', passportMiddleweare.isAuthenticatedWithBasic, loginRoutes);
+
 app.use('/api/v1/organizations', passportMiddleweare.isAuthenticatedWithToken, organizationRoutes);
 app.use('/api/v1/boards', passportMiddleweare.isAuthenticatedWithToken, boardRoutes);
+app.use('/api/v1/users', passportMiddleweare.isAuthenticatedWithToken, userRoutes);
+app.use('/api/v1/home', passportMiddleweare.isAuthenticatedWithToken, homeRoutes);
 
 app.get('*', (req, res) => {
 	res.status(404).json({

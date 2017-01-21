@@ -17,10 +17,7 @@ function formatResponse(pUser) {
     user: {
       _id: pUser._id,
       fullname: pUser.fullname,
-    },
-    boards: pUser.boards,
-    organizations: pUser.organizations,
-    starredBoards: pUser.boardStars
+    }
   } 
 }
 

@@ -28,11 +28,11 @@ function loadHomeFail(payload) {
   }
 }
 
-export function gethome() {
+export function getHome() {
   return dispatch => {
     dispatch(loadHomeRequest())
 
-    return fetch(url + `api/v1/users/`, 
+    return fetch(url + `api/v1/home/`, 
       { method: 'GET',
         headers: {
           'Authorization': 'JWT ' + localStorage.getItem('userId')

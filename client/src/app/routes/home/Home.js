@@ -9,7 +9,7 @@ export default class Home extends Component {
 
   componentDidMount () {
     document.title = 'Boards | Trello';
-    this.props.homeActions.gethome();
+    this.props.homeActions.getHome();
   }
 
   getNotificationErrorMessage () {
