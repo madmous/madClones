@@ -1,0 +1,28 @@
+.Header-User {
+	top: 5px;
+	right: 0;
+	position: absolute;
+}
+
+.Header-User-Add:hover, 
+.Header-User-Info:hover, 
+.Header-User-Notifications:hover, 
+.Header-User-Menu:hover {
+	cursor: pointer;
+	background: linear-gradient(to bottom,rgba(255,255,255,.4) 0,rgba(255,255,255,.3) 100%);
+}
+
+.Header-User-Name {
+	padding-left: 8px;
+	padding-right: 8px; 
+}
+
+.Header-User-Image {
+	border: 0;
+	width: 30px;
+	height: 30px;
+
+	background-repeat: no-repeat;
+
+  background-image: url('../../../static/images/headerUserImg.png');
+}

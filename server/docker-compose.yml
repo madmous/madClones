@@ -3,10 +3,12 @@ services:
   web:
     build: .
     ports:
-      - "80:3001"
+      - "3001:3001"
     links:
       - mongo
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+    volumes:
+      - /data/mongodb:/data/db

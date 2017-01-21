@@ -1,40 +1,44 @@
-import { syncHistoryWithStore, push } from 'react-router-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { 
+  browserHistory, 
+  IndexRoute, 
+  Router, 
+  Route 
+} from 'react-router';
+
+import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import SignUp from './app/signup/SignUpContainer';
-import Boards from './app/login/LoginContainer';
-import Login from './app/login/LoginContainer';
-import Home from './app/home/HomeContainer';
-
+import { RequiresAuthentication } from './utils/authentiationWrappers';
+import { authenticateIfNeeded } from '../src/app/routes/login/modules/login';
 import configureStore from './store/configureStore';
 
-import { RequiresAuthentication } from './utils/authentiationWrappers';
-import { authenticateIfNeeded } from './app/login/Login/modules/login';
+import BoardWrapper from './app/routes/home/routes/boards/BoardWrapperContainer';
+import SignUp from './app/routes/signUp/SignUpContainer';
+import Login from './app/routes/login/LoginContainer';
+import Home from './app/routes/home/HomeContainer';
+import App from './app/AppContainer';
 
 import './index.css';
 
+const Authenticated = RequiresAuthentication(props => props.children);
+
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
-const Authenticated = RequiresAuthentication((props) => props.children);
 
-const isAuthenticatedWithJWT = (nextState, replace) => {
-  if (localStorage.getItem('userId')) {
-    store.dispatch(authenticateIfNeeded());
-    store.dispatch(push('/'));
-  }
+if (localStorage.getItem('userId')) {
+  store.dispatch(authenticateIfNeeded());
 }
 
 ReactDOM.render(
   <Provider store={store}>
-     <Router history={history}>
-      <Route path="/login" component={Login} onEnter={isAuthenticatedWithJWT} />
-      <Route path="/signup" component={SignUp} onEnter={isAuthenticatedWithJWT} />
-      <Route path="/" component={Authenticated}>
+    <Router history={history} >
+      <Route path="login" component={Login} />
+      <Route path="signup" component={SignUp} />
+      <Route path="/" component={RequiresAuthentication(App)} >
         <IndexRoute component={Home} />
-        <Route path="/boards/:id" component={Boards} />
+        <Route path="boards/:id" component={BoardWrapper} />
       </Route>
     </Router>
   </Provider>,
