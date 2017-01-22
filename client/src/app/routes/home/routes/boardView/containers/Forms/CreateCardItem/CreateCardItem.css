@@ -1,0 +1,67 @@
+.Create-Card-Item-Form {
+  width: 100%;
+  margin: 0;
+  padding-bottom: 8px;
+}
+
+.Create-Card-Item-Form:focus {
+  outline: none;
+}
+
+.Create-Card-Item-Form-Card-Title {
+  width: 100%;
+  background-color: #fff;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  max-width: 300px;
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  resize: none;
+  padding: 8px;
+  word-wrap: break-word;
+  display:block;
+}
+
+.Create-Card-Item-Form-Card-Title:focus {
+  outline: none;
+}
+
+.Create-Card-Item-Form-SubmitButton {
+  font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
+	min-height: 30px;
+	border-radius: 3px;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: 700;
+	padding: 7px 20px;
+  margin-right: 4px;
+	text-align: center;
+	border: none;
+	background: linear-gradient(to bottom,#61BD4F 0,#5AAC44 100%);
+  box-shadow: 0 1px 0 #3F6F21;
+  color: #fff;
+}
+
+.Create-Card-Item-Form-SubmitButton:hover {
+  background: #068742;
+}
+
+.Create-Card-Item-Form-Footer {
+  display: flex;
+}
+
+.Create-Card-Item-Form-Header-Close-Button {
+  height: 31px;
+  font-size: 20px;
+  width: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Create-Card-Item-Form-Header-Close-Button:hover {
+  cursor: pointer;
+}

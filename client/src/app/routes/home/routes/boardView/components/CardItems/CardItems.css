@@ -1,0 +1,23 @@
+.Card-Items {
+  padding: 0 4px;
+  margin: 0 4px 4px 4px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.Card-Items div:last-child {
+  margin-bottom: 0;
+}
+
+.Card-Items::-webkit-scrollbar {
+  display: block;
+  height: 9px;
+  width: 9px;
+  background-color: #D6DADC;
+  border-radius: 4px;
+}
+
+.Card-Items::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #C4C9CC;
+}

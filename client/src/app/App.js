@@ -59,7 +59,8 @@ export default class App extends Component {
   render() {
     return (
       <div 
-        className="App" tabIndex="0" 
+        className="App" 
+        tabIndex="0" 
         onClickCapture={ this.handleDocumentClick }
         onKeyDown={ this.handleEscKey } 
       >

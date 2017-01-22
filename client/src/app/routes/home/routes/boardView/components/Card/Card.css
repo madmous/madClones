@@ -1,0 +1,69 @@
+.Card {
+  width: 270px;
+  margin-right: 10px;
+  height: calc(100% - 16px);
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.Card-Content {
+  max-height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  background: #E2E4E6;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  position: relative;
+  white-space: normal;
+}
+
+.Card-Content-Header {
+  height: 34px;
+  padding: 8px 10px;
+}
+
+.Card-Content-Header-Text {
+  color: #4d4d4d;
+  font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
+  transition: background 85ms ease-in,border-color 85ms ease-in;
+  width: calc(100% - 30px);
+  background: 0 0;
+  resize: none;
+  border: none;
+  font-weight: 700;
+  border-radius: 3px;
+  box-shadow: none;
+  overflow: hidden;
+  word-wrap: break-word;
+  height: 100%;
+  padding: 0px 5px
+}
+
+.Card-Content-Header-Text:focus {
+  outline: none;
+  background: white;
+}
+
+.Card-Content-Footer {
+  padding: 8px 10px;
+  border-radius: 0 0 3px 3px;
+  color: #8c8c8c;
+  display: block;
+  flex: 0 0 auto;
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+}
+
+.Card-Content-Footer:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: black;
+  background: #C4C9CC;
+}

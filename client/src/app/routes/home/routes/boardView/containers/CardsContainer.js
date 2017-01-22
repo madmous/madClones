@@ -1,15 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import BoardView from './BoardView';
+import Cards from '../components/Cards/Cards';
 
-import { boardViewActionCreators } from './modules/index';
+import { boardViewActionCreators } from '../modules/index';
 
 const mapStateToProps = state => {
-  const { isFocusOnCreateCardForm, isCreateCardFormOpen } = state.boardView;
+  const { isCreateCardFormOpen } = state.boardView;
 
   return {
-    isFocusOnCreateCardForm,
     isCreateCardFormOpen
   };
 }
@@ -20,4 +19,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoardView);
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);

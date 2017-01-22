@@ -18,6 +18,7 @@ import { popOver } from '../app/modules/index';
 import { app } from '../app/modules/index';
 
 import { boardView } from '../app/routes/home/routes/boardView/modules/index';
+import { card } from '../app/routes/home/routes/boardView/modules/index';
 
 const rootReducer = combineReducers({
 	organization,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
 	app,
 
 	boardView,
+	card,
 
 	form: formReducer,
 	routing: routerReducer

@@ -1,0 +1,14 @@
+.Board-View {
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  background: #0079BF;
+  display: flex;
+  flex-direction: column;
+}
+
+.Board-View:focus {
+  outline: none
+}

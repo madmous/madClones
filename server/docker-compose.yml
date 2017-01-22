@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-      - "3001:3001"
+      - "3001:80"
     links:
       - mongo
   mongo:
