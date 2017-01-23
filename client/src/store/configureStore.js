@@ -9,12 +9,20 @@ import rootReducer from './rootReducer'
 const logger = createLogger();
 const middleware = routerMiddleware(browserHistory)
 
-export default function configureStore(preloadedState) {
+export default function configureStoreProd(preloadedState) {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-  return createStore(
-    rootReducer,
-    preloadedState,
-    composeEnhancers(applyMiddleware(thunkMiddleware, middleware, logger))
-  )
+  if (process.env.NODE_ENV === 'development') {
+    return createStore(
+      rootReducer,
+      preloadedState,
+      composeEnhancers(applyMiddleware(thunkMiddleware, middleware, logger))
+    )
+  } else {
+    return createStore(
+      rootReducer,
+      preloadedState,
+      composeEnhancers(applyMiddleware(thunkMiddleware, middleware))
+    )
+  }
 }
