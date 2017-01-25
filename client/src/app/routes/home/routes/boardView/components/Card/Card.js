@@ -9,16 +9,18 @@ export default function Card(props) {
   const { 
     createCardFormIndexToOpen, 
     isCreateCardItemFormOpen, 
-    cardPosition 
+    cardPosition,
+    cardActions,
+    cardHeader
   } = props;
 
-  const getAddCardItemSpan = () => {
+  const renderAddCardItemSpan = () => {
 
     if (!isCreateCardItemFormOpen || createCardFormIndexToOpen !== cardPosition + 1) {
       return (
         <span 
           className="Card-Content-Footer"
-          onClick={ () => props.cardActions.openCreateCardItemForm(props.cardPosition + 1) }
+          onClick={ () => cardActions.openCreateCardItemForm(cardPosition + 1) }
         >Add a card item...</span>
       )
     }
@@ -32,11 +34,11 @@ export default function Card(props) {
             className="Card-Content-Header-Text" 
             spellCheck="false" 
             dir="auto"
-            defaultValue={ props.cardHeader }
+            defaultValue={cardHeader}
           ></textarea>
         </div>
-        <CardItems cardPosition={props.cardPosition} />
-        { getAddCardItemSpan() }
+        <CardItems cardPosition={cardPosition} />
+        { renderAddCardItemSpan() }
       </div>
     </div>    
   );

@@ -12,13 +12,15 @@ export default class Home extends Component {
     this.props.homeActions.getHome();
   }
 
-  getNotificationErrorMessage () {
+  renderNotificationErrorMessage () {
     const { errorMessages } = this.props;
 
     if (errorMessages && errorMessages.length > 0) {
       return (
         <Notification errorMessages={errorMessages} />
       )
+    } else {
+      return null;
     }
   }
 
@@ -26,7 +28,7 @@ export default class Home extends Component {
     return (
       <div className="Home" >
         <Boards />
-        { this.getNotificationErrorMessage() }
+        { this.renderNotificationErrorMessage() }
       </div>
     );
   }

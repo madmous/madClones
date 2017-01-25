@@ -5,20 +5,12 @@ import { CreateCard, Card } from '../../containers/index';
 import './Cards.css';
 
 export default function Cards(props) {
+  const {
+    isCreateCardFormOpen,
+    boardViewActions
+  } = props;
 
-  const getAddCardSpanOrForm = () => {
-    if (props.isCreateCardFormOpen) {
-      return (
-        <CreateCard />
-      )
-    } else {
-      return (
-        <span onClick={ () => props.boardViewActions.openCreateCardForm() }>Add a card...</span>
-      )
-    }
-  }
-
-  const getCards = () => {
+  const renderCards = () => {
     const cards = ['ToDo', 'In Progress', 'In Review', 'Done'];
 
     let cardItem = null;
@@ -35,10 +27,22 @@ export default function Cards(props) {
     return cardItem;
   }
 
+   const renderAddCardSpanOrForm = () => {
+    if (isCreateCardFormOpen) {
+      return (
+        <CreateCard />
+      )
+    } else {
+      return (
+        <span onClick={ () => boardViewActions.openCreateCardForm() }>Add a card...</span>
+      )
+    }
+  }
+
   return (
     <div className="Cards">
-      { getCards() }
-      { getAddCardSpanOrForm() }
+      { renderCards() }
+      { renderAddCardSpanOrForm() }
     </div>
   );
 }
