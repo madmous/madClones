@@ -7,6 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * React Router Redux
 * Redux Form
 * Redux Auth Wrapper
+* React DnD
 * Font Awesome
 
 ## Achievements
