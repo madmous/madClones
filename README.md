@@ -1,4 +1,4 @@
-This repo is under active development. I am working on it daily and will release the 1.0.0 very soon. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
+This repo is under active development. I am working on it daily and will release the 2.0.0 very soon. The version 1.0.0 covered the login, sign up and home page. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
 
 ## Live demo
 
