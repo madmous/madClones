@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
 
 import './LoginForm.css'
 
@@ -84,18 +83,4 @@ class LoginForm extends Component {
   }
 }
 
-LoginForm = reduxForm({
-  form: 'loginForm' // a unique name for this form
-})(LoginForm);
-
-function mapStateToProps(state) {
-	const { isAuthenticated } = state.app;
-	const { errorMessage } = state.login;
-
-	return {
-		isAuthenticated,
-		errorMessage
-	}
-}
-
-export default connect(mapStateToProps)(LoginForm);
+export default reduxForm({ form: 'loginForm' })(LoginForm);

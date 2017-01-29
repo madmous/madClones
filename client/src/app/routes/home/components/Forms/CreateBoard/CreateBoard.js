@@ -1,10 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
-
-import * as ModalActionCreators from '../../../modules/modals';
 
 import '../Form.css'
 
@@ -76,25 +72,6 @@ class CreateBoard extends Component {
 	}
 }
 
-CreateBoard = reduxForm({
-  form: 'createBoardForm' // a unique name for this form
-})(CreateBoard);
-
-function mapStateToProps(state) {
-	const { isCreateBoardModalOpen } = state.modals;
-
-	return {
-		isCreateBoardModalOpen
-	}
-}
-
-function mapDispatchToProps(dispatch) {
-  return { 
-    modalActions: bindActionCreators(ModalActionCreators, dispatch)
-  }
-}
-
 CreateBoard.propTypes = propTypes;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateBoard);
-
+export default reduxForm({ form: 'createBoardForm' })(CreateBoard);

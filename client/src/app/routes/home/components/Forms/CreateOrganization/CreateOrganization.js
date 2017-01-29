@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
-import { bindActionCreators } from 'redux';
-
-import * as ModalActionCreators from '../../../modules/modals';
 
 import '../Form.css'
 
@@ -71,23 +67,4 @@ class CreateOrganization extends Component {
 	}
 }
 
-CreateOrganization = reduxForm({
-  form: 'createOrganizationForm' // a unique name for this form
-})(CreateOrganization);
-
-function mapStateToProps(state) {
-	const { isCreateOrganizationModalOpen } = state.modals;
-
-	return {
-		isCreateOrganizationModalOpen
-	}
-}
-
-function mapDispatchToProps(dispatch) {
-  return { 
-    modalActions: bindActionCreators(ModalActionCreators, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateOrganization);
-
+export default reduxForm({ form: 'createOrganizationForm' })(CreateOrganization);

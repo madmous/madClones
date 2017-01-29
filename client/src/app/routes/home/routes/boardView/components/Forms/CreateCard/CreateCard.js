@@ -1,10 +1,6 @@
-import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
-
-import { boardViewActionCreators } from '../../../modules/index';
 
 import './CreateCard.css'
 
@@ -53,23 +49,4 @@ class CreateCard extends Component {
   }
 }
 
-CreateCard = reduxForm({
-  form: 'createCardForm'
-})(CreateCard);
-
-function mapStateToProps(state) {
-	const { isCreateCardFormOpen } = state.boardView;
-
-	return {
-		isCreateCardFormOpen
-	}
-}
-
-function mapDispatchToProps(dispatch) {
-  return { 
-    boardViewActions: bindActionCreators(boardViewActionCreators, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCard);
-
+export default reduxForm({ form: 'createCardForm' })(CreateCard);

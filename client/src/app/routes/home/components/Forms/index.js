@@ -1,5 +1,5 @@
-import CreateOrganization from './CreateOrganization/CreateOrganization';
-import CreateBoard from './CreateBoard/CreateBoard';
+import CreateOrganization from './CreateOrganization/CreateOrganizationContainer';
+import CreateBoard from './CreateBoard/CreateBoardContainer';
 
 export {
   CreateOrganization,

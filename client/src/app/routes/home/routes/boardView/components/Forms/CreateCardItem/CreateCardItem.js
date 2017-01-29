@@ -1,10 +1,6 @@
-import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
-
-import { cardActionCreators } from '../../../modules/index';
 
 import './CreateCardItem.css';
 
@@ -63,23 +59,4 @@ class CreateCardItem extends Component {
   }
 }
 
-CreateCardItem = reduxForm({
-  form: 'createCardItemForm'
-})(CreateCardItem);
-
-function mapStateToProps(state) {
-	const { isCreateCardItemFormOpen } = state.card;
-
-	return {
-		isCreateCardItemFormOpen
-	}
-}
-
-function mapDispatchToProps(dispatch) {
-  return { 
-    cardActions: bindActionCreators(cardActionCreators, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCardItem);
-
+export default  reduxForm({ form: 'createCardItemForm' })(CreateCardItem);

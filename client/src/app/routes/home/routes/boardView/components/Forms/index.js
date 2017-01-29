@@ -1,5 +1,5 @@
-import CreateCardItem from './CreateCardItem/CreateCardItem';
-import CreateCard from './CreateCard/CreateCard';
+import CreateCardItem from './CreateCardItem/CreateCardItemContainer';
+import CreateCard from './CreateCard/CreateCardContainer';
 
 export {
   CreateCardItem,
