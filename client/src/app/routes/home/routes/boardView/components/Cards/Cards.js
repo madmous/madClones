@@ -27,8 +27,10 @@ class Cards extends Component {
     return cardItem;
   }
 
-  moveCard = (lastX, lastY, nextX, nextY) => {
-    this.props.cardActions.moveCard(lastX, lastY, nextX, nextY);
+  moveCard = (previousAndNextPositions) => {
+    const { cardActions, pathname, cards } = this.props;
+
+    cardActions.moveCardItemAndUpdateCards(previousAndNextPositions, cards, pathname);
   }
 
   createCard = (formInput) => {

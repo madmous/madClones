@@ -49,6 +49,50 @@ cardController.getUserBoardCards = (req, res) => {
   }
 }
 
+cardController.updateUserBoardCards = (req, res) => {
+  if (!objectIdRegex.test(req.params.idBoard)) {
+    return res.status(400).json({
+      data: {
+        error: 'Please enter a valid board id'
+      }
+    });
+  } else {
+    async.waterfall([
+      (callback) => {
+        cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard }, callback);
+      },
+      (cards, callback) => {
+        if (!cards) {
+          callback('The board associated to that user does not exist');
+        } else {
+          cards.cards = req.body.cards;
+
+          cards.save(callback);
+        }
+      },
+      (cards, numRowAffected, callback) => {
+        if (!cards) {
+          callback('Error while saving the card');
+        } else {
+          callback(null, cards);    
+        }
+      }
+    ], (error, cards) => { 
+      if (error) {
+        return res.status(404).json({
+          data: {
+            error
+          }
+        });
+      } 
+
+      return res.status(200).json({
+        data: cards.cards
+      });
+    });
+  }
+}
+
 // TODO : test boardId is a valid existing board
 cardController.saveUserBoardCard = (req, res) => {
   if (!req.body.name) {

@@ -14,6 +14,10 @@ router.get('/:idBoard', (req, res) => {
   cardController.getUserBoardCards(req, res);
 });
 
+router.put('/:idBoard', (req, res) => {
+  cardController.updateUserBoardCards(req, res);
+});
+
 router.post('/:idBoard/cards', (req, res) => {
   cardController.saveUserBoardCard(req, res);
 });

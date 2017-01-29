@@ -10,6 +10,7 @@ import './CardItems.css';
 function getPlaceholderIndex(y, scrollY) {
   const yPos = y - OFFSET_HEIGHT + scrollY;
   let placeholderIndex;
+  
   if (yPos < CARD_HEIGHT / 2) {
     placeholderIndex = -1;
   } else {
@@ -37,7 +38,14 @@ const specs = {
       return;
     }
 
-    props.moveCard(lastX, lastY, nextX, nextY);
+    const previousAndNextPositions = {
+      lastX, 
+      lastY, 
+      nextX, 
+      nextY
+    };
+
+    props.moveCard(previousAndNextPositions);
   },
   hover(props, monitor, component) {
     const placeholderIndex = getPlaceholderIndex(

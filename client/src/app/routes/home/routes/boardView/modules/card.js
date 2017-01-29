@@ -23,6 +23,11 @@ const SAVE_CARD_ITEM_SUCCESS = 'SAVE_CARD_ITEM_SUCCESS';
 const SAVE_CARD_ITEM_FAIL = 'SAVE_CARD_ITEM_FAIL';
 
 const UPDATE_CARDS = 'UPDATE_CARDS';
+
+const UPDATE_CARDS_REQUEST = 'UPDATE_CARDS_REQUEST';
+const UPDATE_CARDS_SUCCESS = 'UPDATE_CARDS_SUCCESS';
+const UPDATE_CARDS_FAIL = 'UPDATE_CARDS_FAIL';
+
 const RESET_CARDS = 'RESET_CARDS';
 
 const initialState = {
@@ -36,15 +41,15 @@ const initialState = {
 
   isFetchingCardsSuccessful: false,
   isFetchingCards: false,
-  isFetching: false,
 
   isSavingCardSuccessful: false,
-  isSavingCardRequest: false,
   isSavingCard: false,
 
   isSavingCardItemSuccessful: false,
-  isSavingCardItemRequest: false,
   isSavingCardItem: false,
+
+  isUpdatingCardsSuccessful: false,
+  isUpdatingCards: false,
 }
 
 function loadCardsRequest(payload) {
@@ -105,6 +110,31 @@ function saveCardItemFail(payload) {
   }
 }
 
+function updateCardsRequest() {
+  return {
+		type: UPDATE_CARDS_REQUEST
+	}
+}
+
+function updateCardsSuccess() {
+  return {
+		type: UPDATE_CARDS_SUCCESS
+	}
+}
+
+function updateCardsFail() {
+  return {
+		type: UPDATE_CARDS_FAIL
+	}
+}
+
+function moveCard(previousAndNextPositions) {
+  return {
+    type: MOVE_CARD, 
+    ...previousAndNextPositions
+  };
+}
+
 export function openCreateCardItemForm (payload) {
   return {
     type: OPEN_CREATE_CARD_ITEM_FORM,
@@ -130,16 +160,6 @@ export function blurOnCardItemForm() {
   }
 }
 
-export function moveCard(lastX, lastY, nextX, nextY) {
-  return {
-    type: MOVE_CARD, 
-    lastX, 
-    lastY, 
-    nextX, 
-    nextY 
-  };
-}
-
 export function updateCards(payload) {
   return {
 		type: UPDATE_CARDS,
@@ -151,6 +171,40 @@ export function resetCards() {
   return {
 		type: RESET_CARDS
 	}
+}
+
+export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, pathname) {
+  return dispatch => {
+    dispatch(moveCard(previousAndNextPositions));
+    dispatch(updateCardsRequest());
+    
+    return fetch(url + `api/v1` + pathname, 
+      { method: 'PUT',
+        body: JSON.stringify({
+          cards
+        }),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'JWT ' + localStorage.getItem('userId')
+        },
+      })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logoutUser());
+        } else {
+          return response.json();
+        }
+      })
+      .then(json => {
+        const jsonData = json.data;
+
+        if (jsonData.uiError || jsonData.error) {
+          dispatch(updateCardsFail(jsonData))
+        } else {
+          dispatch(updateCardsSuccess());
+        }
+      })
+  }
 }
 
 export function getCards(pathname) {
@@ -257,7 +311,7 @@ export default function boardView(state = initialState, action) {
   switch (action.type) {
     case LOAD_CARDS_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
+        isFetchingCards: true,
         pathname: action.payload
       })
     case LOAD_CARDS_SUCCESS:
@@ -269,9 +323,25 @@ export default function boardView(state = initialState, action) {
       return Object.assign({}, state, {
         isFetchingCardsSuccessful: false,
         isFetchingCards: false,
-        errorMessage: action.payload.error,
 
+        errorMessage: action.payload.error,
         cards: []
+      })
+    case UPDATE_CARDS_REQUEST:
+      return Object.assign({}, state, {
+        isUpdatingCards: true
+      })
+    case UPDATE_CARDS_SUCCESS:
+      return Object.assign({}, state, {
+        isUpdatingCardsSuccessful: true,
+        isUpdatingCards: false
+      })
+    case UPDATE_CARDS_FAIL:
+      return Object.assign({}, state, {
+        isUpdatingCardsSuccessful: false,
+        isUpdatingCards: false,
+
+        errorMessage: action.payload.error
       })
     case SAVE_CARD_REQUEST:
       return Object.assign({}, state, {
@@ -285,8 +355,9 @@ export default function boardView(state = initialState, action) {
     case SAVE_CARD_FAIL:
       return Object.assign({}, state, {
         isSavinCardSuccessful: false,
+        isSavingCard: false,
+
         errorMessage: action.payload.error,
-        isSavingCard: false
       })
     case SAVE_CARD_ITEM_REQUEST:
       return Object.assign({}, state, {
@@ -301,6 +372,7 @@ export default function boardView(state = initialState, action) {
       return Object.assign({}, state, {
         isSavinCardItemSuccessful: false,
         isSavingCardItem: false,
+        
         errorMessage: action.payload.error
       })
     case UPDATE_CARDS:
