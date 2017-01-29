@@ -15,6 +15,8 @@ import { RequiresAuthentication } from './utils/authentiationWrappers';
 import { authenticateIfNeeded } from '../src/app/routes/login/modules/login';
 import configureStore from './store/configureStore';
 
+import logPageView from './analytics';
+
 import BoardView from './app/routes/home/routes/boardView/BoardViewContainer';
 import SignUp from './app/routes/signUp/SignUpContainer';
 import Login from './app/routes/login/LoginContainer';
@@ -31,8 +33,8 @@ if (localStorage.getItem('userId')) {
 }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history} >
+  <Provider store={store} >
+    <Router history={history} onUpdate={logPageView} >
       <Route path="login" component={Login} />
       <Route path="signup" component={SignUp} />
       <Route path="/" component={RequiresAuthentication(App)} >
