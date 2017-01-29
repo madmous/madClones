@@ -59,20 +59,24 @@ Once your package management is installed these commands will run your applicati
 
 ## Where to get help
 
-[ES6](https://github.com/airbnb/javascript) : if you want to quickly be up to date with javascript best practices, 
+[ES6](https://github.com/airbnb/javascript): if you want to quickly be up to date with javascript best practices, 
 AirBNB repo is a gold mine. Read it.
 
-React : [AirBnB](https://github.com/airbnb/javascript/tree/master/react) and 
+React: [AirBnB](https://github.com/airbnb/javascript/tree/master/react) and 
 [RisingStack](https://blog.risingstack.com/react-js-best-practices-for-2016/)
 
-NodeJS : again I will redirect you to [RisingStack](https://blog.risingstack.com/node-js-best-practices/).
+NodeJS: again I will redirect you to [RisingStack](https://blog.risingstack.com/node-js-best-practices/).
 They are awesome and they care about open source.
 
-[Slacks](https://weclone.slack.com/messages/trello/) : my slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
+[Slacks](https://weclone.slack.com/messages/trello/): my slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
 the questions, but also answers will benefit all members.
 
-[CodinGame](https://www.codingame.com/home) : practicing your algorithm solving skills is a great way to write better code. CodinGame will push you 
+[CodinGame](https://www.codingame.com/home): practicing your algorithm solving skills is a great way to write better code. CodinGame will push you 
 to another level by making you think about the correct data structure, api and algorith, to use.
+
+## Inspiration
+
+[React Trello Board](https://github.com/web-pal/react-trello-board): I used their implementation of React Drag and Drop because it is great
 
 ## Contribution guidelines
 
