@@ -9,8 +9,8 @@ import { boardViewActionCreators } from '../../../modules/index';
 import './CreateCard.css'
 
 class CreateCard extends Component {
+
   render() {
-		
     return (
 			<div 
 				className="Create-Card-Form"

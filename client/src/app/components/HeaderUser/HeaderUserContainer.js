@@ -1,10 +1,10 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { popOverActionCreators } from '../modules/index';
-import { modalActionCreators } from '../routes/home/modules/index';
+import { popOverActionCreators } from '../../modules/index';
+import { modalActionCreators } from '../../routes/home/modules/index';
 
-import HeaderUser from '../components/HeaderUser/HeaderUser';
+import HeaderUser from './HeaderUser';
 
 const mapStateToProps = state => {
   const { fullName } = state.app;

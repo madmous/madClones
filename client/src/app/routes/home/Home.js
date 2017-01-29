@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import { Notification } from './components/index';
-import { Boards } from './containers/index';
+import { Notification, Boards } from './components/index';
 
 import './Home.css';
 

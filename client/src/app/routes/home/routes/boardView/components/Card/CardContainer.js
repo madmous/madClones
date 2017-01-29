@@ -1,9 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Card from '../components/Card/Card';
+import Card from './Card';
 
-import { cardActionCreators } from '../modules/index';
+import { cardActionCreators } from '../../modules/index';
 
 const mapStateToProps = state => {
   const { createCardFormIndexToOpen, isCreateCardItemFormOpen } = state.card;

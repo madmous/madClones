@@ -1,45 +1,78 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import { CreateCardItem } from '../../containers/index';
-import { CardItem } from '../index';
+import { CreateCardItem, CardItem } from '../index';
 
 import './CardItems.css';
 
-export default function CardItems(props) {
-  const { 
-    createCardFormIndexToOpen, 
-    isCreateCardItemFormOpen, 
-    cardPosition 
-  } = props;
-
-  const renderCardItems = () => {
-    const cards = [ {id: 0, item: 'Red'}, {id: 1, item: 'Blue'}, {id: 2, item: 'Green'} ];
-
-    let cardItems = null;
-    cardItems = cards && cards.map((card) => {
-
-      return (
-        <CardItem key={card.id} />
-      );
-    });
-
-    return cardItems;
+export default class CardItems extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      placeholderIndex: undefined
+    };
   }
 
-  const renderCreateCardItem = () => {    
-    if (isCreateCardItemFormOpen &&  createCardFormIndexToOpen === cardPosition + 1) {
+  renderCardItems() {
+    const { cardItems, isOver, canDrop } = this.props;
+    const { placeholderIndex } = this.state;
+
+    let cardList = [];
+
+    cardItems.forEach((cardItem, index) => {
+      if (isOver && canDrop && index === 0 && placeholderIndex === -1) {
+        cardList.push(<div key="placeholder" className="Card-Items-Placeholder" />);
+      }
+  
+      if (cardItem !== undefined) {
+        cardList.push(
+          <CardItem 
+            index={index}
+            key={index}
+            cardItemText={cardItem.name}
+            moveCard={this.props.moveCard}
+            id={cardItem._id}
+            x={this.props.x}
+            y={index}
+          />
+        );
+      }
+
+      if (isOver && canDrop && placeholderIndex === index) {
+        cardList.push(<div key="placeholder" className="Card-Items-Placeholder" />);
+      }
+    });
+
+    return cardList;
+  }
+
+  createCardItem = (formInput) => {
+    const { cardActions, pathname, cardId } = this.props;
+
+    cardActions.saveCardItem(pathname, cardId, formInput.name);
+  }
+
+  renderCreateCardItem() { 
+    const { 
+      createCardFormIndexToOpen, 
+      isCreateCardItemFormOpen, 
+      x 
+    } = this.props;
+
+    if (isCreateCardItemFormOpen &&  createCardFormIndexToOpen === x + 1) {
       return (
-        <CreateCardItem />
+        <CreateCardItem onSubmit={ this.createCardItem } />
       )
     }
   }
 
+  render() {
+    const { connectDropTarget } = this.props;
 
-  return (
-    <div className="Card-Items">
-      { renderCardItems() }
-      { renderCreateCardItem() }
-    </div>
-  );
-
+    return connectDropTarget(
+      <div className="Card-Items">
+        { this.renderCardItems() }
+        { this.renderCreateCardItem() }
+      </div>
+    );
+  }
 }

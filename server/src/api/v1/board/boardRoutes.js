@@ -4,9 +4,22 @@ const express = require ('express');
 const router  = express.Router();
 
 const boardController = require ('./boardController');
+const cardController  = require ('../card/cardController');
 
 router.post('/', (req, res) => {
   boardController.saveUserBoard(req, res);
+});
+
+router.get('/:idBoard', (req, res) => {
+  cardController.getUserBoardCards(req, res);
+});
+
+router.post('/:idBoard/cards', (req, res) => {
+  cardController.saveUserBoardCard(req, res);
+});
+
+router.post('/:idBoard/cards/:idCard', (req, res) => {
+  cardController.saveUserBoardCardItem(req, res);
 });
 
 router.delete('/:idBoard', (req, res) => {

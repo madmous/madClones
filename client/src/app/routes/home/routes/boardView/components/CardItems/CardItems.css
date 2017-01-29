@@ -3,6 +3,7 @@
   margin: 0 4px 4px 4px;
   overflow-y: auto;
   overflow-x: hidden;
+  min-height: 33px;
 }
 
 .Card-Items div:last-child {
@@ -20,4 +21,11 @@
 .Card-Items::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: #C4C9CC;
+}
+
+.Card-Items-Placeholder {
+  background: #8C8C8C;
+  margin-bottom: 6px;
+  height: 33px;
+  max-width: 300px;
 }

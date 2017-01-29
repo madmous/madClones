@@ -1,25 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-import { CreateCard, Card } from '../../containers/index';
+import { CreateCard, Card } from '../index';
 
 import './Cards.css';
 
-export default function Cards(props) {
-  const {
-    isCreateCardFormOpen,
-    boardViewActions
-  } = props;
+class Cards extends Component {
 
-  const renderCards = () => {
-    const cards = ['ToDo', 'In Progress', 'In Review', 'Done'];
-
+  renderCards = () => {
+    const { cards } = this.props;
     let cardItem = null;
     cardItem = cards && cards.map((card, index) => {
       return (
         <Card 
-          cardHeader={card}
-          cardPosition={index}
+          cardHeader={card.header}
+          cardItems={card.cardItems}
+          x={index}
           key={index}
+          id={card._id}
+          moveCard={this.moveCard}
         />
       );
     });
@@ -27,10 +27,25 @@ export default function Cards(props) {
     return cardItem;
   }
 
-   const renderAddCardSpanOrForm = () => {
+  moveCard = (lastX, lastY, nextX, nextY) => {
+    this.props.cardActions.moveCard(lastX, lastY, nextX, nextY);
+  }
+
+  createCard = (formInput) => {
+    const { cardActions, pathname } = this.props
+    
+    cardActions.saveCard(pathname, formInput.name);
+  }
+  
+  renderAddCardSpanOrCreateCardForm = () => {
+    const {
+      isCreateCardFormOpen,
+      boardViewActions
+    } = this.props;
+
     if (isCreateCardFormOpen) {
       return (
-        <CreateCard />
+        <CreateCard onSubmit={ this.createCard } />
       )
     } else {
       return (
@@ -39,10 +54,14 @@ export default function Cards(props) {
     }
   }
 
-  return (
-    <div className="Cards">
-      { renderCards() }
-      { renderAddCardSpanOrForm() }
-    </div>
-  );
+  render() {
+    return (
+      <div className="Cards">
+        { this.renderCards() }
+        { this.renderAddCardSpanOrCreateCardForm() }
+      </div>
+    );
+  }
 }
+
+export default DragDropContext(HTML5Backend)(Cards)

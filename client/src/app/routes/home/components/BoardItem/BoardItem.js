@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 import { push } from 'react-router-redux';
 
-import { CreateBoard } from '../../containers/index';
+import { CreateBoard } from '../index';
 
 import './BoardItem.css';
 

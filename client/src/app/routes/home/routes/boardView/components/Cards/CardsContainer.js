@@ -1,30 +1,21 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import BoardView from './BoardView';
+import Cards from './Cards';
 
 import { 
   boardViewActionCreators, 
   cardActionCreators 
-} from './modules/index';
+} from '../../modules/index';
 
 const mapStateToProps = state => {
-  const { 
-    isFocusOnCreateCardForm, 
-    isCreateCardFormOpen
-  } = state.boardView;
-
-  const { 
-    isFocusOnCreateCardItemForm, 
-    isCreateCardItemFormOpen
-  } = state.card;
+  const { isCreateCardFormOpen } = state.boardView;
+  const { cards, pathname } = state.card;
 
   return {
-    isFocusOnCreateCardForm, 
     isCreateCardFormOpen,
-
-    isFocusOnCreateCardItemForm, 
-    isCreateCardItemFormOpen
+    pathname,
+    cards
   };
 }
 
@@ -35,4 +26,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoardView);
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);

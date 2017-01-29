@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CardItems } from '../../containers/index';
+import { CardItems } from '../index';
 
 import './Card.css';
 
@@ -9,18 +9,19 @@ export default function Card(props) {
   const { 
     createCardFormIndexToOpen, 
     isCreateCardItemFormOpen, 
-    cardPosition,
     cardActions,
-    cardHeader
+    cardHeader,
+    cardItems,
+    x
   } = props;
 
   const renderAddCardItemSpan = () => {
 
-    if (!isCreateCardItemFormOpen || createCardFormIndexToOpen !== cardPosition + 1) {
+    if (!isCreateCardItemFormOpen || createCardFormIndexToOpen !== x + 1) {
       return (
         <span 
           className="Card-Content-Footer"
-          onClick={ () => cardActions.openCreateCardItemForm(cardPosition + 1) }
+          onClick={ () => cardActions.openCreateCardItemForm(x + 1) }
         >Add a card item...</span>
       )
     }
@@ -37,7 +38,12 @@ export default function Card(props) {
             defaultValue={cardHeader}
           ></textarea>
         </div>
-        <CardItems cardPosition={cardPosition} />
+        <CardItems
+          cardItems={cardItems}
+          moveCard={props.moveCard}
+          cardId={props.id}
+          x={props.x} 
+        />
         { renderAddCardItemSpan() }
       </div>
     </div>    

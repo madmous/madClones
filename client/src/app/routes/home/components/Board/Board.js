@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
-import { BoardOptions } from '../index';
-import { BoardItem } from '../../containers/index';
+import { BoardOptions, BoardItem } from '../index';
 
 import './Board.css';
 

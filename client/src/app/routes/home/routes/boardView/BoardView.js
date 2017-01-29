@@ -1,36 +1,55 @@
 import React, { Component } from 'react';
 
-import { BoardViewHeader } from './components/index';
-import { Cards } from './containers/index';
+import { BoardViewHeader, Cards } from './components/index';
 
 import './BoardView.css';
 
-export default class BoardWrapper extends Component {
+export default class BoardView extends Component {
 
   componentDidMount () {
     document.title = 'BoardView | Trello';
+    this.props.cardActions.getCards(this.props.location.pathname);
   }
 
   handleDocumentClick = () => {
     const { 
       isFocusOnCreateCardForm, 
       isCreateCardFormOpen, 
-      boardViewActions 
+
+      isFocusOnCreateCardItemForm, 
+      isCreateCardItemFormOpen, 
+
+      boardViewActions ,
+      cardActions ,
     } = this.props;
     
     if (!isFocusOnCreateCardForm && isCreateCardFormOpen) {
       boardViewActions.closeCreateCardForm();
     }
+
+    if (!isFocusOnCreateCardItemForm && isCreateCardItemFormOpen) {
+      cardActions.closeCreateCardItemForm();
+    }
   }
 
   handleEscKey = event => {
-    const { 
+    const {
+      isCreateCardItemFormOpen,
       isCreateCardFormOpen, 
-      boardViewActions
+
+      boardViewActions,
+      cardActions
     } = this.props;
 
-    if (event.keyCode === 27 && isCreateCardFormOpen) {
-      boardViewActions.closeCreateCardForm();
+    if (event.keyCode === 27) {
+
+      if (isCreateCardFormOpen) {
+        boardViewActions.closeCreateCardForm();
+      }
+
+      if (isCreateCardItemFormOpen) {
+        cardActions.closeCreateCardItemForm();
+      }
     } 
   }
 

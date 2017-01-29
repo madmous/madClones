@@ -1,10 +1,10 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as popOverActionCreators from '../modules/popOver';
-import * as loginActionCreators from '../routes/login/modules/login';
+import * as popOverActionCreators from '../../modules/popOver';
+import * as loginActionCreators from '../../routes/login/modules/login';
 
-import PopOver from '../components/PopOver/PopOver';
+import PopOver from './PopOver';
 
 const mapStateToProps = state => {
   const { fullName } = state.app;

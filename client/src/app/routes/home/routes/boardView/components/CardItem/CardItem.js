@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './CardItem.css';
 
-export default function CardItem(props) {
-  return (
-    <div className="Card-Item">
-      <p>[ Serveur ] - crud sur user, organization, bard, boardStar</p>
-    </div>
-  );
+export default class CardItem extends Component {
+  render() {
+    const { connectDragSource, id } = this.props;
+
+    return connectDragSource(
+      <div className="Card-Item" id={id}>
+        <p>{this.props.cardItemText}</p>
+      </div>
+    );
+  }
 }

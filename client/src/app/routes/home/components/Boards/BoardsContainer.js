@@ -1,15 +1,15 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Boards from '../components/Boards/Boards';
+import Boards from './Boards';
 
 import {
   organizationActionCreators,
 	modalActionCreators,
 	boardActionCreators,
-} from '../modules/index.js';
+} from '../../modules/index.js';
 
-import { popOverActionCreators } from '../../../modules/index';
+import { popOverActionCreators } from '../../../../modules/index';
 
 const mapStateToProps = state => {
   const { userId } = state.app;

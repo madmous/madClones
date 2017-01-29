@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { CreateOrganization } from '../../containers/index';
-import { Board } from '../../components/index';
+import { CreateOrganization, Board } from '../../components/index';
 
 import './Boards.css';
 

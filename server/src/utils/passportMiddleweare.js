@@ -52,18 +52,19 @@ passport.use(new JwtStrategy(opts,
     const userId = jwt_payload;
     
     userModel.findById(userId, function(err, user) {
-        
-        if (err) {
-            return callback(err, false);
-        }
+      
+      if (err) {
+          return callback(err, false);
+      }
 
-        if (user) {
-            callback(null, user);
-        } else {
-            callback(null, false);
-        }
+      if (user) {
+          callback(null, user);
+      } else {
+          callback(null, false);
+      }
     });
-}));
+  }
+));
 
 exports.isAuthenticatedWithToken = passport.authenticate('jwt', { session : false });
 exports.isAuthenticatedWithBasic = passport.authenticate('basic', { session : false });

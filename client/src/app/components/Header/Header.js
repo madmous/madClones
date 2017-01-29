@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import { HeaderSearch, HeaderBoard } from '../index';
-import { HeaderUser } from '../../containers/index';
+import { HeaderSearch, HeaderBoard, HeaderUser } from '../index';
 
 import './Header.css';
 

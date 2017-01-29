@@ -4,11 +4,21 @@ import { closeAllModals } from './modals';
 import { updateBoards } from './board';
 import { logoutUser } from '../../login/modules/login';
 
+import { resetCards } from '../routes/boardView/modules/card';
+
 import { url } from '../../../../utils/url';
 
 const LOAD_HOME_REQUEST = 'LOAD_HOME_REQUEST';
 const LOAD_HOME_SUCCESS = 'LOAD_HOME_SUCCESS';
 const LOAD_HOME_FAIL = 'LOAD_HOME_FAIL';
+
+const initialState = {
+  errorMessage: '',
+
+  isFetchingHomeSuccessful: false,
+  isFetchingHome: false,
+  isFetching: false
+}
 
 function loadHomeRequest() {
   return {
@@ -58,16 +68,10 @@ export function getHome() {
           dispatch(updateOrganizations(jsonData))
           dispatch(updateStarredBoards(jsonData))
           dispatch(updateBoards(jsonData))
+          dispatch(resetCards())
         }
       })
   }
-}
-
-const initialState = {
-  errorMessage: '',
-
-  isFetchingHomeSuccessful: false,
-  isFetchingHome: false
 }
 
 export default function user(state = initialState, action) {

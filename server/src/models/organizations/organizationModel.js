@@ -1,5 +1,4 @@
 const mongoose = require ('mongoose');
-const bcrypt   = require ('bcrypt');
 
 const boardSchema = require ('../boards/boardModel').schema;
 

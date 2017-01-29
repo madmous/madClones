@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import { PopOver } from './containers/index';
-import { Header } from './components/index';
+import { PopOver, Header } from './components/index';
 
 import './App.css'
 
@@ -42,7 +41,9 @@ export default class App extends Component {
        
       if (isModalOpen) {
         modalActions.closeAllModals();   
-      } else if(isPopOverOpen) {
+      }
+      
+      if(isPopOverOpen) {
         popOverActions.hidePopOver();
       }
     } 

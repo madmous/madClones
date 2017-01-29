@@ -6,10 +6,11 @@
   margin-bottom: 6px;
   max-width: 300px;
   min-height: 33px;
-  display: flex;
+  display: flex !important;
   align-items: center;
 }
 
 .Card-Item p {
-  padding: 6px;
+  padding: 0px 0px 0px 6px;
+  margin: 0;
 }

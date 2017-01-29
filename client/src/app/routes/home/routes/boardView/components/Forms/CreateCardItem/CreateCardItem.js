@@ -10,6 +10,14 @@ import './CreateCardItem.css';
 
 class CreateCardItem extends Component {
 
+	handleEnterKey = (event) => {
+
+		if (event.keyCode === 13) {
+			event.preventDefault();
+			this.props.handleSubmit();
+		}
+	}
+
 	focusOnForm(isFocusOnForm) {
 
 		const { cardActions } = this.props;
@@ -38,6 +46,7 @@ class CreateCardItem extends Component {
 						value=""
 						component="textarea"
 						dir="auto"
+						onKeyDown={ this.handleEnterKey }
 					/>
 					<div className="Create-Card-Item-Form-Footer">
 						<button type="submit" className="Create-Card-Item-Form-SubmitButton">Save</button>
