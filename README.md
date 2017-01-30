@@ -93,10 +93,12 @@ These are the steps to see your changes in develop.
 ## Updates
 
 * 1.0.0 first release of trello clone
+* 2.0.0 add board view with cards and card items
 
 ## Achievements
 
 * Release version 1.0.0
+* Release version 2.0.0
 * Deploy react client on amazon web services S3
 * Deploy express server on amazon web services ECS
 

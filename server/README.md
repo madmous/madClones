@@ -15,8 +15,8 @@ This project was entirely written from scratch.
 
 * Add unit tests for new controllers
 * Replace callbacks with promises
-* Setup docker for nodejs and mongodb
 
 --
 
 * Added basic authentication for login and token authentication on all remaining routes
+* Setup docker for nodejs and mongodb
