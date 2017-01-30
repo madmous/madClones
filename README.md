@@ -90,6 +90,10 @@ These are the steps to see your changes in develop.
 5. Make a pull request (contributors should checkout the branch, run unit tests, then test the functionnality that was added, read the code and add comments).
 6. End to end testing are not required for now.
 
+## Next release (2.1.0)
+
+* Work on unit tests ( client + server)
+
 ## Updates
 
 * 1.0.0 first release of trello clone
