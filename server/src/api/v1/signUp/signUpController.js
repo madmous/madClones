@@ -86,7 +86,7 @@ signUpController.saveUser = (req, res) => {
     }
   ], (error, user) => { 
     if (error) {
-      return res.status(404).json({
+      return res.status(400).json({
         data: {
           uiError : error
         }

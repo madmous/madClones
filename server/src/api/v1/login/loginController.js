@@ -15,7 +15,7 @@ loginController.authenticate = (req, res) => {
 	const reqUser = req.user;
 
   if (reqUser.err) {
-    return res.status(404).json({
+    return res.status(401).json({
       data: {
         uiError : reqUser.err
       }
