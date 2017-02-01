@@ -25,23 +25,23 @@ signUpController.saveUser = (req, res) => {
       const isPasswordValid = req.body.password !== undefined;
 
       if (!isNameValid) {
-        cbErrorMsg.usernameErr = 'Please enter your name'; 
+        cbErrorMsg.missingUsername = 'Please enter your name'; 
       } 
 
       if (!isFullNameValid) {
-        cbErrorMsg.fullnameErr = 'Please enter your full name'; 
+        cbErrorMsg.missingFullname = 'Please enter your full name'; 
       } 
 
       if (!isInitialsValid) {
-        cbErrorMsg.initialsErr = 'Please enter your initials'; 
+        cbErrorMsg.missingInitials = 'Please enter your initials'; 
       } 
 
       if (!isEmailValid) {
-        cbErrorMsg.emailErr = 'Please enter your email'; 
+        cbErrorMsg.missingEmail = 'Please enter your email'; 
       } 
 
       if (!isPasswordValid) {
-        cbErrorMsg.passwordErr = 'Please enter your password';
+        cbErrorMsg.missingPassword = 'Please enter your password';
       } 
 
       if (!isNameValid || 
@@ -59,7 +59,7 @@ signUpController.saveUser = (req, res) => {
     },
     (user, callback) => {
       if (user) {
-        callback({ usernameErr: 'That name is already taken' });
+        callback({ missingUsername: 'That name is already taken' });
       } else {
         const user = new userModel({
           name: req.body.name,

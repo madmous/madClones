@@ -25,7 +25,7 @@ describe('Signup' , () => {
 	describe('/POST', () => {
     
     it ('should signup successfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
 				password: 'testPassword',
@@ -35,7 +35,7 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -44,7 +44,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
 				password: 'testPassword',
@@ -54,10 +54,10 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because username already exists');
-					assert.equal(res.body.data.uiError.usernameErr, 
+					assert.equal(res.body.data.uiError.missingUsername, 
 							'That name is already taken', 
 							'status equals 400 because username already exists');
 
@@ -66,7 +66,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName2',
 				fullname: 'testFullname',
 				password: 'testPassword',
@@ -76,17 +76,17 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because email already exists');
-					//TODO : add message zhen e;ail is already taken
+					//TODO : add message when email is already taken
 
 					done();
 				});
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				fullname: 'testFullname',
 				password: 'testPassword',
 				initials: 'testInitials',
@@ -95,10 +95,10 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because name is missing');
-					assert.equal(res.body.data.uiError.usernameErr, 
+					assert.equal(res.body.data.uiError.missingUsername, 
 							'Please enter your name');
 
 					done();
@@ -106,7 +106,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName',
 				password: 'testPassword',
 				initials: 'testInitials',
@@ -115,10 +115,10 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because fullname is missing');
-					assert.equal(res.body.data.uiError.fullnameErr, 
+					assert.equal(res.body.data.uiError.missingFullname, 
 							'Please enter your full name');
 
 					done();
@@ -126,7 +126,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
 				initials: 'testInitials',
@@ -135,10 +135,10 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because password is missing');
-					assert.equal(res.body.data.uiError.passwordErr, 
+					assert.equal(res.body.data.uiError.missingPassword, 
 							'Please enter your password');
 
 					done();
@@ -146,7 +146,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
 				password: 'testPassword',
@@ -155,10 +155,10 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because initials missing');
-					assert.equal(res.body.data.uiError.initialsErr, 
+					assert.equal(res.body.data.uiError.missingInitials, 
 							'Please enter your initials');
 
 					done();
@@ -166,7 +166,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
 				password: 'testPassword',
@@ -175,10 +175,10 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because email is missing');
-					assert.equal(res.body.data.uiError.emailErr, 
+					assert.equal(res.body.data.uiError.missingEmail, 
 							'Please enter your email');
 
 					done();
@@ -186,7 +186,7 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				password: 'testPassword',
 				initials: 'testInitials',
 				email: 'testEmail@email.com'
@@ -194,12 +194,12 @@ describe('Signup' , () => {
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because username and full name are missing');
-					assert.equal(res.body.data.uiError.usernameErr, 
+					assert.equal(res.body.data.uiError.missingUsername, 
 							'Please enter your name');
-					assert.equal(res.body.data.uiError.fullnameErr, 
+					assert.equal(res.body.data.uiError.missingFullname, 
 							'Please enter your full name');
 
 					done();
@@ -207,22 +207,22 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				initials: 'testInitials',
 				email: 'testEmail@email.com'
 			};
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because username, full name and password are missing');
-					assert.equal(res.body.data.uiError.usernameErr, 
+					assert.equal(res.body.data.uiError.missingUsername, 
 							'Please enter your name');
-					assert.equal(res.body.data.uiError.fullnameErr, 
+					assert.equal(res.body.data.uiError.missingFullname, 
 							'Please enter your full name');
-						assert.equal(res.body.data.uiError.passwordErr, 
+						assert.equal(res.body.data.uiError.missingPassword, 
 							'Please enter your password');
 
 					done();
@@ -230,23 +230,23 @@ describe('Signup' , () => {
 		});
 
 		it ('should signup unsuccessfully', done => {
-			const signupArgs = {
+			const user = {
 				email: 'testEmail@email.com'
 			};
 
 			chai.request(app)
 				.post(signupUrl)
-				.send(signupArgs)
+				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because username, full name, password and initials are missing');
-					assert.equal(res.body.data.uiError.usernameErr, 
+					assert.equal(res.body.data.uiError.missingUsername, 
 							'Please enter your name');
-					assert.equal(res.body.data.uiError.fullnameErr, 
+					assert.equal(res.body.data.uiError.missingFullname, 
 							'Please enter your full name');
-					assert.equal(res.body.data.uiError.passwordErr, 
+					assert.equal(res.body.data.uiError.missingPassword, 
 							'Please enter your password');
-					assert.equal(res.body.data.uiError.initialsErr, 
+					assert.equal(res.body.data.uiError.missingInitials, 
 							'Please enter your initials');
 
 					done();
@@ -259,15 +259,15 @@ describe('Signup' , () => {
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because all arguments are missing');
-					assert.equal(res.body.data.uiError.usernameErr, 
+					assert.equal(res.body.data.uiError.missingUsername, 
 							'Please enter your name');
-					assert.equal(res.body.data.uiError.fullnameErr, 
+					assert.equal(res.body.data.uiError.missingFullname, 
 							'Please enter your full name');
-					assert.equal(res.body.data.uiError.passwordErr, 
+					assert.equal(res.body.data.uiError.missingPassword, 
 							'Please enter your password');
-					assert.equal(res.body.data.uiError.initialsErr, 
+					assert.equal(res.body.data.uiError.missingInitials, 
 							'Please enter your initials');
-					assert.equal(res.body.data.uiError.emailErr, 
+					assert.equal(res.body.data.uiError.missingEmail, 
 							'Please enter your email');
 
 					done();
