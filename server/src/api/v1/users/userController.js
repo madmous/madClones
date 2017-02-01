@@ -45,15 +45,15 @@ userController.updateUser = (req, res) => {
   const isInitialsValid = req.body.initials !== undefined;
 
   if (!isNameValid) {
-    cbErrorMsg.missingNameError = 'Please enter your name'; 
+    cbErrorMsg.missingName = 'Please enter your name'; 
   } 
 
   if (!isFullNameValid) {
-    cbErrorMsg.missingFullNameError = 'Please enter your full name'; 
+    cbErrorMsg.missingFullName = 'Please enter your full name'; 
   } 
 
   if (!isInitialsValid) {
-    cbErrorMsg.missingInitialsError = 'Please enter your initials'; 
+    cbErrorMsg.missingInitials = 'Please enter your initials'; 
   }
 
   if (!isNameValid || 
@@ -68,15 +68,15 @@ userController.updateUser = (req, res) => {
   } else {
     async.waterfall([
       (callback) => {
-        req.user.update(
-          { name: req.body.name , 
-            fullname: req.body.fullname ,
-            initials: req.body.initials }, 
-          { new: true }, 
-          callback
-        )
+        let user = req.user;
+
+        user.name = req.body.name; 
+        user.fullname = req.body.fullname;
+        user.initials = req.body.initials;
+
+        user.save(callback);
       },
-      (user, callback) => {
+      (user, numAffected, callback) => {
         if (!user) {
           callback('Sorry. I could not update that user');
         } else {

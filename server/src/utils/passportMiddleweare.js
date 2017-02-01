@@ -58,9 +58,9 @@ passport.use(new JwtStrategy(opts,
       }
 
       if (user) {
-          callback(null, user);
+          return callback(null, user);
       } else {
-          callback(null, false);
+          return callback(null, { err: 'There is not a user for this token' }); 
       }
     });
   }
