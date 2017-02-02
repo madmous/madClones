@@ -55,7 +55,7 @@ describe('Login' , () => {
 
 	describe('/POST', () => {
 
-		it ('should login successfully', done => {
+		it ('should login - success', done => {
 			chai.request(app)
 				.post(loginUrl)
 				.auth('testName', 'testPassword')
@@ -66,7 +66,7 @@ describe('Login' , () => {
 				});
 		});
 
-		it ('should login unsuccessfully', done => {
+		it ('should login - fail', done => {
 			chai.request(app)
 				.post(loginUrl)
 				.auth('testName')
@@ -77,7 +77,7 @@ describe('Login' , () => {
 				});
 		});
 
-		it ('should login unsuccessfully', done => {
+		it ('should login - fail', done => {
 			chai.request(app)
 				.post(loginUrl)
 				.auth('name', 'testPassword')
@@ -88,7 +88,7 @@ describe('Login' , () => {
 				});
 		});
 
-    it ('should login unsuccessfully', done => {
+    it ('should login - fail', done => {
 			chai.request(app)
 				.post(loginUrl)
 				.auth('testName', 'password')
@@ -99,7 +99,7 @@ describe('Login' , () => {
 				});
 		});
 
-    it ('should login unsuccessfully', done => {
+    it ('should login - fail', done => {
 			chai.request(app)
 				.post(loginUrl)
 				.end((err, res) => {

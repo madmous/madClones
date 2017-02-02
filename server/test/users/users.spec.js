@@ -25,7 +25,7 @@ describe('Users' , () => {
 		done();
 	});
 
-	it ('should signup successfully', done => {
+	it ('should signup - success', done => {
 		const user = {
 			name: 'testName',
 			fullname: 'testFullname',
@@ -46,7 +46,7 @@ describe('Users' , () => {
 
 	describe('/GET', () => {
   
-		it ('should get user successfully', done => {
+		it ('should get user - success', done => {
 			chai.request(app)
 				.get(userUrl)
 				.set('Authorization', `JWT ${token}`)
@@ -60,7 +60,7 @@ describe('Users' , () => {
 				});
 		});
 
-		it ('should get user unsuccessfully', done => {
+		it ('should get user - fail', done => {
 			chai.request(app)
 				.get(userUrl)
 				.set('Authorization', `JWT`)
@@ -74,7 +74,7 @@ describe('Users' , () => {
 
 	describe('/PUT', () => {
   
-		it ('should update user successfully', done => {
+		it ('should update user - success', done => {
 			const user = {
 				name: 'testNameUpdated',
 				fullname: 'testFullnameUpdated',
@@ -94,7 +94,7 @@ describe('Users' , () => {
 				});
 		});
 
-		it ('should not update user successfully', done => {
+		it ('should not update user - fail', done => {
 			const user = {
 				fullname: 'testFullnameUpdated',
 				initials: 'testInitialsUpdated'
@@ -113,7 +113,7 @@ describe('Users' , () => {
 				});
 		});
 
-		it ('should not update user successfully', done => {
+		it ('should not update user - fail', done => {
 			const user = {
 				name: 'testNameUpdated',
 				initials: 'testInitialsUpdated'
@@ -132,7 +132,7 @@ describe('Users' , () => {
 				});
 		});
 
-		it ('should not update user successfully', done => {
+		it ('should not update user - fail', done => {
 			const user = {
 				name: 'testNameUpdated',
 				fullname: 'testFullnameUpdated'
@@ -151,7 +151,7 @@ describe('Users' , () => {
 				});
 		});
 
-		it ('should not update user successfully', done => {			
+		it ('should not update user - fail', done => {			
 			chai.request(app)
 				.put(userUrl)
 				.set('Authorization', `JWT ${token}`)

@@ -24,7 +24,7 @@ describe('Signup' , () => {
 
 	describe('/POST', () => {
     
-    it ('should signup successfully', done => {
+    it ('should signup - sucess', done => {
 			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
@@ -43,7 +43,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
@@ -65,7 +65,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				name: 'testName2',
 				fullname: 'testFullname',
@@ -85,7 +85,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				fullname: 'testFullname',
 				password: 'testPassword',
@@ -105,7 +105,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				name: 'testName',
 				password: 'testPassword',
@@ -125,7 +125,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
@@ -145,7 +145,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
@@ -165,7 +165,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				name: 'testName',
 				fullname: 'testFullname',
@@ -185,7 +185,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				password: 'testPassword',
 				initials: 'testInitials',
@@ -206,7 +206,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				initials: 'testInitials',
 				email: 'testEmail@email.com'
@@ -229,7 +229,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			const user = {
 				email: 'testEmail@email.com'
 			};
@@ -253,7 +253,7 @@ describe('Signup' , () => {
 				});
 		});
 
-		it ('should signup unsuccessfully', done => {
+		it ('should signup - fail', done => {
 			chai.request(app)
 				.post(signupUrl)
 				.end((err, res) => {
