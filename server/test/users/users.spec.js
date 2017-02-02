@@ -169,4 +169,34 @@ describe('Users' , () => {
 				});
 		});
 	});
+
+	describe('/DELETE', () => {
+  
+		it ('should delete user - success', done => {
+			chai.request(app)
+				.delete(userUrl)
+				.set('Authorization', `JWT ${token}`)
+				.end((err, res) => {
+					log.info(res.body.data.user);
+					assert.equal(res.status, '200', 'status equals 200');
+
+					userModel.find({name: 'testFullnameUpdated'}, (err, res) => {
+						assert.equal(0, res.length, 'No result for name testFullnameUpdated')
+					})
+
+					done();
+				});
+		});
+
+		it ('should delete user - fail', done => {
+			chai.request(app)
+				.delete(userUrl)
+				.set('Authorization', `JWT`)
+				.end((err, res) => {
+					assert.equal(res.status, '401', 'status equals 401');
+
+					done();
+				});
+		});
+	});
 });
