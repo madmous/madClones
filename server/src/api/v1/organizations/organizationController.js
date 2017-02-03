@@ -16,13 +16,7 @@ let organizationController = {};
 
 function formatResponse(pUser) {
   return {
-    user: {
-      _id: pUser._id,
-      fullname: pUser.fullname,
-    },
-    boards: pUser.boards,
-    organizations: pUser.organizations,
-    starredBoards: pUser.boardStars
+    organizations: pUser.organizations
   } 
 }
 
@@ -40,17 +34,17 @@ function starredBoardIndex(starredBoards, boardId) {
 }
 
 organizationController.saveOrganization = (req, res) => {
-  let cbErrorMsg = [];
+  let cbErrorMsg = {};
 
   const isNameValid = req.body.name !== undefined;
   const isDisplayNameValid = req.body.displayName !== undefined;
 
   if (!isNameValid) {
-    cbErrorMsg.push('Please enter an organization name'); 
+    cbErrorMsg.missingName = 'Please enter an organization name'; 
   } 
 
   if (!isDisplayNameValid) {
-    cbErrorMsg.push('Please enter an organization display name');
+    cbErrorMsg.missingDisplayName = 'Please enter an organization display name';
   }
 
   if (!isNameValid || !isDisplayNameValid) {
@@ -99,23 +93,23 @@ organizationController.saveOrganization = (req, res) => {
 organizationController.updateOrganization = (req, res) => {
   let cbErrorMsg = {};
 
-  const isOrgNameValid = req.body.name !== undefined;
-  const isOrgDisplayNameValid = req.body.displayName !== undefined;
+  const isNameValid = req.body.name !== undefined;
+  const isDisplayNameValid = req.body.displayName !== undefined;
 
-  if (!isOrgNameValid) {
-    cbErrorMsg.missingOrgNameError = 'Please enter the org name'; 
+  if (!isNameValid) {
+    cbErrorMsg.missingName = 'Please enter an organization name'; 
   } 
 
-  if (!isOrgDisplayNameValid) {
-    cbErrorMsg.missingOrgDisplayNameError = 'Please enter the org display name'; 
+  if (!isDisplayNameValid) {
+    cbErrorMsg.missingDisplayName = 'Please enter an organization display name'; 
   }
 
-  if (!isOrgNameValid || 
-      !isOrgDisplayNameValid) {
+  if (!isNameValid || 
+      !isDisplayNameValid) {
 
     return res.status(400).json({
       data: {
-        error: cbErrorMsg
+        uiError: cbErrorMsg
       }
     });
   } else if (!objectIdRegex.test(req.params.idOrganization)) { 
@@ -431,7 +425,9 @@ organizationController.saveOrganizationBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: formatResponse(user)
+        data: {
+          starredBoards: user.boardStars
+        } 
       });
     });
   }
@@ -499,7 +495,9 @@ organizationController.removeOrganizationBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: formatResponse(user)
+        data: {
+          starredBoards: user.boardStars
+        } 
       });
     });
   }
