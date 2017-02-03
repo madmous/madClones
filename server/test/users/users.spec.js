@@ -39,7 +39,8 @@ describe('Users' , () => {
 			.send(user)
 			.end((err, res) => {
 				assert.equal(res.status, '200', 'status equals 200');
-					token = res.body.data.token;
+				token = res.body.data.token;
+
 				done();
 			});
 	});
@@ -177,7 +178,6 @@ describe('Users' , () => {
 				.delete(userUrl)
 				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
-					log.info(res.body.data.user);
 					assert.equal(res.status, '200', 'status equals 200');
 
 					userModel.find({name: 'testFullnameUpdated'}, (err, res) => {
