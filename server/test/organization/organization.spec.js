@@ -299,7 +299,7 @@ describe('Organization' , () => {
 
 	describe('/POST star an organization board', () => {
 
-		it ('should update a board to an organization - success', done => {
+		it ('should star an organization board - success', done => {
 			chai.request(app)
 				.post(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}/boardstars`)
 				.set('Authorization', `JWT ${token}`)
@@ -317,7 +317,7 @@ describe('Organization' , () => {
 				});
 		});
 
-		it ('should update a board to an organization - fail', done => {
+		it ('should star an organization board - fail', done => {
 			chai.request(app)
 				.post(`${organizationsUrl}/null/boards/${organizationBoardId}/boardStars`)
 				.set('Authorization', `JWT ${token}`)
@@ -329,7 +329,7 @@ describe('Organization' , () => {
 				});
 		});
 
-		it ('should update a board to an organization - fail', done => {
+		it ('should star an organization board - fail', done => {
 			chai.request(app)
 				.post(`${organizationsUrl}/${organizationId}/boards/null/boardStars`)
 				.set('Authorization', `JWT ${token}`)
@@ -344,7 +344,7 @@ describe('Organization' , () => {
 
 	describe('/DELETE remove a starred organization board', () => {
 
-		it ('should update a board to an organization - success', done => {
+		it ('should star an organization board - success', done => {
 			chai.request(app)
 				.delete(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}/boardStars`)
 				.set('Authorization', `JWT ${token}`)
