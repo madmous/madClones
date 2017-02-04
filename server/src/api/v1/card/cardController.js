@@ -35,7 +35,7 @@ cardController.getUserBoardCards = (req, res) => {
       }
     ], (error, cards) => { 
       if (error) {
-        return res.status(404).json({
+        return res.status(400).json({
           data: {
             error
           }
@@ -54,6 +54,12 @@ cardController.updateUserBoardCards = (req, res) => {
     return res.status(400).json({
       data: {
         error: 'Please enter a valid board id'
+      }
+    });
+  } else if (!req.body.cards) {
+    return res.status(400).json({
+      data: {
+        error: 'Please add cards'
       }
     });
   } else {
@@ -79,7 +85,7 @@ cardController.updateUserBoardCards = (req, res) => {
       }
     ], (error, cards) => { 
       if (error) {
-        return res.status(404).json({
+        return res.status(400).json({
           data: {
             error
           }
