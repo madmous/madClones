@@ -15,13 +15,6 @@ describe('signUp reducer', () => {
   })
 
   it('should handle SIGN_UP_REQUEST', () => {
-    const payload = {
-      uiError: {
-        usernameErr: 'Please enter a name',
-        fullNameErr: 'Please enter a full name',
-      }
-    };
-
     expect(
       reducer([], {
         type: 'SIGN_UP_REQUEST'
@@ -29,7 +22,7 @@ describe('signUp reducer', () => {
     ).toEqual({
         isFetching: true,
 
-        errorMessage: payload.uiError
+        errorMessage: {}
       }
     )
   })
@@ -56,7 +49,8 @@ describe('signUp reducer', () => {
     
     expect(
       reducer([], {
-        type: 'SIGN_UP_FAIL'
+        type: 'SIGN_UP_FAIL',
+        payload
       })
     ).toEqual({
         isFetchingSuccessful: true,
