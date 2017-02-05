@@ -9,14 +9,6 @@ describe('login actions', () => {
 
     expect(loginActions.authenticateUser()).toEqual(expectedAction)
   })
-
-  it('should create authenticateIfNeeded action', () => {
-    const expectedAction = {
-      type: 'AUTHENTICATE_USER'
-    };
-
-    expect(loginActions.authenticateIfNeeded()).toEqual(expectedAction);
-  })
 })
 
 describe('login reducer', () => {
