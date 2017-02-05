@@ -1,7 +1,7 @@
 import { reset } from 'redux-form';
 
-import { logoutUser } from '../../../../login/modules/login';
-import { url } from '../../../../../../utils/url';
+import { loginActionCreators } from '../../../../../login/modules/index';
+import { url } from '../../../../../../../utils/url';
 
 const OPEN_CREATE_CARD_ITEM_FORM = 'OPEN_CREATE_CARD_ITEM_FORM';
 const CLOSE_CREATE_CARD_ITEM_FORM = 'CLOSE_CREATE_CARD_ITEM_FORM';
@@ -190,7 +190,7 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(logoutUser());
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }
@@ -219,7 +219,7 @@ export function getCards(pathname) {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(logoutUser());
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }
@@ -253,7 +253,7 @@ export function saveCard(pathname, cardName) {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(logoutUser());
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }
@@ -288,7 +288,7 @@ export function saveCardItem(pathname, cardId, cardItemName) {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(logoutUser());
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }

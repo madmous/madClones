@@ -1,12 +1,14 @@
-import { updateOrganizations } from './organization';
-import { updateStarredBoards } from './starredBoard';
-import { closeAllModals } from './modals';
-import { updateBoards } from './board';
-import { logoutUser } from '../../login/modules/login';
+import { 
+  starredBoardActionCreators,
+  organizationActionCreators,
+  boardActionCreators,
+  modalActionCreators,
+} from '../index';
 
-import { resetCards } from '../routes/boardView/modules/card';
+import { cardActionCreators } from '../../routes/boardView/modules/index';
+import { loginActionCreators } from '../../../login/modules/index';
 
-import { url } from '../../../../utils/url';
+import { url } from '../../../../../utils/url';
 
 const LOAD_HOME_REQUEST = 'LOAD_HOME_REQUEST';
 const LOAD_HOME_SUCCESS = 'LOAD_HOME_SUCCESS';
@@ -51,7 +53,7 @@ export function getHome() {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(logoutUser());
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }
@@ -62,13 +64,13 @@ export function getHome() {
         if (jsonData.uiError || jsonData.error) {
           dispatch(loadHomeFail(jsonData))
         } else {
-          dispatch(closeAllModals());
+          dispatch(modalActionCreators.closeAllModals());
           dispatch(loadHomeSuccess());
 
-          dispatch(updateOrganizations(jsonData))
-          dispatch(updateStarredBoards(jsonData))
-          dispatch(updateBoards(jsonData))
-          dispatch(resetCards())
+          dispatch(organizationActionCreators.updateOrganizations(jsonData))
+          dispatch(starredBoardActionCreators.updateStarredBoards(jsonData))
+          dispatch(boardActionCreators.updateBoards(jsonData))
+          dispatch(cardActionCreators.resetCards())
         }
       })
   }
@@ -82,8 +84,8 @@ export default function user(state = initialState, action) {
       })
     case LOAD_HOME_SUCCESS:
       return Object.assign({}, state, {
-        isFetchingHome: false,
-        isFetchingHomeSuccessful: true
+        isFetchingHomeSuccessful: true,
+        isFetchingHome: false
       })
     case LOAD_HOME_FAIL:
       return Object.assign({}, state, {

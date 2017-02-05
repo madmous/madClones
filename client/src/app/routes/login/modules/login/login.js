@@ -2,8 +2,9 @@ import { change } from 'redux-form';
 import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 
-import { url } from '../../../../utils/url.js';
-import { closeAllModals } from '../../home/modules/modals';
+import { url } from '../../../../../utils/url.js';
+
+import { modalActionCreators } from '../../../home/modules/index';
 
 const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
 const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
@@ -93,7 +94,7 @@ function unAuthenticateUser() {
 
 export function logoutUser() {
   return dispatch => {
-    dispatch(closeAllModals());
+    dispatch(modalActionCreators.closeAllModals());
 
     localStorage.removeItem('userId');
 

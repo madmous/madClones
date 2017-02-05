@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "enzyme": "^2.7.1",
     "es6-promise": "^4.0.5",
     "isomorphic-fetch": "^2.2.1",
+    "nock": "^9.0.2",
+    "react-addons-test-utils": "^15.4.2",
     "react-bootstrap": "^0.30.6",
-    "react-scripts": "0.7.0"
+    "react-scripts": "0.7.0",
+    "redux-mock-store": "^1.2.2",
+    "sinon": "^1.17.7"
   },
   "dependencies": {
     "axios": "^0.15.3",

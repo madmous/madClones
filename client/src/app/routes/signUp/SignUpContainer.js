@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import SignUp from './SignUp';
 
-import * as signUpActionCreators from './modules/signUp'
+import { signUpActionCreators } from './modules/index'
 
 const mapStateToProps = state => {
   const { isAuthenticatingSuccessful } = state.signUp;

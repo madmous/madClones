@@ -1,11 +1,13 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 
-import { updateOrganizations } from './organization'
-import { updateNotification } from './notification'
-import { hideNotification } from './notification'
-import { closeAllModals } from './modals'
+import { 
+  updateOrganizations, 
+  updateNotification, 
+  hideNotification, 
+  closeAllModals 
+} from '../index';
 
-import { url } from '../../../../utils/url.js';
+import { url } from '../../../../../utils/url.js';
 
 const OPEN_MODAL = 'OPEN_MODAL'
 const CLOSE_MODAL = 'CLOSE_MODAL'
@@ -42,17 +44,15 @@ export function updateBoards(payload) {
 	}
 }
 
-export function openModal(payload) {
+export function openModal() {
   return {
-		type: OPEN_MODAL,
-		payload
+		type: OPEN_MODAL
 	}
 }
 
-export function closeModal(payload) {
+export function closeModal() {
   return {
-		type: CLOSE_MODAL,
-		payload
+		type: CLOSE_MODAL
 	}
 }
 
@@ -133,11 +133,11 @@ export default function board(state = initialState, action) {
 			})
     case OPEN_MODAL:
 			return Object.assign({}, state, {
-				isModalOpen: action.payload.isModalOpen
+				isModalOpen: true
 			})
     case CLOSE_MODAL:
 			return Object.assign({}, state, {
-				isModalOpen: action.payload.isModalOpen
+				isModalOpen: false
 			})
     default: return state;
   }

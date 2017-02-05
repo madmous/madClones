@@ -1,6 +1,6 @@
-import { logoutUser } from '../routes/login/modules/login';
+import { loginActionCreators } from '../../routes/login/modules/index';
 
-import { url } from '../../utils/url';
+import { url } from '../../../utils/url';
 
 const UPDATE_USER = 'UPDATE_USER'
 
@@ -46,7 +46,7 @@ export function getUser() {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(logoutUser());
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }

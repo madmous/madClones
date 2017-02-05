@@ -11,14 +11,18 @@ import {
 	home
 } from '../app/routes/home/modules/index';
 
-import signUp from '../app/routes/signUp/modules/signUp';
-import login from '../app/routes/login/modules/login';
+import { signUp } from '../app/routes/signUp/modules/index';
+import { login } from '../app/routes/login/modules/index';
 
-import { popOver } from '../app/modules/index';
-import { app } from '../app/modules/index';
+import { 
+	popOver, 
+	app 
+} from '../app/modules/index';
 
-import { boardView } from '../app/routes/home/routes/boardView/modules/index';
-import { card } from '../app/routes/home/routes/boardView/modules/index';
+import { 
+	boardView, 
+	card 
+} from '../app/routes/home/routes/boardView/modules/index';
 
 const rootReducer = combineReducers({
 	organization,

@@ -1,8 +1,8 @@
-import popOver from './popOver';
-import app from './app';
+import popOver from './popOver/popOver';
+import app from './app/app';
 
-import * as popOverActionCreators from './popOver';
-import * as appActionCreators from './app';
+import * as popOverActionCreators from './popOver/popOver';
+import * as appActionCreators from './app/app';
 
 export {
 	popOverActionCreators,

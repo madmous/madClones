@@ -1,18 +1,20 @@
-import { updateOrganizations } from './organization'
-import { updateNotification } from './notification'
-import { updateBoards } from './board'
+import { 
+  updateOrganizations, 
+  updateNotification, 
+  updateBoards 
+} from '../index';
 
-import { url } from '../../../../utils/url';
+import { url } from '../../../../../utils/url';
 
-const UPDATE_STARRED_BOARDS = 'UPDATE_STARRED_BOARDS'
+const UPDATE_STARRED_BOARDS = 'UPDATE_STARRED_BOARDS';
 
-const STAR_BOARD_REQUEST = 'STAR_BOARD_REQUEST'
-const STAR_BOARD_SUCCESS = 'STAR_BOARD_SUCCESS'
-const STAR_BOARD_FAIL = 'STAR_BOARD_FAIL'
+const STAR_BOARD_REQUEST = 'STAR_BOARD_REQUEST';
+const STAR_BOARD_SUCCESS = 'STAR_BOARD_SUCCESS';
+const STAR_BOARD_FAIL = 'STAR_BOARD_FAIL';
 
-const UNSTAR_BOARD_REQUEST = 'UNSTAR_BOARD_REQUEST'
-const UNSTAR_BOARD_SUCCESS = 'UNSTAR_BOARD_SUCCESS'
-const UNSTAR_BOARD_FAIL = 'UNSTAR_BOARD_FAIL'
+const UNSTAR_BOARD_REQUEST = 'UNSTAR_BOARD_REQUEST';
+const UNSTAR_BOARD_SUCCESS = 'UNSTAR_BOARD_SUCCESS';
+const UNSTAR_BOARD_FAIL = 'UNSTAR_BOARD_FAIL';
 
 export function updateStarredBoards(payload) {
   return {

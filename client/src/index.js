@@ -12,7 +12,7 @@ import React from 'react';
 
 import { RequiresAuthentication } from './utils/authentiationWrappers';
 
-import { authenticateIfNeeded } from '../src/app/routes/login/modules/login';
+import { loginActionCreators} from '../src/app/routes/login/modules/index';
 import configureStore from './store/configureStore';
 
 import logPageView from './analytics';
@@ -29,7 +29,7 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 if (localStorage.getItem('userId')) {
-  store.dispatch(authenticateIfNeeded());
+  store.dispatch(loginActionCreators.authenticateIfNeeded());
 }
 
 ReactDOM.render(

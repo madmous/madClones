@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CreateBoard from './CreateBoard';
 
-import * as ModalActionCreators from '../../../modules/modals';
+import * as ModalActionCreators from '../../../modules/index';
 
 function mapStateToProps(state) {
 	const { isCreateBoardModalOpen } = state.modals;

@@ -1,8 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as popOverActionCreators from '../../modules/popOver';
-import * as loginActionCreators from '../../routes/login/modules/login';
+import { popOverActionCreators } from '../../modules/index';
+import { loginActionCreators } from '../../routes/login/modules/index';
 
 import PopOver from './PopOver';
 

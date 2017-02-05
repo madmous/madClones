@@ -1,10 +1,10 @@
 import fetch from 'isomorphic-fetch';
 import { change } from 'redux-form';
 
-import { authenticateUser } from '../../login/modules/login'
+import { loginActionCreators } from '../../../login/modules/index';
 import { push } from 'react-router-redux';
 
-import { url } from '../../../../utils/url'
+import { url } from '../../../../../utils/url';
 
 const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
 const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
@@ -63,7 +63,7 @@ export function createUser(formInput) {
 
         } else {
           dispatch(signUpSuccess());
-          dispatch(authenticateUser());
+          dispatch(loginActionCreators.authenticateUser());
 
           localStorage.setItem('userId', jsonData.token);
 
@@ -77,7 +77,7 @@ const initialState = {
   isFetchingSuccessful: false,
   isFetching: false,
 
-  errorMessage: {},
+  errorMessage: {}
 }
 
 export default function signUp(state = initialState, action) {
