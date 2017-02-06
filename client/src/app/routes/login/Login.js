@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 
@@ -6,8 +6,14 @@ import { LoginForm } from './components/index';
 
 import './Login.css';
 
-export default class Login extends Component {
+const propTypes = {
+  isAuthenticatingSuccessful: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 
+  loginActions: PropTypes.object.isRequired
+}
+
+export default class Login extends Component {
   componentWillMount() {
     const { isAuthenticated, dispatch } = this.props;
 
@@ -35,3 +41,5 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = propTypes;
