@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "chai": "^3.5.0",
     "enzyme": "^2.7.1",
     "es6-promise": "^4.0.5",
     "isomorphic-fetch": "^2.2.1",
