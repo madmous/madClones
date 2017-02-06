@@ -16,7 +16,7 @@ function setup() {
 }
 
 describe('Login', () => {
-  it('should render Login component', () => {
+  it('should render redux form component', () => {
     const wrapper = setup();
 
     expect(wrapper.find('Connect(ReduxForm)')).to.have.length(1);
