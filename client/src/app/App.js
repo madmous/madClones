@@ -1,11 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { PopOver, Header } from './components/index';
 
-import './App.css'
+import './App.css';
+
+const propTypes = {
+  isFocusOnPopHover: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isFocusOnModal: PropTypes.bool.isRequired,
+  isPopOverOpen: PropTypes.bool.isRequired,
+  errorMessages: PropTypes.array.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
+  fullName: PropTypes.string.isRequired,
+
+  popOverActions: PropTypes.object.isRequired,
+  modalActions: PropTypes.object.isRequired,
+  appActions: PropTypes.object.isRequired
+}
 
 export default class App extends Component {
-
   componentDidMount () {
     this.props.appActions.getUser();
   }
@@ -49,7 +62,7 @@ export default class App extends Component {
     } 
   }
 
-  getPopOver = () => {
+  renderPopOver = () => {
     if (this.props.isPopOverOpen) {
       return (
         <PopOver />
@@ -67,8 +80,10 @@ export default class App extends Component {
       >
         <Header />
         { this.props.children }
-        { this.getPopOver() }
+        { this.renderPopOver() }
       </div>
     )
   }
 }
+
+App.propTypes = propTypes;
