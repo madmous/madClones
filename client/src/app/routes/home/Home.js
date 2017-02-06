@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { Notification, Boards } from './components/index';
 
 import './Home.css';
 
-export default class Home extends Component {
+const propTypes = {
+  errorMessages: PropTypes.array.isRequired,
 
+  homeActions: PropTypes.object.isRequired
+}
+
+export default class Home extends Component {
   componentDidMount () {
     document.title = 'Boards | Trello';
     this.props.homeActions.getHome();
@@ -32,3 +37,5 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = propTypes;
