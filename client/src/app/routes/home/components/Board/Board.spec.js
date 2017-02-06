@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import React from 'react';
 
-import Board from './board';
+import Board from './Board';
 
 function setup() {
   const props = {
