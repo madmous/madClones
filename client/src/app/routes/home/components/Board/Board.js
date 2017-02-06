@@ -7,10 +7,10 @@ import './Board.css';
 
 const propTypes = {
   displayBoardOptions: PropTypes.bool.isRequired,
+  isStarredBoardItem: PropTypes.bool.isRequired,
   boardsToDisplay: PropTypes.array.isRequired,
-  boardTitle: PropTypes.string.isRequired,
-  organizationId: PropTypes.string,
-  isStarredBoardItem: PropTypes.bool
+  organizationId: PropTypes.string.isRequired,
+  boardTitle: PropTypes.string.isRequired
 }
 
 const defaultProps = {
@@ -20,7 +20,7 @@ const defaultProps = {
 
 export default function Board(props) {
 
-  const getUserClass = () => {
+  const renderUserClassName = () => {
     if (props.displayBoardOptions) {
       return <FontAwesome name="users" />
     } else if (props.isStarredBoard) {
@@ -30,7 +30,7 @@ export default function Board(props) {
     return <FontAwesome name="user" />
   }
 
-  const getBoardOptions = () => {
+  const renderBoardOptions = () => {
     if (props.displayBoardOptions) {
       return (
         <div className="Board-Header-Options">
@@ -40,7 +40,7 @@ export default function Board(props) {
     }
   }
   
-  const getBoardList = () => {
+  const renderBoardList = () => {
     const { boardsToDisplay } = props;
     let organizationId = '';
 
@@ -95,12 +95,12 @@ export default function Board(props) {
     <div className="Board">
       <div className="Board-Header">
         <div className="Board-Header-Icon">
-          { getUserClass() }
+          { renderUserClassName() }
         </div>
-        <h3>{ props.boardTitle}</h3>
-        { getBoardOptions() }
+        <h3>{ props.boardTitle }</h3>
+        { renderBoardOptions() }
       </div>
-      { getBoardList() }
+      { renderBoardList() }
     </div>
   )
 }
