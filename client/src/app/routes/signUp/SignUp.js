@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router';
 
@@ -6,8 +6,14 @@ import { SignUpForm } from './components/index';
 
 import './SignUp.css';
 
-export default class SignUp extends Component {
+const propTypes = {
+  isAuthenticatingSuccessful: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 
+  signUpActions: PropTypes.object.isRequired
+}
+
+export default class SignUp extends Component {
   componentWillMount() {
     const { isAuthenticated, dispatch, location } = this.props;
 
@@ -37,3 +43,5 @@ export default class SignUp extends Component {
     );
   }
 }
+
+SignUp.propTypes = propTypes;
