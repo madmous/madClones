@@ -1,8 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { BoardViewHeader, Cards } from './components/index';
 
 import './BoardView.css';
+
+const propTypes = {
+  isFocusOnCreateCardForm: PropTypes.bool.isRequired,
+  isCreateCardFormOpen: PropTypes.bool.isRequired,
+
+  isFocusOnCreateCardItemForm: PropTypes.bool.isRequired,
+  isCreateCardItemFormOpen: PropTypes.bool.isRequired,
+
+  boardViewActions: PropTypes.object.isRequired,
+  cardActions: PropTypes.object.isRequired
+}
 
 export default class BoardView extends Component {
 
@@ -67,3 +78,5 @@ export default class BoardView extends Component {
     );
   }
 }
+
+BoardView.propTypes = propTypes;
