@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
 import './CreateCardItem.css';
+
+const propTypes = {
+  isCreateCardItemFormOpen: PropTypes.bool.isRequired,
+
+  cardActions: PropTypes.object.isRequired
+}
 
 class CreateCardItem extends Component {
 
@@ -58,5 +64,7 @@ class CreateCardItem extends Component {
     );
   }
 }
+
+CreateCardItem.propTypes = propTypes;
 
 export default  reduxForm({ form: 'createCardItemForm' })(CreateCardItem);
