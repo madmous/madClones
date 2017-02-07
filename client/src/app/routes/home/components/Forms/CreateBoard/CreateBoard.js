@@ -2,10 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
-import '../Form.css'
+import '../Form.css';
 
 const propTypes = {
-  isCreateBoardModalOpen: PropTypes.bool.isRequired
+  isCreateBoardModalOpen: PropTypes.bool.isRequired,
+
+  modalActions: PropTypes.object.isRequired
 }
 
 class CreateBoard extends Component {
