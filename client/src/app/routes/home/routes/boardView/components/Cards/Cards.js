@@ -1,10 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import { CreateCard, Card } from '../index';
 
 import './Cards.css';
+
+const propTypes = {
+  isCreateCardFormOpen: PropTypes.bool.isRequired,
+  pathname: PropTypes.string.isRequired,
+  cards: PropTypes.array.isRequired
+}
 
 class Cards extends Component {
 
@@ -65,5 +71,7 @@ class Cards extends Component {
     );
   }
 }
+
+Cards.propTypes = propTypes;
 
 export default DragDropContext(HTML5Backend)(Cards)
