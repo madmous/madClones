@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
-import '../Form.css'
+import '../Form.css';
+
+const propTypes = {
+  isCreateBoardModalOpen: PropTypes.bool.isRequired,
+
+  modalActions: PropTypes.object.isRequired
+}
 
 class CreateOrganization extends Component {
   render() {
@@ -66,5 +72,7 @@ class CreateOrganization extends Component {
 		this.props.modalActions.closeCreteOrganizationModal()
 	}
 }
+
+CreateOrganization.propTypes = propTypes;
 
 export default reduxForm({ form: 'createOrganizationForm' })(CreateOrganization);
