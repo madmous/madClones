@@ -5,9 +5,19 @@ import { CreateOrganization, Board } from '../../components/index';
 import './Boards.css';
 
 const propTypes = {
+  userId:PropTypes.string.isRequired,
+  
   starredBoards: PropTypes.array.isRequired,
   organizations: PropTypes.array.isRequired,
   boards: PropTypes.array.isRequired,
+
+  isFetchingUserSuccessful: PropTypes.bool.isRequired,
+  isFetchingUser: PropTypes.bool.isRequired,
+
+  organizationActions: PropTypes.object.isRequired,
+  popOverActions: PropTypes.object.isRequired,
+  boardActions: PropTypes.object.isRequired,
+  modalActions: PropTypes.object.isRequired
 }
 
 export default function Boards(props) {
@@ -15,7 +25,7 @@ export default function Boards(props) {
     return (!props.isFetchingUser && props.isFetchingUserSuccessful);
   }
 
-  const getStarredBoards = () => {
+  const renderStarredBoards = () => {
     const { starredBoards } = props;
 
     let starredBoard = null;
@@ -34,7 +44,7 @@ export default function Boards(props) {
     return starredBoard;
   }
 
-  const getPersonalBoards = () => {
+  const renderPersonalBoards = () => {
     const { boards } = props;
 
     let personalBoard = null;
@@ -52,7 +62,7 @@ export default function Boards(props) {
     return personalBoard;
   }
 
-  const getOrganizationBoards = () => {
+  const renderOrganizationBoards = () => {
     const { organizations } = props;
 
     let organizationItem = null;
@@ -90,9 +100,9 @@ export default function Boards(props) {
 
   return (
     <div className="Boards">
-      { getStarredBoards() }
-      { getPersonalBoards() }
-      { getOrganizationBoards() }
+      { renderStarredBoards() }
+      { renderPersonalBoards() }
+      { renderOrganizationBoards() }
 
       <div className="Boards-Create">
         <span onClick={ () => openModal(event) }>Create a new team...</span>
