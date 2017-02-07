@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
-import './CreateCard.css'
+import './CreateCard.css';
+
+const propTypes = {
+  isCreateCardFormOpen: PropTypes.bool.isRequired,
+
+  boardViewActions: PropTypes.object.isRequired
+}
 
 class CreateCard extends Component {
 
@@ -48,5 +54,7 @@ class CreateCard extends Component {
     }
   }
 }
+
+CreateCard.propTypes = propTypes;
 
 export default reduxForm({ form: 'createCardForm' })(CreateCard);
