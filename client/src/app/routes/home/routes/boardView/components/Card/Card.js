@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { CardItems } from '../index';
 
 import './Card.css';
+
+const propTypes = {
+  createCardFormIndexToOpen: PropTypes.number.isRequired, 
+  isCreateCardItemFormOpen: PropTypes.bool.isRequired, 
+  cardHeader: PropTypes.string.isRequired,
+  cardItems: PropTypes.array.isRequired,
+  x: PropTypes.number.isRequired,
+
+  cardActions: PropTypes.object.isRequired
+}
 
 export default function Card(props) {
 
@@ -49,3 +59,5 @@ export default function Card(props) {
     </div>    
   );
 }
+
+Card.propTypes = propTypes;
