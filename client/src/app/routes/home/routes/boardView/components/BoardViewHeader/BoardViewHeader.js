@@ -1,13 +1,7 @@
-import React, { PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
+import React from 'react';
 
 import './BoardViewHeader.css';
-
-const propTypes = {
-  boardOrganization: PropTypes.array,
-  boardName: PropTypes.array,
-  isStarred: PropTypes.bool
-}
 
 export default function BoardViewHeader(props) {
 
@@ -26,5 +20,3 @@ export default function BoardViewHeader(props) {
     </div>
   );
 }
-
-BoardViewHeader.propTypes = propTypes;
