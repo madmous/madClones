@@ -6,16 +6,7 @@ const propTypes = {
 }
 
 export default class Notification extends Component {
-
-  render() {
-    return ( 
-      <div className="Notification">
-      { this.getErrorMessages() }
-      </div>
-    );
-  }
-
-  getErrorMessages() {
+  renderErrorMessages() {
     const { errorMessages } = this.props;
     let messages = null;
 
@@ -26,6 +17,14 @@ export default class Notification extends Component {
     });
 
     return messages;
+  }
+
+  render() {
+    return ( 
+      <div className="Notification">
+      { this.renderErrorMessages() }
+      </div>
+    );
   }
 }
 
