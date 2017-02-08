@@ -10,6 +10,10 @@ const propTypes = {
   modalActions: PropTypes.object.isRequired
 };
 
+const defaultProps = {
+  isCreateBoardModalOpen: false
+}
+
 function CreateOrganization(props) {
   const focusOnPopHover = isFocusOnPopHover => {
     
@@ -71,6 +75,7 @@ function CreateOrganization(props) {
 	);
 }
 
+CreateOrganization.defaultProps = defaultProps;
 CreateOrganization.propTypes = propTypes;
 
 export default reduxForm({ form: 'createOrganizationForm' })(CreateOrganization);

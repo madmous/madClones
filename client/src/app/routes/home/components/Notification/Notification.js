@@ -1,13 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import './Notification.css';
 
 const propTypes = {
   errorMessages: PropTypes.array.isRequired
 }
 
-export default class Notification extends Component {
-  renderErrorMessages() {
-    const { errorMessages } = this.props;
+export default function Notification(props) {
+  const renderErrorMessages = () => {
+    const { errorMessages } = props;
     let messages = null;
 
     messages = errorMessages.length > 0 && errorMessages.map((message, index) => {
@@ -17,15 +17,13 @@ export default class Notification extends Component {
     });
 
     return messages;
-  }
+  };
 
-  render() {
-    return ( 
-      <div className="Notification">
-      { this.renderErrorMessages() }
-      </div>
-    );
-  }
+  return ( 
+    <div className="Notification">
+    { renderErrorMessages() }
+    </div>
+  );
 }
 
 Notification.propTypes = propTypes;

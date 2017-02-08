@@ -1,19 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { BoardOptionsItem } from '../index';
 
 import './BoardOptionsItems.css';
 
-export default class BoardOptionsItems extends Component {
-  render() {
-    return (
-      <div className="BoardOptionsItems">
-        { this.getBoardOptionsItemList() }
-      </div>
-    );
-  }
-  
-  getBoardOptionsItemList() {
+export default function BoardOptionsItems() {
+  const renderBoardOptionsItemList = () => {
     return (
       <ul className="BoardOptions-List">
         <BoardOptionsItem boardName="Boards" iconName="columns"/>
@@ -21,5 +13,11 @@ export default class BoardOptionsItems extends Component {
         <BoardOptionsItem boardName="Settings" iconName="sun-o"/>
       </ul>
     );
-  }
+  };
+
+  return (
+    <div className="BoardOptionsItems">
+      { renderBoardOptionsItemList() }
+    </div>
+  );
 }

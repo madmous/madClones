@@ -11,9 +11,9 @@ function setup() {
     boardsToDisplay: [],
     organizationId: '',
     boardTitle: ''
-  }
+  };
 
-  return shallow(<Board {...props} />)
+  return shallow(<Board {...props} />);
 }
 
 describe('Board', () => {

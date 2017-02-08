@@ -4,10 +4,9 @@ import React from 'react';
 import './BoardViewHeader.css';
 
 export default function BoardViewHeader(props) {
-
   const getBoardViewHeaderStarClass = () => {
     return "Board-View-Header-Star";
-  }
+  };
 
   return (
     <div className="Board-View-Header">

@@ -23,7 +23,7 @@ const propTypes = {
 export default function Boards(props) {
   const canBoardsBeRendered = () => {
     return (!props.isFetchingUser && props.isFetchingUserSuccessful);
-  }
+  };
 
   const renderStarredBoards = () => {
     const { starredBoards } = props;
@@ -42,7 +42,7 @@ export default function Boards(props) {
     }
 
     return starredBoard;
-  }
+  };
 
   const renderPersonalBoards = () => {
     const { boards } = props;
@@ -60,7 +60,7 @@ export default function Boards(props) {
     }
 
     return personalBoard;
-  }
+  };
 
   const renderOrganizationBoards = () => {
     const { organizations } = props;
@@ -82,13 +82,13 @@ export default function Boards(props) {
     });
 
     return organizationItem;
-  }
+  };
 
   const addOrganization = (formInput) => {
     const { userId } = props;
 
     props.organizationActions.addOrganization(userId, formInput.name);
-  }
+  };
 
   const openModal = (event) => {
     event.preventDefault();
@@ -96,7 +96,7 @@ export default function Boards(props) {
     props.modalActions.closeAllModals();
     props.modalActions.openCreateOrganizationModal();
     props.popOverActions.hidePopOver();
-	}
+	};
 
   return (
     <div className="Boards">

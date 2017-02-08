@@ -12,7 +12,7 @@ function setup() {
     signUpActions: {}
   }
 
-  return shallow(<SignUp {...props} />)
+  return shallow(<SignUp {...props} />);
 }
 
 describe('SignUp', () => {

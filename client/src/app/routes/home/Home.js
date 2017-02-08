@@ -8,7 +8,7 @@ const propTypes = {
   errorMessages: PropTypes.array.isRequired,
 
   homeActions: PropTypes.object.isRequired
-}
+};
 
 export default class Home extends Component {
   componentDidMount () {
@@ -22,7 +22,7 @@ export default class Home extends Component {
     if (errorMessages && errorMessages.length > 0) {
       return (
         <Notification errorMessages={errorMessages} />
-      )
+      );
     } else {
       return null;
     }

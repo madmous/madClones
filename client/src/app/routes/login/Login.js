@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import { push } from 'react-router-redux';
+import { Link } from 'react-router';
 
 import { LoginForm } from './components/index';
 

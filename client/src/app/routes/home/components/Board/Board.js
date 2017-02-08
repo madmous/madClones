@@ -11,24 +11,24 @@ const propTypes = {
   boardsToDisplay: PropTypes.array.isRequired,
   organizationId: PropTypes.string.isRequired,
   boardTitle: PropTypes.string.isRequired
-}
+};
 
 const defaultProps = {
   organizationId: '',
   isStarredBoardItem: false
-}
+};
 
 export default function Board(props) {
-
   const renderUserClassName = () => {
+    let fontName = 'user';
     if (props.displayBoardOptions) {
-      return <FontAwesome name="users" />
+      fontName = 'users';
     } else if (props.isStarredBoard) {
-      return <FontAwesome name="star" />
+      fontName = 'star';
     }
 
-    return <FontAwesome name="user" />
-  }
+    return <FontAwesome name={ fontName } />;
+  };
 
   const renderBoardOptions = () => {
     if (props.displayBoardOptions) {
@@ -38,7 +38,7 @@ export default function Board(props) {
         </div>
       )
     }
-  }
+  };
   
   const renderBoardList = () => {
     const { boardsToDisplay } = props;
@@ -70,7 +70,7 @@ export default function Board(props) {
           boardName={board.name} 
           key={board._id} 
         />
-      )
+      );
     });
 
     if (!props.isStarredBoard) {
@@ -102,8 +102,8 @@ export default function Board(props) {
       </div>
       { renderBoardList() }
     </div>
-  )
+  );
 }
 
-Board.propTypes = propTypes;
 Board.defaultProps = defaultProps;
+Board.propTypes = propTypes;

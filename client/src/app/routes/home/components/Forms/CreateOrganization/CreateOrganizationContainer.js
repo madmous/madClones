@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CreateOrganization from './CreateOrganization';
 
-import * as ModalActionCreators from '../../../modules/index';
+import { modalActionCreators } from '../../../modules/index';
 
 function mapStateToProps(state) {
 	const { isCreateOrganizationModalOpen } = state.modals;
@@ -15,7 +15,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return { 
-    modalActions: bindActionCreators(ModalActionCreators, dispatch)
+    modalActions: bindActionCreators(modalActionCreators, dispatch)
   }
 }
 

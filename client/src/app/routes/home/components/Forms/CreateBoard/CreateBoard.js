@@ -1,79 +1,82 @@
-import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import React, { PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import '../Form.css';
 
 const propTypes = {
-  isCreateBoardModalOpen: PropTypes.bool.isRequired,
+  isCreateBoardModalOpen: PropTypes.bool,
 
   modalActions: PropTypes.object.isRequired
-}
+};
 
-class CreateBoard extends Component {
-  render() {
-    const { handleSubmit } = this.props;
-		
-    return (
-			<div 
-				className={this.getClassName()} 
-				tabIndex="0" 
-				onFocus={() => { this.focusOnPopHover(true) }}
-				onBlur={() => { this.focusOnPopHover(false) }} 
-			>
-				<div className="Form-Header" >
-					<span className="Form-Header-Title">Create Board 
-						<FontAwesome 
-							name="times" 
-							className="Form-Header-Close-Button" 
-							onClick={(event) => { this.closeModal() }} 
-						/>
-					</span>
-				</div>
-				<div>
-					<form onSubmit={handleSubmit}>
-						<div>
-							<label htmlFor="boardNewTitle">Title</label>
-							<Field 
-								className="Form-BoardTitle"
-								type="text" 
-								autoFocus={true}
-								name="name" 
-								placeholder="Like “School Research” for example…" 
-								value="" 
-								component="input"
-								dir="auto"
-							/>
-						</div>
-						<button type="submit" className="Form-SubmitButton">Create</button>
-					</form>
-				</div>
-      </div>
-    );
-  }
+const defaultProps = {
+  isCreateBoardModalOpen: false
+};
 
-	focusOnPopHover (isFocusOnPopHover) {
+function CreateBoard(props) {
+	const focusOnPopHover = isFocusOnPopHover => {
     
     if (isFocusOnPopHover) {
-      this.props.modalActions.focusOnModal();
+			props.modalActions.focusOnModal();
     } else {
-      this.props.modalActions.blurOnModal();
+      props.modalActions.blurOnModal();
     }
-  }
+  };
 
-	getClassName() {
-		if (this.props.isCreateBoardModalOpen) {
-			return "Form Form-Shown"
+	const getClassName = () => {
+		if (props.isCreateBoardModalOpen) {
+			return "Form Form-Shown";
 		}
 
-		return "Form Form-Hidden"
-	}
+		return "Form Form-Hidden";
+	};
 
-	closeModal() {
-		this.props.modalActions.closeCreateBoardModal()
-	}
+	const closeModal = () => {
+		props.modalActions.closeCreateBoardModal()
+	};
+
+	const { handleSubmit } = props;
+		
+	return (
+		<div 
+			className={ getClassName() } 
+			tabIndex="0" 
+			onFocus={() => { focusOnPopHover(true) }}
+			onBlur={() => { focusOnPopHover(false) }} 
+		>
+			<div className="Form-Header" >
+				<span className="Form-Header-Title">Create Board 
+					<FontAwesome 
+						name="times" 
+						className="Form-Header-Close-Button" 
+						onClick={(event) => { closeModal() }} 
+					/>
+				</span>
+			</div>
+			<div>
+				<form onSubmit={ handleSubmit }>
+					<div>
+						<label htmlFor="boardNewTitle">Title</label>
+						<Field 
+							className="Form-BoardTitle"
+							type="text" 
+							autoFocus={true}
+							name="name" 
+							placeholder="Like “School Research” for example…" 
+							value="" 
+							component="input"
+							dir="auto"
+						/>
+					</div>
+					<button type="submit" className="Form-SubmitButton">Create</button>
+				</form>
+			</div>
+		</div>
+	);
 }
 
+CreateBoard.defaultProps = defaultProps;
 CreateBoard.propTypes = propTypes;
 
 export default reduxForm({ form: 'createBoardForm' })(CreateBoard);

@@ -15,7 +15,6 @@ const propTypes = {
 }
 
 export default function Card(props) {
-
   const { 
     createCardFormIndexToOpen, 
     isCreateCardItemFormOpen, 
@@ -35,7 +34,7 @@ export default function Card(props) {
         >Add a card item...</span>
       )
     }
-  }
+  };
 
   return (
     <div className="Card">

@@ -16,7 +16,6 @@ const propTypes = {
 }
 
 export default class BoardView extends Component {
-
   componentDidMount () {
     document.title = 'BoardView | Trello';
     this.props.cardActions.getCards(this.props.location.pathname);

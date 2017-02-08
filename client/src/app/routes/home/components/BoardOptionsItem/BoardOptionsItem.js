@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import FontAwesome from 'react-fontawesome';
 
 import './BoardOptionsItem.css';
@@ -8,15 +8,15 @@ const propTypes = {
   boardName: PropTypes.string.isRequired
 }
 
-export default class BoardOptionsItem extends Component {
-  render() {
-    return (
-      <div className="BoardOptionsItem">
-        <FontAwesome className='BoardOptionsItem-Icon' name={ this.props.iconName } />
-        <span className="BoardOptionsItem-Name"><span>{ this.props.boardName }</span></span>
-      </div>
-    );
-  }
+export default function BoardOptionsItem(props) {
+  const { iconName, boardName } = props;
+  
+  return (
+    <div className="BoardOptionsItem">
+      <FontAwesome className='BoardOptionsItem-Icon' name={ iconName } />
+      <span className="BoardOptionsItem-Name"><span>{ boardName }</span></span>
+    </div>
+  );
 }
 
 BoardOptionsItem.propTypes = propTypes;

@@ -39,7 +39,7 @@ export default class App extends Component {
 
     if (!isFocusOnPopHover && isPopOverOpen) {
       popOverActions.hidePopOver();
-    }
+    };
   }
 
   handleEscKey = event => {

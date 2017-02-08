@@ -13,6 +13,17 @@ const propTypes = {
 }
 
 class Cards extends Component {
+  moveCard = (previousAndNextPositions) => {
+    const { cardActions, pathname, cards } = this.props;
+
+    cardActions.moveCardItemAndUpdateCards(previousAndNextPositions, cards, pathname);
+  }
+
+  createCard = (formInput) => {
+    const { cardActions, pathname } = this.props
+    
+    cardActions.saveCard(pathname, formInput.name);
+  }
 
   renderCards = () => {
     const { cards } = this.props;
@@ -31,18 +42,6 @@ class Cards extends Component {
     });
 
     return cardItem;
-  }
-
-  moveCard = (previousAndNextPositions) => {
-    const { cardActions, pathname, cards } = this.props;
-
-    cardActions.moveCardItemAndUpdateCards(previousAndNextPositions, cards, pathname);
-  }
-
-  createCard = (formInput) => {
-    const { cardActions, pathname } = this.props
-    
-    cardActions.saveCard(pathname, formInput.name);
   }
   
   renderAddCardSpanOrCreateCardForm = () => {
@@ -74,4 +73,4 @@ class Cards extends Component {
 
 Cards.propTypes = propTypes;
 
-export default DragDropContext(HTML5Backend)(Cards)
+export default DragDropContext(HTML5Backend)(Cards);

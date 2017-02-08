@@ -7,16 +7,14 @@ const propTypes = {
   id: PropTypes.string.isRequired
 }
 
-export default class CardItem extends Component {
-  render() {
-    const { connectDragSource, cardItemText, id } = this.props;
+export default function CardItem(props) {
+  const { connectDragSource, cardItemText, id } = props;
 
-    return connectDragSource(
-      <div className="Card-Item" id={id}>
-        <p>{ cardItemText }</p>
-      </div>
-    );
-  }
+  return connectDragSource(
+    <div className="Card-Item" id={id}>
+      <p>{ cardItemText }</p>
+    </div>
+  );
 }
 
 CardItem.propTypes = propTypes;
