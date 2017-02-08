@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
@@ -10,19 +10,16 @@ const propTypes = {
   cardActions: PropTypes.object.isRequired
 }
 
-class CreateCardItem extends Component {
-
-	handleEnterKey = (event) => {
-
+function CreateCardItem(props) {
+	const handleEnterKey = event => {
 		if (event.keyCode === 13) {
 			event.preventDefault();
 			this.props.handleSubmit();
 		}
 	}
 
-	focusOnForm(isFocusOnForm) {
-
-		const { cardActions } = this.props;
+	const focusOnForm = isFocusOnForm => {
+		const { cardActions } = props;
     
     if (isFocusOnForm) {
       cardActions.focusOnCardItemForm();
@@ -31,38 +28,38 @@ class CreateCardItem extends Component {
     }
   }
 
-  render() {
-    return (
-			<div 
-				className="Create-Card-Item-Form"
-				tabIndex="0" 
-				onFocus={() => { this.focusOnForm(true) }}
-				onBlur={() => { this.focusOnForm(false) }} 
-			>
-				<form onSubmit={ this.props.handleSubmit }>
-					<Field
-						className="Create-Card-Item-Form-Card-Title"
-						autoFocus={true}
-						type="text" 
-						name="name"
-						value=""
-						component="textarea"
-						dir="auto"
-						onKeyDown={ this.handleEnterKey }
+	const { handleSubmit, cardActions } = props;
+
+  return (
+		<div 
+			className="Create-Card-Item-Form"
+			tabIndex="0" 
+			onFocus={() => { focusOnForm(true) }}
+			onBlur={() => { focusOnForm(false) }} 
+		>
+			<form onSubmit={ handleSubmit }>
+				<Field
+					className="Create-Card-Item-Form-Card-Title"
+					autoFocus={true}
+					type="text" 
+					name="name"
+					value=""
+					component="textarea"
+					dir="auto"
+					onKeyDown={ handleEnterKey }
+				/>
+				<div className="Create-Card-Item-Form-Footer">
+					<button type="submit" className="Create-Card-Item-Form-SubmitButton">Save</button>
+					<FontAwesome 
+						name="times"
+						size="2x"
+						className="Create-Card-Item-Form-Header-Close-Button"
+						onClick={ () => cardActions.closeCreateCardItemForm() }
 					/>
-					<div className="Create-Card-Item-Form-Footer">
-						<button type="submit" className="Create-Card-Item-Form-SubmitButton">Save</button>
-						<FontAwesome 
-							name="times"
-							size="2x"
-							className="Create-Card-Item-Form-Header-Close-Button"
-							onClick={ () => this.props.cardActions.closeCreateCardItemForm() }
-						/>
-					</div>
-				</form>
-      </div>
-    );
-  }
+				</div>
+			</form>
+		</div>
+	);
 }
 
 CreateCardItem.propTypes = propTypes;

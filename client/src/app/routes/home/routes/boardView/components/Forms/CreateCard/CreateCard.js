@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
 
@@ -10,49 +10,47 @@ const propTypes = {
   boardViewActions: PropTypes.object.isRequired
 }
 
-class CreateCard extends Component {
-
-  render() {
-    return (
-			<div 
-				className="Create-Card-Form"
-				tabIndex="0" 
-				onFocus={() => { this.focusOnForm(true) }}
-				onBlur={() => { this.focusOnForm(false) }} 
-			>
-				<form onSubmit={ this.props.handleSubmit }>
-					<Field
-						className="Create-Card-Form-CardTitle"
-						autoFocus={true}
-						type="text" 
-						name="name"
-						value="" 
-						placeholder="Add a card…" 
-						component="input"
-						dir="auto"
-					/>
-					<div className="Create-Card-Form-Footer">
-						<button type="submit" className="Create-Card-Form-SubmitButton">Save</button>
-						<FontAwesome 
-							name="times"
-							size="2x"
-							className="Create-Card-Form-Header-Close-Button"
-							onClick={ () => this.props.boardViewActions.closeCreateCardForm() }
-						/>
-					</div>
-				</form>
-      </div>
-    );
-  }
-
-	focusOnForm(isFocusOnForm) {
-    
+function CreateCard(props) {
+	const focusOnForm = isFocusOnForm => {
     if (isFocusOnForm) {
-      this.props.boardViewActions.focusOnBoard();
+      props.boardViewActions.focusOnBoard();
     } else {
-      this.props.boardViewActions.blurOnBoard();
+      props.boardViewActions.blurOnBoard();
     }
   }
+
+	const { boardViewActions, handleSubmit } = props;
+
+	return (
+		<div 
+			className="Create-Card-Form"
+			tabIndex="0" 
+			onFocus={() => { focusOnForm(true) }}
+			onBlur={() => { focusOnForm(false) }} 
+		>
+			<form onSubmit={ handleSubmit }>
+				<Field
+					className="Create-Card-Form-CardTitle"
+					autoFocus={true}
+					type="text" 
+					name="name"
+					value="" 
+					placeholder="Add a card…" 
+					component="input"
+					dir="auto"
+				/>
+				<div className="Create-Card-Form-Footer">
+					<button type="submit" className="Create-Card-Form-SubmitButton">Save</button>
+					<FontAwesome 
+						name="times"
+						size="2x"
+						className="Create-Card-Form-Header-Close-Button"
+						onClick={ () => boardViewActions.closeCreateCardForm() }
+					/>
+				</div>
+			</form>
+		</div>
+	);
 }
 
 CreateCard.propTypes = propTypes;
