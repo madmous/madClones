@@ -1,7 +1,7 @@
 import { 
-  updateOrganizations, 
-  updateNotification, 
-  updateBoards 
+  organizationActionCreators,
+  notificationActionCreators,
+  boardActionCreators 
 } from '../index';
 
 import { url } from '../../../../../utils/url';
@@ -16,53 +16,52 @@ const UNSTAR_BOARD_REQUEST = 'UNSTAR_BOARD_REQUEST';
 const UNSTAR_BOARD_SUCCESS = 'UNSTAR_BOARD_SUCCESS';
 const UNSTAR_BOARD_FAIL = 'UNSTAR_BOARD_FAIL';
 
-export function updateStarredBoards(payload) {
-  return {
-		type: UPDATE_STARRED_BOARDS,
-		payload
-	}
-}
-
 function starBoardRequest() {
   return {
     type: STAR_BOARD_REQUEST
-  }
+  };
 }
 
 function starBoardSuccess() {
   return {
     type: STAR_BOARD_SUCCESS
-  }
+  };
 }
 
 function starBoardFail(payload) {
   return {
     type: STAR_BOARD_FAIL,
     payload
-  }
+  };
 }
 
 function unstarBoardRequest() {
   return {
     type: UNSTAR_BOARD_REQUEST
-  }
+  };
 }
 
 function unstarBoardSuccess() {
   return {
     type: UNSTAR_BOARD_SUCCESS
-  }
+  };
 }
 
 function unstarBoardFail(payload) {
   return {
     type: UNSTAR_BOARD_FAIL,
     payload
-  }
+  };
+}
+
+export function updateStarredBoards(payload) {
+  return {
+		type: UPDATE_STARRED_BOARDS,
+		payload
+	};
 }
 
 export function addBoardStar(userId, orgId, boardId) {
-
   if (orgId === '') {
     return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'POST');
   }
@@ -79,9 +78,7 @@ export function removeBoardStar(userId, orgId, boardId) {
 }
 
 function saveBoardStar(urlToFetch, method) {
-
   return dispatch => {
-
     if (method === 'POST') {
       dispatch(starBoardRequest());
     } else if (method === 'DELETE') {
@@ -104,7 +101,7 @@ function saveBoardStar(urlToFetch, method) {
 
           if (jsonDataError) {
             dispatch(starBoardFail(jsonData));
-            dispatch(updateNotification(jsonDataError));
+            dispatch(notificationActionCreators.updateNotification(jsonDataError));
           } else {
             dispatch(starBoardSuccess());
           }
@@ -112,20 +109,20 @@ function saveBoardStar(urlToFetch, method) {
 
           if (jsonDataError) {
             dispatch(unstarBoardFail(jsonData));
-            dispatch(updateNotification(jsonDataError));
+            dispatch(notificationActionCreators.updateNotification(jsonDataError));
           } else {
             dispatch(unstarBoardSuccess());
           }
         }
 
         if (!jsonData.error) {
-          dispatch(updateBoards(jsonData));
+          dispatch(boardActionCreators.updateBoards(jsonData));
           dispatch(updateStarredBoards(jsonData));
-          dispatch(updateOrganizations(jsonData));
+          dispatch(organizationActionCreators.updateOrganizations(jsonData));
         }
       }
     )
-  }
+  };
 }
 
 const initialState = {
@@ -134,43 +131,43 @@ const initialState = {
 
   errorMessage: '',
   starredBoards: [],
-}
+};
 
 export default function starredBoard(state = initialState, action) {
   switch (action.type) {
     case UPDATE_STARRED_BOARDS:
       return Object.assign({}, state, {
         starredBoards: action.payload.starredBoards
-      })
+      });
     case STAR_BOARD_REQUEST:
       return Object.assign({}, state, {
         isFetchingStarredBoard: true,
-      })
+      });
     case STAR_BOARD_SUCCESS:
       return Object.assign({}, state, {
         isFetchingStarredBoardSuccessful: true,
         isFetchingStarredBoard: false
-      })
+      });
     case STAR_BOARD_FAIL:
       return Object.assign({}, state, {
         isFetchingStarredBoardSuccessful: false,
         isFetchingStarredBoard: false
-      })
+      });
     case UNSTAR_BOARD_REQUEST:
       return Object.assign({}, state, {
         isFetchingStarredBoard: true,
-      })
+      });
     case UNSTAR_BOARD_SUCCESS:
       return Object.assign({}, state, {
         isFetchingStarredBoardSuccessful: true,
         isFetchingStarredBoard: false
-      })
+      });
     case UNSTAR_BOARD_FAIL:
       return Object.assign({}, state, {
         isFetchingStarredBoardSuccessful: false,
         isFetchingStarredBoard: false,
         errorMessage: action.payload.error
-      })
+      });
     default: return state;
   }
 }

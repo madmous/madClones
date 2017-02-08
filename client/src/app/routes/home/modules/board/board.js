@@ -1,59 +1,58 @@
 import fetch from 'isomorphic-fetch';
 
 import { 
-  updateOrganizations, 
-  updateNotification, 
-  hideNotification, 
-  closeAllModals 
+  organizationActionCreators, 
+  notificationActionCreators,
+  modalActionCreators
 } from '../index';
 
 import { url } from '../../../../../utils/url.js';
 
-const OPEN_MODAL = 'OPEN_MODAL'
-const CLOSE_MODAL = 'CLOSE_MODAL'
+const CLOSE_MODAL = 'CLOSE_MODAL';
+const OPEN_MODAL = 'OPEN_MODAL';
 
-const UPDATE_BOARDS = 'UPDATE_BOARDS'
+const UPDATE_BOARDS = 'UPDATE_BOARDS';
 
-const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST'
-const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS'
-const ADD_BOARD_FAIL = 'ADD_BOARD_FAIL'
+const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST';
+const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS';
+const ADD_BOARD_FAIL = 'ADD_BOARD_FAIL';
 
 function addBoardRequest() {
   return {
     type: ADD_BOARD_REQUEST
-  }
+  };
 }
 
 function addBoardSuccess() {
   return {
     type: ADD_BOARD_SUCCESS
-  }
+  };
 }
 
 function addBoardFail(payload) {
   return {
     type: ADD_BOARD_FAIL,
     payload
-  }
+  };
 }
 
 export function updateBoards(payload) {
   return {
 		type: UPDATE_BOARDS,
 		payload
-	}
+	};
 }
 
 export function openModal() {
   return {
 		type: OPEN_MODAL
-	}
+	};
 }
 
 export function closeModal() {
   return {
 		type: CLOSE_MODAL
-	}
+	};
 }
 
 export function addBoard(userId, orgId, boardName) {
@@ -85,16 +84,16 @@ function saveBoard(url, boardName) {
 
         if (jsonData.uiError || jsonData.error) {
           dispatch(addBoardFail(jsonData));
-          dispatch(updateNotification(jsonData.uiError));
+          dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
 
           setTimeout(() => {
-            dispatch(hideNotification())
+            dispatch(notificationActionCreators.hideNotification())
           }, 3000)
         } else {
-          dispatch(closeAllModals());
+          dispatch(modalActionCreators.closeAllModals());
           dispatch(addBoardSuccess());
           dispatch(updateBoards(jsonData));
-          dispatch(updateOrganizations(jsonData));
+          dispatch(organizationActionCreators.updateOrganizations(jsonData));
         }
       })
   }

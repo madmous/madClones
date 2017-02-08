@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch';
 
 import { 
-  updateNotification, 
-  hideNotification, 
-  closeAllModals 
+  organizationActionCreators, 
+  notificationActionCreators, 
+  modalActionCreators 
 } from '../index';
 
 import { url } from '../../../../../utils/url.js';
@@ -79,16 +79,16 @@ function saveOrganization(url, organizationName) {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(addOrganizationFail(jsonData));
-          dispatch(updateNotification(jsonData.uiError));
+          dispatch(organizationActionCreators.addOrganizationFail(jsonData));
+          dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
 
           setTimeout(() => {
-            dispatch(hideNotification())
+            dispatch(notificationActionCreators.hideNotification())
           }, 3000)
         } else {
-          dispatch(closeAllModals());
-          dispatch(addOrganizationSuccess());
-          dispatch(updateOrganizations(jsonData));
+          dispatch(modalActionCreators.closeAllModals());
+          dispatch(organizationActionCreators.addOrganizationSuccess());
+          dispatch(organizationActionCreators.updateOrganizations(jsonData));
         }
       })
   }
