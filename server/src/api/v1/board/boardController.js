@@ -13,6 +13,14 @@ const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
 let boardController = {};
 
+function formatResponse(pUser) {
+  return {
+    boards: pUser.boards,
+    organizations: pUser.organizations,
+    starredBoards: pUser.boardStars
+  }
+}
+
 function starredBoardIndex(starredBoards, boardId) {
   let starredBoardIndex = null;
 
@@ -168,9 +176,7 @@ boardController.saveUserBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          starredBoards: user.boardStars
-        }
+        data: formatResponse(user)
       });
     });
   }
@@ -226,9 +232,7 @@ boardController.removeUserBoardStar = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: {
-          starredBoards: user.boardStars
-        } 
+        data: formatResponse(user)
       });
     });
   }

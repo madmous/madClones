@@ -20,6 +20,14 @@ function formatResponse(pUser) {
   } 
 }
 
+function formatResponse(pUser) {
+  return {
+    boards: pUser.boards,
+    organizations: pUser.organizations,
+    starredBoards: pUser.boardStars
+  }
+}
+
 function starredBoardIndex(starredBoards, boardId) {
   let starredBoardIndex = null;
 
@@ -426,6 +434,8 @@ organizationController.saveOrganizationBoardStar = (req, res) => {
 
       return res.status(200).json({
         data: {
+          boards: user.boards,
+          organizations: user.organizations,
           starredBoards: user.boardStars
         } 
       });
@@ -496,6 +506,8 @@ organizationController.removeOrganizationBoardStar = (req, res) => {
 
       return res.status(200).json({
         data: {
+          boards: user.boards,
+          organizations: user.organizations,
           starredBoards: user.boardStars
         } 
       });

@@ -15,7 +15,7 @@ function formatResponse(pUser) {
     boards: pUser.boards,
     organizations: pUser.organizations,
     starredBoards: pUser.boardStars
-  } 
+  }
 }
 
 homeController.getBoardsAndOrganizations = (req, res) => {
