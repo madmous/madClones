@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+
 import { loginActionCreators } from '../../routes/login/modules/index';
 
 import { url } from '../../../utils/url';

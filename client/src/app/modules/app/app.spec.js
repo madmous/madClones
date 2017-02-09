@@ -10,7 +10,6 @@ const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
 describe('app actions', () => {
-  
   afterEach(() => {
     nock.cleanAll();
   })
@@ -25,20 +24,24 @@ describe('app actions', () => {
     expect(appActions.updateUser(payload)).toEqual(expectedAction)
   })
 
-  /*it('creates UPDATE_USER when fetching user', () => {
-    const user = {
+  it('creates UPDATE_USER when fetching user', () => {
+    const data = {
       _id: 1,
       fullname: 'Moustapha Amadou Diouf'
-    }
+    };
 
-    nock(url, { reqheaders: { 'Authorization': 'JWT' }} )
-      .get('/api/v1/users/')
-      .reply(200, { user })
+    nock('http://localhost:3001', { 
+      reqheaders: { 
+        'authorization': 'JWT ' + localStorage.getItem('userId') 
+      }
+    })
+    .get('/api/v1/users/')
+    .reply(200, { data });
 
     const expectedActions = [
       { type: 'LOAD_USER_REQUEST' },
       { type: 'LOAD_USER_SUCCESS' },
-      { type: 'UPDATE_USER', payload: { user } }
+      { type: 'UPDATE_USER', payload: data}
     ]
     const store = mockStore({ fullName: '', userId: '' });
 
@@ -46,5 +49,5 @@ describe('app actions', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions)
       })
-  })*/
+  })
 })
