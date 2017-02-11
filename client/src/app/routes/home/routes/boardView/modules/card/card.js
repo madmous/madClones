@@ -1,10 +1,11 @@
 import { reset } from 'redux-form';
+import fetch from 'isomorphic-fetch';
 
 import { loginActionCreators } from '../../../../../login/modules/index';
 import { url } from '../../../../../../../utils/url';
 
-const OPEN_CREATE_CARD_ITEM_FORM = 'OPEN_CREATE_CARD_ITEM_FORM';
 const CLOSE_CREATE_CARD_ITEM_FORM = 'CLOSE_CREATE_CARD_ITEM_FORM';
+const OPEN_CREATE_CARD_ITEM_FORM = 'OPEN_CREATE_CARD_ITEM_FORM';
 
 const FOCUS_CREATE_CARD_ITEM_FORM = 'FOCUS_CREATE_CARD_ITEM_FORM';
 const BLUR_CREATE_CARD_ITEM_FORM = 'BLUR_CREATE_CARD_ITEM_FORM';
@@ -122,9 +123,10 @@ function updateCardsSuccess() {
 	}
 }
 
-function updateCardsFail() {
+function updateCardsFail(payload) {
   return {
-		type: UPDATE_CARDS_FAIL
+		type: UPDATE_CARDS_FAIL,
+    payload
 	}
 }
 

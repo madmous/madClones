@@ -1,5 +1,13 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
 import * as cardActions from './card';
+
 import reducer from './card';
+
+const middlewares = [ thunk ];
+const mockStore = configureMockStore(middlewares);
 
 describe('card actions', () => {
   it('should create openCreateCardItemForm action', () => {
@@ -52,6 +60,241 @@ describe('card actions', () => {
     };
 
     expect(cardActions.resetCards()).toEqual(expectedAction);
+  })
+
+  it('should create an action to getCards - success', () => {
+    const data = {
+      cards: [],
+    };
+
+    const pathName = '/pathName';
+
+    const expectedActions = [
+      { 
+        type: 'LOAD_CARDS_REQUEST',
+        payload: pathName
+      },
+      { type: 'LOAD_CARDS_SUCCESS' },
+      {
+        type: 'UPDATE_CARDS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001', { 
+      reqheaders: {
+        'authorization': 'JWT ' + localStorage.getItem('userId') 
+      }
+    })
+    .get(`/api/v1${pathName}`)
+    .reply(200, { data });
+
+    return store.dispatch(cardActions.getCards(pathName))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to getCards - fail', () => {
+    const data = {
+      error: 'Error',
+    };
+
+    const pathName = '/pathName';
+
+    const expectedActions = [
+      { 
+        type: 'LOAD_CARDS_REQUEST',
+        payload: pathName
+      },
+      {
+        type: 'LOAD_CARDS_FAIL',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001', { 
+      reqheaders: {
+        'authorization': 'JWT ' + localStorage.getItem('userId') 
+      }
+    })
+    .get(`/api/v1${pathName}`)
+    .reply(400, { data });
+
+    return store.dispatch(cardActions.getCards(pathName))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to saveCard - success', () => {
+    const data = {
+      cards: [],
+    };
+
+    const pathName = '/pathName';
+    const cardName = 'cardName';
+
+    const expectedActions = [
+      { type: 'SAVE_CARD_REQUEST' },
+      { type: 'SAVE_CARD_SUCCESS' },
+      { 
+        type: '@@redux-form/RESET', 
+        meta: {
+          form: 'createCardForm'
+        } 
+      },
+      {
+        type: 'UPDATE_CARDS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock(`http://localhost:3001/api/v1${pathName}/cards`, {
+      body: JSON.stringify({
+        name: cardName
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(cardActions.saveCard(pathName, cardName))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to saveCard - fail', () => {
+    const data = {
+      error: 'Error'
+    };
+
+    const pathName = '/pathName';
+    const cardName = 'cardName';
+
+    const expectedActions = [
+      { type: 'SAVE_CARD_REQUEST' },
+      {
+        type: 'SAVE_CARD_FAIL',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock(`http://localhost:3001/api/v1${pathName}/cards`, {
+      body: JSON.stringify({
+        name: cardName
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(400, { data });
+
+    return store.dispatch(cardActions.saveCard(pathName, cardName))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to saveCardItem - success', () => {
+    const data = {
+      cards: [],
+    };
+
+    const cardItemName = 'cardItemName';
+    const pathName = '/pathName';
+    const cardId = 'cardId';
+
+    const expectedActions = [
+      { type: 'SAVE_CARD_ITEM_REQUEST' },
+      { type: 'SAVE_CARD_ITEM_SUCCESS' },
+      { 
+        type: '@@redux-form/RESET', 
+        meta: {
+          form: 'createCardItemForm'
+        } 
+      },
+      {
+        type: 'UPDATE_CARDS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock(`http://localhost:3001/api/v1${pathName}/cards/${cardId}`, {
+      body: JSON.stringify({
+        name: cardItemName
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(cardActions.saveCardItem(pathName, cardId, cardItemName))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to saveCardItem - fail', () => {
+    const data = {
+      error: 'Error'
+    };
+
+    const cardItemName = 'cardItemName';
+    const pathName = '/pathName';
+    const cardId = 'cardId';
+
+    const expectedActions = [
+      { type: 'SAVE_CARD_ITEM_REQUEST' },
+      {
+        type: 'SAVE_CARD_ITEM_FAIL',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock(`http://localhost:3001/api/v1${pathName}/cards/${cardId}`, {
+      body: JSON.stringify({
+        name: cardItemName
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(400, { data });
+
+    return store.dispatch(cardActions.saveCardItem(pathName, cardId, cardItemName))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
   })
 })
 
