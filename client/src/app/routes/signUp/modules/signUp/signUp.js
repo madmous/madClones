@@ -13,20 +13,19 @@ const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
 function signUpRequest() {
   return {
     type: SIGN_UP_REQUEST
-  }
+  };
 }
 
 function signUpSuccess() {
   return {
     type: SIGN_UP_SUCCESS
-  }
+  };
 }
 
-function signUpFail(payload) {
+function signUpFail() {
   return {
-    type: SIGN_UP_FAIL,
-    payload
-  }
+    type: SIGN_UP_FAIL
+  };
 }
 
 export function createUser(formInput) {
@@ -51,7 +50,7 @@ export function createUser(formInput) {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(signUpFail(jsonData.uiError));
+          dispatch(signUpFail());
 
           if (jsonData.uiError.usernameErr) {
             dispatch(change('signUpForm', 'username', ''))
@@ -69,24 +68,21 @@ export function createUser(formInput) {
 
           dispatch(push('/'));
         }
-      })
-  }
+      }
+    );
+  };
 }
 
 const initialState = {
   isFetchingSuccessful: false,
-  isFetching: false,
-
-  errorMessage: {}
+  isFetching: false
 }
 
 export default function signUp(state = initialState, action) {
   switch (action.type) {
     case SIGN_UP_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
-
-        errorMessage: {}
+        isFetching: true
       })
     case SIGN_UP_SUCCESS:
       return Object.assign({}, state, {
@@ -96,9 +92,7 @@ export default function signUp(state = initialState, action) {
     case SIGN_UP_FAIL:
       return Object.assign({}, state, {
         isFetchingSuccessful: true,
-        isFetching: false,
-
-        errorMessage: action.payload
+        isFetching: false
       })
     default: return state;
   }
