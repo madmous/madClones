@@ -95,8 +95,9 @@ function saveBoard(url, boardName) {
           dispatch(updateBoards(jsonData));
           dispatch(organizationActionCreators.updateOrganizations(jsonData));
         }
-      })
-  }
+      }
+    );
+  };
 }
 
 const initialState = {
@@ -107,37 +108,37 @@ const initialState = {
   isModalOpen: false,
 
   boards:[]
-}
+};
 
 export default function board(state = initialState, action) {
   switch (action.type) {
     case ADD_BOARD_REQUEST:
       return Object.assign({}, state, {
         isFetchingBoard: true,
-      })
+      });
     case ADD_BOARD_SUCCESS:
       return Object.assign({}, state, {
         isFetchingBoardSuccessful: true,
         isFetchingBoard: false
-      })
+      });
     case ADD_BOARD_FAIL:
       return Object.assign({}, state, {
         isFetchingBoardSuccessful: false,
         isFetchingBoard: false,
         errorMessage: action.payload.error
-      })
+      });
 		case UPDATE_BOARDS:
 			return Object.assign({}, state, {
 				boards: action.payload.boards
-			})
+			});
     case OPEN_MODAL:
 			return Object.assign({}, state, {
 				isModalOpen: true
-			})
+			});
     case CLOSE_MODAL:
 			return Object.assign({}, state, {
 				isModalOpen: false
-			})
+			});
     default: return state;
   }
 }

@@ -1,7 +1,19 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
 import * as boardActions from './board';
+
 import reducer from './board';
 
+const middlewares = [ thunk ];
+const mockStore = configureMockStore(middlewares);
+
 describe('board actions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  })
+
   it('should create update boards action', () => {
     const payload = {}; 
     const expectedAction = {
@@ -26,6 +38,126 @@ describe('board actions', () => {
     };
 
     expect(boardActions.closeModal()).toEqual(expectedAction)
+  })
+
+  it('should create an action to addBoard - organizationBoard - success', () => {
+    const data = {
+      boards: [],
+      organizations: []
+    };
+
+    const expectedActions = [
+      { type: 'ADD_BOARD_REQUEST' },
+      { type: 'CLOSE_ALL_MODALS' }, 
+      { type: 'ADD_BOARD_SUCCESS' }, 
+      {
+        type: 'UPDATE_BOARDS',
+        payload: data
+      },
+      {
+        type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/organizations/orgId/boards/', {
+      body: JSON.stringify({
+        name: 'boardName'
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(boardActions.addBoard('userId', 'orgId', 'boardName'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to addBoard - organizationBoard - fail', () => {
+    const data = {
+      uiError: [ 'There was an error adding the board' ]
+    };
+
+    const expectedActions = [
+      { type: 'ADD_BOARD_REQUEST' },
+      { 
+        type: 'ADD_BOARD_FAIL',
+        payload: data
+      },
+      {
+        type: 'UPDATE_NOTIFICATION',
+        payload: data.uiError
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/organizations/orgId/boards/', {
+      body: JSON.stringify({
+        name: 'boardName'
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(400, { data });
+
+    return store.dispatch(boardActions.addBoard('userId', 'orgId', 'boardName'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to addBoard', () => {
+    const data = {
+      boards: [],
+      organizations: []
+    };
+
+    const expectedActions = [
+      { type: 'ADD_BOARD_REQUEST' },
+      { type: 'CLOSE_ALL_MODALS' }, 
+      { type: 'ADD_BOARD_SUCCESS' }, 
+      {
+        type: 'UPDATE_BOARDS',
+        payload: data
+      },
+      {
+        type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/boards', {
+      body: JSON.stringify({
+        name: 'boardName'
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(boardActions.addBoard('userId', null, 'boardName'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
   })
 })
 
