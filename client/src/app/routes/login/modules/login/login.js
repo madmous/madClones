@@ -6,48 +6,48 @@ import { url } from '../../../../../utils/url.js';
 
 import { modalActionCreators } from '../../../home/modules/index';
 
-const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST'
-const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
-const AUTHENTICATION_FAIL = 'AUTHENTICATION_FAIL'
+const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST';
+const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
+const AUTHENTICATION_FAIL = 'AUTHENTICATION_FAIL';
 
-const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
+const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 
-const UN_AUTHENTICATE_USER = 'UN_AUTHENTICATE_USER'
+const UN_AUTHENTICATE_USER = 'UN_AUTHENTICATE_USER';
 
 function authenticationRequest() {
   return {
     type: AUTHENTICATION_REQUEST
-  }
+  };
 }
 
 function authenticationSuccess() {
   return {
     type: AUTHENTICATION_SUCCESS
-  }
+  };
 }
 
 function authenticationFail(payload) {
   return {
     type: AUTHENTICATION_FAIL,
     payload
-  }
+  };
 }
 
 export function authenticateUser() {
   return {
     type: AUTHENTICATE_USER
-  }
+  };
 }
 
 export function authenticateIfNeeded() {
   return dispatch => {
     dispatch(authenticateUser());
-  }
+  };
 }
 
 export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
-    dispatch(authenticationRequest())
+    dispatch(authenticationRequest());
 
     return fetch(url + `api/v1/login`, 
       { method: 'POST',
@@ -82,14 +82,15 @@ export function authenticate(formInputs, redirectUrl) {
             dispatch(push('/'));
           }
         }
-      })
-  }
+      }
+    );
+  };
 }
 
 function unAuthenticateUser() {
   return {
     type: UN_AUTHENTICATE_USER
-  }
+  };
 }
 
 export function logoutUser() {
@@ -100,7 +101,7 @@ export function logoutUser() {
 
     dispatch(unAuthenticateUser());
     dispatch(push('/login'));
-  }
+  };
 }
 
 const initialState = {
@@ -117,13 +118,13 @@ export default function login(state = initialState, action) {
       return Object.assign({}, state, {
         isAuthenticating: true,
         errorMessage: {}
-      })
+      });
     case AUTHENTICATION_SUCCESS:
       return Object.assign({}, state, {
         isAuthenticatingSuccessful: true,
         isAuthenticating: false,
         isAuthenticated: true
-      })
+      });
     case AUTHENTICATION_FAIL:
       return Object.assign({}, state, {
         isAuthenticatingSuccessful: false,
@@ -131,15 +132,15 @@ export default function login(state = initialState, action) {
         isAuthenticated: false,
 
         errorMessage: action.payload.uiError
-      })
+      });
     case AUTHENTICATE_USER:
       return Object.assign({}, state, {
         isAuthenticated: true
-      })
+      });
     case UN_AUTHENTICATE_USER:
       return Object.assign({}, state, {
         isAuthenticated: false
-      })
+      });
     default: return state;
   }
 }
