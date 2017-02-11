@@ -1,7 +1,19 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
 import * as organizationActions from './organization';
+
 import reducer from './organization';
 
+const middlewares = [ thunk ];
+const mockStore = configureMockStore(middlewares);
+
 describe('organization actions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  })
+
   it('should create updateOrganizations action', () => {
     const payload = {};
     const expectedAction = {
@@ -52,6 +64,82 @@ describe('organization actions', () => {
     };
 
     expect(organizationActions.closeModal()).toEqual(expectedAction)
+  })
+
+  it('should create an action to addOrganization - success', () => {
+    const data = {
+      organizations: []
+    };
+
+    const expectedActions = [
+      { type: 'ADD_ORGANIZATION_REQUEST' },
+      { type: 'CLOSE_ALL_MODALS' },
+      { type: 'ADD_ORGANIZATION_SUCCESS' }, 
+      {
+        type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/organizations/', {
+      body: JSON.stringify({
+        name: 'organizationName',
+        displayName: 'organizationName',
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(organizationActions.addOrganization())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to addOrganization - fail', () => {
+    const data = {
+      uiError: [ 'There was an error adding the organizaiton' ]
+    };
+
+    const expectedActions = [
+      { type: 'ADD_ORGANIZATION_REQUEST' },
+      {
+        type: 'ADD_ORGANIZATION_FAIL',
+        payload: data
+      },
+      {
+        type: 'UPDATE_NOTIFICATION',
+        payload: data.uiError
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/organizations/', {
+      body: JSON.stringify({
+        name: 'organizationName',
+        displayName: 'organizationName',
+      })}, { 
+      reqheaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(400, { data });
+
+    return store.dispatch(organizationActions.addOrganization())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
   })
 })
 

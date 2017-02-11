@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-import { 
-  organizationActionCreators, 
+import {
   notificationActionCreators, 
   modalActionCreators 
 } from '../index';
@@ -21,38 +20,38 @@ export function updateOrganizations(payload) {
   return {
 		type: UPDATE_ORGANIZATIONS,
 		payload
-	}
+	};
 }
 
 export function addOrganizationRequest() {
   return {
 		type: ADD_ORGANIZATION_REQUEST
-	}
+	};
 }
 
 export function addOrganizationSuccess() {
   return {
 		type: ADD_ORGANIZATION_SUCCESS
-	}
+	};
 }
 
 export function addOrganizationFail(payload) {
   return {
 		type: ADD_ORGANIZATION_FAIL,
     payload
-	}
+	};
 }
 
 export function openModal() {
   return {
 		type: OPEN_MODAL
-	}
+	};
 }
 
 export function closeModal() {
   return {
 		type: CLOSE_MODAL
-	}
+	};
 }
 
 export function addOrganization(userId, organizationName) {
@@ -79,7 +78,7 @@ function saveOrganization(url, organizationName) {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(organizationActionCreators.addOrganizationFail(jsonData));
+          dispatch(addOrganizationFail(jsonData));
           dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
 
           setTimeout(() => {
@@ -87,11 +86,12 @@ function saveOrganization(url, organizationName) {
           }, 3000)
         } else {
           dispatch(modalActionCreators.closeAllModals());
-          dispatch(organizationActionCreators.addOrganizationSuccess());
-          dispatch(organizationActionCreators.updateOrganizations(jsonData));
+          dispatch(addOrganizationSuccess());
+          dispatch(updateOrganizations(jsonData));
         }
-      })
-  }
+      }
+    );
+  };
 }
 
 const initialState = {
@@ -102,33 +102,33 @@ const initialState = {
   isModalOpen: false,
 
   organizations:[]
-}
+};
 
 export default function organization(state = initialState, action) {
   switch (action.type) {
     case UPDATE_ORGANIZATIONS:
       return Object.assign({}, state, {
         organizations: action.payload.organizations
-      })
+      });
     case ADD_ORGANIZATION_SUCCESS:
       return Object.assign({}, state, {
         isFetchingOrganizationSuccessful: true,
         isFetchingOrganization: false
-      })
+      });
     case ADD_ORGANIZATION_FAIL:
       return Object.assign({}, state, {
         isFetchingOrganizationSuccessful: false,
         isFetchingOrganization: false,
         errorMessage: action.payload.error
-      })
+      });
     case OPEN_MODAL:
 			return Object.assign({}, state, {
 				isModalOpen: true
-			})
+			});
     case CLOSE_MODAL:
 			return Object.assign({}, state, {
 				isModalOpen: false
-			})
+			});
     default: return state;
   }
 }
