@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+
 import { 
   starredBoardActionCreators,
   organizationActionCreators,
@@ -20,25 +22,25 @@ const initialState = {
   isFetchingHomeSuccessful: false,
   isFetchingHome: false,
   isFetching: false
-}
+};
 
 function loadHomeRequest() {
   return {
     type: LOAD_HOME_REQUEST
-  }
+  };
 }
 
 function loadHomeSuccess() {
   return {
     type: LOAD_HOME_SUCCESS
-  }
+  };
 }
 
 function loadHomeFail(payload) {
   return {
     type: LOAD_HOME_FAIL,
     payload
-  }
+  };
 }
 
 export function getHome() {
@@ -72,8 +74,9 @@ export function getHome() {
           dispatch(boardActionCreators.updateBoards(jsonData))
           dispatch(cardActionCreators.resetCards())
         }
-      })
-  }
+      }
+    );
+  };
 }
 
 export default function user(state = initialState, action) {
@@ -81,16 +84,16 @@ export default function user(state = initialState, action) {
     case LOAD_HOME_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-      })
+      });
     case LOAD_HOME_SUCCESS:
       return Object.assign({}, state, {
         isFetchingHomeSuccessful: true,
         isFetchingHome: false
-      })
+      });
     case LOAD_HOME_FAIL:
       return Object.assign({}, state, {
         errorMessage: action.payload.error
-      })
+      });
     default: return state;
   }
 }

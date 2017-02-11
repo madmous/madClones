@@ -1,5 +1,94 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
 import * as homeActions from './home';
+
 import reducer from './home';
+
+const middlewares = [ thunk ];
+const mockStore = configureMockStore(middlewares);
+
+describe('home actions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  })
+
+  it('should create an action to getHome - success', () => {
+    const data = {
+      organizations: [],
+      starredBoards: [],
+      boards: [],
+    };
+
+    const expectedActions = [
+      { type: 'LOAD_HOME_REQUEST' },
+      { type: 'CLOSE_ALL_MODALS' },
+      { type: 'LOAD_HOME_SUCCESS' }, 
+      {
+        type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      },
+      {
+        type: 'UPDATE_STARRED_BOARDS',
+        payload: data
+      },
+      {
+        type: 'UPDATE_BOARDS',
+        payload: data
+      },
+      {
+        type: 'RESET_CARDS'
+      },
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001', { 
+      reqheaders: { 
+        'authorization': 'JWT ' + localStorage.getItem('userId') 
+      }
+    })
+    .get('/api/v1/home/')
+    .reply(200, { data });
+
+    return store.dispatch(homeActions.getHome())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to getHome - fail', () => {
+    const data = {
+      error: 'Error'
+    };
+
+    const expectedActions = [
+      { type: 'LOAD_HOME_REQUEST' },
+      { 
+        type: 'LOAD_HOME_FAIL',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001', { 
+      reqheaders: { 
+        'authorization': 'JWT ' + localStorage.getItem('userId') 
+      }
+    })
+    .get('/api/v1/home/')
+    .reply(400, { data });
+
+    return store.dispatch(homeActions.getHome())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+})
 
 describe('home reducer', () => {
   it('should return the initial state', () => {
