@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+
 import { 
   organizationActionCreators,
   notificationActionCreators,
@@ -121,7 +123,7 @@ function saveBoardStar(urlToFetch, method) {
           dispatch(organizationActionCreators.updateOrganizations(jsonData));
         }
       }
-    )
+    );
   };
 }
 

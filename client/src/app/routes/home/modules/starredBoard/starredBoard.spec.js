@@ -1,5 +1,103 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
 import * as starredBoardActions from './starredBoard';
+
 import reducer from './starredBoard';
+
+const middlewares = [ thunk ];
+const mockStore = configureMockStore(middlewares);
+
+describe('starredBoard actions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  })
+
+  it('should create an action to addBoardStar when the orgId is empty', () => {
+    const data = {
+      organizations: [],
+      starredBoard: [],
+      boards: []
+    };
+
+    const expectedActions = [
+      { type: 'STAR_BOARD_REQUEST' },
+      { type: 'STAR_BOARD_SUCCESS' },
+      { 
+        type: 'UPDATE_BOARDS',
+        payload: data 
+      },
+      { 
+        type: 'UPDATE_STARRED_BOARDS',
+        payload: data 
+      },
+      {
+		    type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      }
+    ];
+
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/boards/boardId/boardstars', { 
+      reqheaders: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(starredBoardActions.addBoardStar('userId', '', 'boardId'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+
+  it('should create an action to addBoardStar', () => {
+    const data = {
+      organizations: [],
+      starredBoard: [],
+      boards: []
+    };
+
+    const expectedActions = [
+      { type: 'STAR_BOARD_REQUEST' },
+      { type: 'STAR_BOARD_SUCCESS' },
+      { 
+        type: 'UPDATE_BOARDS',
+        payload: data 
+      },
+      { 
+        type: 'UPDATE_STARRED_BOARDS',
+        payload: data 
+      },
+      {
+		    type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      }
+    ];
+    
+    const store = mockStore();
+
+    nock('http://localhost:3001/api/v1/organizations/orgId/boards/boardId/boardstars', { 
+      reqheaders: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'authorization': 'JWT ' + localStorage.getItem('userId')
+      }
+    })
+    .post('')
+    .reply(200, { data });
+
+    return store.dispatch(starredBoardActions.addBoardStar('userId', 'orgId', 'boardId'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      }
+    );
+  })
+})
 
 describe('starredBoard reducer', () => {
   it('should return the initial state', () => {
