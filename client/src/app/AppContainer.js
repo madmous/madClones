@@ -11,12 +11,10 @@ import {
 } from './modules/index';
 
 const mapStateToProps = state => {
-  const { isFocusOnPopHover } = state.popOver;
+  const { isFocusOnPopHover, isPopOverOpen } = state.popOver;
+  const { isFocusOnModal, isModalOpen } = state.modals;
   const { isAuthenticated } = state.login;
-  const { isFocusOnModal } = state.modals;
-  const { isPopOverOpen } = state.popOver;
   const { errorMessages } = state.notification;
-  const { isModalOpen } = state.modals;
   const { fullName } = state.app;
 
   return {

@@ -19,11 +19,19 @@ const propTypes = {
 }
 
 export default class App extends Component {
-  componentDidMount () {
+  constructor(props) {
+    super(props);
+
+    this.handleDocumentClick = this.handleDocumentClick.bind(this);
+    this.renderPopOver = this.renderPopOver.bind(this);
+    this.handleEscKey = this.handleEscKey.bind(this);
+  }
+
+  componentDidMount() {
     this.props.appActions.getUser();
   }
 
-  handleDocumentClick = () => {
+  handleDocumentClick() {
     const { 
       isFocusOnPopHover,
       popOverActions,
@@ -42,7 +50,7 @@ export default class App extends Component {
     };
   }
 
-  handleEscKey = event => {
+  handleEscKey(event) {
     const { 
       popOverActions,
       isPopOverOpen,
@@ -62,11 +70,9 @@ export default class App extends Component {
     } 
   }
 
-  renderPopOver = () => {
+  renderPopOver() {
     if (this.props.isPopOverOpen) {
-      return (
-        <PopOver />
-      )
+      return (<PopOver />)
     }
   }
 
