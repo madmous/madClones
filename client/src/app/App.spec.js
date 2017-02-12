@@ -114,6 +114,18 @@ describe('App', () => {
   })
 })
 
+describe('App - componentDidMount lifecycle', () => {
+  it('should call getUser method', () => {
+    let spy = sinon.spy(App.prototype, 'componentDidMount');
+
+    const wrapper = setupMount();
+
+    expect(spy.calledOnce).to.equal(true);
+
+    spy.restore();
+  })
+})
+
 describe('App - handleDocumentClick event', () => {
   it('should call handleDocumentClick method', () => {
     let spy = sinon.spy(App.prototype, 'handleDocumentClick');
