@@ -18,7 +18,7 @@ export default function PopOver(props) {
     props.loginActions.logoutUser();
   }
 
-  const focusOnPopHover = (isFocusOnPopHover) => {
+  const focusOnPopHover = isFocusOnPopHover => {
     
     if (isFocusOnPopHover) {
       props.popOverActions.focusOnPopHover();
