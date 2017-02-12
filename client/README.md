@@ -20,7 +20,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * Add a higher order components to add blur and focus events on PopOver, CreateOrganization/Board
 * Make UI responsive
-* Add enzyme
 * Add drag and drop to cards (list that contains card items)
 * Add a white background color to each board section (star, user and users)
 
@@ -28,4 +27,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * Added a login section
 * Added a signup section to create a new user
-* Added authentication checks to the home route 
+* Added authentication checks to the home route
+* Added unit test to reducers, actions, async actions, component lifecycles and event

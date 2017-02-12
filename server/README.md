@@ -13,7 +13,6 @@ This project was entirely written from scratch.
 
 ## Areas for Improvements / involvement
 
-* Add unit tests for new controllers
 * Replace callbacks with promises
 
 --

@@ -1,4 +1,7 @@
-This repo is under active development. I am working on it daily and will release the 2.0.0 very soon. The version 1.0.0 covered the login, sign up and home page: you can create a team and add boards in it or directly add them in your personal boards. You can also star and unstar all your boards. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
+This repo is under active development. I am working on it daily and will release the 2.1.0 very soon. 
+Version 1.0.0 covered the login, sign up and home page: you can create a team and add boards in it or directly add them in your personal boards. You can also star and unstar all your boards. 
+Version 2.0.0 added the card view that allows to add cards, card items and move them between cards.
+Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
 
 ## Live demo
 
@@ -24,7 +27,6 @@ all the coding standard and best practices.
 * Star the repo
 * Follow me on twitter [@datmadmmous](https://twitter.com/datmadmous)
 * Submit pull requests and improve the repo overall quality
-* Join [WeClone](https://weclone.slack.com/messages) slack channel and ask questions 
 
 ## Prerequisite
 
@@ -68,9 +70,6 @@ React: [AirBnB](https://github.com/airbnb/javascript/tree/master/react) and
 NodeJS: again I will redirect you to [RisingStack](https://blog.risingstack.com/node-js-best-practices/).
 They are awesome and they care about open source.
 
-[Slacks](https://weclone.slack.com/messages/trello/): my slack channel is the best and the fastest way to get help. Not only it will help us keep track of all
-the questions, but also answers will benefit all members.
-
 [CodinGame](https://www.codingame.com/home): practicing your algorithm solving skills is a great way to write better code. CodinGame will push you 
 to another level by making you think about the correct data structure, api and algorith, to use.
 
@@ -80,19 +79,15 @@ to another level by making you think about the correct data structure, api and a
 
 ## Contribution guidelines
 
-Slacks and Trello are my main communication and management tools and Github to handle pull requests
-These are the steps to see your changes in develop.
-
-1. No direct commit on master or develop
-2. Ask to be added to channel trello board
-3. Create a branch from develop with the same name as the trello card name
-4. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side)
-5. Make a pull request (contributors should checkout the branch, run unit tests, then test the functionnality that was added, read the code and add comments).
+1. No direct commit on master or develop.
+2. Create a branch from develop with the fix as a name.
+4. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side).
+5. Make a pull request.
 6. End to end testing are not required for now.
 
 ## Next release (2.1.0)
 
-* Work on unit tests ( client + server)
+* Unit tests ( client + server)
 
 ## Updates
 
@@ -111,8 +106,6 @@ These are the steps to see your changes in develop.
 * Add a white background color to each board section (star, user and users)
 * Work on board header in home page : list boards and create features
 * Make UI responsive
-* Add enzyme
-* Add show card feature to board item 
 
 ## Repository structure
 
