@@ -1,10 +1,17 @@
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import sinon from 'sinon';
 import React from 'react';
+import chai from 'chai';
 
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
+import BoardItemContainer from './BoardItemContainer';
 import BoardItem from './BoardItem';
 
-function setup() {
+const setupShallow = () => {
   const props = {
     organizationId: 'o1',
     isActiveBoard: true,
@@ -14,37 +21,40 @@ function setup() {
   }
 
   return shallow(<BoardItem {...props} />)
-}
+};
 
 describe('BoardItem', () => {
-  it('should render li component', () => {
-    const wrapper = setup();
 
-    expect(wrapper.find('li')).to.have.length(1);
+  describe('BoardItem - render', () => {
+    it('should render li component', () => {
+      const wrapper = setupShallow();
+
+      chai.expect(wrapper.find('li')).to.have.length(1);
+    })
+
+    it('should render CreateBoard component', () => {
+      const wrapper = setupShallow();
+      
+      chai.expect(wrapper.find('Connect(ReduxForm)')).to.have.length(1);
+    })
+
+    it('should render fontawesome component', () => {
+      const wrapper = setupShallow();
+
+      chai.expect(wrapper.find('FontAwesome')).to.have.length(1);
+      chai.expect(wrapper.find('FontAwesome').props().className).to
+          .equal('Board-Item-Tile-Option');
+    })
   })
 
-  it('should render CreateBoard component', () => {
-    const wrapper = setup();
-    
-    expect(wrapper.find('Connect(ReduxForm)')).to.have.length(1);
-  })
+  describe('BoardItem - change props', () => {
+    it('should render fontawesome component with starred class name', () => {
+      const wrapper = setupShallow();
 
-  it('should render fontawesome component', () => {
-    const wrapper = setup();
-
-    expect(wrapper.find('FontAwesome')).to.have.length(1);
-    expect(wrapper.find('FontAwesome').props().className).to
-        .equal('Board-Item-Tile-Option');
-  })
-})
-
-describe('BoardItem - change props', () => {
-  it('should render fontawesome component with starred class name', () => {
-    const wrapper = setup();
-
-    wrapper.setProps({ isStarredBoardItem: true });
-    expect(wrapper.find('FontAwesome')).to.have.length(1);
-    expect(wrapper.find('FontAwesome').props().className).to
-        .equal('Board-Item-Tile-Option Board-Item-Tile-Starred');
+      wrapper.setProps({ isStarredBoardItem: true });
+      chai.expect(wrapper.find('FontAwesome')).to.have.length(1);
+      chai.expect(wrapper.find('FontAwesome').props().className).to
+          .equal('Board-Item-Tile-Option Board-Item-Tile-Starred');
+    })
   })
 })

@@ -25,7 +25,6 @@ const defaultTypes = {
 let organizationId = '';
 
 export default function BoardItem(props) {
-
   const openModal = (event) => {
     organizationId = props.organizationId;
 
@@ -63,7 +62,6 @@ export default function BoardItem(props) {
   };
 
   const isStarredBoard = () => {
-
     if (props.isStarredBoardItem) {
       return (
         <FontAwesome 
