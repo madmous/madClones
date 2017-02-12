@@ -6,8 +6,7 @@ import Login from './Login';
 import { loginActionCreators } from './modules/index';
 
 const mapStateToProps = state => {
-  const { isAuthenticatingSuccessful } = state.login;
-  const { isAuthenticated } = state.login;
+  const { isAuthenticatingSuccessful, isAuthenticated } = state.login;
 
   return {
     isAuthenticatingSuccessful,
