@@ -1,4 +1,4 @@
-import SignUpForm from './SignUpForm/SignUpForm';
+import SignUpForm from './SignUpForm/SignUpFormContainer';
 
 export {
 	SignUpForm

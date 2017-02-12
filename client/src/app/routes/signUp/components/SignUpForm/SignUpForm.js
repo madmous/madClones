@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import React, { Component } from 'react';
 
 import './SignUpForm.css'
 
@@ -172,21 +171,4 @@ class SignUpForm extends Component {
   }
 }
 
-SignUpForm = reduxForm({
-  form: 'signUpForm'
-})(SignUpForm);
-
-function mapStateToProps(state) {
-	const { isAuthenticated } = state.signUp;
-	const { errorMessage } = state.signUp;
-	const { signUpForm } = state.form
-
-	return {
-		isAuthenticated,
-		errorMessage,
-		signUpForm
-	}
-}
-
-export default connect(mapStateToProps)(SignUpForm);
-
+export default reduxForm({ form: 'signUpForm' })(SignUpForm);
