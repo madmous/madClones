@@ -14,6 +14,11 @@ const propTypes = {
 }
 
 export default class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.signUp = this.signUp.bind(this);
+  }
+
   componentWillMount() {
     const { isAuthenticated, dispatch, location } = this.props;
 
@@ -30,7 +35,7 @@ export default class SignUp extends Component {
      document.title = 'Create a Trello Clone Accout';
   }
 
-  signUp = (formInput) => {
+  signUp(formInput) {
     this.props.signUpActions.createUser(formInput);
   }
 

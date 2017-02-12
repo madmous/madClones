@@ -6,8 +6,7 @@ import SignUp from './SignUp';
 import { signUpActionCreators } from './modules/index'
 
 const mapStateToProps = state => {
-  const { isAuthenticatingSuccessful } = state.signUp;
-  const { isAuthenticated } = state.login;
+  const { isAuthenticatingSuccessful, isAuthenticated } = state.login;
 
   return {
     isAuthenticatingSuccessful,
