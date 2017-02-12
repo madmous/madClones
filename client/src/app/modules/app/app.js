@@ -85,12 +85,12 @@ export default function user(state = initialState, action) {
     case LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetchingUserSuccessful: true,
-        isFetchingUSer: false
+        isFetchingUser: false
       });
     case LOAD_USER_FAIL:
       return Object.assign({}, state, {
         isFetchingUserSuccessful: false,
-        isFetchingUSer: false,
+        isFetchingUser: false,
 
         errorMessage: action.payload.error
       });

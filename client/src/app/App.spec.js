@@ -1,4 +1,5 @@
 import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
@@ -6,8 +7,6 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
-
-import { Provider } from 'react-redux';
 
 import AppContainer from './AppContainer';
 import App from './App';
@@ -98,142 +97,148 @@ const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
 describe('App', () => {
-  it('should render header component', () => {
-    const { wrapper } = setupShallow();
-
-    expect(wrapper.find('Connect(PopOver)')).to.have.length(0);
-    expect(wrapper.find('Header')).to.have.length(1);
+  afterEach(() => {
+    nock.cleanAll();
   })
 
-  it('should render popOver component', () => {
-    const { wrapper } = setupShallow();
+  describe('App - render', () => {
+    it('should render header component', () => {
+      const { wrapper } = setupShallow();
 
-    expect(wrapper.find('PopOver')).to.have.length(0);
-    wrapper.setProps({ isPopOverOpen: true });
-    expect(wrapper.find('Connect(PopOver)')).to.have.length(1);
-  })
-})
+      expect(wrapper.find('Connect(PopOver)')).to.have.length(0);
+      expect(wrapper.find('Header')).to.have.length(1);
+    })
 
-describe('App - componentDidMount lifecycle', () => {
-  it('should call getUser method', () => {
-    let spy = sinon.spy(App.prototype, 'componentDidMount');
+    it('should render popOver component', () => {
+      const { wrapper } = setupShallow();
 
-    const wrapper = setupMount();
-
-    expect(spy.calledOnce).to.equal(true);
-
-    spy.restore();
-  })
-})
-
-describe('App - handleDocumentClick event', () => {
-  it('should call handleDocumentClick method', () => {
-    let spy = sinon.spy(App.prototype, 'handleDocumentClick');
-
-    const wrapper = setupMount();
-    wrapper.find('App').simulate('click');
-
-    expect(spy.calledOnce).to.equal(true);
+      expect(wrapper.find('PopOver')).to.have.length(0);
+      wrapper.setProps({ isPopOverOpen: true });
+      expect(wrapper.find('Connect(PopOver)')).to.have.length(1);
+    })
   })
 
-  it('should not call closeAllModals and hidePopOver props', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+  describe('App - component lifecycle', () => {  
+    it('should call componentDidMount method', () => {
+      let spy = sinon.spy(App.prototype, 'componentDidMount');
 
-    wrapper.instance().handleDocumentClick();
+      const wrapper = setupMount();
 
-    expect(closeAllModals.calledOnce).to.be.false;
-    expect(hidePopOver.calledOnce).to.be.false;
+      expect(spy.calledOnce).to.equal(true);
+
+      spy.restore();
+    })
   })
 
-  it('should call closeAllModals prop', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+  describe('App - handleDocumentClick event', () => {
+    it('should call handleDocumentClick method', () => {
+      let spy = sinon.spy(App.prototype, 'handleDocumentClick');
 
-    wrapper.setProps({ isModalOpen: true });
-    wrapper.instance().handleDocumentClick();
+      const wrapper = setupMount();
+      wrapper.find('App').simulate('click');
 
-    expect(closeAllModals.calledOnce).to.be.true;
-    expect(hidePopOver.calledOnce).to.be.false;
+      expect(spy.calledOnce).to.equal(true);
+    })
+
+    it('should not call closeAllModals and hidePopOver props', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.instance().handleDocumentClick();
+
+      expect(closeAllModals.calledOnce).to.be.false;
+      expect(hidePopOver.calledOnce).to.be.false;
+    })
+
+    it('should call closeAllModals prop', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.setProps({ isModalOpen: true });
+      wrapper.instance().handleDocumentClick();
+
+      expect(closeAllModals.calledOnce).to.be.true;
+      expect(hidePopOver.calledOnce).to.be.false;
+    })
+
+    it('should call hidePopOver prop', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.setProps({ isPopOverOpen: true });
+      wrapper.instance().handleDocumentClick();
+
+      expect(closeAllModals.calledOnce).to.be.false;
+      expect(hidePopOver.calledOnce).to.be.true;
+    })
+
+    it('should call closeAllModals and hidePopOver props', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.setProps({
+        isPopOverOpen: true,
+        isModalOpen: true
+      });
+
+      wrapper.instance().handleDocumentClick();
+
+      expect(closeAllModals.calledOnce).to.be.true;
+      expect(hidePopOver.calledOnce).to.be.true;
+    })
   })
 
-  it('should call hidePopOver prop', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+  describe('App - handleEscKey event', () => {
+    it('should call handleEscKey method', () => {
+      let spy = sinon.spy(App.prototype, 'handleEscKey');
 
-    wrapper.setProps({ isPopOverOpen: true });
-    wrapper.instance().handleDocumentClick();
+      const wrapper = setupMount();
+      wrapper.find('App').simulate('keyDown', { keyCode: 27 });
 
-    expect(closeAllModals.calledOnce).to.be.false;
-    expect(hidePopOver.calledOnce).to.be.true;
-  })
+      expect(spy.calledOnce).to.equal(true);
+    })
 
-  it('should call closeAllModals and hidePopOver props', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+    it('should call not closeAllModals and hidePopOver prop', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+      const event = { keyCode: 27 };
+      
+      wrapper.instance().handleEscKey(event);
 
-    wrapper.setProps({
-      isPopOverOpen: true,
-      isModalOpen: true
-    });
+      expect(closeAllModals.calledOnce).to.be.false;
+      expect(hidePopOver.calledOnce).to.be.false;
+    })
 
-    wrapper.instance().handleDocumentClick();
+    it('should call closeAllModals prop', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+      const event = { keyCode: 27 };
 
-    expect(closeAllModals.calledOnce).to.be.true;
-    expect(hidePopOver.calledOnce).to.be.true;
-  })
-})
+      wrapper.setProps({ isModalOpen: true });
+      wrapper.instance().handleEscKey(event);
 
-describe('App - handleEscKey event', () => {
-  it('should call handleEscKey method', () => {
-    let spy = sinon.spy(App.prototype, 'handleEscKey');
+      expect(closeAllModals.calledOnce).to.be.true;
+      expect(hidePopOver.calledOnce).to.be.false;
+    })
 
-    const wrapper = setupMount();
-    wrapper.find('App').simulate('keyDown', { keyCode: 27 });
+    it('should call closeAllModals prop', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+      const event = { keyCode: 27 };
 
-    expect(spy.calledOnce).to.equal(true);
-  })
+      wrapper.setProps({ isPopOverOpen: true });
+      wrapper.instance().handleEscKey(event);
 
-  it('should call not closeAllModals and hidePopOver prop', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-    const event = { keyCode: 27 };
-    
-    wrapper.instance().handleEscKey(event);
+      expect(closeAllModals.calledOnce).to.be.false;
+      expect(hidePopOver.calledOnce).to.be.true;
+    })
 
-    expect(closeAllModals.calledOnce).to.be.false;
-    expect(hidePopOver.calledOnce).to.be.false;
-  })
+    it('should call closeAllModals and hidePopOver prop', () => {
+      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
+      const event = { keyCode: 27 };
 
-  it('should call closeAllModals prop', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-    const event = { keyCode: 27 };
+      wrapper.setProps({ 
+        isPopOverOpen: true,
+        isModalOpen: true
+      });
 
-    wrapper.setProps({ isModalOpen: true });
-    wrapper.instance().handleEscKey(event);
+      wrapper.instance().handleEscKey(event);
 
-    expect(closeAllModals.calledOnce).to.be.true;
-    expect(hidePopOver.calledOnce).to.be.false;
-  })
-
-  it('should call closeAllModals prop', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-    const event = { keyCode: 27 };
-
-    wrapper.setProps({ isPopOverOpen: true });
-    wrapper.instance().handleEscKey(event);
-
-    expect(closeAllModals.calledOnce).to.be.false;
-    expect(hidePopOver.calledOnce).to.be.true;
-  })
-
-  it('should call closeAllModals and hidePopOver prop', () => {
-    const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-    const event = { keyCode: 27 };
-
-    wrapper.setProps({ 
-      isPopOverOpen: true,
-      isModalOpen: true
-    });
-
-    wrapper.instance().handleEscKey(event);
-
-    expect(closeAllModals.calledOnce).to.be.true;
-    expect(hidePopOver.calledOnce).to.be.true;
+      expect(closeAllModals.calledOnce).to.be.true;
+      expect(hidePopOver.calledOnce).to.be.true;
+    })
   })
 })
