@@ -32,7 +32,7 @@ const OPTIONS = {
   }
 };
 
-function collectDragSource(connectDragSource, monitor) {
+const collectDragSource = (connectDragSource, monitor) => {
   return {
     connectDragSource: connectDragSource.dragSource(),
     connectDragPreview: connectDragSource.dragPreview(),
@@ -40,4 +40,4 @@ function collectDragSource(connectDragSource, monitor) {
   };
 }
 
-export default DragSource('card', cardSource, collectDragSource, OPTIONS)(CardItem)
+export default DragSource('card', cardSource, collectDragSource, OPTIONS)(CardItem);

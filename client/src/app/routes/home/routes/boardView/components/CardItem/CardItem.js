@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import './CardItem.css';
 
@@ -7,14 +7,16 @@ const propTypes = {
   id: PropTypes.string.isRequired
 }
 
-export default function CardItem(props) {
-  const { connectDragSource, cardItemText, id } = props;
+export default class CardItem extends Component {
+  render() {
+    const { connectDragSource, id } = this.props;
 
-  return connectDragSource(
-    <div className="Card-Item" id={id}>
-      <p>{ cardItemText }</p>
-    </div>
-  );
+    return connectDragSource(
+      <div className="Card-Item" id={id}>
+        <p>{this.props.cardItemText}</p>
+      </div>
+    );
+  }
 }
 
 CardItem.propTypes = propTypes;
