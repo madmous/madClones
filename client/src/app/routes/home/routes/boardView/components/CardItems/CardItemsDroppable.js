@@ -60,9 +60,13 @@ const specs = {
   }
 };
 
-export default DropTarget('card', specs, (connectDragSource, monitor) => ({
-  connectDropTarget: connectDragSource.dropTarget(),
-  isOver: monitor.isOver(),
-  canDrop: monitor.canDrop(),
-  item: monitor.getItem()
-}))(CardItems)
+const collectDragTarget = (connectDragSource, monitor) => {
+  return {
+    connectDropTarget: connectDragSource.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+    item: monitor.getItem()
+  };
+}
+
+export default DropTarget('card', specs, collectDragTarget)(CardItems)
