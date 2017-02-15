@@ -78,6 +78,9 @@ const setupMount = () => {
     notification: {
       errorMessages: []
     },
+    board: {
+      isBoardsMenuOpen: false
+    },
     app: {
       fullName: 'fullName'
     }
