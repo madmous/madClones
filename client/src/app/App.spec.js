@@ -12,12 +12,14 @@ import AppContainer from './AppContainer';
 import App from './App';
 
 const setupShallow = () => {
+  let closeBoardsMenu = sinon.spy();
   let closeAllModals = sinon.spy();
   let hidePopOver = sinon.spy();
   let getUser = sinon.spy();
 
   const props = {
     isFocusOnPopHover: false,
+    isBoardsMenuOpen: false,
     isAuthenticated: true,
     isFocusOnModal: false,
     isPopOverOpen: false,
@@ -33,12 +35,16 @@ const setupShallow = () => {
     },
     appActions: {
       getUser
+    },
+    boardActions: {
+      closeBoardsMenu
     }
   };
 
   const wrapper = shallow(<App {...props} />);  
 
   return {
+    closeBoardsMenu,
     closeAllModals,
     hidePopOver,
     getUser,
@@ -119,6 +125,14 @@ describe('App', () => {
       wrapper.setProps({ isPopOverOpen: true });
       expect(wrapper.find('Connect(PopOver)')).to.have.length(1);
     })
+
+    it('should render boardsMenu component', () => {
+      const { wrapper } = setupShallow();
+
+      expect(wrapper.find('BoardsMenu')).to.have.length(0);
+      wrapper.setProps({ isBoardsMenuOpen: true });
+      expect(wrapper.find('BoardsMenu')).to.have.length(1);
+    })
   })
 
   describe('App - component lifecycle', () => {  
@@ -185,6 +199,15 @@ describe('App', () => {
       expect(closeAllModals.calledOnce).to.be.true;
       expect(hidePopOver.calledOnce).to.be.true;
     })
+
+    xit('should call closeBoardsMenu prop', () => {
+      const { closeBoardsMenu, wrapper } = setupShallow();
+
+      wrapper.setProps({ isBoardsMenuOpen: true });
+      wrapper.instance().handleDocumentClick();
+
+      expect(closeBoardsMenu.calledOnce).to.be.true;
+    })
   })
 
   describe('App - handleEscKey event', () => {
@@ -242,6 +265,17 @@ describe('App', () => {
 
       expect(closeAllModals.calledOnce).to.be.true;
       expect(hidePopOver.calledOnce).to.be.true;
+    })
+
+    it('should call closeBoardsMenu prop', () => {
+      const { closeBoardsMenu, wrapper } = setupShallow();
+
+      const event = { keyCode: 27 };
+
+      wrapper.setProps({ isBoardsMenuOpen: true });
+      wrapper.instance().handleEscKey(event);
+
+      expect(closeBoardsMenu.calledOnce).to.be.true;
     })
   })
 })

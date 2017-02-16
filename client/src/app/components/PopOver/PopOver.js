@@ -19,7 +19,6 @@ export default function PopOver(props) {
   }
 
   const focusOnPopHover = isFocusOnPopHover => {
-    
     if (isFocusOnPopHover) {
       props.popOverActions.focusOnPopHover();
     } else {

@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 
-import { PopOver, Header } from './components/index';
+import { BoardsMenu, PopOver, Header } from './components/index';
 
 import './App.css';
 
 const propTypes = {
   isFocusOnPopHover: PropTypes.bool.isRequired,
+  isBoardsMenuOpen: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isFocusOnModal: PropTypes.bool.isRequired,
   isPopOverOpen: PropTypes.bool.isRequired,
@@ -14,6 +15,7 @@ const propTypes = {
   fullName: PropTypes.string.isRequired,
 
   popOverActions: PropTypes.object.isRequired,
+  boardActions: PropTypes.object.isRequired,
   modalActions: PropTypes.object.isRequired,
   appActions: PropTypes.object.isRequired
 }
@@ -52,9 +54,11 @@ export default class App extends Component {
 
   handleEscKey(event) {
     const { 
+      isBoardsMenuOpen,
       popOverActions,
       isPopOverOpen,
       modalActions,
+      boardActions,
       isModalOpen
     } = this.props;
 
@@ -67,12 +71,22 @@ export default class App extends Component {
       if(isPopOverOpen) {
         popOverActions.hidePopOver();
       }
+
+      if(isBoardsMenuOpen) {
+        boardActions.closeBoardsMenu();
+      }
     } 
   }
 
   renderPopOver() {
     if (this.props.isPopOverOpen) {
       return (<PopOver />)
+    }
+  }
+
+  renderBoardsMenu() {
+    if (this.props.isBoardsMenuOpen) {
+      return (<BoardsMenu />)
     }
   }
 
@@ -87,6 +101,7 @@ export default class App extends Component {
         <Header />
         { this.props.children }
         { this.renderPopOver() }
+        { this.renderBoardsMenu() }
       </div>
     )
   }
