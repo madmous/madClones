@@ -1,0 +1,13 @@
+.BoardsMenu {
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #D6DADC;
+  border-bottom-color: #C4C9CC;
+  box-shadow: 0 1px 6px rgba(0,0,0,.15);
+  overflow: hidden;
+  position: fixed;
+	left: 4px;
+	top: 44px;
+	z-index: 20;
+  width: 300px;
+}
