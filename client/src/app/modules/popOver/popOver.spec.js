@@ -10,42 +10,6 @@ describe('popOver actions', () => {
     expect(popOverActions.showPopOver()).toEqual(expectedAction)
   })
 
-  it('should create hide pop over action', () => {
-    const expectedAction = {
-      type: 'HIDE_POP_OVER'
-    }
-
-    expect(popOverActions.hidePopOver()).toEqual(expectedAction)
-  })
-
-  it('should create focus on pop over action', () => {
-    const expectedAction = {
-      type: 'FOCUS_POP_HOVER'
-    }
-
-    expect(popOverActions.focusOnPopHover()).toEqual(expectedAction)
-  })
-
-  it('should create focus on pop over action', () => {
-    const expectedAction = {
-      type: 'BLUR_POP_HOVER'
-    }
-    
-    expect(popOverActions.blurOnPopHover()).toEqual(expectedAction)
-  })
-})
-
-describe('popOver reducer', () => {
-  it('should return the initial state', () => {
-    expect(
-      reducer(undefined, {})
-    ).toEqual({
-        isFocusOnPopHover: false,
-        isPopOverOpen: false
-      }
-    )
-  })
-
   it('should handle SHOW_POP_OVER', () => {
     expect(
       reducer([], {
@@ -55,6 +19,14 @@ describe('popOver reducer', () => {
         isPopOverOpen: true
       }
     )
+  })
+
+  it('should create hide pop over action', () => {
+    const expectedAction = {
+      type: 'HIDE_POP_OVER'
+    }
+
+    expect(popOverActions.hidePopOver()).toEqual(expectedAction)
   })
 
   it('should handle HIDE_POP_OVER', () => {
@@ -68,6 +40,14 @@ describe('popOver reducer', () => {
     )
   })
 
+  it('should create focus on pop over action', () => {
+    const expectedAction = {
+      type: 'FOCUS_POP_HOVER'
+    }
+
+    expect(popOverActions.focusOnPopHover()).toEqual(expectedAction)
+  })
+
   it('should handle FOCUS_POP_HOVER', () => {
     expect(
       reducer([], {
@@ -79,6 +59,14 @@ describe('popOver reducer', () => {
     )
   })
 
+  it('should create focus on pop over action', () => {
+    const expectedAction = {
+      type: 'BLUR_POP_HOVER'
+    }
+    
+    expect(popOverActions.blurOnPopHover()).toEqual(expectedAction)
+  })
+
   it('should handle BLUR_POP_HOVER', () => {
     expect(
       reducer([], {
@@ -86,6 +74,18 @@ describe('popOver reducer', () => {
       })
     ).toEqual({
         isFocusOnPopHover: false
+      }
+    )
+  })
+})
+
+describe('popOver reducer', () => {
+  it('should return the initial state', () => {
+    expect(
+      reducer(undefined, {})
+    ).toEqual({
+        isFocusOnPopHover: false,
+        isPopOverOpen: false
       }
     )
   })

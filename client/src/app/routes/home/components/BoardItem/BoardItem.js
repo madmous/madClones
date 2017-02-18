@@ -25,7 +25,7 @@ const defaultTypes = {
 let organizationId = '';
 
 export default function BoardItem(props) {
-  const openModal = (event) => {
+  const openModal = event => {
     organizationId = props.organizationId;
 
     props.popOverActions.hidePopOver();
@@ -43,7 +43,7 @@ export default function BoardItem(props) {
     }
   };
 
-  const starOrUnstarBoard = (event) => {
+  const starOrUnstarBoard = event => {
     event.stopPropagation();
 
     const { 
@@ -107,7 +107,7 @@ export default function BoardItem(props) {
     );
   };
 
-  const addBoard = (formInput) => {
+  const addBoard = formInput => {
     const { boardActions, userId } = props;
 
     boardActions.addBoard(userId, organizationId, formInput.name);
@@ -116,7 +116,7 @@ export default function BoardItem(props) {
   return (
     <li className="Board-Item">
       { isActiveBoard() }
-      <CreateBoard onSubmit={addBoard} />
+      <CreateBoard onSubmit={ addBoard } />
     </li>
   );
 }

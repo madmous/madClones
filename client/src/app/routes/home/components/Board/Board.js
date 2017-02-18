@@ -45,7 +45,6 @@ export default function Board(props) {
     let organizationId = '';
 
     const boardItems = boardsToDisplay && boardsToDisplay.map((board) => {
-
       let boardId = board._id;
 
       if (board.organizationId) {
@@ -61,7 +60,7 @@ export default function Board(props) {
       }
 
       return (
-         <BoardItem
+        <BoardItem
           organizationName={board.organizationName}
           isStarredBoardItem={board.isStarredBoard}
           organizationId={organizationId}

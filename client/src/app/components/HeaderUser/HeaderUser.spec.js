@@ -30,18 +30,24 @@ const setupShallow = () => {
   return {
     closeAllModals,
     showPopOver,
+
     wrapper
   }
 };
 
-describe('HeaderUser', () => {
+describe('<span />', () => {
+  it('should have an onClick defined', () => {
+    const { wrapper } = setupShallow();
 
-  describe('HeaderUser - render', () => {
-    it('should render FontAwesome components', () => {
-      const { wrapper } = setupShallow();
+    chai.expect(wrapper.find('span').at(1).props().onClick).to.be.defined;
+  })
 
-      chai.expect(wrapper.find('FontAwesome')).to.have.length(3);
-      chai.expect(wrapper.find('span')).to.have.length(2);
-    })
+  it('should call closeAllModals and showPopOver', () => {
+    const { closeAllModals, showPopOver, wrapper } = setupShallow();
+
+    wrapper.find('span').at(1).simulate('click');
+
+    chai.expect(closeAllModals.calledOnce).to.be.true;
+    chai.expect(showPopOver.calledOnce).to.be.true;
   })
 })

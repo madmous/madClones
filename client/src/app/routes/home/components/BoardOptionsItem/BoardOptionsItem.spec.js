@@ -13,16 +13,17 @@ function setup() {
   return shallow(<BoardOptionsItem {...props} />)
 }
 
-describe('BoardOptionsItem', () => {
-  it('should render FontAwesome component', () => {
+describe('<FontAwesome />', () => {
+  it('should render FontAwesome', () => {
     const wrapper = setup();
 
     expect(wrapper.find('FontAwesome')).to.have.length(1);
-    expect(wrapper.find('FontAwesome').props().name).to
-        .equal('columns');
+    expect(wrapper.find('FontAwesome').props().name).to.equal('columns');
   })
+})
 
-  it('should render span component', () => {
+describe('<span />', () => {
+  it('should render span', () => {
     const wrapper = setup();
 
     expect(wrapper.find('span')).to.have.length(2);

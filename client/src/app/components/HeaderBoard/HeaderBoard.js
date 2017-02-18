@@ -4,9 +4,7 @@ import FontAwesome from 'react-fontawesome';
 import './HeaderBoard.css';
 
 const propTypes = {
-  isBoardsMenuOpen: PropTypes.bool,
-
-  boardActions: PropTypes.object
+  boardsMenuActions: PropTypes.object
 };
 
 export default function HeaderBoard(props) {
@@ -14,7 +12,7 @@ export default function HeaderBoard(props) {
     <div 
       className="Header-Button Header-Board-Button"
       tabIndex="0" 
-      onClick={ () => props.boardActions.openBoardsMenu() }
+      onClick={ () => props.boardsMenuActions.openBoardsMenu() }
     >
       <FontAwesome name="columns" className="Header-Board-Button-Icon" />
       <span className="Header-Board-Button-Text">Boards</span>

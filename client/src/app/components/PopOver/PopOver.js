@@ -8,7 +8,6 @@ const propTypes = {
 }
 
 export default function PopOver(props) {
-
   const hidePopOver = () => {
 		props.popOverActions.hidePopOver();
 	}

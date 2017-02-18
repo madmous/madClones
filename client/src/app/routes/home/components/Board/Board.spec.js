@@ -16,64 +16,85 @@ const setupShallow = () => {
   return shallow(<Board {...props} />);
 }
 
-describe('Board', () => {
+describe('<h3 />', () => {
+  it('should render h3', () => {
+    const wrapper = setupShallow();
 
-  describe('Board - render', () => {
-    it('should render h3 component', () => {
-      const wrapper = setupShallow();
-
-      expect(wrapper.find('h3')).to.have.length(1);
-    })
-
-    it('should render div components', () => {
-      const wrapper = setupShallow();
-
-      expect(wrapper.find('div')).to.have.length(3);
-    })
-
-    it('should render ul components', () => {
-      const wrapper = setupShallow();
-
-      expect(wrapper.find('ul')).to.have.length(1);
-    })
-
-    it('should render fontawesome component with user as name', () => {
-      const wrapper = setupShallow();
-
-      expect(wrapper.find('FontAwesome')).to.have.length(1);
-      expect(wrapper.find('FontAwesome').props().name).to.equal('user');
-    })
-
-    it('should render create new board component', () => {
-      const wrapper = setupShallow();
-
-      expect(wrapper.find('Connect(BoardItem)')).to.have.length(1);
-      expect(wrapper.find('Connect(BoardItem)').props().boardName).to.equal('Create new board...');
-    })
+    expect(wrapper.find('h3')).to.have.length(1);
   })
 
-  describe('Board - change props', () => {
-    it('should render fontawesome component with users as name', () => {
-      const wrapper = setupShallow();
+  it('should render h3 content', () => {
+    const wrapper = setupShallow();
+    const boardTitle = 'Board Title';
 
-      wrapper.setProps({ displayBoardOptions: true });
-      expect(wrapper.find('FontAwesome')).to.have.length(1);
-      expect(wrapper.find('FontAwesome').props().name).to.equal('users');
-    })
+    wrapper.setProps({ boardTitle });
 
-    it('should render fontawesome component with star as name', () => {
-      const wrapper = setupShallow();
+    expect(wrapper.find('h3').text()).to.equal(boardTitle);
+  })
+})
 
-      wrapper.setProps({ isStarredBoard: true });
-      expect(wrapper.find('FontAwesome')).to.have.length(1);
-      expect(wrapper.find('FontAwesome').props().name).to.equal('star');
-    })
+describe('<FontAwesome />', () => {
+  it('should render FontAwesome with user as name', () => {
+    const wrapper = setupShallow();
 
-    it('should not render create new board component', () => {
-      const wrapper = setupShallow();
+    expect(wrapper.find('FontAwesome')).to.have.length(1);
+    expect(wrapper.find('FontAwesome').props().name).to.equal('user');
+  })
 
-      wrapper.setProps({ isStarredBoard: true });
-      expect(wrapper.find('Connect(BoardItem)')).to.have.length(0);
-    })
+  it('should render FontAwesome with users as name', () => {
+    const wrapper = setupShallow();
+
+    wrapper.setProps({ displayBoardOptions: true });
+    expect(wrapper.find('FontAwesome')).to.have.length(1);
+    expect(wrapper.find('FontAwesome').props().name).to.equal('users');
+  })
+
+  it('should render FontAwesome component with star as name', () => {
+    const wrapper = setupShallow();
+
+    wrapper.setProps({ isStarredBoard: true });
+    expect(wrapper.find('FontAwesome')).to.have.length(1);
+    expect(wrapper.find('FontAwesome').props().name).to.equal('star');
+  })
+})
+
+describe('<BoardItem />', () => {
+  it('should render BoardItem that creates a new board', () => {
+    const wrapper = setupShallow();
+
+    expect(wrapper.find('Connect(BoardItem)')).to.have.length(1);
+    expect(wrapper.find('Connect(BoardItem)').props().boardName).to.equal('Create new board...');
+  })
+})
+
+describe('<li><BoardItem /></li>', () => {
+  it('should render a list of 2 BoardItem', () => {
+    const wrapper = setupShallow();
+
+    wrapper.setProps({
+      boardsToDisplay: [
+        {
+          organizationName: '',
+          isStarredBoard: '',
+          organizationId: '',
+          boardId: '',
+          isActiveBoard: true,
+          name: '',
+          _id: ''
+        }
+      ]
+    });
+
+    expect(wrapper.find('Connect(BoardItem)')).to.have.length(2);
+  })
+})
+
+describe('<BoardOptions />', () => {
+  it('should render BoardOptions', () => {
+    const wrapper = setupShallow();
+
+    expect(wrapper.find('BoardOptions')).to.have.length(0);
+    wrapper.setProps({ displayBoardOptions: true });
+    expect(wrapper.find('BoardOptions')).to.have.length(1);
   })
 })

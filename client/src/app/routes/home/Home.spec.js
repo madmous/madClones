@@ -63,37 +63,34 @@ const setupMount = () => {
     </Provider>); 
 };
 
-describe('Home', () => {
-  afterEach(() => {
+describe('<Home />', () => {
+  it('should call componentDidMount', () => {
+    let spy = sinon.spy(Home.prototype, 'componentDidMount');
+
+    const wrapper = setupMount();
+
+    expect(spy.calledOnce).to.equal(true);
+
+    spy.restore();
     nock.cleanAll();
   })
+})
 
-  describe('Home - render', () => {
-    it('should render boards component', () => {
-      const wrapper = setupShallow();
+describe('<Boards />', () => {
+  it('should render Boards', () => {
+    const wrapper = setupShallow();
 
-      expect(wrapper.find('Connect(Boards)')).to.have.length(1);
-      expect(wrapper.find('Notification')).to.have.length(0);
-    })
-
-    it('should render notification component', () => {
-      const wrapper = setupShallow();
-
-      expect(wrapper.find('Notification')).to.have.length(0);
-      wrapper.setProps({ errorMessages: ['There is an error'] });
-      expect(wrapper.find('Notification')).to.have.length(1);
-    })
+    expect(wrapper.find('Connect(Boards)')).to.have.length(1);
+    expect(wrapper.find('Notification')).to.have.length(0);
   })
+})
 
-  describe('Home - component lifecycle', () => {
-    it('should call componentDidMount method', () => {
-      let spy = sinon.spy(Home.prototype, 'componentDidMount');
+describe('<Notification />', () => {
+  it('should render Notification', () => {
+    const wrapper = setupShallow();
 
-      const wrapper = setupMount();
-
-      expect(spy.calledOnce).to.equal(true);
-
-      spy.restore();
-    })
+    expect(wrapper.find('Notification')).to.have.length(0);
+    wrapper.setProps({ errorMessages: ['There is an error'] });
+    expect(wrapper.find('Notification')).to.have.length(1);
   })
 })

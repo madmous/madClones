@@ -1,10 +1,15 @@
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import React from 'react';
+import sinon from 'sinon';
 
 import Boards from './Boards';
 
-function setup() {
+function setupShallow() {
+  let openCreateOrganizationModal = sinon.spy();
+  let closeAllModals = sinon.spy();
+  let hidePopOver = sinon.spy();
+
   const props = {
     starredBoards: [{
       _id: 'starredBoard1',
@@ -30,31 +35,66 @@ function setup() {
     isFetchingUser: false,
 
     organizationActions: {},
-    popOverActions: {},
+    popOverActions: {
+      hidePopOver
+    },
     boardActions: {},
-    modalActions: {}
+    modalActions: {
+      openCreateOrganizationModal,
+      closeAllModals
+    }
   }
 
-  return shallow(<Boards {...props} />)
+  const wrapper = shallow(<Boards {...props} />);
+
+  return {
+    openCreateOrganizationModal,
+    closeAllModals,
+    hidePopOver,
+
+    wrapper
+  }
 }
 
-describe('Boards', () => {
-  it('should render span component', () => {
-    const wrapper = setup();
+describe('<span />', () => {
+  it('should render span', () => {
+    const { wrapper } = setupShallow();
 
     expect(wrapper.find('span')).to.have.length(1);
   })
 
-  it('should render CreateOrganization component', () => {
-    const wrapper = setup();
+  it('should have an onClick defined', () => {
+    const { wrapper } = setupShallow();
+
+    expect(wrapper.find('span').props().onClick).to.be.defined;
+  })
+
+  xit('should call openCreateOrganizationModal, closeAllModals, hidePopOver', () => {
+    const { 
+      openCreateOrganizationModal, 
+      closeAllModals, 
+      hidePopOver, 
+      wrapper 
+    } = setupShallow();
+
+    expect(wrapper.find('span').simulate('click'));
+    expect(openCreateOrganizationModal.calledOnce).to.be.true
+    expect(closeAllModals.calledOnce).to.be.true
+    expect(hidePopOver.calledOnce).to.be.true
+  })
+})
+
+describe('<CreateOrganization />', () => {
+  it('should render CreateOrganization', () => {
+    const { wrapper } = setupShallow();
 
     expect(wrapper.find('Connect(ReduxForm)')).to.have.length(1);
   })
 })
 
-describe('Boards - change props', () => {
+describe('<Boards />', () => {
   it('should render  components boards, starredBoards and organizations', () => {
-    const wrapper = setup();
+    const { wrapper } = setupShallow();
 
     wrapper.setProps({ isFetchingUserSuccessful: true });
     expect(wrapper.find('Board')).to.have.length(3);

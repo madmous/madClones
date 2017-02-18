@@ -11,20 +11,12 @@ const mockStore = configureMockStore(middlewares);
 
 describe('board actions', () => {
   describe('MODAL', () => {
-    it('should create open modal action', () => {
+    it('should create openModal action', () => {
       const expectedAction = {
         type: 'OPEN_MODAL'
       };
 
       expect(boardActions.openModal()).toEqual(expectedAction)
-    })
-
-    it('should create open modal action', () => {
-      const expectedAction = {
-        type: 'CLOSE_MODAL'
-      };
-
-      expect(boardActions.closeModal()).toEqual(expectedAction)
     })
 
     it('should handle OPEN_MODAL', () => {
@@ -40,6 +32,14 @@ describe('board actions', () => {
           isModalOpen: true
         }
       )
+    })
+
+    it('should create closeModal action', () => {
+      const expectedAction = {
+        type: 'CLOSE_MODAL'
+      };
+
+      expect(boardActions.closeModal()).toEqual(expectedAction)
     })
 
     it('should handle CLOSE_MODAL', () => {
@@ -89,46 +89,6 @@ describe('board actions', () => {
       )
     })
   })
-
-  describe('BOARDS_MENU', () => {
-    it('should create openBoardsMenu action', () => {
-      const expectedAction = {
-        type: 'OPEN_BOARDS_MENU'
-      };
-
-      expect(boardActions.openBoardsMenu()).toEqual(expectedAction)
-    })
-
-    it('should create closeBoardsMenu action', () => {
-      const expectedAction = {
-        type: 'CLOSE_BOARDS_MENU'
-      };
-
-      expect(boardActions.closeBoardsMenu()).toEqual(expectedAction)
-    })
-
-    it('should handle OPEN_BOARDS_MENU', () => {
-      expect(
-        reducer([], {
-          type: 'OPEN_BOARDS_MENU'
-        })
-      ).toEqual({
-          isBoardsMenuOpen: true
-        }
-      )
-    })
-
-    it('should handle CLOSE_BOARDS_MENU', () => {
-      expect(
-        reducer([], {
-          type: 'CLOSE_BOARDS_MENU'
-        })
-      ).toEqual({
-          isBoardsMenuOpen: false
-        }
-      )
-    })
-  })
 })
 
 describe('board reducer', () => {
@@ -137,7 +97,6 @@ describe('board reducer', () => {
       reducer(undefined, {})
     ).toEqual({
         isFetchingBoardSuccessful: false,
-        isBoardsMenuOpen: false,
         isFetchingBoard: false,
         isModalOpen: false,
 

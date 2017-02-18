@@ -1,12 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { boardActionCreators } from '../../routes/home/modules/index';
+import { boardsMenuActionCreators } from '../../modules/index';
 
 import HeaderBoard from './HeaderBoard';
 
 const mapStateToProps = state => {
-  const { isBoardsMenuOpen } = state.board;
+  const { isBoardsMenuOpen } = state.boardsMenu;
 
   return {
     isBoardsMenuOpen
@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    boardActions: bindActionCreators(boardActionCreators, dispatch)
+    boardsMenuActions: bindActionCreators(boardsMenuActionCreators, dispatch)
   }
 }
 

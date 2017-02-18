@@ -8,7 +8,6 @@ const propTypes = {
 }
 
 export default function HeaderUser(props) {
-  
   const displayPopOver = () => {
     props.modalActions.closeAllModals();
     props.popOverActions.showPopOver();
