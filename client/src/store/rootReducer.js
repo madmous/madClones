@@ -15,6 +15,7 @@ import { signUp } from '../app/routes/signUp/modules/index';
 import { login } from '../app/routes/login/modules/index';
 
 import { 
+	boardsMenu,
 	popOver, 
 	app 
 } from '../app/modules/index';
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
 	signUp,
 	login,
 
+	boardsMenu,
 	popOver,
 	app,
 
