@@ -26,27 +26,32 @@ const setupShallow = () => {
   }
 };
 
-describe('<div />', () => {
-  it('should have onBlur and onFocus defined', () => {
+describe('.BoardsMenu', () => {
+  it('should have onBlur defined', () => {
     const { wrapper } = setupShallow();
 
-    chai.expect(wrapper.find('div').first().props().onBlur).to.be.defined;
-    chai.expect(wrapper.find('div').first().props().onFocus).to.be.defined;
+    chai.expect(wrapper.find('.BoardsMenu').first().props().onFocus).to.be.defined;
   })
 
   it('should call focusOnBoardsMenu', () => {
     const { focusOnBoardsMenu, blurOnBoardsMenu, wrapper } = setupShallow();
 
-    wrapper.find('div').simulate('focus');
+    wrapper.find('.BoardsMenu').simulate('focus');
 
     chai.expect(blurOnBoardsMenu.calledOnce).to.equal(false);
     chai.expect(focusOnBoardsMenu.calledOnce).to.equal(true);
   })
 
+  it('should have onFocus defined', () => {
+    const { wrapper } = setupShallow();
+
+    chai.expect(wrapper.find('.BoardsMenu').first().props().onBlur).to.be.defined;
+  })
+
   it('should call blurOnBoardsMenu', () => {
     const { focusOnBoardsMenu, blurOnBoardsMenu, wrapper } = setupShallow();
 
-    wrapper.find('div').simulate('blur');
+    wrapper.find('.BoardsMenu').simulate('blur');
 
     chai.expect(blurOnBoardsMenu.calledOnce).to.equal(true);
     chai.expect(focusOnBoardsMenu.calledOnce).to.equal(false);

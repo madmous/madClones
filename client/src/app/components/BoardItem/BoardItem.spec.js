@@ -15,6 +15,7 @@ const setupShallow = () => {
   let addBoard = sinon.spy();
 
   const props = {
+    boardItemClassName: 'Boards-Board',
     organizationId: 'o1',
     isActiveBoard: true,
     boardItemId: 'bi1',
@@ -41,7 +42,7 @@ describe('<BoardItem />', () => {
 
     chai.expect(wrapper.find('FontAwesome')).to.have.length(1);
     chai.expect(wrapper.find('FontAwesome').props().className).to
-        .equal('Board-Item-Tile-Option');
+        .equal('Boards-Board-Item-Tile-Option');
   })
 
   it('should render fontawesome component with starred class name', () => {
@@ -50,7 +51,7 @@ describe('<BoardItem />', () => {
     wrapper.setProps({ isStarredBoardItem: true });
     chai.expect(wrapper.find('FontAwesome')).to.have.length(1);
     chai.expect(wrapper.find('FontAwesome').props().className).to
-        .equal('Board-Item-Tile-Option Board-Item-Tile-Starred');
+        .equal('Boards-Board-Item-Tile-Option Boards-Board-Item-Tile-Starred');
   })
 })
 
@@ -78,26 +79,26 @@ describe('<CreateBoard />', () => {
   })
 })
 
-describe('.Board-Tile', () => {
+describe('.Boards-Board-Tile', () => {
   describe('onClick event', () => {
     it('should have an onClick defined', () => {
       const { wrapper } = setupShallow();
 
-      chai.expect(wrapper.find('.Board-Tile').props().onClick).to.be.defined;
+      chai.expect(wrapper.find('.Boards-Board-Item-Tile').props().onClick).to.be.defined;
     })
   })
 
-  describe('Board-Tile-Title-Name', () => {
+  describe('Boards-Board-Tile-Title-Name', () => {
     xit('should render the boardName', () => {
       const { wrapper } = setupShallow();
 
-      chai.expect(wrapper.find('.Board-Tile-Title-Name').props().boardName).to.equal('boardName');
+      chai.expect(wrapper.find('.Boards-Board-Tile-Title-Name').props().boardName).to.equal('boardName');
     })
 
     xit('should render the boardItemSubName', () => {
       const { wrapper } = setupShallow();
 
-      chai.expect(wrapper.find('.Board-Tile-Title-Name').props().boardName).to.equal('boardName');
+      chai.expect(wrapper.find('.Boards-Board-Tile-Title-Name').props().boardName).to.equal('boardName');
     })
   })
 })

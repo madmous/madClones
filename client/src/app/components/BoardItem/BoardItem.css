@@ -1,9 +1,9 @@
-.Board-Item {
+.Boards-Board-Item {
 	width: 25%;
 	padding: 0 16px 16px 0;
 }
 
-.Board-Tile {
+.Boards-Board-Item-Tile {
 	color: #fff;
 	display: block;
 	line-height: 20px;
@@ -14,24 +14,24 @@
 	background-position: center center;
 }
 
-.Board-Tile {
+.Boards-Board-Item-Tile {
 	background-color: rgb(0, 121, 191);
 }
 
-.Board-Tile:hover,
-.Board-Tile-Add:hover {
+.Boards-Board-Item-Tile:hover,
+.Boards-Board-Item-Tile-Add:hover {
 	cursor: pointer;
 }
 
-.Board-Tile:hover {
+.Boards-Board-Item-Tile:hover {
 	background-color: rgb(0, 92, 145);
 }
 
-.Board-Tile-Add:hover {
+.Boards-Board-Item-Tile-Add:hover {
 	background-color: #d6d9db;
 }
 
-.Board-Tile-Add {
+.Boards-Board-Item-Tile-Add {
   display: flex;
 	height: 100%;
 	min-height: 96px;
@@ -42,14 +42,14 @@
 	background-color: #E2E4E6;
 }
 
-.Board-Tile-Title {
+.Boards-Board-Item-Tile-Title {
 	display: block;
 	min-height: 5pc;
 	position: relative;
 	padding: 0 36px 20px 0;
 }
 
-.Board-Tile-Title-Name {
+.Boards-Board-Item-Tile-Title-Name {
 	font-size: 1pc;
 	font-weight: 700;
 	overflow: hidden;
@@ -57,7 +57,7 @@
 	display: inline-block;
 }
 
-.Board-Tile-Title-SubName {
+.Boards-Board-Item-Tile-Title-SubName {
 	color: rgba(255,255,255,.65);
     display: block;
     overflow: hidden;
@@ -65,7 +65,7 @@
     white-space: nowrap;
 }
 
-.Board-Item-Tile-Option {    
+.Boards-Board-Item-Tile-Option {    
 	width: 20px;
 	height: 20px;
 	justify-content: center;
@@ -79,17 +79,46 @@
 	
 }
 
-.Board-Item-Tile-Starred {
+.Boards-Board-Item-Tile-Starred {
 	color: yellow;
 }
 
-.Board-Item-Tile-Starred,
-.Board-Tile:hover .Board-Item-Tile-Option {
+.Boards-Board-Item-Tile-Starred,
+.Boards-Board-Item-Tile:hover .Boards-Board-Item-Tile-Option {
 	font-weight: 700;
 	right: 8px;
 	opacity: 1;
 }
 
-.Board-Item-Tile-Option:hover {   
+.Boards-Board-Item-Tile-Option:hover {   
 	font-size: 20px;
+}
+
+.BoardsMenu-Boards-Board-Item {
+	list-style: none;
+	padding-bottom: 4px;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile {
+	padding: 0 4px 4px 0;
+	height: 40px;
+	background-color: #E1EFF7;
+	display: flex;
+	align-items: center;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile:hover {
+	cursor: pointer;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile-Title {
+	font-weight: bold;
+	padding: 9px 0 9px 9px; 
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile-Option {
+	display: none;
 }

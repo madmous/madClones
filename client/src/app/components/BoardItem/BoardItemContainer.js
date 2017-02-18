@@ -7,9 +7,9 @@ import {
   starredBoardActionCreators,
 	modalActionCreators,
 	boardActionCreators,
-} from '../../modules/index.js';
+} from '../../routes/home/modules/index.js';
 
-import { popOverActionCreators } from '../../../../modules/index';
+import { popOverActionCreators } from '../../modules/index';
 
 const mapStateToProps = state => {
   const { userId } = state.app;

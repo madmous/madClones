@@ -19,6 +19,14 @@ const defaultProps = {
 };
 
 export default function Board(props) {
+  const getClassName = () => {
+    if (props.boardClassName) {
+      return props.boardClassName + "-Board";
+    }
+
+    return "Board";
+  };
+
   const renderUserClassName = () => {
     let fontName = 'user';
     if (props.displayBoardOptions) {
@@ -33,7 +41,7 @@ export default function Board(props) {
   const renderBoardOptions = () => {
     if (props.displayBoardOptions) {
       return (
-        <div className="Board-Header-Options">
+        <div className={ getClassName() + "-Header-Options" }>
           <BoardOptions />
         </div>
       )
@@ -61,6 +69,7 @@ export default function Board(props) {
 
       return (
         <BoardItem
+          boardItemClassName={ getClassName() }
           organizationName={board.organizationName}
           isStarredBoardItem={board.isStarredBoard}
           organizationId={organizationId}
@@ -75,6 +84,7 @@ export default function Board(props) {
     if (!props.isStarredBoard) {
       boardItems.push(
         <BoardItem
+          boardItemClassName={ getClassName() }
           isActiveBoard={false} 
           organizationId={props.organizationId}
           boardName='Create new board...'
@@ -84,16 +94,16 @@ export default function Board(props) {
     }
 
     return (
-      <ul className="Board-List">
+      <ul className={ getClassName() + "-List" }>
         { boardItems }
       </ul>
     );
   }
 
   return (
-    <div className="Board">
-      <div className="Board-Header">
-        <div className="Board-Header-Icon">
+    <div className={ getClassName() }>
+      <div className={ getClassName() + "-Header" }>
+        <div className={ getClassName() + "-Header-Icon" }>
           { renderUserClassName() }
         </div>
         <h3>{ props.boardTitle }</h3>

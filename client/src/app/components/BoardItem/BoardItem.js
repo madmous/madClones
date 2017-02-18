@@ -7,13 +7,15 @@ import { CreateBoard } from '../index';
 import './BoardItem.css';
 
 const propTypes = {
-  isStarredBoardItem: PropTypes.bool,
-  organizationName: PropTypes.string,
   organizationId: PropTypes.string.isRequired,
   isActiveBoard: PropTypes.bool.isRequired,
   boardItemId: PropTypes.string,
   boardName: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired
+  userId: PropTypes.string.isRequired,
+
+  boardItemClassName:PropTypes.string,
+  isStarredBoardItem: PropTypes.bool,
+  organizationName: PropTypes.string,
 };
 
 const defaultTypes = {
@@ -25,6 +27,14 @@ const defaultTypes = {
 let organizationId = '';
 
 export default function BoardItem(props) {
+  const getClassName = () => {
+    if (props.boardItemClassName) {
+      return `${props.boardItemClassName}-Item`;
+    }
+
+    return '-Item';
+  };
+
   const openModal = event => {
     organizationId = props.organizationId;
 
@@ -38,7 +48,8 @@ export default function BoardItem(props) {
 
     if (organizationName) {
       return (
-        <span className="Board-Tile-Title-SubName">{ organizationName }</span>
+        <span className={ `${getClassName()}-Tile-Title-SubName` } >
+        { organizationName }</span>
       )
     }
   };
@@ -65,15 +76,19 @@ export default function BoardItem(props) {
     if (props.isStarredBoardItem) {
       return (
         <FontAwesome 
-          name="star-o" 
-          className="Board-Item-Tile-Option Board-Item-Tile-Starred" 
+          name="star-o"
+          className={ `${getClassName()}-Tile-Option ${getClassName()}-Tile-Starred` }
           onClick={ starOrUnstarBoard }
         />
       );
     }
 
     return (
-      <FontAwesome name="star-o" className="Board-Item-Tile-Option" onClick={ starOrUnstarBoard }/>
+      <FontAwesome 
+        name="star-o" 
+        className={ `${getClassName()}-Tile-Option` } 
+        onClick={ starOrUnstarBoard }
+      />
     );
   };
   
@@ -87,12 +102,12 @@ export default function BoardItem(props) {
 
     if (isActiveBoard) {
       return (
-        <div 
-          className="Board-Tile" 
+        <div
+          className={ `${getClassName()}-Tile` }
           onClick={ () => dispatch(push('/boards/' + boardId)) }
         >
-          <span className="Board-Tile-Title">
-            <span className="Board-Tile-Title-Name">{ boardName }</span>
+          <span className={ `${getClassName()}-Tile-Title` }>
+            <span className={ `${getClassName()}-Tile-Title-Name` }>{ boardName }</span>
             { renderBoardItemSubName() }
           </span>
           { isStarredBoard() }
@@ -101,7 +116,10 @@ export default function BoardItem(props) {
     }
 
     return (
-      <div className="Board-Tile-Add" onClick={ () => openModal(event) }>
+      <div
+        className={ `${getClassName()}-Tile-Add` }
+        onClick={ () => openModal(event) }
+      >
         <span>{ boardName }</span>
       </div>
     );
@@ -114,7 +132,7 @@ export default function BoardItem(props) {
   };
 
   return (
-    <li className="Board-Item">
+    <li className={ getClassName() }>
       { isActiveBoard() }
       <CreateBoard onSubmit={ addBoard } />
     </li>

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Boards } from '../index';
+
 import './BoardsMenu.css';
 
 export default function BoardsMenu(props) {
@@ -18,7 +20,8 @@ export default function BoardsMenu(props) {
       onFocus={() => { focusOnBoardsMenu(true) }}
       onBlur={() => { focusOnBoardsMenu(false) }}
     >
-      <p>fdfsfdsfsdffß</p>
+      <div className="BoardsMenu-Search"></div>
+      <Boards displayBoardOptions={ false } boardsClassName="BoardsMenu" />
     </div>
   );
 }

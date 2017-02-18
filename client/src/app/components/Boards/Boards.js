@@ -5,7 +5,10 @@ import { CreateOrganization, Board } from '../../components/index';
 import './Boards.css';
 
 const propTypes = {
-  userId:PropTypes.string.isRequired,
+  displayBoardOptions: PropTypes.bool.isRequired,
+  boardsClassName: PropTypes.string,
+
+  userId: PropTypes.string.isRequired,
   
   starredBoards: PropTypes.array.isRequired,
   organizations: PropTypes.array.isRequired,
@@ -21,6 +24,14 @@ const propTypes = {
 }
 
 export default function Boards(props) {
+  const getClassName = () => {
+    if (props.boardsClassName) {
+      return props.boardsClassName + "-Boards";
+    }
+
+    return "Boards";
+  };
+
   const canBoardsBeRendered = () => {
     return (!props.isFetchingUser && props.isFetchingUserSuccessful);
   };
@@ -33,6 +44,7 @@ export default function Boards(props) {
     if (canBoardsBeRendered() && starredBoards && starredBoards.length > 0) {
       starredBoard = (
         <Board 
+          boardClassName={ getClassName() }
           displayBoardOptions={false}
           boardsToDisplay={starredBoards}
           isStarredBoard
@@ -51,7 +63,8 @@ export default function Boards(props) {
 
     if (canBoardsBeRendered() && boards) {
       personalBoard = (
-        <Board 
+        <Board
+          boardClassName={ getClassName() }
           displayBoardOptions={false}
           boardsToDisplay={boards}
           boardTitle="Personal Board"
@@ -70,8 +83,9 @@ export default function Boards(props) {
 
       if (canBoardsBeRendered() && organization.boards) {
         return (
-          <Board 
-            displayBoardOptions
+          <Board
+            boardClassName={ getClassName() }
+            displayBoardOptions={ props.displayBoardOptions }
             boardsToDisplay={organization.boards} 
             organizationId={organization._id}
             boardTitle={organization.displayName} 
@@ -99,12 +113,12 @@ export default function Boards(props) {
 	};
 
   return (
-    <div className="Boards">
+    <div className={ getClassName() }>
       { renderStarredBoards() }
       { renderPersonalBoards() }
       { renderOrganizationBoards() }
 
-      <div className="Boards-Create">
+      <div className={ getClassName() + "-Create" }>
         <span onClick={ () => openModal(event) }>Create a new team...</span>
       </div>
 

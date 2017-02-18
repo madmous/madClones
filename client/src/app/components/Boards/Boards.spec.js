@@ -29,6 +29,8 @@ function setupShallow() {
       name: 'PB1'
     }],
 
+    displayBoardOptions:false,
+
     userId: '',
 
     isFetchingUserSuccessful: false,

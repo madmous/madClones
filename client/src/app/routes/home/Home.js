@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Notification, Boards } from './components/index';
+import { Notification, Boards } from '../../components/index';
 
 import './Home.css';
 
 const propTypes = {
   errorMessages: PropTypes.array.isRequired,
-
   homeActions: PropTypes.object.isRequired
 };
 
@@ -31,7 +30,7 @@ export default class Home extends Component {
   render () {
     return (
       <div className="Home" >
-        <Boards />
+        <Boards displayBoardOptions={ true } />
         { this.renderNotificationErrorMessage() }
       </div>
     );

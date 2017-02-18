@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CreateOrganization from './CreateOrganization';
 
-import { modalActionCreators } from '../../../modules/index';
+import { modalActionCreators } from '../../../routes/home/modules/index';
 
 function mapStateToProps(state) {
 	const { isCreateOrganizationModalOpen } = state.modals;
