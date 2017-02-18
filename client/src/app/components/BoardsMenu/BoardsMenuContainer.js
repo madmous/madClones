@@ -11,4 +11,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect({}, mapDispatchToProps)(BoardsMenu);
+export default connect(null, mapDispatchToProps)(BoardsMenu);
