@@ -11,3 +11,7 @@
 	z-index: 20;
   width: 300px;
 }
+
+.BoardsMenu:focus {
+	outline: none;
+}
