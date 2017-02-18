@@ -3,18 +3,16 @@ import { connect } from 'react-redux';
 
 import App from './App';
 
-import { 
-  modalActionCreators, 
-  boardActionCreators 
-} from './routes/home/modules/index';
+import { modalActionCreators } from './routes/home/modules/index';
 
 import {
+  boardsMenuActionCreators,
   popOverActionCreators,
-  appActionCreators, 
+  appActionCreators
 } from './modules/index';
 
 const mapStateToProps = state => {
-  const { isBoardsMenuOpen } = state.board;
+  const { isFocusOnBoardsMenu, isBoardsMenuOpen } = state.boardsMenu;
   const { isFocusOnPopHover, isPopOverOpen } = state.popOver;
   const { isFocusOnModal, isModalOpen } = state.modals;
   const { isAuthenticated } = state.login;
@@ -22,22 +20,26 @@ const mapStateToProps = state => {
   const { fullName } = state.app;
 
   return {
-    isFocusOnPopHover,
+    isFocusOnBoardsMenu,
     isBoardsMenuOpen,
-    isAuthenticated,
-    isFocusOnModal,
+
+    isFocusOnPopHover,
     isPopOverOpen,
-    errorMessages,
+
+    isFocusOnModal,
     isModalOpen,
+
+    isAuthenticated,
+    errorMessages,
     fullName
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return { 
+    boardsMenuActions: bindActionCreators(boardsMenuActionCreators, dispatch),
     popOverActions: bindActionCreators(popOverActionCreators, dispatch),
     modalActions: bindActionCreators(modalActionCreators, dispatch),
-    boardActions: bindActionCreators(boardActionCreators, dispatch),
     appActions: bindActionCreators(appActionCreators, dispatch),
   }
 }

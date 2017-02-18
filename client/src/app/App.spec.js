@@ -1,8 +1,8 @@
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import React from 'react';
+import sinon from 'sinon';
+import chai from 'chai';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -12,19 +12,24 @@ import AppContainer from './AppContainer';
 import App from './App';
 
 const setupShallow = () => {
-  let closeBoardsMenu = sinon.spy();
+  let hideBoardsMenu = sinon.spy();
   let closeAllModals = sinon.spy();
   let hidePopOver = sinon.spy();
   let getUser = sinon.spy();
 
   const props = {
-    isFocusOnPopHover: false,
+    isFocusOnBoardsMenu: false,
     isBoardsMenuOpen: false,
-    isAuthenticated: true,
-    isFocusOnModal: false,
+
+    isFocusOnPopHover: false,
     isPopOverOpen: false,
-    errorMessages: [],
+    
+    isFocusOnModal: false,
     isModalOpen: false,
+    
+    isAuthenticated: true,
+
+    errorMessages: [],
     fullName: 'fullName',
 
     popOverActions: {
@@ -36,15 +41,15 @@ const setupShallow = () => {
     appActions: {
       getUser
     },
-    boardActions: {
-      closeBoardsMenu
+    boardsMenuActions: {
+      hideBoardsMenu
     }
   };
 
   const wrapper = shallow(<App {...props} />);  
 
   return {
-    closeBoardsMenu,
+    hideBoardsMenu,
     closeAllModals,
     hidePopOver,
     getUser,
@@ -52,10 +57,6 @@ const setupShallow = () => {
     wrapper
   }
 };
-
-const setupRender = () => {
-  return render(<App />);
-}
 
 const setupMount = () => {
   nock('http://localhost:3001', { 
@@ -81,11 +82,15 @@ const setupMount = () => {
       isFocusOnModal: false, 
       isModalOpen: false
     },
-    notification: {
-      errorMessages: []
+    boardsMenu: {
+      isFocusOnBoardsMenu: false,
+      isBoardsMenuOpen: false
     },
     board: {
       isBoardsMenuOpen: false
+    },
+    notification: {
+      errorMessages: []
     },
     app: {
       fullName: 'fullName'
@@ -102,180 +107,166 @@ const setupMount = () => {
     </Provider>); 
 };
 
-const middlewares = [ thunk ];
-const mockStore = configureMockStore(middlewares);
+const setupRender = () => {
+  return render(<App />);
+}
 
-describe('App', () => {
-  afterEach(() => {
+describe('<App />', () => {  
+  it('should call componentDidMount', () => {
+    let spy = sinon.spy(App.prototype, 'componentDidMount');
+
+    const wrapper = setupMount();
+
+    chai.expect(spy.calledOnce).to.equal(true);
+
+    spy.restore();
     nock.cleanAll();
   })
+})
 
-  describe('App - render', () => {
-    it('should render header component', () => {
+describe('<div />', () => {
+  describe('onClick event', () => {
+    it('should have an onClickCapture defined', () => {
       const { wrapper } = setupShallow();
 
-      expect(wrapper.find('Connect(PopOver)')).to.have.length(0);
-      expect(wrapper.find('Header')).to.have.length(1);
+      chai.expect(wrapper.find('div').props().onClick).to.be.defined;
+    })
+    
+    it('should not do any call', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.find('div').simulate('click');
+
+      chai.expect(closeAllModals.calledOnce).to.be.false;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.false;
+      chai.expect(hidePopOver.calledOnce).to.be.false;
     })
 
-    it('should render popOver component', () => {
-      const { wrapper } = setupShallow();
-
-      expect(wrapper.find('PopOver')).to.have.length(0);
-      wrapper.setProps({ isPopOverOpen: true });
-      expect(wrapper.find('Connect(PopOver)')).to.have.length(1);
-    })
-
-    it('should render boardsMenu component', () => {
-      const { wrapper } = setupShallow();
-
-      expect(wrapper.find('BoardsMenu')).to.have.length(0);
-      wrapper.setProps({ isBoardsMenuOpen: true });
-      expect(wrapper.find('BoardsMenu')).to.have.length(1);
-    })
-  })
-
-  describe('App - component lifecycle', () => {  
-    it('should call componentDidMount method', () => {
-      let spy = sinon.spy(App.prototype, 'componentDidMount');
-
-      const wrapper = setupMount();
-
-      expect(spy.calledOnce).to.equal(true);
-
-      spy.restore();
-    })
-  })
-
-  describe('App - handleDocumentClick event', () => {
-    it('should call handleDocumentClick method', () => {
-      let spy = sinon.spy(App.prototype, 'handleDocumentClick');
-
-      const wrapper = setupMount();
-      wrapper.find('App').simulate('click');
-
-      expect(spy.calledOnce).to.equal(true);
-    })
-
-    it('should not call closeAllModals and hidePopOver props', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-
-      wrapper.instance().handleDocumentClick();
-
-      expect(closeAllModals.calledOnce).to.be.false;
-      expect(hidePopOver.calledOnce).to.be.false;
-    })
-
-    it('should call closeAllModals prop', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-
-      wrapper.setProps({ isModalOpen: true });
-      wrapper.instance().handleDocumentClick();
-
-      expect(closeAllModals.calledOnce).to.be.true;
-      expect(hidePopOver.calledOnce).to.be.false;
-    })
-
-    it('should call hidePopOver prop', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-
-      wrapper.setProps({ isPopOverOpen: true });
-      wrapper.instance().handleDocumentClick();
-
-      expect(closeAllModals.calledOnce).to.be.false;
-      expect(hidePopOver.calledOnce).to.be.true;
-    })
-
-    it('should call closeAllModals and hidePopOver props', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-
-      wrapper.setProps({
-        isPopOverOpen: true,
-        isModalOpen: true
-      });
-
-      wrapper.instance().handleDocumentClick();
-
-      expect(closeAllModals.calledOnce).to.be.true;
-      expect(hidePopOver.calledOnce).to.be.true;
-    })
-
-    xit('should call closeBoardsMenu prop', () => {
-      const { closeBoardsMenu, wrapper } = setupShallow();
-
-      wrapper.setProps({ isBoardsMenuOpen: true });
-      wrapper.instance().handleDocumentClick();
-
-      expect(closeBoardsMenu.calledOnce).to.be.true;
-    })
-  })
-
-  describe('App - handleEscKey event', () => {
-    it('should call handleEscKey method', () => {
-      let spy = sinon.spy(App.prototype, 'handleEscKey');
-
-      const wrapper = setupMount();
-      wrapper.find('App').simulate('keyDown', { keyCode: 27 });
-
-      expect(spy.calledOnce).to.equal(true);
-    })
-
-    it('should call not closeAllModals and hidePopOver prop', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-      const event = { keyCode: 27 };
-      
-      wrapper.instance().handleEscKey(event);
-
-      expect(closeAllModals.calledOnce).to.be.false;
-      expect(hidePopOver.calledOnce).to.be.false;
-    })
-
-    it('should call closeAllModals prop', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-      const event = { keyCode: 27 };
-
-      wrapper.setProps({ isModalOpen: true });
-      wrapper.instance().handleEscKey(event);
-
-      expect(closeAllModals.calledOnce).to.be.true;
-      expect(hidePopOver.calledOnce).to.be.false;
-    })
-
-    it('should call closeAllModals prop', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-      const event = { keyCode: 27 };
-
-      wrapper.setProps({ isPopOverOpen: true });
-      wrapper.instance().handleEscKey(event);
-
-      expect(closeAllModals.calledOnce).to.be.false;
-      expect(hidePopOver.calledOnce).to.be.true;
-    })
-
-    it('should call closeAllModals and hidePopOver prop', () => {
-      const { closeAllModals, hidePopOver, wrapper } = setupShallow();
-      const event = { keyCode: 27 };
+    xit('should call closeAllModals', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
 
       wrapper.setProps({ 
-        isPopOverOpen: true,
+        isFocusOnModal: false,
         isModalOpen: true
       });
 
-      wrapper.instance().handleEscKey(event);
+      wrapper.find('div').simulate('click');
 
-      expect(closeAllModals.calledOnce).to.be.true;
-      expect(hidePopOver.calledOnce).to.be.true;
+      chai.expect(closeAllModals.calledOnce).to.be.true;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.false;
+      chai.expect(hidePopOver.calledOnce).to.be.false;
     })
 
-    it('should call closeBoardsMenu prop', () => {
-      const { closeBoardsMenu, wrapper } = setupShallow();
+    xit('should call hideBoardsMenu', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
 
-      const event = { keyCode: 27 };
+      wrapper.setProps({ 
+        isFocusOnPopHover: false,
+        isPopOverOpen: true
+      });
+
+      wrapper.find('FontAwesome').simulate('click');
+
+      chai.expect(closeAllModals.calledOnce).to.be.false;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.true;
+      chai.expect(hidePopOver.calledOnce).to.be.false;
+    })
+
+    xit('should call hidePopOver', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.setProps({ 
+        isFocusOnBoardsMenu: false,
+        isBoardsMenuOpen: true
+      });
+
+      wrapper.find('div').simulate('click');
+
+      chai.expect(closeAllModals.calledOnce).to.be.false;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.false;
+      chai.expect(hidePopOver.calledOnce).to.be.true;
+    })
+  })
+
+  describe('onKeyDown event', () => {
+    it('should have an onKeyDown defined', () => {
+      const { wrapper } = setupShallow();
+
+      chai.expect(wrapper.find('div').props().onKeyDown).to.be.defined;
+    })
+
+    it('should not do any call', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.find('div').simulate('keyDown', { keyCode: 28 });
+
+      chai.expect(closeAllModals.calledOnce).to.be.false;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.false;
+      chai.expect(hidePopOver.calledOnce).to.be.false;
+    })
+
+    it('should call closeAllModals', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.setProps({ isModalOpen: true });
+
+      wrapper.find('div').simulate('keyDown', { keyCode: 27 });
+
+      chai.expect(closeAllModals.calledOnce).to.be.true;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.false;
+      chai.expect(hidePopOver.calledOnce).to.be.false;
+    })
+
+    it('should call hideBoardsMenu', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
 
       wrapper.setProps({ isBoardsMenuOpen: true });
-      wrapper.instance().handleEscKey(event);
 
-      expect(closeBoardsMenu.calledOnce).to.be.true;
+      wrapper.find('div').simulate('keyDown', { keyCode: 27 });
+
+      chai.expect(closeAllModals.calledOnce).to.be.false;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.true;
+      chai.expect(hidePopOver.calledOnce).to.be.false;
     })
+
+    it('should call hidePopOver', () => {
+      const { closeAllModals, hideBoardsMenu, hidePopOver, wrapper } = setupShallow();
+
+      wrapper.setProps({ isPopOverOpen: true });
+
+      wrapper.find('div').simulate('keyDown', { keyCode: 27 });
+
+      chai.expect(closeAllModals.calledOnce).to.be.false;
+      chai.expect(hideBoardsMenu.calledOnce).to.be.false;
+      chai.expect(hidePopOver.calledOnce).to.be.true;
+    })
+  })
+})
+
+describe('<PopOver />', () => { 
+  it('should be defined', () => {
+    const { wrapper } = setupShallow();
+
+    chai.expect(wrapper.find('PopOver')).to.have.length(0);
+    wrapper.setProps({ isPopOverOpen: true });
+    chai.expect(wrapper.find('Connect(PopOver)')).to.have.length(1);
+  })
+})
+
+describe('<BoardsMenu />', () => {
+  it('should be defined', () => {
+    const { wrapper } = setupShallow();
+
+    chai.expect(wrapper.find('Connect(BoardsMenu)')).to.have.length(0);
+    wrapper.setProps({ isBoardsMenuOpen: true });
+    chai.expect(wrapper.find('Connect(BoardsMenu)')).have.length(1);
+  })
+})
+
+describe('<Header />', () => {
+  it('should be defined', () => {
+    const { wrapper } = setupShallow();
+
+    chai.expect(wrapper.find('Header')).to.have.length(1);
   })
 })

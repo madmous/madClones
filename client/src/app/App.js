@@ -5,42 +5,44 @@ import { BoardsMenu, PopOver, Header } from './components/index';
 import './App.css';
 
 const propTypes = {
-  isFocusOnPopHover: PropTypes.bool.isRequired,
+  isFocusOnBoardsMenu: PropTypes.bool.isRequired,
   isBoardsMenuOpen: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  isFocusOnModal: PropTypes.bool.isRequired,
+
+  isFocusOnPopHover: PropTypes.bool.isRequired,
   isPopOverOpen: PropTypes.bool.isRequired,
-  errorMessages: PropTypes.array.isRequired,
+
+  isFocusOnModal: PropTypes.bool.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
+
+  isAuthenticated: PropTypes.bool.isRequired,
+  errorMessages: PropTypes.array.isRequired,
   fullName: PropTypes.string.isRequired,
 
+  boardsMenuActions: PropTypes.object.isRequired,
   popOverActions: PropTypes.object.isRequired,
-  boardActions: PropTypes.object.isRequired,
   modalActions: PropTypes.object.isRequired,
   appActions: PropTypes.object.isRequired
 }
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
-    this.renderPopOver = this.renderPopOver.bind(this);
-    this.handleEscKey = this.handleEscKey.bind(this);
-  }
-
   componentDidMount() {
     this.props.appActions.getUser();
   }
 
-  handleDocumentClick() {
-    const { 
+  handleDocumentClick = () => {
+    const {
+      isFocusOnBoardsMenu,
+      isBoardsMenuOpen,
+
       isFocusOnPopHover,
-      popOverActions,
-      isFocusOnModal,
       isPopOverOpen,
-      modalActions,
-      isModalOpen
+
+      isFocusOnModal,
+      isModalOpen,
+
+      boardsMenuActions,
+      popOverActions,
+      modalActions
     } = this.props;
     
     if (!isFocusOnModal && isModalOpen) {
@@ -50,16 +52,21 @@ export default class App extends Component {
     if (!isFocusOnPopHover && isPopOverOpen) {
       popOverActions.hidePopOver();
     };
+
+    if(!isFocusOnBoardsMenu && isBoardsMenuOpen) {
+        boardsMenuActions.hideBoardsMenu();
+      }
   }
 
-  handleEscKey(event) {
-    const { 
+  handleEscKey = event => {
+    const {
       isBoardsMenuOpen,
-      popOverActions,
       isPopOverOpen,
+      isModalOpen,
+
+      boardsMenuActions,
+      popOverActions,
       modalActions,
-      boardActions,
-      isModalOpen
     } = this.props;
 
     if (event.keyCode === 27) {
@@ -73,7 +80,7 @@ export default class App extends Component {
       }
 
       if(isBoardsMenuOpen) {
-        boardActions.closeBoardsMenu();
+        boardsMenuActions.hideBoardsMenu();
       }
     } 
   }
