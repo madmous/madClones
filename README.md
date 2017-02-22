@@ -88,9 +88,9 @@ to another level by making you think about the correct data structure, api and a
 5. Make a pull request.
 6. End to end testing are not required for now.
 
-## Next release (2.1.0)
+## Next release (3.0.0)
 
-* Unit tests ( client + server)
+* Add a boards menu on the home view
 
 ## Updates
 
