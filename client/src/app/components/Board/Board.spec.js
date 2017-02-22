@@ -6,6 +6,7 @@ import Board from './Board';
 
 const setupShallow = () => {
   const props = {
+    displayCreateNewBoard: true,
     displayBoardOptions: false,
     isStarredBoardItem: false,
     boardsToDisplay: [],

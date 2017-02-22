@@ -30,7 +30,10 @@ export default class Home extends Component {
   render () {
     return (
       <div className="Home" >
-        <Boards displayBoardOptions={ true } />
+        <Boards 
+          displayCreateNewBoard
+          displayBoardOptions
+        />
         { this.renderNotificationErrorMessage() }
       </div>
     );

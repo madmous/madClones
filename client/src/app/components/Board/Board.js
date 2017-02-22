@@ -6,6 +6,7 @@ import { BoardOptions, BoardItem } from '../index';
 import './Board.css';
 
 const propTypes = {
+  displayCreateNewBoard: PropTypes.bool.isRequired,
   displayBoardOptions: PropTypes.bool.isRequired,
   isStarredBoardItem: PropTypes.bool.isRequired,
   boardsToDisplay: PropTypes.array.isRequired,
@@ -14,8 +15,10 @@ const propTypes = {
 };
 
 const defaultProps = {
+  displayCreateNewBoard: true,
+  isStarredBoardItem: false,
+  
   organizationId: '',
-  isStarredBoardItem: false
 };
 
 export default function Board(props) {
@@ -49,7 +52,7 @@ export default function Board(props) {
   };
   
   const renderBoardList = () => {
-    const { boardsToDisplay } = props;
+    const { displayCreateNewBoard, boardsToDisplay, isStarredBoard } = props;
     let organizationId = '';
 
     const boardItems = boardsToDisplay && boardsToDisplay.map((board) => {
@@ -81,7 +84,7 @@ export default function Board(props) {
       );
     });
 
-    if (!props.isStarredBoard) {
+    if (!isStarredBoard && displayCreateNewBoard) {
       boardItems.push(
         <BoardItem
           boardItemClassName={ getClassName() }

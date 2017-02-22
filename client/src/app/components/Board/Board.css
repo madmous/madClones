@@ -53,7 +53,7 @@
 }
 
 .BoardsMenu-Boards-Board-List {
-  padding: 0px 10px 0px 0px;
+  padding: 0px;
 }
 
 .BoardsMenu-Boards-Board-List:last-child {
@@ -70,8 +70,10 @@
 
 .BoardsMenu-Boards-Board-Header h3 {
   color: #8c8c8c;
-  font-size: 15px;
+  font-size: 13px;
   margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 .BoardsMenu-Boards-Board-Header-Icon {
@@ -79,5 +81,14 @@
   margin-right: 5px;
   vertical-align: bottom;
   width: 18px;
-  font-size: 9pt;
+  font-size: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.BoardsMenu-Boards-Board-Header-Icon span {
+  align-items: center;
+  justify-content: center;
 }

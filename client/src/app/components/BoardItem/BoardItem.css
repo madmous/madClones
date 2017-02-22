@@ -76,7 +76,6 @@
 	right: -20px;
 	opacity: 0;
 	transition: opacity 1.5s;
-	
 }
 
 .Boards-Board-Item-Tile-Starred {
@@ -97,14 +96,22 @@
 .BoardsMenu-Boards-Board-Item {
 	list-style: none;
 	padding-bottom: 4px;
+	padding-right: 4px;
 }
 
 .BoardsMenu-Boards-Board-Item-Tile {
-	padding: 0 4px 4px 0;
-	height: 40px;
+	padding: 0px 9px; 
+	height: 36px;
 	background-color: #E1EFF7;
 	display: flex;
 	align-items: center;
+	border-radius: 3px;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile-Title-Name {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .BoardsMenu-Boards-Board-Item-Tile:hover {
@@ -113,10 +120,9 @@
 
 .BoardsMenu-Boards-Board-Item-Tile-Title {
 	font-weight: bold;
-	padding: 9px 0 9px 9px; 
 	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	display: flex;
+  align-items: center;
 }
 
 .BoardsMenu-Boards-Board-Item-Tile-Option {

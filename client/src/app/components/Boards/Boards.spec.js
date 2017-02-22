@@ -29,6 +29,7 @@ function setupShallow() {
       name: 'PB1'
     }],
 
+    displayCreateNewBoard: false,
     displayBoardOptions:false,
 
     userId: '',

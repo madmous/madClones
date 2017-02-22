@@ -5,6 +5,7 @@ import { CreateOrganization, Board } from '../../components/index';
 import './Boards.css';
 
 const propTypes = {
+  displayCreateNewBoard: PropTypes.bool.isRequired,
   displayBoardOptions: PropTypes.bool.isRequired,
   boardsClassName: PropTypes.string,
 
@@ -64,6 +65,7 @@ export default function Boards(props) {
     if (canBoardsBeRendered() && boards) {
       personalBoard = (
         <Board
+          displayCreateNewBoard={ props.displayCreateNewBoard }
           boardClassName={ getClassName() }
           displayBoardOptions={false}
           boardsToDisplay={boards}
@@ -85,6 +87,7 @@ export default function Boards(props) {
         return (
           <Board
             boardClassName={ getClassName() }
+            displayCreateNewBoard={ props.displayCreateNewBoard }
             displayBoardOptions={ props.displayBoardOptions }
             boardsToDisplay={organization.boards} 
             organizationId={organization._id}
@@ -117,11 +120,9 @@ export default function Boards(props) {
       { renderStarredBoards() }
       { renderPersonalBoards() }
       { renderOrganizationBoards() }
-
       <div className={ getClassName() + "-Create" }>
         <span onClick={ () => openModal(event) }>Create a new team...</span>
       </div>
-
       <CreateOrganization onSubmit={ addOrganization } />
     </div>
   );

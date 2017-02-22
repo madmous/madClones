@@ -4,19 +4,28 @@
   flex-direction: column;
 }
 
+.BoardsMenu-Boards-Create,
 .Boards-Create {
   margin-bottom: 20px;
   display: block;
   color: #8c8c8c;
 }
 
+.BoardsMenu-Boards-Create {
+  margin: 0;
+  padding-right: 4px;
+}
+
+.BoardsMenu-Boards-Create span,
 .Boards-Create span {
   padding: 6px 8px;
   text-decoration: underline;
 }
 
+.BoardsMenu-Boards-Create span:hover,
 .Boards-Create span:hover {
   background: #D6DADC;
   color: #4d4d4d;
   cursor: pointer;
+  border-radius: 4px;
 }

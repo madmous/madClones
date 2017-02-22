@@ -20,8 +20,14 @@ export default function BoardsMenu(props) {
       onFocus={() => { focusOnBoardsMenu(true) }}
       onBlur={() => { focusOnBoardsMenu(false) }}
     >
-      <div className="BoardsMenu-Search"></div>
-      <Boards displayBoardOptions={ false } boardsClassName="BoardsMenu" />
+      <div className="BoardsMenu-Content">
+        <div className="BoardsMenu-Content-Search"></div>
+        <Boards 
+          displayBoardOptions={ false }
+          displayCreateNewBoard={ false }
+          boardsClassName="BoardsMenu"
+        />
+      </div>
     </div>
   );
 }
