@@ -21,6 +21,10 @@ export default class BoardView extends Component {
     this.props.cardActions.getCards(this.props.location.pathname);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.props.cardActions.getCards(nextProps.location.pathname);
+  }
+
   handleDocumentClick = () => {
     const { 
       isFocusOnCreateCardForm, 

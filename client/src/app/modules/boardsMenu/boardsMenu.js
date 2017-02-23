@@ -33,7 +33,7 @@ const initialState = {
   isBoardsMenuOpen: false
 }
 
-export default function popOver(state = initialState, action) {
+export default function boardsMenu(state = initialState, action) {
   switch (action.type) {
     case OPEN_BOARDS_MENU:
 			return Object.assign({}, state, {

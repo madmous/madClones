@@ -91,20 +91,23 @@ export default function BoardItem(props) {
       />
     );
   };
+
+  const handleClick = () => {
+    props.boardsMenu.hideBoardsMenu();
+    props.dispatch(push(`/boards/${props.boardId}`));
+  }  
   
   const isActiveBoard = () => {
     const { 
       isActiveBoard, 
-      boardName, 
-      dispatch, 
-      boardId
+      boardName
     } = props;
 
     if (isActiveBoard) {
       return (
         <div
           className={ `${getClassName()}-Tile` }
-          onClick={ () => dispatch(push('/boards/' + boardId)) }
+          onClick={ handleClick }
         >
           <span className={ `${getClassName()}-Tile-Title` }>
             <span className={ `${getClassName()}-Tile-Title-Name` }>{ boardName }</span>

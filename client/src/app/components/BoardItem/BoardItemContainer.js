@@ -9,6 +9,8 @@ import {
 	boardActionCreators,
 } from '../../routes/home/modules/index.js';
 
+import { boardsMenuActionCreators } from '../../modules/index'
+
 import { popOverActionCreators } from '../../modules/index';
 
 const mapStateToProps = state => {
@@ -25,6 +27,7 @@ const mapDispatchToProps = dispatch => {
     popOverActions: bindActionCreators(popOverActionCreators, dispatch),
     modalActions: bindActionCreators(modalActionCreators, dispatch),
     boardActions: bindActionCreators(boardActionCreators, dispatch),
+    boardsMenu: bindActionCreators(boardsMenuActionCreators, dispatch),
     dispatch
   }
 }
