@@ -4,6 +4,8 @@ const HIDE_BOARDS_MENU = 'HIDE_BOARDS_MENU';
 const FOCUS_BOARDS_MENU = 'FOCUS_BOARDS_MENU';
 const BLUR_BOARDS_MENU = 'BLUR_BOARDS_MENU';
 
+const SAVE_USER_INPUT = 'SAVE_USER_INPUT';
+
 export function openBoardsMenu() {
   return {
 		type: OPEN_BOARDS_MENU
@@ -28,9 +30,18 @@ export function blurOnBoardsMenu() {
   }
 }
 
+export function saveUserInput(payload) {
+  return {
+    type: SAVE_USER_INPUT,
+    payload
+  }
+}
+
 const initialState = {
   isFocusOnBoardsMenu: false,
-  isBoardsMenuOpen: false
+  isBoardsMenuOpen: false,
+
+  userInput: ''
 }
 
 export default function boardsMenu(state = initialState, action) {
@@ -41,7 +52,8 @@ export default function boardsMenu(state = initialState, action) {
 			});
     case HIDE_BOARDS_MENU:
 			return Object.assign({}, state, {
-				isBoardsMenuOpen: false
+				isBoardsMenuOpen: false,
+        userInput: ''
 			});
     case FOCUS_BOARDS_MENU:
       return Object.assign({}, state, {
@@ -50,6 +62,10 @@ export default function boardsMenu(state = initialState, action) {
     case BLUR_BOARDS_MENU:
       return Object.assign({}, state, {
         isFocusOnBoardsMenu: false,
+      })
+    case SAVE_USER_INPUT:
+      return Object.assign({}, state, {
+        userInput: action.payload,
       })
     default: return state;
   }

@@ -8,11 +8,13 @@ import BoardsMenu from './BoardsMenu';
 const setupShallow = () => {
   let focusOnBoardsMenu = sinon.spy();
   let blurOnBoardsMenu = sinon.spy();
+  let saveUserInput = sinon.spy();
 
   const props = {
     boardsMenuActions: {
       focusOnBoardsMenu,
-      blurOnBoardsMenu
+      blurOnBoardsMenu,
+      saveUserInput
     }
   }
 
@@ -21,6 +23,7 @@ const setupShallow = () => {
   return {
     focusOnBoardsMenu,
     blurOnBoardsMenu,
+    saveUserInput,
 
     wrapper
   }
@@ -55,5 +58,21 @@ describe('.BoardsMenu', () => {
 
     chai.expect(blurOnBoardsMenu.calledOnce).to.equal(true);
     chai.expect(focusOnBoardsMenu.calledOnce).to.equal(false);
+  })
+})
+
+describe('input', () => { 
+  it('should have onChange defined', () => {
+    const { wrapper } = setupShallow();
+
+    chai.expect(wrapper.find('input').first().props().onChange).to.be.defined;
+  })
+
+  it('should call saveUserInput', () => {
+    const { saveUserInput, wrapper } = setupShallow();
+
+    wrapper.find('input').simulate('onChange');
+
+    chai.expect(saveUserInput.calledOnce).to.equal(true);
   })
 })

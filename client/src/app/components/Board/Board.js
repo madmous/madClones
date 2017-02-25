@@ -8,6 +8,7 @@ import './Board.css';
 const propTypes = {
   displayCreateNewBoard: PropTypes.bool.isRequired,
   displayBoardOptions: PropTypes.bool.isRequired,
+  isOrganizationBoard: PropTypes.bool.isRequired,
   isStarredBoardItem: PropTypes.bool.isRequired,
   boardsToDisplay: PropTypes.array.isRequired,
   organizationId: PropTypes.string.isRequired,
@@ -16,6 +17,7 @@ const propTypes = {
 
 const defaultProps = {
   displayCreateNewBoard: true,
+  isOrganizationBoard: false,
   isStarredBoardItem: false,
   
   organizationId: '',
@@ -32,7 +34,8 @@ export default function Board(props) {
 
   const renderUserClassName = () => {
     let fontName = 'user';
-    if (props.displayBoardOptions) {
+
+    if (props.isOrganizationBoard) {
       fontName = 'users';
     } else if (props.isStarredBoard) {
       fontName = 'star';

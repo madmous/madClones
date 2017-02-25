@@ -40,6 +40,12 @@ const setupMount = () => {
     board: { 
       boards: [] 
     },
+    boardsMenu: {
+      isFocusOnBoardsMenu: false,
+      isBoardsMenuOpen: false,
+
+      userInput: ''
+    },
     modals: {
       isCreateOrganizationModalOpen: false,
       isCreateBoardModalOpen: false,

@@ -12,7 +12,7 @@ export default function HeaderBoard(props) {
     const { isBoardsMenuOpen, boardsMenuActions } = props;
 
     if (isBoardsMenuOpen) {
-      boardsMenuActions.closeBoardsMenu();
+      boardsMenuActions.hideBoardsMenu();
     } else {
       boardsMenuActions.openBoardsMenu();
     }

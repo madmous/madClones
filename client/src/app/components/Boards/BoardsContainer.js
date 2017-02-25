@@ -21,6 +21,8 @@ const mapStateToProps = state => {
   const { isFetchingUserSuccessful } = state.app;
   const { isFetchingUser } = state.app;
 
+  const { userInput } = state.boardsMenu;
+
   return {
     userId, 
 
@@ -29,7 +31,9 @@ const mapStateToProps = state => {
     boards,
 
     isFetchingUserSuccessful,
-    isFetchingUser
+    isFetchingUser,
+
+    userInput
   };
 }
 

@@ -10,6 +10,7 @@ const propTypes = {
   boardsClassName: PropTypes.string,
 
   userId: PropTypes.string.isRequired,
+  userInput: PropTypes.string.isRequired,
   
   starredBoards: PropTypes.array.isRequired,
   organizations: PropTypes.array.isRequired,
@@ -24,6 +25,10 @@ const propTypes = {
   modalActions: PropTypes.object.isRequired
 }
 
+const defaultTypes = {
+  userInput: ''
+};
+
 export default function Boards(props) {
   const getClassName = () => {
     if (props.boardsClassName) {
@@ -33,13 +38,73 @@ export default function Boards(props) {
     return "Boards";
   };
 
+  const filterBoards = items => {
+    return items.filter(item => {
+      return item.name.toLowerCase().indexOf(props.userInput.toLowerCase()) >= 0;
+    });
+  }
+
   const canBoardsBeRendered = () => {
     return (!props.isFetchingUser && props.isFetchingUserSuccessful);
   };
 
-  const renderStarredBoards = () => {
-    const { starredBoards } = props;
+  const addOrganization = formInput => {
+    const { userId } = props;
 
+    props.organizationActions.addOrganization(userId, formInput.name);
+  };
+
+  const openModal = event => {
+    event.preventDefault();
+
+    props.modalActions.closeAllModals();
+    props.modalActions.openCreateOrganizationModal();
+    props.popOverActions.hidePopOver();
+	};
+
+  const renderOrganizationBoards = organizations => {
+    let organizationItem = null;
+
+    organizationItem = organizations && organizations.length > 0 && organizations.map(organization => {
+      if (canBoardsBeRendered() && organization.boards && organization.boards.length > 0) {
+        return (
+          <Board
+            boardClassName={ getClassName() }
+            displayCreateNewBoard={ props.displayCreateNewBoard }
+            displayBoardOptions={ props.displayBoardOptions }
+            isOrganizationBoard
+            boardsToDisplay={organization.boards} 
+            organizationId={organization._id}
+            boardTitle={organization.displayName} 
+            key={organization._id} 
+          />
+        );
+      } else return null;
+    });
+
+    return organizationItem;
+  };
+
+  const renderPersonalBoards = boards => {
+    let personalBoard = null;
+
+    if (canBoardsBeRendered() && boards && boards.length > 0) {
+      personalBoard = (
+        <Board
+          displayCreateNewBoard={ props.displayCreateNewBoard }
+          boardClassName={ getClassName() }
+          displayBoardOptions={false}
+          isOrganizationBoard={false}
+          boardsToDisplay={boards}
+          boardTitle="Personal Board"
+        />
+      )
+    }
+
+    return personalBoard;
+  };
+
+  const renderStarredBoards = starredBoards => {
     let starredBoard = null;
 
     if (canBoardsBeRendered() && starredBoards && starredBoards.length > 0) {
@@ -57,69 +122,33 @@ export default function Boards(props) {
     return starredBoard;
   };
 
-  const renderPersonalBoards = () => {
-    const { boards } = props;
+  const renderBoards = () => {
+    const { boardsClassName, userInput } = props;
+    let { starredBoards, organizations, boards } = props;
 
-    let personalBoard = null;
+    if (boardsClassName === 'BoardsMenu' && userInput !== '') {
+      starredBoards = filterBoards(starredBoards);
+      boards = filterBoards(boards);
 
-    if (canBoardsBeRendered() && boards) {
-      personalBoard = (
-        <Board
-          displayCreateNewBoard={ props.displayCreateNewBoard }
-          boardClassName={ getClassName() }
-          displayBoardOptions={false}
-          boardsToDisplay={boards}
-          boardTitle="Personal Board"
-        />
-      )
+      organizations = organizations.map(organization => {
+        organization.boards = filterBoards(organization.boards);
+
+        return organization;
+      })
     }
 
-    return personalBoard;
+    return (
+      <div>
+        { renderStarredBoards(starredBoards) }
+        { renderPersonalBoards(boards) }
+        { renderOrganizationBoards(organizations) }
+      </div>
+    )
   };
-
-  const renderOrganizationBoards = () => {
-    const { organizations } = props;
-
-    let organizationItem = null;
-    organizationItem = organizations && organizations.map((organization) => {
-
-      if (canBoardsBeRendered() && organization.boards) {
-        return (
-          <Board
-            boardClassName={ getClassName() }
-            displayCreateNewBoard={ props.displayCreateNewBoard }
-            displayBoardOptions={ props.displayBoardOptions }
-            boardsToDisplay={organization.boards} 
-            organizationId={organization._id}
-            boardTitle={organization.displayName} 
-            key={organization._id} 
-          />
-        );
-      } else return null;
-    });
-
-    return organizationItem;
-  };
-
-  const addOrganization = formInput => {
-    const { userId } = props;
-
-    props.organizationActions.addOrganization(userId, formInput.name);
-  };
-
-  const openModal = event => {
-    event.preventDefault();
-
-    props.modalActions.closeAllModals();
-    props.modalActions.openCreateOrganizationModal();
-    props.popOverActions.hidePopOver();
-	};
 
   return (
     <div className={ getClassName() }>
-      { renderStarredBoards() }
-      { renderPersonalBoards() }
-      { renderOrganizationBoards() }
+      { renderBoards() }
       <div className={ getClassName() + "-Create" }>
         <span onClick={ () => openModal(event) }>Create a new team...</span>
       </div>
@@ -128,4 +157,5 @@ export default function Boards(props) {
   );
 }
 
+Boards.defaultTypes = defaultTypes;
 Boards.propTypes = propTypes;

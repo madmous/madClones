@@ -7,7 +7,9 @@ describe('boardsMenu reducer', () => {
       reducer(undefined, {})
     ).toEqual({
         isFocusOnBoardsMenu: false,
-        isBoardsMenuOpen: false
+        isBoardsMenuOpen: false,
+
+        userInput: ''
       }
     )
   })
@@ -36,7 +38,7 @@ describe('boardsMenu actions', () => {
 
     it('should create hideBoardsMenu action', () => {
       const expectedAction = {
-        type: 'HIDE_BOARDS_MENU'
+        type: 'HIDE_BOARDS_MENU',
       };
 
       expect(boardsMenuActions.hideBoardsMenu()).toEqual(expectedAction)
@@ -48,47 +50,71 @@ describe('boardsMenu actions', () => {
           type: 'HIDE_BOARDS_MENU'
         })
       ).toEqual({
-          isBoardsMenuOpen: false
+          isBoardsMenuOpen: false,
+          userInput: ''
         }
       )
     })
 
     it('should create focusOnBoardsMenu action', () => {
-    const expectedAction = {
-      type: 'FOCUS_BOARDS_MENU'
-    }
-
-    expect(boardsMenuActions.focusOnBoardsMenu()).toEqual(expectedAction)
-  })
-
-  it('should handle FOCUS_BOARDS_MENU', () => {
-    expect(
-      reducer([], {
+      const expectedAction = {
         type: 'FOCUS_BOARDS_MENU'
-      })
-    ).toEqual({
-        isFocusOnBoardsMenu: true
       }
-    )
-  })
 
-  it('should create blurOnBoardsMenu action', () => {
-    const expectedAction = {
-      type: 'BLUR_BOARDS_MENU'
-    }
-    
-    expect(boardsMenuActions.blurOnBoardsMenu()).toEqual(expectedAction)
-  })
+      expect(boardsMenuActions.focusOnBoardsMenu()).toEqual(expectedAction)
+    })
 
-  it('should handle BLUR_BOARDS_MENU', () => {
-    expect(
-      reducer([], {
+    it('should handle FOCUS_BOARDS_MENU', () => {
+      expect(
+        reducer([], {
+          type: 'FOCUS_BOARDS_MENU'
+        })
+      ).toEqual({
+          isFocusOnBoardsMenu: true
+        }
+      )
+    })
+
+    it('should create blurOnBoardsMenu action', () => {
+      const expectedAction = {
         type: 'BLUR_BOARDS_MENU'
-      })
-    ).toEqual({
-        isFocusOnBoardsMenu: false
       }
-    )
-  })
+      
+      expect(boardsMenuActions.blurOnBoardsMenu()).toEqual(expectedAction)
+    })
+
+    it('should handle BLUR_BOARDS_MENU', () => {
+      expect(
+        reducer([], {
+          type: 'BLUR_BOARDS_MENU'
+        })
+      ).toEqual({
+          isFocusOnBoardsMenu: false
+        }
+      )
+    })
+
+    it('should create saveUserInput action', () => {
+      const expectedAction = {
+        type: 'SAVE_USER_INPUT',
+        payload: 'b'
+      };
+
+      expect(boardsMenuActions.saveUserInput('b')).toEqual(expectedAction)
+    })
+
+    it('should handle SAVE_USER_INPUT', () => {
+      const payload = 'b';
+
+      expect(
+        reducer([], {
+          type: 'SAVE_USER_INPUT',
+          payload
+        })
+      ).toEqual({
+          userInput: payload
+        }
+      )
+    })
   })
 })

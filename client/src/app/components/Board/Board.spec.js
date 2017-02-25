@@ -8,6 +8,7 @@ const setupShallow = () => {
   const props = {
     displayCreateNewBoard: true,
     displayBoardOptions: false,
+    isOrganizationBoard: false,
     isStarredBoardItem: false,
     boardsToDisplay: [],
     organizationId: '',
@@ -45,7 +46,7 @@ describe('<FontAwesome />', () => {
   it('should render FontAwesome with users as name', () => {
     const wrapper = setupShallow();
 
-    wrapper.setProps({ displayBoardOptions: true });
+    wrapper.setProps({ isOrganizationBoard: true });
     expect(wrapper.find('FontAwesome')).to.have.length(1);
     expect(wrapper.find('FontAwesome').props().name).to.equal('users');
   })

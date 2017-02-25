@@ -22,6 +22,7 @@
   display: block;
   margin: 5px;
   overflow-y: auto;
+  width: 100%;
 }
 
 .BoardsMenu-Content::-webkit-scrollbar {
@@ -35,4 +36,25 @@
 .BoardsMenu-Content::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: #C4C9CC;
+}
+
+.BoardsMenu-Content-Search {
+  padding-right: 4px;
+}
+
+.BoardsMenu-Content-Search input {
+  background-color: #E2E4E6;
+  border: 1px solid #CDD2D4;
+  border-radius: 3px;
+  display: block;
+  margin: 0 0 6px;
+  padding: 6px;
+  width: 100%;
+}
+
+.BoardsMenu-Content-Search input:focus {
+  background: white;
+  border-color: #298FCA;
+  outline: none;
+  box-shadow: 0 0 2px #298FCA;
 }

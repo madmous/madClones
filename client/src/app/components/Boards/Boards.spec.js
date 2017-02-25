@@ -19,20 +19,26 @@ function setupShallow() {
     }],
     organizations: [{
       _id: "org1",
-      boards: [],
+      boards: [{
+        _id: 'orgBoard',
+        id: 'orgBoardId',
+        isStarredBoard: false,
+        name: 'PB2'
+      }],
       displayName: 'T1',
       name: 'T1'
     }],
     boards: [{
       _id: 'board1',
       isStarredBoard: true,
-      name: 'PB1'
+      name: 'PB3'
     }],
 
     displayCreateNewBoard: false,
     displayBoardOptions:false,
 
     userId: '',
+    userInput: '',
 
     isFetchingUserSuccessful: false,
     isFetchingUser: false,
