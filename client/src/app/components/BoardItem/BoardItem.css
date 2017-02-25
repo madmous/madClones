@@ -59,10 +59,10 @@
 
 .Boards-Board-Item-Tile-Title-SubName {
 	color: rgba(255,255,255,.65);
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .Boards-Board-Item-Tile-Option {    
@@ -78,11 +78,27 @@
 	transition: opacity 1.5s;
 }
 
-.Boards-Board-Item-Tile-Starred {
-	color: yellow;
+.BoardsMenu-Boards-Board-Item-Tile-Option {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	right: -20px;
+	opacity: 0;
+	transition: opacity 0.5s;
 }
 
+.BoardsMenu-Boards-Board-Item-Tile-Starred,
+.Boards-Board-Item-Tile-Starred {
+	color: #E6C60D;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile-Starred:hover {
+	color: black;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile-Starred,
 .Boards-Board-Item-Tile-Starred,
+.BoardsMenu-Boards-Board-Item-Tile:hover .BoardsMenu-Boards-Board-Item-Tile-Option,
 .Boards-Board-Item-Tile:hover .Boards-Board-Item-Tile-Option {
 	font-weight: 700;
 	right: 8px;
@@ -100,31 +116,54 @@
 }
 
 .BoardsMenu-Boards-Board-Item-Tile {
-	padding: 0px 9px; 
+	padding: 0px 10px 0px 0px;
 	height: 36px;
 	background-color: #E1EFF7;
 	display: flex;
 	align-items: center;
 	border-radius: 3px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile-Title{
+	padding: 0px 10px;
 }
 
 .BoardsMenu-Boards-Board-Item-Tile-Title-Name {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	padding-right: 10px;
+	width: 100%;
 }
 
 .BoardsMenu-Boards-Board-Item-Tile:hover {
 	cursor: pointer;
+	background-color: #C7E2F1;
+}
+
+.BoardsMenu-Boards-Board-Item-Tile:hover .BoardsMenu-Boards-Board-Item-Thumbnail{
+	background-color: #0079BF;
 }
 
 .BoardsMenu-Boards-Board-Item-Tile-Title {
 	font-weight: bold;
 	overflow: hidden;
 	display: flex;
-  align-items: center;
+	flex-direction: column;
+	align-items: baseline;
+	flex: 1;
 }
 
-.BoardsMenu-Boards-Board-Item-Tile-Option {
-	display: none;
+.BoardsMenu-Boards-Board-Item-Tile-Title-SubName {
+	font-weight: 400;
+	font-size: 9px;
+}
+
+.BoardsMenu-Boards-Board-Item-Thumbnail {
+	width: 36px;
+	height: 36px;
+	background-color: #449DD0;
 }

@@ -14,6 +14,11 @@
 .BoardsMenu-Boards-Create {
   margin: 0;
   padding-right: 4px;
+  display: flex;
+}
+
+.BoardsMenu-Boards-Create span {
+  flex: 1;
 }
 
 .BoardsMenu-Boards-Create span,

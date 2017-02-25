@@ -95,7 +95,7 @@ export default function BoardItem(props) {
   const handleClick = () => {
     props.boardsMenu.hideBoardsMenu();
     props.dispatch(push(`/boards/${props.boardId}`));
-  }  
+  }
   
   const isActiveBoard = () => {
     const { 
@@ -109,6 +109,7 @@ export default function BoardItem(props) {
           className={ `${getClassName()}-Tile` }
           onClick={ handleClick }
         >
+          <span className={ `${getClassName()}-Thumbnail` }></span>
           <span className={ `${getClassName()}-Tile-Title` }>
             <span className={ `${getClassName()}-Tile-Title-Name` }>{ boardName }</span>
             { renderBoardItemSubName() }
