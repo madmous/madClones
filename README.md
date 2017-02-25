@@ -5,6 +5,8 @@ You can also star and unstar all your boards.
 
 Version 2.0.0 added the card view that allows to add cards, card items and move them between cards.
 
+Version 3.0.0 added the boards menu. The user clicks on the boards button available in the header and can see all the boards (starred, personal and organiations) previously created.
+
 Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
 
 ## Live demo
@@ -89,19 +91,21 @@ to another level by making you think about the correct data structure, api and a
 5. Make a pull request.
 6. End to end testing are not required for now.
 
-## Next release (3.0.0)
+## Next release (3.1.0)
 
-* Add a boards menu on the home view
+* Complete the board view that displays cards
 
 ## Updates
 
 * 1.0.0 first release of trello clone
 * 2.0.0 add board view with cards and card items
+* 3.0.0 add boardsmenu
 
 ## Achievements
 
 * Release version 1.0.0
 * Release version 2.0.0
+* Release version 3.0.0
 * Deploy react client on amazon web services S3
 * Deploy express server on amazon web services ECS
 
