@@ -16,12 +16,6 @@ let organizationController = {};
 
 function formatResponse(pUser) {
   return {
-    organizations: pUser.organizations
-  } 
-}
-
-function formatResponse(pUser) {
-  return {
     boards: pUser.boards,
     organizations: pUser.organizations,
     starredBoards: pUser.boardStars

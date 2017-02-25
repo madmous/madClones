@@ -14,7 +14,18 @@ const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
 let cardController = {};
 
+function formatResponse(user, cards) {
+  return {
+    boards: user.boards,
+    organizations: user.organizations,
+    starredBoards: user.boardStars,
+    cards: cards
+  }
+}
+
 cardController.getUserBoardCards = (req, res) => {
+  const reqUser = req.user;
+
   if (!objectIdRegex.test(req.params.idBoard)) {
     return res.status(400).json({
       data: {
@@ -43,7 +54,7 @@ cardController.getUserBoardCards = (req, res) => {
       } 
 
       return res.status(200).json({
-        data: cards.cards
+        data: formatResponse(reqUser, cards.cards)
       });
     });
   }

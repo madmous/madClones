@@ -64,6 +64,9 @@ describe('card actions', () => {
 
   it('should create an action to getCards - success', () => {
     const data = {
+      organizations: [],
+      starredBoards: [],
+      boards: [],
       cards: [],
     };
 
@@ -75,6 +78,18 @@ describe('card actions', () => {
         payload: pathName
       },
       { type: 'LOAD_CARDS_SUCCESS' },
+      {
+        type: 'UPDATE_ORGANIZATIONS',
+        payload: data
+      },
+      {
+        type: 'UPDATE_STARRED_BOARDS',
+        payload: data
+      },
+      {
+        type: 'UPDATE_BOARDS',
+        payload: data
+      },
       {
         type: 'UPDATE_CARDS',
         payload: data
@@ -500,11 +515,13 @@ describe('card reducer', () => {
   })
 
   it('should handle UPDATE_CARDS', () => {
-    const payload = [{
-      _id: '1',
-      cardItems: [],
-      header: "cardHeader"
-    }];
+    const payload = {
+      cards: [{
+        _id: '1',
+        cardItems: [],
+        header: "cardHeader"
+      }]
+    };
 
     expect(
       reducer([], {
@@ -512,7 +529,7 @@ describe('card reducer', () => {
         payload
       })
     ).toEqual({
-        cards: payload
+        cards: payload.cards
       }
     )
   })

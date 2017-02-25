@@ -4,6 +4,12 @@ import fetch from 'isomorphic-fetch';
 import { loginActionCreators } from '../../../../../login/modules/index';
 import { url } from '../../../../../../../utils/url';
 
+import { 
+  starredBoardActionCreators,
+  organizationActionCreators,
+  boardActionCreators
+ } from '../../../../../home/modules/index.js';
+
 const CLOSE_CREATE_CARD_ITEM_FORM = 'CLOSE_CREATE_CARD_ITEM_FORM';
 const OPEN_CREATE_CARD_ITEM_FORM = 'OPEN_CREATE_CARD_ITEM_FORM';
 
@@ -233,7 +239,10 @@ export function getCards(pathname) {
           dispatch(loadCardsFail(jsonData))
         } else {
           dispatch(loadCardsSuccess());
-          dispatch(updateCards(jsonData))
+          dispatch(organizationActionCreators.updateOrganizations(jsonData));
+          dispatch(starredBoardActionCreators.updateStarredBoards(jsonData));
+          dispatch(boardActionCreators.updateBoards(jsonData));
+          dispatch(updateCards(jsonData));
         }
       })
   }
@@ -315,12 +324,12 @@ export default function boardView(state = initialState, action) {
       return Object.assign({}, state, {
         isFetchingCards: true,
         pathname: action.payload
-      })
+      });
     case LOAD_CARDS_SUCCESS:
       return Object.assign({}, state, {
         isFetchingCardsSuccessful: true,
         isFetchingCards: false
-      })
+      });
     case LOAD_CARDS_FAIL:
       return Object.assign({}, state, {
         isFetchingCardsSuccessful: false,
@@ -328,81 +337,81 @@ export default function boardView(state = initialState, action) {
 
         errorMessage: action.payload.error,
         cards: []
-      })
+      });
     case UPDATE_CARDS_REQUEST:
       return Object.assign({}, state, {
         isUpdatingCards: true
-      })
+      });
     case UPDATE_CARDS_SUCCESS:
       return Object.assign({}, state, {
         isUpdatingCardsSuccessful: true,
         isUpdatingCards: false
-      })
+      });
     case UPDATE_CARDS_FAIL:
       return Object.assign({}, state, {
         isUpdatingCardsSuccessful: false,
         isUpdatingCards: false,
 
         errorMessage: action.payload.error
-      })
+      });
     case SAVE_CARD_REQUEST:
       return Object.assign({}, state, {
         isSavingCard: true,
-      })
+      });
     case SAVE_CARD_SUCCESS:
       return Object.assign({}, state, {
         isSavinCardSuccessful: true,
         isSavingCard: false
-      })
+      });
     case SAVE_CARD_FAIL:
       return Object.assign({}, state, {
         isSavinCardSuccessful: false,
         isSavingCard: false,
 
         errorMessage: action.payload.error,
-      })
+      });
     case SAVE_CARD_ITEM_REQUEST:
       return Object.assign({}, state, {
         isSavingCardItem: true,
-      })
+      });
     case SAVE_CARD_ITEM_SUCCESS:
       return Object.assign({}, state, {
         isSavinCardItemSuccessful: true,
         isSavingCardItem: false
-      })
+      });
     case SAVE_CARD_ITEM_FAIL:
       return Object.assign({}, state, {
         isSavinCardItemSuccessful: false,
         isSavingCardItem: false,
         
         errorMessage: action.payload.error
-      })
+      });
     case UPDATE_CARDS:
 			return Object.assign({}, state, {
-				cards: action.payload
-			})
+				cards: action.payload.cards
+			});
     case RESET_CARDS:
 			return Object.assign({}, state, {
 				cards: []
-			})
+			});
     case OPEN_CREATE_CARD_ITEM_FORM:
       return Object.assign({}, state, {
         createCardFormIndexToOpen: action.payload,
         isCreateCardItemFormOpen: true
-      })
+      });
     case CLOSE_CREATE_CARD_ITEM_FORM:
       return Object.assign({}, state, {
         createCardFormIndexToOpen: 0,
         isCreateCardItemFormOpen: false
-      })
+      });
     case FOCUS_CREATE_CARD_ITEM_FORM:
 			return Object.assign({}, state, {
 				isFocusOnCreateCardItemForm: true
-			})
+			});
 		case BLUR_CREATE_CARD_ITEM_FORM:
 			return Object.assign({}, state, {
 				isFocusOnCreateCardItemForm: false
-			})
+			});
     case MOVE_CARD: {
       const newCards = [...state.cards];
       const { lastX, lastY, nextX, nextY } = action;
@@ -416,7 +425,7 @@ export default function boardView(state = initialState, action) {
 
       return Object.assign({}, state, {
 				cards: newCards
-			})
+			});
     }
     default: return state;
   }

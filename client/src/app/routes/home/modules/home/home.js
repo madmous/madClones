@@ -69,10 +69,10 @@ export function getHome() {
           dispatch(modalActionCreators.closeAllModals());
           dispatch(loadHomeSuccess());
 
-          dispatch(organizationActionCreators.updateOrganizations(jsonData))
-          dispatch(starredBoardActionCreators.updateStarredBoards(jsonData))
-          dispatch(boardActionCreators.updateBoards(jsonData))
-          dispatch(cardActionCreators.resetCards())
+          dispatch(organizationActionCreators.updateOrganizations(jsonData));
+          dispatch(starredBoardActionCreators.updateStarredBoards(jsonData));
+          dispatch(boardActionCreators.updateBoards(jsonData));
+          dispatch(cardActionCreators.resetCards());
         }
       }
     );
