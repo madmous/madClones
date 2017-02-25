@@ -38,16 +38,6 @@ export default function Boards(props) {
     return "Boards";
   };
 
-  const filterBoards = items => {
-    return items.filter(item => {
-      return item.name.toLowerCase().indexOf(props.userInput.toLowerCase()) >= 0;
-    });
-  }
-
-  const canBoardsBeRendered = () => {
-    return (!props.isFetchingUser && props.isFetchingUserSuccessful);
-  };
-
   const addOrganization = formInput => {
     const { userId } = props;
 
@@ -62,11 +52,23 @@ export default function Boards(props) {
     props.popOverActions.hidePopOver();
 	};
 
+  const canBoardsBeRendered = () => {
+    return (!props.isFetchingUser && props.isFetchingUserSuccessful);
+  };
+
+  const canBoardsBeDisplayed = boards => {
+    if (props.boardsClassName === 'BoardsMenu') {
+      return boards && boards.length > 0;
+    }
+
+    return boards;
+  };
+
   const renderOrganizationBoards = organizations => {
     let organizationItem = null;
 
     organizationItem = organizations && organizations.length > 0 && organizations.map(organization => {
-      if (canBoardsBeRendered() && organization.boards && organization.boards.length > 0) {
+      if (canBoardsBeRendered() && canBoardsBeDisplayed(organization.boards)) {
         return (
           <Board
             boardClassName={ getClassName() }
@@ -88,7 +90,7 @@ export default function Boards(props) {
   const renderPersonalBoards = boards => {
     let personalBoard = null;
 
-    if (canBoardsBeRendered() && boards && boards.length > 0) {
+    if (canBoardsBeRendered() && canBoardsBeDisplayed(boards)) {
       personalBoard = (
         <Board
           displayCreateNewBoard={ props.displayCreateNewBoard }
@@ -120,6 +122,12 @@ export default function Boards(props) {
     }
 
     return starredBoard;
+  };
+
+  const filterBoards = items => {
+    return items.filter(item => {
+      return item.name.toLowerCase().indexOf(props.userInput.toLowerCase()) >= 0;
+    });
   };
 
   const renderBoards = () => {
