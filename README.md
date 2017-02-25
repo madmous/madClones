@@ -4,6 +4,7 @@ Version 1.0.0 covered the login, sign up and home page: you can create a team an
 You can also star and unstar all your boards. 
 
 Version 2.0.0 added the card view that allows to add cards, card items and move them between cards.
+
 Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
 
 ## Live demo
