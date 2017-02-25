@@ -4,11 +4,10 @@ import React, { Component } from 'react';
 import './SignUpForm.css'
 
 class SignUpForm extends Component {
-
 	getUserNameClass() {
 		let usernameClass = "SignUp-Form-Username";
 		
-		if (this.props.errorMessage.usernameErr) {
+		if (this.props.errorMessage.missingUsername) {
 			usernameClass += " Error"; 
 		}
 
@@ -18,15 +17,15 @@ class SignUpForm extends Component {
 	getUserNameErrorMessage() {
 		const { errorMessage } = this.props;
 
-		if (errorMessage.usernameErr) {
-			return errorMessage.usernameErr;
+		if (errorMessage.missingUsername) {
+			return errorMessage.missingUsername;
 		}
 	}
 
 	getFullNameClass() {
 		let fullNameClass = "SignUp-Form-FullName";
 		
-		if (this.props.errorMessage.fullnameErr) {
+		if (this.props.errorMessage.missingFullname) {
 			fullNameClass += " Error"; 
 		}
 
@@ -36,15 +35,15 @@ class SignUpForm extends Component {
 	getFullNameErrorMessage() {
 		const { errorMessage } = this.props;
 
-		if (errorMessage.fullnameErr) {
-			return errorMessage.fullnameErr;
+		if (errorMessage.missingFullname) {
+			return errorMessage.missingFullname;
 		}
 	}
 
 	getInitialsClass() {
 		let initialsClass = "SignUp-Form-Initials";
 		
-		if (this.props.errorMessage.passwordErr) {
+		if (this.props.errorMessage.missingPassword) {
 			initialsClass += " Error"; 
 		}
 
@@ -54,15 +53,15 @@ class SignUpForm extends Component {
 	getInitialsErrorMessage() {
 		const { errorMessage } = this.props;
 
-		if (errorMessage.initialsErr) {
-			return errorMessage.initialsErr;
+		if (errorMessage.missingInitials) {
+			return errorMessage.missingInitials;
 		}
 	}
 
 	getEmailClass() {
 		let emailClass = "SignUp-Form-Email";
 		
-		if (this.props.errorMessage.emailErr) {
+		if (this.props.errorMessage.missingEmail) {
 			emailClass += " Error"; 
 		}
 
@@ -72,15 +71,15 @@ class SignUpForm extends Component {
 	getEmailErrorMessage() {
 		const { errorMessage } = this.props;
 
-		if (errorMessage.emailErr) {
-			return errorMessage.emailErr;
+		if (errorMessage.missingEmail) {
+			return errorMessage.missingEmail;
 		}
 	}
 
 	getPasswordClass() {
 		let passwordClass = "SignUp-Form-Email";
 		
-		if (this.props.errorMessage.passwordErr) {
+		if (this.props.errorMessage.missingPassword) {
 			passwordClass += " Error"; 
 		}
 
@@ -90,8 +89,8 @@ class SignUpForm extends Component {
 	getPasswordErrorMessage() {
 		const { errorMessage } = this.props;
 
-		if (errorMessage.passwordErr) {
-			return errorMessage.passwordErr;
+		if (errorMessage.missingPassword) {
+			return errorMessage.missingPassword;
 		}
 	}
 
@@ -111,7 +110,7 @@ class SignUpForm extends Component {
 								placeholder={ this.getUserNameErrorMessage() }
 								className={ this.getUserNameClass() }
 								ref="usernameInput"
-								autoFocus={true}
+								autoFocus
 								type="text" 
 								name="username"
 								value="" 
@@ -120,7 +119,7 @@ class SignUpForm extends Component {
 							/>
 							<label htmlFor="fullname">Full Name</label>
 							<Field
-								placeholder={ this.getFullNameErrorMessage() }
+								placeholder={ this.getFullNameErrorMessage()}
 								className={ this.getFullNameClass() }
 								autoFocus={false}
 								type="text" 

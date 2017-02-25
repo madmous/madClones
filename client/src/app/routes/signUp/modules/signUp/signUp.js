@@ -22,9 +22,10 @@ function signUpSuccess() {
   };
 }
 
-function signUpFail() {
+function signUpFail(payload) {
   return {
-    type: SIGN_UP_FAIL
+    type: SIGN_UP_FAIL,
+    payload
   };
 }
 
@@ -36,7 +37,7 @@ export function createUser(formInput) {
       { method: 'POST',
         body: JSON.stringify({
           name: formInput.username,
-          fullname: formInput.username,
+          fullname: formInput.fullname,
           initials: formInput.initials,
           email: formInput.email,
           password: formInput.password,
@@ -50,13 +51,17 @@ export function createUser(formInput) {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(signUpFail());
+          dispatch(signUpFail(jsonData));
 
-          if (jsonData.uiError.usernameErr) {
+          if (jsonData.uiError.missingUsername) {
             dispatch(change('signUpForm', 'username', ''))
           }
+
+          if (jsonData.uiError.missingFullname) {
+            dispatch(change('signUpForm', 'fullname', ''))
+          }
           
-          if (jsonData.uiError.emailErr) {
+          if (jsonData.uiError.missingEmail) {
             dispatch(change('signUpForm', 'email', ''))
           }
 
@@ -75,7 +80,9 @@ export function createUser(formInput) {
 
 const initialState = {
   isFetchingSuccessful: false,
-  isFetching: false
+  isFetching: false,
+
+  errorMessage: {}
 }
 
 export default function signUp(state = initialState, action) {
@@ -92,7 +99,9 @@ export default function signUp(state = initialState, action) {
     case SIGN_UP_FAIL:
       return Object.assign({}, state, {
         isFetchingSuccessful: true,
-        isFetching: false
+        isFetching: false,
+
+        errorMessage: action.payload.uiError
       })
     default: return state;
   }

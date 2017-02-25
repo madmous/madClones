@@ -90,7 +90,15 @@ describe('signUp actions', () => {
 
     const expectedActions = [
       { type: 'SIGN_UP_REQUEST' },
-      { type: 'SIGN_UP_FAIL' }
+      { 
+        type: 'SIGN_UP_FAIL',
+        payload:  {
+          uiError: {
+            'emailErr': '',
+            'usernameErr': '',
+          }
+        }
+      }
     ];
 
     const store = mockStore();
@@ -124,7 +132,9 @@ describe('signUp reducer', () => {
       reducer(undefined, {})
     ).toEqual({
         isFetchingSuccessful: false,
-        isFetching: false
+        isFetching: false,
+
+        errorMessage: {}
       }
     )
   })
@@ -162,11 +172,14 @@ describe('signUp reducer', () => {
     
     expect(
       reducer([], {
-        type: 'SIGN_UP_FAIL'
+        type: 'SIGN_UP_FAIL',
+        payload
       })
     ).toEqual({
         isFetchingSuccessful: true,
-        isFetching: false
+        isFetching: false,
+
+        errorMessage: payload.uiError
       }
     )
   })
