@@ -7,7 +7,7 @@ Version 2.0.0 added the card view that allows to add cards, card items and move 
 
 Version 3.0.0 added the boards menu. The user clicks on the boards button available in the header and can see all the boards (starred, personal and organiations) previously created.
 
-Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous)
+Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous).
 
 ## Live demo
 
@@ -85,8 +85,9 @@ to another level by making you think about the correct data structure, api and a
 
 ## Contribution guidelines
 
+1. Start with the open issues
 1. No direct commit on master or develop.
-2. Create a branch from develop with the fix as a name.
+2. Create a branch from develop with issue number as a name. Exemple: TOC I#1 (TOC = Trello Clone and I = issue)
 4. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side).
 5. Make a pull request.
 6. End to end testing are not required for now.
