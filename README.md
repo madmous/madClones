@@ -1,4 +1,4 @@
-This repo is under maintenance. I started a [HipChat-Clone](https://github.com/Madmous/HipChat-Clone) project. For now the plan is to fix issues and add less new features. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous).
+This repo is now under maintenance since I started a [HipChat-Clone](https://github.com/Madmous/HipChat-Clone) project. For now the plan is to fix issues and add less new features. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous).
 
 Version 1.0.0 covered the login, sign up and home page: you can create a team and add boards in it or directly add them in your personal boards. 
 You can also star and unstar all your boards. 
