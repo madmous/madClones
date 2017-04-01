@@ -5,14 +5,19 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node ./src/index",
-    "start:dev": "NODE_ENV=development nodemon ./src/index",
-    "start:debug": "NODE_ENV=development node --inspect ./src/index",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.spec.js",
-    "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha --inspect --recursive --debug-brk",
+    "build": "babel ./src/lib -d dist",
+    "start": "node dist/index.js",
+    "start:dev": "NODE_ENV=development nodemon ./src/index --exec babel-node",
+    "start:debug": "NODE_ENV=development babel-node ./src/index --debug-brk --inspect",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha ./test --recursive --compilers js:babel-register",
+    "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha ./test --recursive --compilers js:babel-register --inspect --recursive --debug-brk",
     "test:cover": "NODE_ENV=test istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*.spec.js"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-register": "^6.24.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "database-cleaner": "^1.2.0",
@@ -26,12 +31,15 @@
   "dependencies": {
     "async": "^2.1.2",
     "bcrypt": "^0.8.7",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "express-graphql": "^0.6.1",
+    "express-validation": "^1.0.2",
     "global": "^4.3.1",
     "helmet": "^3.1.0",
+    "joi": "^10.3.3",
     "jwt-simple": "^0.5.1",
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0",
@@ -42,7 +50,7 @@
     "winston": "^2.3.0"
   },
   "engines": {
-    "node": "6.9.1"
+    "node": "7.8.0"
   },
   "proxy": "http:://localhost"
 }
