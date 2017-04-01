@@ -1,10 +1,10 @@
-const mongoose = require ('mongoose');
+import mongoose from 'mongoose';
 
-const boardSchema = require ('../boards/boardModel').schema;
+import { BoardSchema } from '../boards/boardModel';
 
 const Schema = mongoose.Schema;
 
-const OrganizationSchema = new Schema({
+export const OrganizationSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -13,7 +13,7 @@ const OrganizationSchema = new Schema({
     type: String,
     required: true
   },
-  boards: [boardSchema]
+  boards: [BoardSchema]
 });
 
-module.exports = mongoose.model('Organization', OrganizationSchema);
+export default mongoose.model('Organization', OrganizationSchema);

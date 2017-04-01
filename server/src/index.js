@@ -1,26 +1,37 @@
 'use strict';
 
-const bodyParser = require ('body-parser');
-const passport   = require ('passport');
-const express    = require ('express');
-const winston    = require ('winston');
-const helmet     = require ('helmet');
+import expressValidation from 'express-validation';
 
-const organizationRoutes  = require ('./api/v1/organizations/organizationRoutes');
-const signUpRoutes        = require ('./api/v1/signUp/signUpRoutes');
-const boardRoutes         = require ('./api/v1/board/boardRoutes');
-const loginRoutes         = require ('./api/v1/login/loginRoutes');
-const userRoutes          = require ('./api/v1/users/userRoutes');
-const homeRoutes          = require ('./api/v1/home/homeRoutes');
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import express from 'express';
+import winston from 'winston';
+import helmet from 'helmet';
+import cors from 'cors';
 
-const config  = require ('./config/config');
-const dbTest  = require ('./config/dbTest');
-const port    = require ('./config/config').port;
-const cors    = require ('cors');
-const log     = require ('./libs/winston')(module);
-const db      = require ('./config/db');
+import getLogger from './libs/winston';
+import { port } from './config/config';
 
-const passportMiddleweare = require ('./utils/passportMiddleweare');
+import {
+  organizationRoutes,
+  signUpRoutes,
+  boardRoutes,
+  loginRoutes,
+  userRoutes,
+  homeRoutes
+} from './api/v1/indexRoutes';
+
+import {
+  authenticatedWithBasic,
+  authenticatedWithToken
+} from './utils/passportMiddleweare';
+
+import {
+  dbTest,
+  db
+} from './config/database';
+
+const log = getLogger(module);
 
 const app = express ();
 
@@ -34,14 +45,24 @@ app.disable('x-powered-by');
 
 app.use('/api/v1/signup', signUpRoutes);
 
-app.use('/api/v1/login', passportMiddleweare.isAuthenticatedWithBasic, loginRoutes);
+app.use('/api/v1/login', authenticatedWithBasic, loginRoutes);
 
-app.use('/api/v1/organizations', passportMiddleweare.isAuthenticatedWithToken, organizationRoutes);
-app.use('/api/v1/boards', passportMiddleweare.isAuthenticatedWithToken, boardRoutes);
-app.use('/api/v1/users', passportMiddleweare.isAuthenticatedWithToken, userRoutes);
-app.use('/api/v1/home', passportMiddleweare.isAuthenticatedWithToken, homeRoutes);
+app.use('/api/v1/organizations', authenticatedWithToken, organizationRoutes);
+app.use('/api/v1/boards', authenticatedWithToken, boardRoutes);
+app.use('/api/v1/users', authenticatedWithToken, userRoutes);
+app.use('/api/v1/home', authenticatedWithToken, homeRoutes);
 
-app.get('*', (req, res) => {
+app.use((err, req, res, next) => {
+  if (err instanceof expressValidation.ValidationError) {
+    const unifiedErrorMessage = err.errors.map(error => error.messages.join('. ')).join(' and ');
+
+    return res.status(err.status).json({
+      message: unifiedErrorMessage
+    });
+  }
+});
+
+app.use((req, res) => {
 	res.status(404).json({
 		status: 404,
 		message: 'The requested URL ' + req.originalUrl + ' was not found on the server.'
@@ -62,4 +83,4 @@ let server = app.listen(port, (err) => {
   log.info(`server is listening on ${port}`);
 });
 
-module.exports = server;
+export default server;

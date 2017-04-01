@@ -3,7 +3,7 @@ const bcrypt   = require ('bcrypt');
 
 const Schema = mongoose.Schema;
 
-const BoardSchema = new Schema({
+export const BoardSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -20,4 +20,4 @@ const BoardSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Board', BoardSchema);
+export default mongoose.model('Board', BoardSchema);

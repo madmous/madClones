@@ -1,65 +1,30 @@
 'use strict';
 
-const async = require ('async');
+import async from 'async';
+import jwt from 'jwt-simple';
 
-const models = require ('../../../models/index');
-const config = require ('../../../config/config');
-const log    = require ('../../../libs/winston')(module);
-const jwt    = require('jwt-simple');
-
-const secret = require('../../../config/config').secret;
-
-const userModel = models.userModel;
+import { userModel } from '../../../models/index';
+import { secret } from '../../../config/config';
 
 let signUpController = {};
 
+function buildResponse(statusCode, data, res) {
+  if (statusCode === 200) {
+    return res.status(200).json({
+      data: data
+    })
+  } else if (statusCode === 404) {
+    return res.status(404).json({
+      data: data
+    })
+  }
+}
+
 signUpController.saveUser = (req, res) => {
-  async.waterfall([
-    (callback) => {
-      let cbErrorMsg = {};
-
-      const isNameValid = req.body.name !== undefined;
-      const isFullNameValid = req.body.fullname !== undefined;
-      const isInitialsValid = req.body.initials !== undefined;
-      const isEmailValid = req.body.email !== undefined;
-      const isPasswordValid = req.body.password !== undefined;
-
-      if (!isNameValid) {
-        cbErrorMsg.missingUsername = 'Please enter your name'; 
-      } 
-
-      if (!isFullNameValid) {
-        cbErrorMsg.missingFullname = 'Please enter your full name'; 
-      } 
-
-      if (!isInitialsValid) {
-        cbErrorMsg.missingInitials = 'Please enter your initials'; 
-      } 
-
-      if (!isEmailValid) {
-        cbErrorMsg.missingEmail = 'Please enter your email'; 
-      } 
-
-      if (!isPasswordValid) {
-        cbErrorMsg.missingPassword = 'Please enter your password';
-      } 
-
-      if (!isNameValid || 
-          !isFullNameValid || 
-          !isInitialsValid || 
-          !isEmailValid || 
-          !isPasswordValid) {
-        callback(cbErrorMsg);
-      } else {
-        callback();
-      }
-    },
-    (callback) => {
-      userModel.findOne({name: req.body.name}, callback);
-    },
-    (user, callback) => {
+  userModel.findOne({name: req.body.name})
+    .then(user => {
       if (user) {
-        callback({ missingUsername: 'That name is already taken' });
+        buildResponse(404, 'That name is already taken', res);
       } else {
         const user = new userModel({
           name: req.body.name,
@@ -69,38 +34,11 @@ signUpController.saveUser = (req, res) => {
           email: req.body.email
         });
 
-        user.save(callback);
+        return user.save();
       }
-    },
-    (user, numAffected, callback) => {
-      if (!user) {
-        const msg = 'User was not saved successfully';
-        
-        log.info(msg);
-        callback(msg);
-      } else {
-
-        log.info('User was saved successfully');
-        callback(null, user);          
-      }
-    }
-  ], (error, user) => { 
-    if (error) {
-      return res.status(400).json({
-        data: {
-          uiError : error
-        }
-      });
-    } 
-
-    const token = jwt.encode(user._id, secret);
-
-    return res.status(200).json({
-      data: {
-				token: token
-			}
-    });
-  });
+    })
+    .then(user => buildResponse(200, jwt.encode(user._id, secret), res))
+    .catch(err => buildResponse(500, err, res));
 };
 
 module.exports = signUpController;

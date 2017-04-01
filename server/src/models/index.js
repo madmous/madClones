@@ -1,11 +1,17 @@
-let index = {};
+import organizationModel from './organizations/organizationModel';
+import boardStarModel from './boardStars/boardStarModel';
+import cardItemModel from './cardItem/cardItemModel';
+import boardModel from './boards/boardModel';
+import cardsModel from './cards/cardsModel';
+import cardModel from './card/cardModel';
+import userModel from './users/userModel';
 
-index.organizationModel = require ('./organizations/organizationModel');
-index.boardStarModel    = require ('./boardStars/boardStarModel');
-index.cardItemModel     = require ('./cardItem/cardItemModel');
-index.boardModel        = require ('./boards/boardModel');
-index.cardsModel        = require ('./cards/cardsModel');
-index.cardModel         = require ('./card/cardModel');
-index.userModel         = require ('./users/userModel');
-
-module.exports = index;
+export {
+  organizationModel,
+  boardStarModel,
+  cardItemModel,
+  boardModel,
+  cardsModel,
+  cardModel,
+  userModel
+}

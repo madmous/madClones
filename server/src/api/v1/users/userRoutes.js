@@ -1,20 +1,21 @@
 'use strict';
 
-const express = require ('express');
-const router  = express.Router();
+const validate = require ('express-validation');
+const express  = require ('express');
+const router   = express.Router();
 
+import {
+  updateUser,
+  removeUser,
+  getUser
+} from './userController';
+
+const userValidation = require ('./userValidation');
 const userController = require ('./userController');
 
-router.get('/', (req, res) => {
-  userController.getUser(req, res);
-});
-
-router.put('/', (req, res) => {
-  userController.updateUser(req, res);
-});
-
-router.delete('/', (req, res) => {
-  userController.removeUser(req, res);
-});
+router.route('/')
+  .get(getUser)
+  .put(validate(userValidation.updateUser), updateUser)
+  .delete(removeUser)
 
 module.exports = router;

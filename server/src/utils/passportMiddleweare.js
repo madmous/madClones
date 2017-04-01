@@ -1,15 +1,15 @@
-const passport      = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
-const async         = require('async');
-const jwt           = require('jwt-simple');
+import { BasicStrategy } from 'passport-http';
+import passport from 'passport';
+import async from 'async';
+import jwt from 'jwt-simple';
 
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt  = require('passport-jwt').ExtractJwt;
+import { userModel } from '../models/index';
+import { secret } from '../config/config';
 
-const secret = require('../config/config').secret;
-
-const models    = require('../models/index');
-const userModel = models.userModel;
+import {
+  ExtractJwt,
+  Strategy 
+} from 'passport-jwt';
 
 passport.use(new BasicStrategy(
   function(username, password, callback) {
@@ -47,7 +47,7 @@ let opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
 opts.secretOrKey = secret;
 
-passport.use(new JwtStrategy(opts, 
+passport.use(new Strategy(opts, 
   function(jwt_payload, callback) {
     const userId = jwt_payload;
     
@@ -66,5 +66,5 @@ passport.use(new JwtStrategy(opts,
   }
 ));
 
-exports.isAuthenticatedWithToken = passport.authenticate('jwt', { session : false });
-exports.isAuthenticatedWithBasic = passport.authenticate('basic', { session : false });
+export const authenticatedWithToken = passport.authenticate('jwt', { session : false });
+export const authenticatedWithBasic = passport.authenticate('basic', { session : false });

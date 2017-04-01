@@ -3,39 +3,47 @@
 const express = require ('express');
 const router  = express.Router();
 
-const organizationController = require ('./organizationController');
+import {
+  removeOrganizationBoardStar,
+  saveOrganizationBoardStar,
+  removeOrganizationBoard,
+  updateOrganizationBoard,
+  saveOrganizationBoard,
+  removeOrganization,
+  updateOrganization,
+  saveOrganization,
+} from './organizationController';
 
 router.post('/', (req, res) => {
-  organizationController.saveOrganization(req, res);
+  saveOrganization(req, res);
 });
 
 router.put('/:idOrganization', (req, res) => {
-  organizationController.updateOrganization(req, res);
+  updateOrganization(req, res);
 });
 
 router.delete('/:idOrganization', (req, res) => {
-  organizationController.removeOrganization(req, res);
+  removeOrganization(req, res);
 });
 
 router.post('/:idOrganization/boards', (req, res) => {
-  organizationController.saveOrganizationBoard(req, res);
+  saveOrganizationBoard(req, res);
 });
 
 router.put('/:idOrganization/boards/:idBoard', (req, res) => {
-  organizationController.updateOrganizationBoard(req, res);
+  updateOrganizationBoard(req, res);
 });
 
 router.delete('/:idOrganization/boards/:idBoard', (req, res) => {
-  organizationController.removeOrganizationBoard(req, res);
+  removeOrganizationBoard(req, res);
 });
 
 router.post('/:idOrganization/boards/:idBoard/boardstars', (req, res) => {
-  organizationController.saveOrganizationBoardStar(req, res);
+  saveOrganizationBoardStar(req, res);
 });
 
 router.delete('/:idOrganization/boards/:idBoard/boardstars', (req, res) => {
-  organizationController.removeOrganizationBoardStar(req, res);
+  removeOrganizationBoardStar(req, res);
 });
 
-
-module.exports = router;
+export default router;

@@ -1,15 +1,15 @@
-const mongoose = require ('mongoose');
+import mongoose from 'mongoose';
 
-const cardItemSchema = require ('../cardItem/cardItemModel.js').schema;
+import { CardItemSchema } from '../cardItem/cardItemModel';
 
 const Schema = mongoose.Schema;
 
-const CardItemsSchema = new Schema({
+export const CardItemsSchema = new Schema({
   header: {
     type: String,
     required: true
   },
-  cardItems: [cardItemSchema]
+  cardItems: [CardItemSchema]
 });
 
-module.exports = mongoose.model('CardItems', CardItemsSchema);
+export default mongoose.model('CardItems', CardItemsSchema);

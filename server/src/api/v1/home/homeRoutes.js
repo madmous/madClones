@@ -3,10 +3,10 @@
 const express = require ('express');
 const router  = express.Router();
 
-const homeController = require ('./homeController');
+import { getBoardsAndOrganizations } from './homeController';
 
 router.get('/', (req, res) => {
-  homeController.getBoardsAndOrganizations(req, res);
+  getBoardsAndOrganizations(req, res);
 });
 
-module.exports = router;
+export default router;

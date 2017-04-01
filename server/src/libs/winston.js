@@ -1,6 +1,6 @@
-const winston = require ('winston');
+import winston from 'winston';
 
-function getLogger (module) {
+export default function getLogger (module) {
   let path = module.filename.split('/').slice(-2).join('/');
 
   return new winston.Logger({
@@ -16,5 +16,3 @@ function getLogger (module) {
     ]
   });
 }
-
-module.exports = getLogger;

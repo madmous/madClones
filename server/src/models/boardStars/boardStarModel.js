@@ -2,7 +2,7 @@ const mongoose = require ('mongoose');
 
 const Schema = mongoose.Schema;
 
-const BoardStarSchema = new Schema({
+export const BoardStarSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId,
     required: true
@@ -23,4 +23,4 @@ const BoardStarSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('BoardStar', BoardStarSchema);
+export default mongoose.model('BoardStar', BoardStarSchema);

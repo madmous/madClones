@@ -1,137 +1,94 @@
 'use strict';
 
-const async = require ('async');
+import getLogger from '../../../libs/winston';
 
-const models = require ('../../../models/index');
-const config = require ('../../../config/config');
-const log    = require ('../../../libs/winston')(module);
-
-const cardItemModel = models.cardItemModel;
-const cardsModel    = models.cardsModel;
-const cardModel     = models.cardModel;
+import {
+  cardItemModel,
+  cardsModel,
+  cardModel
+} from '../../../models/index';
 
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
+const log = getLogger(module);
 
-let cardController = {};
-
-function formatResponse(user, cards) {
-  return {
-    boards: user.boards,
-    organizations: user.organizations,
-    starredBoards: user.boardStars,
-    cards: cards
+const buildResponse = (statusCode, data, res) => {
+  if (statusCode === 200) {
+    return res.status(200).json({
+      data
+    })
+  } else {
+    return res.status(statusCode).json({
+      error: data
+    })
   }
-}
+};
 
-cardController.getUserBoardCards = (req, res) => {
+export const getUserBoardCards = (req, res) => {
   const reqUser = req.user;
 
   if (!objectIdRegex.test(req.params.idBoard)) {
-    return res.status(400).json({
-      data: {
-        error: 'Please enter a valid board id'
-      }
-    });
+    buildResponse(400, 'Please enter a valid board id', res);
   } else {
-    async.waterfall([
-      (callback) => {
-        cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard }, callback);
-      },
-      (cards, callback) => {
+    cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
+      .then(cards => {
         if (!cards) {
-          callback('The board associated to that user does not exist');
+          buildResponse(400, 'The board associated to that user does not exist', res);
         } else {
-          callback(null, cards);
+          buildResponse(200, cards, res)          
         }
-      }
-    ], (error, cards) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: formatResponse(reqUser, cards.cards)
-      });
-    });
+      })
+      .catch(error => buildResponse(500, error, res));
   }
-}
+};
 
-cardController.updateUserBoardCards = (req, res) => {
+export const updateUserBoardCards= (req, res) => {
   if (!objectIdRegex.test(req.params.idBoard)) {
-    return res.status(400).json({
-      data: {
-        error: 'Please enter a valid board id'
-      }
-    });
+    buildResponse(400, 'Please enter a valid board id', res);
   } else if (!req.body.cards) {
-    return res.status(400).json({
-      data: {
-        error: 'Please add cards'
-      }
-    });
+    buildResponse(400, 'Please add cards to update', res);
   } else {
-    async.waterfall([
-      (callback) => {
-        cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard }, callback);
-      },
-      (cards, callback) => {
+
+    cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
+      .then(cards => {
         if (!cards) {
-          callback('The board associated to that user does not exist');
+          buildResponse(400, 'The board associated to that user does not exist', res);
         } else {
           cards.cards = req.body.cards;
 
-          cards.save(callback);
+          return cards.save()
+            .then(cards => buildResponse(200, cards.cards, res))
+            .catch(error => buildResponse(500, error, res));         
         }
-      },
-      (cards, numRowAffected, callback) => {
-        if (!cards) {
-          callback('Error while saving the card');
-        } else {
-          callback(null, cards);    
-        }
-      }
-    ], (error, cards) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
+      })
+      .catch(error => {
+        log.error(error);
 
-      return res.status(200).json({
-        data: cards.cards
+        buildResponse(500, error, res);
       });
-    });
   }
-}
+};
+
+const saveCards = (cards, res) => {
+  cards.save()
+    .then(cards => buildResponse(200, cards.cards, res))
+    .catch(error => buildResponse(500, error, res));
+};
 
 // TODO : test boardId is a valid existing board
-cardController.saveUserBoardCard = (req, res) => {
+export const saveUserBoardCard = (req, res) => {
   if (!req.body.name) {
-    return res.status(400).json({
-      data: {
-        uiError: 'Please enter a card name'
-      }
-    });
+    buildResponse(400, 'Please enter a card name', res);
   } else {
-    async.waterfall([
-      (callback) => {
-        cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard }, callback);
-      },
-      (cards, callback) => {
+    cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
+      .then(cards => {
         let card = new cardModel({
           header: req.body.name
-        })
+        });
 
         if (cards) {
           cards.cards.push(card);
 
-          cards.save(callback);
+          saveCards(cards, res);
         } else {
           let cards = new cardsModel({
             boardId: req.params.idBoard,
@@ -139,84 +96,38 @@ cardController.saveUserBoardCard = (req, res) => {
             cards: card
           });
 
-          cards.save(callback);
+          saveCards(cards, res);
         }
-      },
-      (cards, numRowAffected, callback) => {
-        if (!cards) {
-          callback('Error while saving the card');
-        } else {
-          callback(null, cards);    
-        }
-      }
-    ], (error, cards) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: cards.cards
-      });
-    });
+      })
+      .catch(error => buildResponse(500, error, res));
   }
 };
 
-cardController.saveUserBoardCardItem = (req, res) => {
-
+export const saveUserBoardCardItem = (req, res) => {
   if (!req.body.name) {
-    return res.status(400).json({
-      data: {
-        uiError: 'Please enter a card item name'
-      }
-    });
+    buildResponse(400, 'Please enter a card item name', res);
   } else {
-    async.waterfall([
-      (callback) => {
-        cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard }, callback);
-      },
-      (cards, callback) => {
-        if (cards === undefined) {
-          callback('This user does not have any cards');
+    cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
+      .then(cards => {
+        if (!cards) {
+          buildResponse(404, 'This user does not have any cards', res);
         } else {
           let card = cards.cards.id(req.params.idCard);
 
-          if (card === undefined) {
-            callback('That card does not exist');
+          if (!card) {
+            buildResponse(404, 'That card does not exist', res);
           } else {
             let cardItem = new cardItemModel({
               name: req.body.name
             })
 
             card.cardItems.push(cardItem);
-            cards.save(callback);
-          }
-        }
-      },
-      (cards, numRowAffected, callback) => {
-        if (!cards) {
-          callback('Error while saving the card');
-        } else {
-          callback(null, cards);    
-        }
-      }
-    ], (error, cards) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
 
-      return res.status(200).json({
-        data: cards.cards
-      });
-    });
+            return cards.save();
+          }
+        }
+      })
+      .then(cards => buildResponse(200, cards.cards, res))
+      .catch(error => buildResponse(500, error, res));
   }
 };
-
-module.exports = cardController;

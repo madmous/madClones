@@ -1,13 +1,12 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const chaiHttp = require('chai-http');
-const chai     = require('chai');
+import mongoose from 'mongoose';
+import chaiHttp from 'chai-http';
+import chai from 'chai';
 
-const userModel = require('../../src/models/index').userModel;
+import { userModel } from '../../src/models/index';
 
-const log = require('../../src/libs/winston')(module);
-const app	= require('../../src/index');
+import app from '../../src/index';
 
 chai.use(chaiHttp);
 
@@ -39,7 +38,7 @@ describe('Users' , () => {
 			.send(user)
 			.end((err, res) => {
 				assert.equal(res.status, '200', 'status equals 200');
-				token = res.body.data.token;
+				token = res.body.data;
 
 				done();
 			});
@@ -74,7 +73,7 @@ describe('Users' , () => {
 	});
 
 	describe('/PUT', () => {
-  
+
 		it ('should update user - success', done => {
 			const user = {
 				name: 'testNameUpdated',
@@ -90,81 +89,6 @@ describe('Users' , () => {
 					assert.equal(res.status, '200', 'status equals 200');
 					assert.notEqual(res.body.data.user._id, undefined, 'User has an id value');
 					assert.equal(res.body.data.user.fullname, 'testFullnameUpdated', 'User fullname is testFullnameUpdated');
-
-					done();
-				});
-		});
-
-		it ('should not update user - fail', done => {
-			const user = {
-				fullname: 'testFullnameUpdated',
-				initials: 'testInitialsUpdated'
-			};
-			
-			chai.request(app)
-				.put(userUrl)
-				.set('Authorization', `JWT ${token}`)
-				.send(user)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 'status equals 400 because name is missing');
-					assert.equal(res.body.data.error.missingName, 
-							'Please enter your name');
-
-					done();
-				});
-		});
-
-		it ('should not update user - fail', done => {
-			const user = {
-				name: 'testNameUpdated',
-				initials: 'testInitialsUpdated'
-			};
-			
-			chai.request(app)
-				.put(userUrl)
-				.set('Authorization', `JWT ${token}`)
-				.send(user)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 'status equals 400 because full name is missing');
-					assert.equal(res.body.data.error.missingFullName, 
-							'Please enter your full name');
-
-					done();
-				});
-		});
-
-		it ('should not update user - fail', done => {
-			const user = {
-				name: 'testNameUpdated',
-				fullname: 'testFullnameUpdated'
-			};
-			
-			chai.request(app)
-				.put(userUrl)
-				.set('Authorization', `JWT ${token}`)
-				.send(user)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 'status equals 400 because initials are missing');
-					assert.equal(res.body.data.error.missingInitials, 
-							'Please enter your initials');
-
-					done();
-				});
-		});
-
-		it ('should not update user - fail', done => {			
-			chai.request(app)
-				.put(userUrl)
-				.set('Authorization', `JWT ${token}`)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because username, full name and initials are missing');
-					assert.equal(res.body.data.error.missingName, 
-							'Please enter your name');
-					assert.equal(res.body.data.error.missingFullName, 
-							'Please enter your full name');
-					assert.equal(res.body.data.error.missingInitials, 
-							'Please enter your initials');
 
 					done();
 				});

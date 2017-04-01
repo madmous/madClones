@@ -1,21 +1,16 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const chaiHttp = require('chai-http');
-const chai     = require('chai');
+import mongoose from 'mongoose';
+import chaiHttp from 'chai-http';
+import chai from 'chai';
 
-const models = require('../../src/models/index');
+import {
+	organizationModel,
+  boardModel,
+  userModel
+} from '../../src/models/index';
 
-const organizationModel = models.organizationModel;
-const boardStarModel    = models.boardStarModel;
-const cardItemModel     = models.cardItemModel;
-const boardModel        = models.boardModel;
-const cardsModel        = models.cardsModel;
-const cardModel         = models.cardModel;
-const userModel         = models.userModel;
-
-const log = require('../../src/libs/winston')(module);
-const app	= require('../../src/index');
+import app from '../../src/index';
 
 chai.use(chaiHttp);
 

@@ -1,25 +1,15 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const chaiHttp = require('chai-http');
-const chai     = require('chai');
+import mongoose from 'mongoose';
+import chaiHttp from 'chai-http';
+import chai from 'chai';
 
-const models = require('../../src/models/index');
-
-const organizationModel = models.organizationModel;
-const boardStarModel    = models.boardStarModel;
-const cardItemModel     = models.cardItemModel;
-const boardModel        = models.boardModel;
-const cardsModel        = models.cardsModel;
-const cardModel         = models.cardModel;
-const userModel         = models.userModel;
-
-const log = require('../../src/libs/winston')(module);
-const app	= require('../../src/index');
+import { userModel } from '../../src/models/index';
+import app from '../../src/index';
 
 chai.use(chaiHttp);
 
-const organizationsUrl = '/api/v1/organizations/';
+const organizationsUrl = '/api/v1/organizations';
 const loginUrl = '/api/v1/login/';
 const homeUrl = '/api/v1/home/';
 
@@ -87,60 +77,6 @@ describe('Organization' , () => {
 					done();
 				});
 		});
-
-    it ('should create an organization - fail', done => {
-      const organization = {
-				displayName: 'organizationDisplayName'
-			};
-
-			chai.request(app)
-				.post(organizationsUrl)
-				.set('Authorization', `JWT ${token}`)
-        .send(organization)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because name is missing');
-					assert.equal(res.body.data.uiError.missingName, 
-							'Please enter an organization name');
-
-					done();
-				});
-		});
-
-    it ('should create an organization - fail', done => {
-      const organization = {
-        name: 'organizationName'
-			};
-
-			chai.request(app)
-				.post(organizationsUrl)
-				.set('Authorization', `JWT ${token}`)
-        .send(organization)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because display name is missing');
-					assert.equal(res.body.data.uiError.missingDisplayName, 
-							'Please enter an organization display name');
-
-					done();
-				});
-		});
-
-    it ('should create an organization - fail', done => {
-			chai.request(app)
-				.post(organizationsUrl)
-				.set('Authorization', `JWT ${token}`)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because name and display name are missing');
-          assert.equal(res.status, '400', 
-							'Please enter an organization name');
-					assert.equal(res.body.data.uiError.missingDisplayName, 
-							'Please enter an organization display name');
-
-					done();
-				});
-		});
 	});
 
 	describe('/PUT organization', () => {
@@ -160,61 +96,6 @@ describe('Organization' , () => {
 					assert.equal(1, res.body.data.organizations.length);
 					assert.equal(organization.name, res.body.data.organizations[0].name);
 					assert.equal(organization.displayName, res.body.data.organizations[0].displayName);
-
-					done();
-				});
-		});
-
-    it ('should update an organization - fail', done => {
-      const organization = {
-				displayName: 'organizationDisplayNameUpdated'
-			};
-
-			chai.request(app)
-				.put(`${organizationsUrl}/${organizationId}`)
-				.set('Authorization', `JWT ${token}`)
-        .send(organization)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because name is missing');
-					assert.equal(res.body.data.uiError.missingName, 
-							'Please enter an organization name');
-
-					done();
-				});
-		});
-
-    it ('should update an organization - fail', done => {
-      const organization = {
-				name: 'organizationNameUpdated'
-			};
-
-			chai.request(app)
-				.put(`${organizationsUrl}/${organizationId}`)
-				.set('Authorization', `JWT ${token}`)
-        .send(organization)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because display name is missing');
-					assert.equal(res.body.data.uiError.missingDisplayName, 
-							'Please enter an organization display name');
-
-					done();
-				});
-		});
-
-
-    it ('should update an organization - fail', done => {
-			chai.request(app)
-				.put(`${organizationsUrl}/${organizationId}`)
-				.set('Authorization', `JWT ${token}`)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because name and display name are missing');
-          assert.equal(res.status, '400', 
-							'Please enter an organization name');
-					assert.equal(res.body.data.uiError.missingDisplayName, 
-							'Please enter an organization display name');
 
 					done();
 				});
@@ -262,7 +143,7 @@ describe('Organization' , () => {
 
 	describe('/PUT organization board', () => {
 
-		it ('should update a board to an organization - success', done => {
+		it ('should update an organization board name - success', done => {
       const board = {
 				name: 'boardNameUpdated',
 			};
@@ -270,27 +151,9 @@ describe('Organization' , () => {
 			chai.request(app)
 				.put(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}`)
 				.set('Authorization', `JWT ${token}`)
-        .send(board)
+				.send(board)
 				.end((err, res) => {
-					organizationBoardId = res.body.data.organizations[0].boards[0]._id;
-
 					assert.equal(res.status, '200', 'status equals 200')
-					assert.equal(1, res.body.data.organizations[0].boards.length);
-					assert.equal(board.name, res.body.data.organizations[0].boards[0].name);
-
-					done();
-				});
-		});
-
-		it ('should update a board to an organization - success', done => {
-			chai.request(app)
-				.put(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}`)
-				.set('Authorization', `JWT ${token}`)
-				.end((err, res) => {
-					assert.equal(res.status, '400', 
-							'status equals 400 because name is missing');
-          assert.equal(res.status, '400', 
-							'Please enter a board name');
 
 					done();
 				});

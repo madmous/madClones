@@ -2,11 +2,11 @@ const mongoose = require ('mongoose');
 
 const Schema = mongoose.Schema;
 
-const CardItemSchema = new Schema({
+export const CardItemSchema = new Schema({
   name: {
     type: String,
     required: true
   }
 });
 
-module.exports = mongoose.model('CardItem', CardItemSchema);
+export default mongoose.model('CardItem', CardItemSchema);

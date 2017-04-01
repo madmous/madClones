@@ -1,17 +1,10 @@
 'use strict';
 
-const async = require ('async');
+import async from 'async';
 
-const models = require ('../../../models/index');
-const config = require ('../../../config/config');
-const log    = require ('../../../libs/winston')(module);
+import { userModel } from '../../../models/index';
 
-const userModel = models.userModel;
-
-let loginController = {};
-
-loginController.authenticate = (req, res) => {
-
+export function authenticate(req, res) {
 	const reqUser = req.user;
 
   if (reqUser.err) {
@@ -28,5 +21,3 @@ loginController.authenticate = (req, res) => {
     });
 	}
 };
-
-module.exports = loginController;

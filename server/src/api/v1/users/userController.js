@@ -1,132 +1,52 @@
 'use strict';
 
-const async = require ('async');
+import { userModel } from '../../../models/index';
 
-const models = require ('../../../models/index');
-const config = require ('../../../config/config');
-const log    = require ('../../../libs/winston')(module);
-
-const userModel = models.userModel;
-
-const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
-
-let userController = {};
-
-function formatResponse(pUser) {
-  return {
-    user: {
-      _id: pUser._id,
-      fullname: pUser.fullname,
-    }
-  } 
+const buildResponse = (statusCode, data, res) => {
+  if (statusCode === 200) {
+    return res.status(200).json({
+      data: {
+        user: {
+          _id: data._id,
+          fullname: data.fullname,
+        }
+      }
+    });
+  } else {
+    return res.status(statusCode).json({
+      data: data
+    });
+  }
 }
 
-userController.getUser = (req, res) => {
+export const getUser = (req, res) => {
   const user = req.user;
 
   if (!user) {
-    return res.status(404).json({
-      data: {
-        error: req.err
-      }
-    });
+    buildResponse(404, req.err, res);
   } else {
-    return res.status(200).json({
-      data: formatResponse(user)
-    });
+    buildResponse(200, user, res);
 	}
 };
 
-userController.updateUser = (req, res) => {
-  let cbErrorMsg = {};
+export const updateUser = (req, res) => {
+  const errorMessage = 'Sorry. I could not update that user';
+  const user = req.user;
 
-  const isNameValid = req.body.name !== undefined;
-  const isFullNameValid = req.body.fullname !== undefined;
-  const isInitialsValid = req.body.initials !== undefined;
+  user.name = req.body.name; 
+  user.fullname = req.body.fullname;
+  user.initials = req.body.initials;
 
-  if (!isNameValid) {
-    cbErrorMsg.missingName = 'Please enter your name'; 
-  } 
-
-  if (!isFullNameValid) {
-    cbErrorMsg.missingFullName = 'Please enter your full name'; 
-  } 
-
-  if (!isInitialsValid) {
-    cbErrorMsg.missingInitials = 'Please enter your initials'; 
-  }
-
-  if (!isNameValid || 
-      !isFullNameValid || 
-      !isInitialsValid) {
-
-    return res.status(400).json({
-      data: {
-        error: cbErrorMsg
-      }
-    });
-  } else {
-    async.waterfall([
-      (callback) => {
-        let user = req.user;
-
-        user.name = req.body.name; 
-        user.fullname = req.body.fullname;
-        user.initials = req.body.initials;
-
-        user.save(callback);
-      },
-      (user, numAffected, callback) => {
-        if (!user) {
-          callback('Sorry. I could not update that user');
-        } else {
-          callback(null, user);
-        }
-      }
-    ], (error, user) => { 
-      if (error) {
-        return res.status(404).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: formatResponse(user)
-      });
-    });
-  }
+  user.save()
+    .then(user => buildResponse(200, user, res))
+    .catch(error => buildResponse(404, errorMessage, res));
 };
 
-userController.removeUser = (req, res) => {
+export const removeUser = (req, res) => {
+  const errorMessage = 'Sorry. I could not remove that user';
+  const user = req.user;
 
-  async.waterfall([
-    (callback) => {
-      req.user.remove(callback)
-    },
-    (user, callback) => {
-
-      if (!user) {
-        callback('Sorry. I could not remove that user');
-      } else {
-        callback(null, user);
-      }
-    }
-  ], (error, user) => { 
-
-    if (error) {
-      return res.status(404).json({
-        data: {
-          error
-        }
-      });
-    }
-
-    return res.status(200).json({
-      data: formatResponse(user)
-    });
-  });
+  user.remove()
+    .then(user => buildResponse(200, user, res))
+    .catch(error => buildResponse(404, errorMessage, res));
 };
-
-module.exports = userController;

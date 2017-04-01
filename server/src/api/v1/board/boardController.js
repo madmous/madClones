@@ -1,27 +1,97 @@
 'use strict';
 
-const async = require ('async');
-
-const models = require ('../../../models/index');
-const config = require ('../../../config/config');
-const log    = require ('../../../libs/winston')(module);
-
-const boardStarModel = models.boardStarModel;
-const boardModel     = models.boardModel;
+import {
+  boardStarModel,
+  boardModel
+} from '../../../models/index';
 
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
-let boardController = {};
-
-function formatResponse(pUser) {
+const formatResponse = user => {
   return {
-    boards: pUser.boards,
-    organizations: pUser.organizations,
-    starredBoards: pUser.boardStars
+    boards: user.boards,
+    organizations: user.organizations,
+    starredBoards: user.boardStars
   }
-}
+};
 
-function starredBoardIndex(starredBoards, boardId) {
+const buildResponse = (statusCode, data, res) => {
+  if (statusCode === 200) {
+    return res.status(200).json({
+      data: formatResponse(data)
+    })
+  } else {
+    return res.status(statusCode).json({
+      error: data
+    })
+  }
+};
+
+export const saveUserBoard = (req, res) => {
+  if (!req.body.name) {
+    buildResponse(400, 'Please enter a board name', res);
+  } else {
+    let user = req.user;
+
+    let board = new boardModel({
+      name: req.body.name
+    });
+
+    user.boards.push(board);
+
+    user.save()
+      .then(user => buildResponse(200, user, res))
+      .catch(error => buildResponse(500, error, res));
+  }
+};
+
+export const removeUserBoard = (req, res) => {
+  if (!objectIdRegex.test(req.params.idBoard)) {
+    buildResponse(400, 'Please enter a valid board id', res);
+  } else {
+    let user = req.user;
+    let board = user.boards.id(req.params.idBoard);
+
+    if (!board) {
+      buildResponse(404, 'That board does not exist', res);
+    } else {
+      board.remove();
+
+      user.save()
+      .then(user => buildResponse(200, user, res))
+      .catch(error => buildResponse(500, error, res));
+    }
+  }
+};
+
+export const saveUserBoardStar = (req, res) => {
+  if (!objectIdRegex.test(req.params.idBoard)) {
+    buildResponse(400, 'Please enter a valid board id', res);
+  } else {
+    let user = req.user;
+    let board = user.boards.id(req.params.idBoard);
+
+    if (!board) {
+      buildResponse(404, 'That board does not exist', res);
+    } else {
+      board.isStarredBoard = true;
+
+      let boardStar = new boardStarModel({
+        id: board.id,
+        name: board.name
+      });
+      
+      user.boardStars.push(boardStar);
+
+      user.save()
+        .then(user => buildResponse(200, user, res))
+        .catch(error => buildResponse(500, error, res));
+    }
+  }
+};
+
+// TODO: use lodash
+const starredBoardIndex = (starredBoards, boardId) => {
   let starredBoardIndex = null;
 
   starredBoards.forEach((starredBoard, index) => {
@@ -32,210 +102,35 @@ function starredBoardIndex(starredBoards, boardId) {
   })
 
   return starredBoardIndex;
-}
-
-boardController.saveUserBoard = (req, res) => {
-  const errorMessage = [];
-
-  if (req.body.name === undefined) {
-    errorMessage.push('Please enter a board name');
-
-    return res.status(400).json({
-      data: {
-        uiError: errorMessage
-      }
-    });
-  } else {
-    async.waterfall([
-      (callback) => {
-        let user = req.user;
-
-        let board = new boardModel({
-          name: req.body.name
-        });
-
-        user.boards.push(board);
-        user.save(callback);
-      },
-      (user, numRowAffected, callback) => {
-        if (!user) {
-          callback('Error while saving the board');
-        } else {
-          callback(null, user);    
-        }
-      }
-    ], (error, user) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: {
-          boards: user.boards 
-        }
-      });
-    });
-  }
 };
 
-boardController.removeUserBoard = (req, res) => {
-
+export const removeUserBoardStar = (req, res) => {
   if (!objectIdRegex.test(req.params.idBoard)) {
-    return res.status(400).json({
-      data: {
-        error: 'Please enter a valid board id'
-      }
-    });
+    buildResponse(400, 'Please enter a valid board id', res);
   } else {
-    async.waterfall([
-      (callback) => {
-        let user = req.user;
-        let board = user.boards.id(req.params.idBoard);
+    let user = req.user;
+    let board = user.boards.id(req.params.idBoard);
 
-        if (board === null) {
-          callback('That board does not exist');
-        } else {
-          board.remove();
-          user.save(callback);
-        }
-      },
-      (user, numRowAffected, callback) => {
+    if (!board) {
+      buildResponse(404, 'That board does not exist', res);
+    } else {
+      if (!board.isStarredBoard) {
+        buildResponse(400, 'This board is not starred', res);
+      } else {
+        const index = starredBoardIndex(user.boardStars, board._id);
 
-        if (!user) {
-          callback('Sorry I could not remove that board');
+        if (index === null) {
+          buildResponse(400, 'This board is not starred', res);
         } else {
-          callback(null, user);
+          board.isStarredBoard = false;
+
+          user.boardStars[index].remove();
+
+          user.save()
+            .then(user => buildResponse(200, user, res))
+            .catch(error => buildResponse(500, error, res));
         }
       }
-    ], (error, user) => { 
-
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: {
-          boards: user.boards
-        }
-      });
-    });
+    }
   }
 };
-
-boardController.saveUserBoardStar = (req, res) => {
-
-  if (!objectIdRegex.test(req.params.idBoard)) {
-    return res.status(400).json({
-      data: {
-        error: 'Please enter a valid board id'
-      }
-    });
-  } else {
-    async.waterfall([
-      (callback) => {
-        let user = req.user;
-
-        let board = user.boards.id(req.params.idBoard);
-
-        if (board === null ) {
-          callback('That board does not exist');
-        } else {
-          board.isStarredBoard = true;
-
-          let boardStar = new boardStarModel({
-            id: board.id,
-            name: board.name
-          });
-          
-          user.boardStars.push(boardStar);
-          user.save(callback);
-        }
-      },
-      (user, numRowAffected, callback) => {
-        if (!user) {
-          callback('Error while saving the board star');
-        } else {
-          callback(null, user);             
-        }
-      }
-    ], (error, user) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: formatResponse(user)
-      });
-    });
-  }
-};
-
-boardController.removeUserBoardStar = (req, res) => {
-
-  if (!objectIdRegex.test(req.params.idBoard)) {
-    return res.status(400).json({
-      data: {
-        error: 'Please enter a valid board id'
-      }
-    });
-  } else {
-    async.waterfall([
-      (callback) => {
-        let user = req.user;
-        let board = user.boards.id(req.params.idBoard);
-
-        if (!board) {
-          callback('That board does not exist');
-        } else {
-
-          if (board.isStarredBoard) {
-            const index = starredBoardIndex(user.boardStars, board._id);
-
-            if (index !== null) {
-              board.isStarredBoard = false;
-
-              user.boardStars[index].remove();
-            }
-
-            user.save(callback);
-          } else {
-            callback('This board is not starred');
-          }
-        }
-      },
-      (user, numRowAffected, callback) => {
-        if (!user) {
-          callback('Error while saving the board star');
-        } else {
-          callback(null, user);             
-        }
-      }
-    ], (error, user) => { 
-      if (error) {
-        return res.status(400).json({
-          data: {
-            error
-          }
-        });
-      } 
-
-      return res.status(200).json({
-        data: formatResponse(user)
-      });
-    });
-  }
-};
-
-module.exports = boardController;

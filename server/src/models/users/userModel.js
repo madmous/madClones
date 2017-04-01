@@ -1,13 +1,13 @@
-const mongoose = require ('mongoose');
-const bcrypt   = require ('bcrypt');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
-const organizationSchema = require ('../organizations/organizationModel').schema;
-const boardStarSchema    = require ('../boardStars/boardStarModel.js').schema;
-const boardSchema        = require ('../boards/boardModel').schema;
+import { OrganizationSchema } from '../organizations/organizationModel';
+import { BoardStarSchema } from '../boardStars/boardStarModel';
+import { BoardSchema } from '../boards/boardModel';
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+export const UserSchema = new Schema({
   name: {
     type: String,
     unique: true,
@@ -30,9 +30,9 @@ const UserSchema = new Schema({
     unique: true,
     required: true
   },
-  boards: [boardSchema],
-  organizations: [organizationSchema],
-  boardStars: [boardStarSchema]
+  boards: [BoardSchema],
+  organizations: [OrganizationSchema],
+  boardStars: [BoardStarSchema]
 });
 
 UserSchema.pre('save', function (callback) {
@@ -65,4 +65,4 @@ UserSchema.methods.arePasswordsMatching = function (password, callback) {
   });
 }
 
-module.exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);

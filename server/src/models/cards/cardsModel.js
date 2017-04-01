@@ -1,10 +1,10 @@
-const mongoose = require ('mongoose');
+import mongoose from 'mongoose';
 
-const cardSchema = require ('../card/cardModel').schema;
+import { CardItemsSchema } from '../card/cardModel';
 
 const Schema = mongoose.Schema;
 
-const CardsSchema = new Schema({
+export const CardsSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true
@@ -13,7 +13,7 @@ const CardsSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
-  cards: [cardSchema]
+  cards: [CardItemsSchema]
 });
 
-module.exports = mongoose.model('Cards', CardsSchema);
+export default mongoose.model('Cards', CardsSchema);
