@@ -1,7 +1,6 @@
 'use strict';
 
-const express = require ('express');
-const router  = express.Router();
+import express from 'express';
 
 import {
   removeOrganizationBoardStar,
@@ -14,36 +13,22 @@ import {
   saveOrganization,
 } from './organizationController';
 
-router.post('/', (req, res) => {
-  saveOrganization(req, res);
-});
+const router  = express.Router();
 
-router.put('/:idOrganization', (req, res) => {
-  updateOrganization(req, res);
-});
+router.route('/').post(saveOrganization);
 
-router.delete('/:idOrganization', (req, res) => {
-  removeOrganization(req, res);
-});
+router.route('/:idOrganization')
+    .put(updateOrganization)
+    .delete(removeOrganization);
 
-router.post('/:idOrganization/boards', (req, res) => {
-  saveOrganizationBoard(req, res);
-});
+router.route('/:idOrganization/boards').post(saveOrganizationBoard);
 
-router.put('/:idOrganization/boards/:idBoard', (req, res) => {
-  updateOrganizationBoard(req, res);
-});
+router.route('/:idOrganization/boards/:idBoard')
+    .put(updateOrganizationBoard)
+    .delete(removeOrganizationBoard);
 
-router.delete('/:idOrganization/boards/:idBoard', (req, res) => {
-  removeOrganizationBoard(req, res);
-});
-
-router.post('/:idOrganization/boards/:idBoard/boardstars', (req, res) => {
-  saveOrganizationBoardStar(req, res);
-});
-
-router.delete('/:idOrganization/boards/:idBoard/boardstars', (req, res) => {
-  removeOrganizationBoardStar(req, res);
-});
+router.route('/:idOrganization/boards/:idBoard/boardstars')
+    .post(saveOrganizationBoardStar)
+    .delete(removeOrganizationBoardStar);
 
 export default router;

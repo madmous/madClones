@@ -1,7 +1,6 @@
 'use strict';
 
-const express = require ('express');
-const router  = express.Router();
+import express from 'express';
 
 import {
   removeUserBoardStar,
@@ -17,36 +16,21 @@ import {
   saveUserBoardCard
 } from '../card/cardController';
 
-router.post('/', (req, res) => {
-  saveUserBoard(req, res);
-});
+const router  = express.Router();
 
-router.get('/:idBoard', (req, res) => {
-  getUserBoardCards(req, res);
-});
+router.route('/').post(saveUserBoard);
 
-router.put('/:idBoard', (req, res) => {
-  updateUserBoardCards(req, res);
-});
+router.route('/:idBoard')
+    .get(getUserBoardCards)
+    .put(updateUserBoardCards)
+    .delete(removeUserBoard);
 
-router.post('/:idBoard/cards', (req, res) => {
-  saveUserBoardCard(req, res);
-});
+router.route('/:idBoard/cards').post(saveUserBoardCard);
 
-router.post('/:idBoard/cards/:idCard', (req, res) => {
-  saveUserBoardCardItem(req, res);
-});
+router.route('/:idBoard/cards/:idCard').post(saveUserBoardCardItem);
 
-router.delete('/:idBoard', (req, res) => {
-  removeUserBoard(req, res);
-});
-
-router.post('/:idBoard/boardstars', (req, res) => {
-  saveUserBoardStar(req, res);
-});
-
-router.delete('/:idBoard/boardstars', (req, res) => {
-  removeUserBoardStar(req, res);
-});
+router.route('/:idBoard/boardstars')
+    .post(saveUserBoardStar)
+    .delete(removeUserBoardStar);
 
 export default router;

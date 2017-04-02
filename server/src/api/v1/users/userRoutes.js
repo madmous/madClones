@@ -1,8 +1,9 @@
 'use strict';
 
-const validate = require ('express-validation');
-const express  = require ('express');
-const router   = express.Router();
+import validate from 'express-validation';
+import express from 'express';
+
+import { updateUserSchema } from './userValidation';
 
 import {
   updateUser,
@@ -10,12 +11,11 @@ import {
   getUser
 } from './userController';
 
-const userValidation = require ('./userValidation');
-const userController = require ('./userController');
+const router = express.Router();
 
 router.route('/')
   .get(getUser)
-  .put(validate(userValidation.updateUser), updateUser)
+  .put(validate(updateUserSchema), updateUser)
   .delete(removeUser)
 
-module.exports = router;
+export default router;

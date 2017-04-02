@@ -1,12 +1,11 @@
 'use strict';
 
-const express = require ('express');
-const router  = express.Router();
+import express from 'express';
 
 import { getBoardsAndOrganizations } from './homeController';
 
-router.get('/', (req, res) => {
-  getBoardsAndOrganizations(req, res);
-});
+const router  = express.Router();
+
+router.route('/').get(getBoardsAndOrganizations);
 
 export default router;

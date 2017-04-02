@@ -1,11 +1,11 @@
 'use strict';
 
-const express = require ('express');
-const router  = express.Router();
+import express from 'express';
 
 import { authenticate } from './loginController';
 
-router.route('/')
-  .post(authenticate);
+const router  = express.Router();
+
+router.route('/').post(authenticate);
 
 export default router;

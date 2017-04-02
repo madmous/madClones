@@ -1,11 +1,7 @@
-const Joi = require ('joi');
+import Joi from 'joi';
 
-const userValidation = {};
-
-userValidation.updateUser = {
+export const updateUserSchema = {
   name: Joi.string().required(),
   fullname: Joi.string().required(),
   initials: Joi.string().required()
 };
-
-module.exports = userValidation

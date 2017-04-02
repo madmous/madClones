@@ -1,8 +1,6 @@
-const Joi = require ('joi');
+import Joi from 'joi';
 
-const signupValidation = {};
-
-signupValidation.saveUser = {
+export const saveUserSchema = {
   body: {
     name: Joi.string().required(),
     fullname: Joi.string().required(),
@@ -11,5 +9,3 @@ signupValidation.saveUser = {
     password: Joi.string().required()
   }
 };
-
-module.exports = signupValidation;
