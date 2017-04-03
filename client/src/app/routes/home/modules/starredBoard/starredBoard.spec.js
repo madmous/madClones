@@ -115,7 +115,7 @@ describe('starredBoard reducer', () => {
 
   it('should handle UPDATE_STARRED_BOARDS', () => {
     const payload = {
-      starredBoards: [{
+      boardStars: [{
         _id: '1',
         id: '2',
         isStarredBoard: true,
@@ -129,7 +129,7 @@ describe('starredBoard reducer', () => {
         payload
       })
     ).toEqual({
-        starredBoards: payload.starredBoards
+        starredBoards: payload.boardStars
       }
     )
   })
