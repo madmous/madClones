@@ -8,20 +8,10 @@ import {
   cardModel
 } from '../../../models/index';
 
+import { buildResponse } from '../../../utils/responseService';
+
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 const log = getLogger(module);
-
-const buildResponse = (statusCode, data, res) => {
-  if (statusCode === 200) {
-    return res.status(200).json({
-      data
-    })
-  } else {
-    return res.status(statusCode).json({
-      error: data
-    })
-  }
-};
 
 export const getUserBoardCards = (req, res) => {
   const reqUser = req.user;

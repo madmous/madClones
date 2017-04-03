@@ -8,9 +8,9 @@ import {
 	organizationModel,
   boardModel,
   userModel
-} from '../../src/models/index';
+} from '../../../../src/models/index';
 
-import app from '../../src/index';
+import app from '../../../../src/index';
 
 chai.use(chaiHttp);
 
@@ -80,7 +80,7 @@ describe('Home' , () => {
 					assert.equal(res.status, '200', 'status equals 200');
 					assert.equal(1, res.body.data.boards.length);
 					assert.equal(1, res.body.data.organizations.length);
-					assert.equal(0, res.body.data.starredBoards.length);
+					assert.equal(0, res.body.data.boardStars.length);
 
 					done();
 				});

@@ -5,17 +5,7 @@ import jwt from 'jwt-simple';
 import { userModel } from '../../../models/index';
 import { secret } from '../../../config/config';
 
-const buildResponse = (statusCode, data, res) => {
-  if (statusCode === 200) {
-    return res.status(200).json({
-      data: data
-    })
-  } else {
-    return res.status(statusCode).json({
-      data: data
-    })
-  }
-}
+import { buildResponse } from '../../../utils/responseService';
 
 export const saveUser = (req, res) => {
   userModel.findOne({name: req.body.name})

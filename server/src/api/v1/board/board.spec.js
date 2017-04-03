@@ -7,9 +7,9 @@ import chai from 'chai';
 import {
   cardsModel,
   userModel
-} from '../../src/models/index';
+} from '../../../../src/models/index';
 
-import app from '../../src/index';
+import app from '../../../../src/index';
 
 chai.use(chaiHttp);
 
@@ -132,12 +132,12 @@ describe('Card' , () => {
 				.post(`${boardsUrl}/${boardId}/boardstars`)
 				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
-					boardStarId = res.body.data.starredBoards[0]._id;
+					boardStarId = res.body.data.boardStars[0]._id;
 
 					assert.equal(res.status, '200', 'status equals 200')
-					assert.equal(1, res.body.data.starredBoards.length);
-					assert.equal('boardName', res.body.data.starredBoards[0].name);
-					assert.equal(true, res.body.data.starredBoards[0].isStarredBoard);
+					assert.equal(1, res.body.data.boardStars.length);
+					assert.equal('boardName', res.body.data.boardStars[0].name);
+					assert.equal(true, res.body.data.boardStars[0].isStarredBoard);
 
 					done();
 				});
@@ -204,7 +204,7 @@ describe('Card' , () => {
 				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
-					assert.equal(0, res.body.data.starredBoards.length);
+					assert.equal(0, res.body.data.boardStars.length);
 
 					done();
 				});

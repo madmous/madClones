@@ -8,27 +8,10 @@ import {
   boardModel
 } from '../../../models/index';
 
+import { saveUserService } from '../../../utils/userService';
+import { buildResponse } from '../../../utils/responseService';
+
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
-
-const formatResponse = user => {
-  return {
-    boards: user.boards,
-    organizations: user.organizations,
-    starredBoards: user.boardStars
-  }
-};
-
-const buildResponse = (statusCode, data, res) => {
-  if (statusCode === 200) {
-    return res.status(200).json({
-      data: formatResponse(data)
-    });
-  } else {
-    return res.status(statusCode).json({
-      error: data
-    });
-  }
-};
 
 export const saveOrganization = (req, res) => {
   let cbErrorMsg = {};
@@ -56,9 +39,7 @@ export const saveOrganization = (req, res) => {
 
     user.organizations.push(organization);
 
-    user.save()
-      .then(user => buildResponse(200, user, res))
-      .catch(error => buildResponse(500, error, res));
+    saveUserService(user, res);
   }
 };
 
@@ -90,9 +71,7 @@ export const updateOrganization = (req, res) => {
       organization.name = req.body.name;
       organization.displayName = req.body.displayName;
 
-      user.save()
-        .then(user => buildResponse(200, user, res))
-        .catch(error => buildResponse(500, error, res));
+      saveUserService(user, res);
     }
   }
 };
@@ -109,9 +88,7 @@ export const removeOrganization = (req, res) => {
     } else {
       organization.remove();
 
-      user.save()
-        .then(user => buildResponse(200, user, res))
-        .catch(error => buildResponse(500, error, res));
+      saveUserService(user, res);
     }
   }
 };
@@ -140,9 +117,7 @@ export const saveOrganizationBoard = (req, res) => {
     } else {
       organization.boards.push(board);
 
-      user.save()
-        .then(user => buildResponse(200, user, res))
-        .catch(error => buildResponse(500, error, res));
+      saveUserService(user, res);
     }
   }
 };
@@ -169,9 +144,7 @@ export const updateOrganizationBoard = (req, res) => {
       } else {
         board.name = req.body.name;
 
-        user.save()
-          .then(user => buildResponse(200, user, res))
-          .catch(error => buildResponse(500, error, res));
+        saveUserService(user, res);
       }
     }
   }
@@ -194,9 +167,7 @@ export const removeOrganizationBoard = (req, res) => {
       } else {
         board.remove();
 
-        user.save()
-          .then(user => buildResponse(200, user, res))
-          .catch(error => buildResponse(500, error, res));
+        saveUserService(user, res);
       }
     }
   }
@@ -230,9 +201,7 @@ export const saveOrganizationBoardStar = (req, res) => {
 
         user.boardStars.push(boardStar);
 
-        user.save()
-          .then(user => buildResponse(200, user, res))
-          .catch(error => buildResponse(500, error, res));
+        saveUserService(user, res);
       }
     }
   }
@@ -279,9 +248,7 @@ export const removeOrganizationBoardStar = (req, res) => {
             user.boardStars[index].remove();
           }
 
-          user.save()
-            .then(user => buildResponse(200, user, res))
-            .catch(error => buildResponse(500, error, res));
+          saveUserService(user, res);
         }
       }
     }

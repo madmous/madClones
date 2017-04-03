@@ -8,9 +8,9 @@ import {
 	organizationModel,
   boardModel,
   userModel
-} from '../../src/models/index';
+} from '../../../../src/models/index';
 
-import app from '../../src/index';
+import app from '../../../../src/index';
 
 chai.use(chaiHttp);
 

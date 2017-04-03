@@ -139,7 +139,7 @@ export default function starredBoard(state = initialState, action) {
   switch (action.type) {
     case UPDATE_STARRED_BOARDS:
       return Object.assign({}, state, {
-        starredBoards: action.payload.starredBoards
+        starredBoards: action.payload.boardStars
       });
     case STAR_BOARD_REQUEST:
       return Object.assign({}, state, {

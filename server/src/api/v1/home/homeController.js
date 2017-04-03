@@ -14,7 +14,7 @@ export const getBoardsAndOrganizations = (req, res) => {
       data: {
         boards: user.boards,
         organizations: user.organizations,
-        starredBoards: user.boardStars
+        boardStars: user.boardStars
       }
     });
 	}

@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 
-import { userModel } from '../../src/models/index';
-import app from '../../src/index';
+import { userModel } from '../../../../src/models/index';
+import app from '../../../../src/index';
 
 chai.use(chaiHttp);
 
