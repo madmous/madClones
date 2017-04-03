@@ -56,8 +56,8 @@ describe('.BoardsMenu', () => {
 
     wrapper.find('.BoardsMenu').simulate('blur');
 
-    chai.expect(blurOnBoardsMenu.calledOnce).to.equal(true);
-    chai.expect(focusOnBoardsMenu.calledOnce).to.equal(false);
+    chai.expect(blurOnBoardsMenu.calledOnce).to.be.true;
+    chai.expect(focusOnBoardsMenu.calledOnce).to.be.false;
   })
 })
 
@@ -71,8 +71,8 @@ describe('input', () => {
   it('should call saveUserInput', () => {
     const { saveUserInput, wrapper } = setupShallow();
 
-    wrapper.find('input').simulate('onChange');
+    wrapper.find('input').simulate('change', { target: { value: 'T' } })
 
-    chai.expect(saveUserInput.calledOnce).to.equal(true);
+    chai.expect(saveUserInput.calledOnce).to.be.true;
   })
 })
