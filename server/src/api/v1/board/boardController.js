@@ -42,51 +42,43 @@ export const removeUserBoard = (req, res) => {
 };
 
 export const saveUserBoardStar = (req, res) => {
-  if (!objectIdRegex.test(req.params.idBoard)) {
-    buildResponse(400, 'Please enter a valid board id', res);
+  let user = req.user;
+  let board = user.boards.id(req.params.idBoard);
+
+  if (!board) {
+    buildResponse(404, 'That board does not exist', res);
   } else {
-    let user = req.user;
-    let board = user.boards.id(req.params.idBoard);
+    board.isStarredBoard = true;
 
-    if (!board) {
-      buildResponse(404, 'That board does not exist', res);
-    } else {
-      board.isStarredBoard = true;
-
-      let boardStar = new boardStarModel({
-        id: board.id,
-        name: board.name
-      });
-      
-      user.boardStars.push(boardStar);
-      saveUserService(user, res);
-    }
+    let boardStar = new boardStarModel({
+      id: board.id,
+      name: board.name
+    });
+    
+    user.boardStars.push(boardStar);
+    saveUserService(user, res);
   }
 };
 
 export const removeUserBoardStar = (req, res) => {
-  if (!objectIdRegex.test(req.params.idBoard)) {
-    buildResponse(400, 'Please enter a valid board id', res);
-  } else {
-    let user = req.user;
-    let board = user.boards.id(req.params.idBoard);
+  let user = req.user;
+  let board = user.boards.id(req.params.idBoard);
 
-    if (!board) {
-      buildResponse(404, 'That board does not exist', res);
+  if (!board) {
+    buildResponse(404, 'That board does not exist', res);
+  } else {
+    if (!board.isStarredBoard) {
+      buildResponse(400, 'This board is not starred', res);
     } else {
-      if (!board.isStarredBoard) {
+      const index = user.boardStars.findIndex(starredBoard => starredBoard.id.equals(board._id));
+
+      if (index === -1) {
         buildResponse(400, 'This board is not starred', res);
       } else {
-        const index = user.boardStars.findIndex(starredBoard => starredBoard.id.equals(board._id));
+        board.isStarredBoard = false;
 
-        if (index === -1) {
-          buildResponse(400, 'This board is not starred', res);
-        } else {
-          board.isStarredBoard = false;
-
-          user.boardStars[index].remove();
-          saveUserService(user, res);
-        }
+        user.boardStars[index].remove();
+        saveUserService(user, res);
       }
     }
   }
