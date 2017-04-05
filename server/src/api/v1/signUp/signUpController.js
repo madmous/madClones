@@ -11,7 +11,7 @@ export const saveUser = (req, res) => {
   userModel.findOne({name: req.body.name})
     .then(user => {
       if (user) {
-        buildResponse(400, 'That name is already taken', res);
+        throw new Error('That name is already taken');
       } else {
         const user = new userModel({
           name: req.body.name,
@@ -25,5 +25,5 @@ export const saveUser = (req, res) => {
       }
     })
     .then(user => buildResponse(200, jwt.encode(user._id, secret), res))
-    .catch(err => buildResponse(500, err, res));
+    .catch(err => buildResponse(500, err.message, res));
 };
