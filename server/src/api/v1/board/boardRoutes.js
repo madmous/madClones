@@ -17,14 +17,12 @@ import {
   saveUserBoardCard
 } from '../card/cardController';
 
-import * as boardValidators from './boardValidation';
-
-const {
+import {
   removeUserBoardStarSchema,
   saveUserBoardStarSchema,
   removeUserBoardSchema,
   saveUserBoardSchema
-} = boardValidators
+} from './boardValidation';
 
 const router  = express.Router();
 
