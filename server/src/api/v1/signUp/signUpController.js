@@ -1,5 +1,6 @@
 'use strict';
 
+import Boom from 'boom';
 import jwt from 'jwt-simple';
 
 import { userModel } from '../../../models/index';
@@ -11,7 +12,7 @@ export const saveUser = (req, res) => {
   userModel.findOne({name: req.body.name})
     .then(user => {
       if (user) {
-        throw new Error('That name is already taken');
+        throw Boom.create(400, 'That name is already taken');
       } else {
         const user = new userModel({
           name: req.body.name,
@@ -25,5 +26,11 @@ export const saveUser = (req, res) => {
       }
     })
     .then(user => buildResponse(200, jwt.encode(user._id, secret), res))
-    .catch(err => buildResponse(500, err.message, res));
+    .catch(error => {
+      if (error.isBoom) {
+        buildResponse(err.output.statusCode, error.message, res);
+      } else {
+        buildResponse(500, error, res)
+      }
+    });
 };

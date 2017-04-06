@@ -1,5 +1,7 @@
 'use strict';
 
+import Boom from 'boom';
+
 import getLogger from '../../../libs/winston';
 
 import {
@@ -22,12 +24,18 @@ export const getUserBoardCards = (req, res) => {
     cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
       .then(cards => {
         if (!cards) {
-          buildResponse(400, 'The board associated to that user does not exist', res);
+          throw Boom.create(400, 'The board associated to that user does not exist');
         } else {
           buildResponse(200, cards, res)          
         }
       })
-      .catch(error => buildResponse(500, error, res));
+      .catch(error => {
+        if (error.isBoom) {
+          buildResponse(err.output.statusCode, error.message, res)
+        } else {
+          buildResponse(500, error, res)
+        }
+      });
   }
 };
 
@@ -100,12 +108,12 @@ export const saveUserBoardCardItem = (req, res) => {
     cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
       .then(cards => {
         if (!cards) {
-          buildResponse(404, 'This user does not have any cards', res);
+          throw Boom.create(400, 'This user does not have any cards');
         } else {
           let card = cards.cards.id(req.params.idCard);
 
           if (!card) {
-            buildResponse(404, 'That card does not exist', res);
+            throw Boom.create(400, 'That card does not exist');
           } else {
             let cardItem = new cardItemModel({
               name: req.body.name
@@ -118,6 +126,12 @@ export const saveUserBoardCardItem = (req, res) => {
         }
       })
       .then(cards => buildResponse(200, cards.cards, res))
-      .catch(error => buildResponse(500, error, res));
+      .catch(error => {
+        if (error.isBoom) {
+          buildResponse(error.output.statusCode, error.message, res);
+        } else {
+          buildResponse(500, error, res)
+        }
+      });
   }
 };
