@@ -49,15 +49,20 @@ opts.secretOrKey = secret;
 
 passport.use(new Strategy(opts, 
   function(jwt_payload, callback) {
-    userModel.findById(jwt_payload)
-      .then(user => {
-        if (user) {
+    const userId = jwt_payload;
+    
+    userModel.findById(userId, function(err, user) {
+      
+      if (err) {
+          return callback(err, false);
+      }
+
+      if (user) {
           return callback(null, user);
-        } else {
-          callback(null, { err: 'There is not a user for this token' });
-        }
-      })
-      .catch(error => callback(err, false));
+      } else {
+          return callback(null, { err: 'There is not a user for this token' }); 
+      }
+    });
   }
 ));
 
