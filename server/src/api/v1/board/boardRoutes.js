@@ -24,18 +24,28 @@ import {
   saveUserBoardSchema
 } from './boardValidation';
 
+import {
+  saveUserBoardCardItemSchema,
+  updateUserBoardCardsSchema,
+  saveUserBoardCardSchema,
+  getUserBoardCardsSchema
+} from '../card/cardValidation';
+
 const router  = express.Router();
 
-router.route('/').post(validate(saveUserBoardSchema), saveUserBoard);
+router.route('/')
+    .post(validate(saveUserBoardSchema), saveUserBoard);
 
 router.route('/:idBoard')
-    .get(getUserBoardCards)
-    .put(updateUserBoardCards)
+    .get(validate(getUserBoardCardsSchema), getUserBoardCards)
+    .put(validate(updateUserBoardCardsSchema), updateUserBoardCards)
     .delete(validate(removeUserBoardSchema), removeUserBoard);
 
-router.route('/:idBoard/cards').post(saveUserBoardCard);
+router.route('/:idBoard/cards')
+    .post(validate(saveUserBoardCardSchema), saveUserBoardCard);
 
-router.route('/:idBoard/cards/:idCard').post(saveUserBoardCardItem);
+router.route('/:idBoard/cards/:idCard')
+    .post(validate(saveUserBoardCardItemSchema), saveUserBoardCardItem);
 
 router.route('/:idBoard/boardstars')
     .post(validate(saveUserBoardStarSchema), saveUserBoardStar)
