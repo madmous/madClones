@@ -19,9 +19,10 @@ describe('BoardViewHeader', () => {
     const wrapper = setup();
 
     wrapper.setProps({
-      starredBoards: [{
+      boards: [{
         id: '1',
-        isStarredBoard: true
+        isStarredBoard: true,
+        _id:'1'
       }],
       boardIdLocation: '/boards/1'
     });
