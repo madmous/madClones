@@ -23,7 +23,7 @@ describe('BoardView', () => {
   it('should render BoardViewHeader component', () => {
     const wrapper = setup();
 
-    expect(wrapper.find('BoardViewHeader')).to.have.length(1);
+    expect(wrapper.find('Connect(BoardViewHeader)')).to.have.length(1);
   })
 
   it('should render Cards components', () => {
