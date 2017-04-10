@@ -97,27 +97,25 @@ function saveBoardStar(urlToFetch, method) {
       .then(response => response.json())
       .then(json => {
         const jsonData = json.data;
-        const jsonDataError = jsonData.error;
+        const jsonDataError = json.error;
 
         if (method === 'POST') {
-
           if (jsonDataError) {
-            dispatch(starBoardFail(jsonData));
+            dispatch(starBoardFail(json));
             dispatch(notificationActionCreators.updateNotification(jsonDataError));
           } else {
             dispatch(starBoardSuccess());
           }
         } else if (method === 'DELETE') {
-
           if (jsonDataError) {
-            dispatch(unstarBoardFail(jsonData));
+            dispatch(unstarBoardFail(json));
             dispatch(notificationActionCreators.updateNotification(jsonDataError));
           } else {
             dispatch(unstarBoardSuccess());
           }
         }
 
-        if (!jsonData.error) {
+        if (jsonData) {
           dispatch(boardActionCreators.updateBoards(jsonData));
           dispatch(updateStarredBoards(jsonData));
           dispatch(organizationActionCreators.updateOrganizations(jsonData));
