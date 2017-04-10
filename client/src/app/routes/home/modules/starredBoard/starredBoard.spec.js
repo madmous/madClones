@@ -17,7 +17,7 @@ describe('starredBoard actions', () => {
   it('should create an action to addBoardStar when the orgId is empty', () => {
     const data = {
       organizations: [],
-      starredBoard: [],
+      starredBoards: [],
       boards: []
     };
 
