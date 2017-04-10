@@ -23,12 +23,19 @@ export const getUserBoardCards = (req, res) => {
       if (!cards) {
         throw Boom.create(400, 'The board associated to that user does not exist');
       } else {
-        buildResponse(200, cards, res)          
+        const response = {
+          boards: reqUser.boards,
+          organizations: reqUser.organizations,
+          boardStars: reqUser.boardStars,
+          cards: cards.cards
+        };
+
+        return buildResponse(200, response, res);     
       }
     })
     .catch(error => {
       if (error.isBoom) {
-        buildResponse(err.output.statusCode, error.message, res)
+        buildResponse(error.output.statusCode, error.message, res)
       } else {
         buildResponse(500, error, res)
       }
