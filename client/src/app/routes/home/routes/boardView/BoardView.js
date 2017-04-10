@@ -75,7 +75,7 @@ export default class BoardView extends Component {
         onClickCapture={ this.handleDocumentClick }
         onKeyDown={ this.handleEscKey } 
       >
-        <BoardViewHeader />
+        <BoardViewHeader boardIdLocation={ this.props.location.pathname } />
         <Cards />
       </div>
     );

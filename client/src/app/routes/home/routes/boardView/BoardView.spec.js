@@ -13,7 +13,11 @@ function setup() {
     isCreateCardItemFormOpen: false,
 
     boardViewActions: {},
-    cardActions: {}
+    cardActions: {},
+
+    location: {
+      pathname: '1'
+    }
   }
 
   return shallow(<BoardView {...props} />)
