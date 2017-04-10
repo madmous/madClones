@@ -204,10 +204,8 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
         }
       })
       .then(json => {
-        const jsonData = json.data;
-
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(updateCardsFail(jsonData))
+        if (json.uiError || json.error) {
+          dispatch(updateCardsFail(json))
         } else {
           dispatch(updateCardsSuccess());
         }
@@ -233,11 +231,11 @@ export function getCards(pathname) {
         }
       })
       .then(json => {
-        const jsonData = json.data;
-
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(loadCardsFail(jsonData))
+        if (json.uiError || json.error) {
+          dispatch(loadCardsFail(json))
         } else {
+          const jsonData = json.data;
+
           dispatch(loadCardsSuccess());
           dispatch(organizationActionCreators.updateOrganizations(jsonData));
           dispatch(starredBoardActionCreators.updateStarredBoards(jsonData));
@@ -270,14 +268,12 @@ export function saveCard(pathname, cardName) {
         }
       })
       .then(json => {
-        const jsonData = json.data;
-
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(saveCardFail(jsonData))
+        if (json.uiError || json.error) {
+          dispatch(saveCardFail(json))
         } else {
           dispatch(saveCardSuccess());
           dispatch(reset('createCardForm'));
-          dispatch(updateCards(jsonData))
+          dispatch(updateCards(json.data))
         }
       })
   }
@@ -305,14 +301,12 @@ export function saveCardItem(pathname, cardId, cardItemName) {
         }
       })
       .then(json => {
-        const jsonData = json.data;
-
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(saveCardItemFail(jsonData))
+        if (json.uiError || json.error) {
+          dispatch(saveCardItemFail(json))
         } else {
           dispatch(saveCardItemSuccess());
           dispatch(reset('createCardItemForm'));
-          dispatch(updateCards(jsonData))
+          dispatch(updateCards(json.data))
         }
       })
   }

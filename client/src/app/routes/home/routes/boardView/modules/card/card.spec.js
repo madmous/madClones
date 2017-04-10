@@ -139,7 +139,7 @@ describe('card actions', () => {
       }
     })
     .get(`/api/v1${pathName}`)
-    .reply(400, { data });
+    .reply(400, data);
 
     return store.dispatch(cardActions.getCards(pathName))
       .then(() => {
@@ -220,7 +220,7 @@ describe('card actions', () => {
       }
     })
     .post('')
-    .reply(400, { data });
+    .reply(400, data);
 
     return store.dispatch(cardActions.saveCard(pathName, cardName))
       .then(() => {
@@ -303,7 +303,7 @@ describe('card actions', () => {
       }
     })
     .post('')
-    .reply(400, { data });
+    .reply(400, data);
 
     return store.dispatch(cardActions.saveCardItem(pathName, cardId, cardItemName))
       .then(() => {
