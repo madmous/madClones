@@ -21,7 +21,7 @@ export const getUserBoardCards = (req, res) => {
   cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
     .then(cards => {
       if (!cards) {
-        throw Boom.create(400, 'The board associated to that user does not exist');
+        throw Boom.create(404, 'This board does not have any card yet');
       } else {
         const response = {
           boards: reqUser.boards,
