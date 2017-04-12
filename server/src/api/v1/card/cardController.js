@@ -21,7 +21,7 @@ export const getUserBoardCards = (req, res) => {
   cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
     .then(cards => {
       if (!cards) {
-        throw Boom.create(404, 'This board does not have any card yet');
+        throw Boom.create(404, 'This board does not have any card');
       } else {
         const response = {
           boards: reqUser.boards,
@@ -46,7 +46,7 @@ export const updateUserBoardCards= (req, res) => {
   cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
     .then(cards => {
       if (!cards) {
-        buildResponse(400, 'The board associated to that user does not exist', res);
+        buildResponse(400, 'This board does not have any cards', res);
       } else {
         cards.cards = req.body.cards;
 
@@ -96,7 +96,7 @@ export const saveUserBoardCardItem = (req, res) => {
   cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
     .then(cards => {
       if (!cards) {
-        throw Boom.create(400, 'This user does not have any cards');
+        throw Boom.create(400, 'This board does not have any cards');
       } else {
         let card = cards.cards.id(req.params.idCard);
 
