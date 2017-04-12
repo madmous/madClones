@@ -8,7 +8,7 @@ const propTypes = {
 };
 
 export default function BoardViewHeader(props) {
-  let organizationId = '';
+  let organization;
 
   const starredBoardItem = (() => {
     const { 
@@ -34,7 +34,7 @@ export default function BoardViewHeader(props) {
         }); 
 
         if (findBoardIdInOrganizations) {
-          organizationId = organizations[i]._id;
+          organization = organizations[i];
           break;
         }
       }
@@ -44,6 +44,20 @@ export default function BoardViewHeader(props) {
 
     return findBoardIdInOrganizations;
   })();
+
+  const renderBoardName = () => {
+    if (starredBoardItem) {
+      return starredBoardItem.name;
+    }
+  };
+
+  const renderOrganizationName = () => {
+    if (organization) {
+      return organization.name;
+    }
+    
+    return 'Personal Board';
+  };
 
   const getBoardViewHeaderStarClass = () => {
     if (starredBoardItem && starredBoardItem.isStarredBoard) {
@@ -58,16 +72,16 @@ export default function BoardViewHeader(props) {
     const boardId = boardIdLocation.split('/')[2];
 
     if (starredBoardItem && starredBoardItem.isStarredBoard) {
-      starredBoardActions.removeBoardStar(userId, organizationId, boardId);
+      starredBoardActions.removeBoardStar(userId, organization._id, boardId);
     } else {
-      starredBoardActions.addBoardStar(userId, organizationId, boardId);
+      starredBoardActions.addBoardStar(userId, organization._id, boardId);
     }
   };
 
   return (
     <div className="Board-View-Header">
-      <span>Trello Clone</span>
-      <span>Personal Projects</span>
+      <span>{ renderBoardName() }</span>
+      <span>{ renderOrganizationName() }</span>
       <FontAwesome 
         name="star-o" 
         className={ getBoardViewHeaderStarClass() }
