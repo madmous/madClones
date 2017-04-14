@@ -21,7 +21,14 @@ export const getUserBoardCards = (req, res) => {
   cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
     .then(cards => {
       if (!cards) {
-        throw Boom.create(404, 'This board does not have any card');
+        const response = {
+          boards: reqUser.boards,
+          organizations: reqUser.organizations,
+          boardStars: reqUser.boardStars,
+          cards: []
+        };
+
+        return buildResponse(200, response, res);  
       } else {
         const response = {
           boards: reqUser.boards,
