@@ -67,7 +67,7 @@ export default function BoardViewHeader(props) {
     return "Board-View-Header-Star";
   };
 
-  const handleClick = () => {
+  const handleStarClicked = () => {
     const { starredBoardActions, boardIdLocation, userId } = props;
     const boardId = boardIdLocation.split('/')[2];
 
@@ -85,7 +85,7 @@ export default function BoardViewHeader(props) {
       <FontAwesome 
         name="star-o" 
         className={ getBoardViewHeaderStarClass() }
-        onClick={ handleClick }
+        onClick={ handleStarClicked }
       />
     </div>
   );
