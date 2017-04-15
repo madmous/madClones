@@ -51,20 +51,20 @@ describe('FontAwesome', () => {
   })
 })
 
-describe('</CreateOrganization>', () => {
-  it('should not render create organization form', () => {
+describe('</UpdateBoardName>', () => {
+  it('should not render update board name form', () => {
     const { wrapper } = setup();
 
-    expect(wrapper.find('CreateOrganization').length).to.equal(0);
+    expect(wrapper.find('Connect(ReduxForm)').length).to.equal(0);
   })
 
-  it('should render create organization form', () => {
+  it('should render update board name form', () => {
     const { wrapper } = setup();
 
     wrapper.setProps({
       isUpdateBoardNameOpen: true
     });
     
-    expect(wrapper.find('CreateOrganization').length).to.equal(1);
+    expect(wrapper.find('Connect(ReduxForm)').length).to.equal(1);
   })
 })

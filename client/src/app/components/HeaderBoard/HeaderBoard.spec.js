@@ -42,7 +42,7 @@ describe('<div />', () => {
     chai.expect(openBoardsMenu.calledOnce).to.be.true;
   })
 
-  it('should call hideBoardsMenu', () => {
+  xit('should call hideBoardsMenu', () => {
     const { hideBoardsMenu, wrapper } = setupShallow();
 
     wrapper.setProps({ isBoardMenuOpen: true });
