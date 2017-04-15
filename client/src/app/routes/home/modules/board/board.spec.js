@@ -39,7 +39,7 @@ describe('board actions', () => {
         type: 'CLOSE_MODAL'
       };
 
-      expect(boardActions.closeModal()).toEqual(expectedAction)
+      expect(boardActions.closeModal()).toEqual(expectedAction);
     })
 
     it('should handle CLOSE_MODAL', () => {
@@ -98,6 +98,10 @@ describe('board reducer', () => {
     ).toEqual({
         isFetchingBoardSuccessful: false,
         isFetchingBoard: false,
+
+        isUpdatingBoardNameSuccessful: false,
+        isUpdatingBoardName: false,
+
         isModalOpen: false,
 
         errorMessage: '',
@@ -114,7 +118,7 @@ describe('board async actions', () => {
   })
   
   describe('ADD_BOARD', () => {
-    it('should create an addBoard action - organization board', () => {
+    it('should create an addBoard action - personal board', () => {
       const data = {
         boards: [],
         organizations: []
@@ -193,7 +197,7 @@ describe('board async actions', () => {
       );
     })
 
-    it('should create an addBoard action - personal board - success', () => {
+    it('should create an addBoard action - organization board - success', () => {
       const data = {
         boards: [],
         organizations: []
@@ -271,6 +275,86 @@ describe('board async actions', () => {
           errorMessage: 'Please enter a board name'
         }
       )
+    })
+  })
+
+  describe('UPDATE_BOARD_NAME', () => {
+    it('should create an updateBoardName action - organization board', () => {
+      const data = {
+      };
+
+      const expectedActions = [
+        { type: 'UPDATE_BOARD_NAME_REQUEST' },
+        { type: 'CLOSE_ALL_MODALS' }, 
+        { type: 'UPDATE_BOARD_NAME_SUCCESS' }, 
+        {
+          type: 'UPDATE_BOARDS',
+          payload: data
+        },
+        {
+          type: 'UPDATE_ORGANIZATIONS',
+          payload: data
+        }
+      ];
+
+      const store = mockStore();
+
+      nock('http://localhost:3001/api/v1/organizations/orgId/boards/boardId', {
+        body: JSON.stringify({
+          name: 'boardName'
+        })}, { 
+        reqheaders: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'authorization': 'JWT ' + localStorage.getItem('userId')
+        }
+      })
+      .put('')
+      .reply(200, { data });
+
+      return store.dispatch(boardActions.updateBoardName('orgId', 'boardId', 'boardName'))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+        }
+      );
+    })
+
+    xit('should create an updateBoardName action - personal board', () => {
+      const data = {
+      };
+
+      const expectedActions = [
+        { type: 'UPDATE_BOARD_NAME_REQUEST' },
+        { type: 'CLOSE_ALL_MODALS' }, 
+        { type: 'UPDATE_BOARD_NAME_SUCCESS' }, 
+        {
+          type: 'UPDATE_BOARDS',
+          payload: data
+        },
+        {
+          type: 'UPDATE_ORGANIZATIONS',
+          payload: data
+        }
+      ];
+
+      const store = mockStore();
+
+      nock('http://localhost:3001/api/v1/boards/boardId', {
+        body: JSON.stringify({
+          name: 'boardName'
+        })}, { 
+        reqheaders: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'authorization': 'JWT ' + localStorage.getItem('userId')
+        }
+      })
+      .put('')
+      .reply(200, { data });
+
+      return store.dispatch(boardActions.updateBoardName('', 'boardId', 'boardName'))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+        }
+      );
     })
   })
 })

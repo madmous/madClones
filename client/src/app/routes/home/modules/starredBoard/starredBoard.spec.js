@@ -14,7 +14,7 @@ describe('starredBoard actions', () => {
     nock.cleanAll();
   })
 
-  it('should create an action to addBoardStar when the orgId is empty', () => {
+  it('should create an action to addBoardStar when the orgId is null', () => {
     const data = {
       organizations: [],
       starredBoards: [],
@@ -49,7 +49,7 @@ describe('starredBoard actions', () => {
     .post('')
     .reply(200, { data });
 
-    return store.dispatch(starredBoardActions.addBoardStar('userId', '', 'boardId'))
+    return store.dispatch(starredBoardActions.addBoardStar(null, 'boardId'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions)
       }
@@ -91,7 +91,7 @@ describe('starredBoard actions', () => {
     .post('')
     .reply(200, { data });
 
-    return store.dispatch(starredBoardActions.addBoardStar('userId', 'orgId', 'boardId'))
+    return store.dispatch(starredBoardActions.addBoardStar('orgId', 'boardId'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions)
       }

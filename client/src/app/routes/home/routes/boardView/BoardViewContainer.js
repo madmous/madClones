@@ -9,7 +9,10 @@ import {
 } from './modules/index';
 
 const mapStateToProps = state => {
-  const { 
+  const {
+    isFocusOnUpdateBoardNameForm,
+    isUpdateBoardNameOpen,
+
     isFocusOnCreateCardForm, 
     isCreateCardFormOpen
   } = state.boardView;
@@ -20,6 +23,9 @@ const mapStateToProps = state => {
   } = state.card;
 
   return {
+    isFocusOnUpdateBoardNameForm,
+    isUpdateBoardNameOpen,
+
     isFocusOnCreateCardForm, 
     isCreateCardFormOpen,
 

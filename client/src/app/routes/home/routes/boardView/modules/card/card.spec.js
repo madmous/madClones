@@ -103,7 +103,7 @@ describe('card actions', () => {
         'authorization': 'JWT ' + localStorage.getItem('userId') 
       }
     })
-    .get(`/api/v1${pathName}`)
+    .get(`/api/v1${pathName}/cards`)
     .reply(200, { data });
 
     return store.dispatch(cardActions.getCards(pathName))
@@ -138,7 +138,7 @@ describe('card actions', () => {
         'authorization': 'JWT ' + localStorage.getItem('userId') 
       }
     })
-    .get(`/api/v1${pathName}`)
+    .get(`/api/v1${pathName}/cards`)
     .reply(400, data);
 
     return store.dispatch(cardActions.getCards(pathName))

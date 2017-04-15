@@ -16,6 +16,7 @@ import Boards from './Boards/BoardsContainer';
 
 import { 
 	CreateOrganization, 
+	UpdateBoardName,
 	CreateBoard 
 } from './Forms/index';
 

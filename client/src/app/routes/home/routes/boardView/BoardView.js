@@ -27,15 +27,22 @@ export default class BoardView extends Component {
 
   handleDocumentClick = () => {
     const { 
+      isFocusOnUpdateBoardNameForm,
+      isUpdateBoardNameOpen,
+
       isFocusOnCreateCardForm, 
       isCreateCardFormOpen, 
 
       isFocusOnCreateCardItemForm, 
       isCreateCardItemFormOpen, 
 
-      boardViewActions ,
-      cardActions ,
+      boardViewActions,
+      cardActions
     } = this.props;
+
+    if (!isFocusOnUpdateBoardNameForm && isUpdateBoardNameOpen) {
+      boardViewActions.closeUpdateBoardNameForm();
+    }
     
     if (!isFocusOnCreateCardForm && isCreateCardFormOpen) {
       boardViewActions.closeCreateCardForm();
@@ -49,6 +56,7 @@ export default class BoardView extends Component {
   handleEscKey = event => {
     const {
       isCreateCardItemFormOpen,
+      isUpdateBoardNameOpen,
       isCreateCardFormOpen, 
 
       boardViewActions,
@@ -56,6 +64,10 @@ export default class BoardView extends Component {
     } = this.props;
 
     if (event.keyCode === 27) {
+      
+      if (isUpdateBoardNameOpen) {
+        boardViewActions.closeUpdateBoardNameForm();
+      }
 
       if (isCreateCardFormOpen) {
         boardViewActions.closeCreateCardForm();
@@ -64,7 +76,7 @@ export default class BoardView extends Component {
       if (isCreateCardItemFormOpen) {
         cardActions.closeCreateCardItemForm();
       }
-    } 
+    }
   }
 
   render () {

@@ -17,9 +17,17 @@ const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST';
 const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS';
 const ADD_BOARD_FAIL = 'ADD_BOARD_FAIL';
 
+const UPDATE_BOARD_NAME_REQUEST = 'UPDATE_BOARD_NAME_REQUEST';
+const UPDATE_BOARD_NAME_SUCCESS = 'UPDATE_BOARD_NAME_SUCCESS';
+const UPDATE_BOARD_NAME_FAIL = 'UPDATE_BOARD_NAME_FAIL';
+
 const initialState = {
   isFetchingBoardSuccessful: false,
   isFetchingBoard: false,
+
+  isUpdatingBoardNameSuccessful: false,
+  isUpdatingBoardName: false,
+
   isModalOpen: false,
 
   errorMessage: '',
@@ -46,6 +54,25 @@ function addBoardFail(payload) {
   };
 }
 
+function updateBoardNameRequest() {
+  return {
+    type: UPDATE_BOARD_NAME_REQUEST
+  };
+}
+
+function updateBoardNameSuccess() {
+  return {
+    type: UPDATE_BOARD_NAME_SUCCESS
+  };
+}
+
+function updateBoardNameFail(payload) {
+  return {
+    type: UPDATE_BOARD_NAME_FAIL,
+    payload
+  };
+}
+
 export function updateBoards(payload) {
   return {
 		type: UPDATE_BOARDS,
@@ -66,20 +93,31 @@ export function closeModal() {
 }
 
 export function addBoard(userId, orgId, boardName) {
-
   if (orgId) {
-    return saveBoard(url + `api/v1/organizations/${orgId}/boards`, boardName);
+    return saveBoard(url + `api/v1/organizations/${orgId}/boards`, boardName, 'POST');
   }
 
-  return saveBoard(url + `api/v1/boards`, boardName);
+  return saveBoard(url + `api/v1/boards`, boardName, 'POST');
 }
 
-function saveBoard(url, boardName) {
+export function updateBoardName(orgId, boardId, boardName) {
+  if (orgId) {
+    return saveBoard(url + `api/v1/organizations/${orgId}/boards/${boardId}`, boardName, 'PUT');
+  }
+
+  return saveBoard(url + `api/v1/boards/${boardId}`, boardName, 'PUT');
+}
+
+function saveBoard(url, boardName, methodType) {
   return dispatch => {
-    dispatch(addBoardRequest())
+    if (methodType === 'POST') {
+      dispatch(addBoardRequest());
+    } else {
+      dispatch(updateBoardNameRequest());
+    }
 
     return fetch(url, 
-      { method: 'POST', 
+      { method: methodType, 
         body: JSON.stringify({
           name: boardName
         }),
@@ -93,15 +131,25 @@ function saveBoard(url, boardName) {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(addBoardFail(jsonData));
-          dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
+          if (methodType === 'POST') {
+            dispatch(addBoardFail(jsonData));
+            dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
 
-          setTimeout(() => {
-            dispatch(notificationActionCreators.hideNotification())
-          }, 3000)
+            setTimeout(() => {
+              dispatch(notificationActionCreators.hideNotification())
+            }, 3000)
+          } else {
+            dispatch(updateBoardNameFail(jsonData));
+          }
         } else {
           dispatch(modalActionCreators.closeAllModals());
-          dispatch(addBoardSuccess());
+
+          if (methodType === 'POST') {
+            dispatch(addBoardSuccess());
+          } else {
+            dispatch(updateBoardNameSuccess());
+          }
+          
           dispatch(updateBoards(jsonData));
           dispatch(organizationActionCreators.updateOrganizations(jsonData));
         }
@@ -125,6 +173,21 @@ export default function board(state = initialState, action) {
       return Object.assign({}, state, {
         isFetchingBoardSuccessful: false,
         isFetchingBoard: false,
+        errorMessage: action.payload.error
+      });
+    case UPDATE_BOARD_NAME_REQUEST:
+      return Object.assign({}, state, {
+        isUpdatingBoardName: true,
+      });
+    case UPDATE_BOARD_NAME_SUCCESS:
+      return Object.assign({}, state, {
+        isUpdatingBoardNameSuccessful: true,
+        isUpdatingBoardName: false
+      });
+    case UPDATE_BOARD_NAME_FAIL:
+      return Object.assign({}, state, {
+        isUpdatingBoardNameSuccessful: false,
+        isUpdatingBoardName: false,
         errorMessage: action.payload.error
       });
 		case UPDATE_BOARDS:

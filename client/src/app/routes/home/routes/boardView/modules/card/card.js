@@ -186,7 +186,7 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
     dispatch(moveCard(previousAndNextPositions));
     dispatch(updateCardsRequest());
     
-    return fetch(url + `api/v1` + pathname, 
+    return fetch(url + `api/v1${pathname}`, 
       { method: 'PUT',
         body: JSON.stringify({
           cards
@@ -217,7 +217,7 @@ export function getCards(pathname) {
   return dispatch => {
     dispatch(loadCardsRequest(pathname))
 
-    return fetch(url + `api/v1` + pathname, 
+    return fetch(url + `api/v1${pathname}/cards`, 
       { method: 'GET',
         headers: {
           'Authorization': 'JWT ' + localStorage.getItem('userId')
@@ -250,7 +250,7 @@ export function saveCard(pathname, cardName) {
   return dispatch => {
     dispatch(saveCardRequest())
 
-    return fetch(url + `api/v1` + pathname + '/cards', 
+    return fetch(url + `api/v1${pathname}/cards`, 
       { method: 'POST', 
         body: JSON.stringify({
           name: cardName

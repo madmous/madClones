@@ -26,18 +26,27 @@ export const saveUserBoard = (req, res) => {
 };
 
 export const removeUserBoard = (req, res) => {
-  if (!objectIdRegex.test(req.params.idBoard)) {
-    buildResponse(400, 'Please enter a valid board id', res);
-  } else {
-    let user = req.user;
-    let board = user.boards.id(req.params.idBoard);
+  let user = req.user;
+  let board = user.boards.id(req.params.idBoard);
 
-    if (!board) {
-      buildResponse(404, 'That board does not exist', res);
-    } else {
-      board.remove();
-      saveUserService(user, res);
-    }
+  if (!board) {
+    buildResponse(404, 'That board does not exist', res);
+  } else {
+    board.remove();
+    saveUserService(user, res);
+  }
+};
+
+export const renameBoardName = (req, res) => {
+  let user = req.user;
+  let board = user.boards.id(req.params.idBoard);
+
+  if (!board) {
+    buildResponse(404, 'That board does not exist', res);
+  } else {
+    board.name = req.body.name;
+    
+    saveUserService(user, res);
   }
 };
 

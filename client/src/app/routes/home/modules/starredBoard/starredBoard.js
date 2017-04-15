@@ -63,20 +63,20 @@ export function updateStarredBoards(payload) {
 	};
 }
 
-export function addBoardStar(userId, orgId, boardId) {
-  if (orgId === '') {
-    return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'POST');
+export function addBoardStar(orgId, boardId) {
+  if (orgId) {
+    return saveBoardStar(url + `api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
   }
 
-  return saveBoardStar(url + `api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
+  return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'POST');
 }
 
-export function removeBoardStar(userId, orgId, boardId) {
-  if (orgId === '') {
-    return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'DELETE');
+export function removeBoardStar(orgId, boardId) {
+  if (orgId) {
+    return saveBoardStar(url + `api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
   }
 
-  return saveBoardStar(url + `api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
+  return saveBoardStar(url + `api/v1/boards/${boardId}/boardstars`, 'DELETE');
 }
 
 function saveBoardStar(urlToFetch, method) {

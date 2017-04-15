@@ -174,7 +174,7 @@ describe('Card' , () => {
 
 		it ('should get user board cards - success', done => {
 			chai.request(app)
-				.get(`${boardsUrl}/${boardId}`)
+				.get(`${boardsUrl}/${boardId}/cards`)
 				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200');
@@ -188,8 +188,27 @@ describe('Card' , () => {
 				.get(`${boardsUrl}/null`)
 				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
-					assert.equal(res.status, '400',
+					assert.equal(res.status, '404',
 							'status equals 400 because board id is not valid');
+
+					done();
+				});
+		});
+	});
+
+	describe('/PUT/board', () => {
+
+		it ('should rename a personal board name - success', done => {
+      const renamedBoardName = {
+				name: 'renamedBoardName',
+			};
+
+			chai.request(app)
+				.put(`${boardsUrl}/${boardId}`)
+				.set('Authorization', `JWT ${token}`)
+        .send(renamedBoardName)
+				.end((err, res) => {
+					assert.equal(res.status, '200', 'status equals 200');
 
 					done();
 				});

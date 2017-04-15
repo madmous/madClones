@@ -1,6 +1,8 @@
 import FontAwesome from 'react-fontawesome';
 import React, { PropTypes } from 'react';
 
+import { UpdateBoardName } from '../../components/index';
+
 import './BoardViewHeader.css';
 
 const propTypes = {
@@ -68,25 +70,57 @@ export default function BoardViewHeader(props) {
   };
 
   const handleStarClicked = () => {
-    const { starredBoardActions, boardIdLocation, userId } = props;
+    const { starredBoardActions, boardIdLocation } = props;
     const boardId = boardIdLocation.split('/')[2];
-
+    const organizationId = organization ? organization._id : null;
+    
     if (starredBoardItem && starredBoardItem.isStarredBoard) {
-      starredBoardActions.removeBoardStar(userId, organization._id, boardId);
+      starredBoardActions.removeBoardStar(organizationId, boardId);
     } else {
-      starredBoardActions.addBoardStar(userId, organization._id, boardId);
+      starredBoardActions.addBoardStar(organizationId, boardId);
+    }
+  };
+
+  const handleBoardNameClicked = () => {
+    const { 
+      isUpdateBoardNameOpen, 
+      boardViewActions 
+    } = props;
+
+    if (isUpdateBoardNameOpen) {
+      boardViewActions.closeUpdateBoardNameForm();
+    } else {
+      boardViewActions.openUpdateBoardNameForm();
+    }
+  };
+
+  const updateBoardName = formInput => {
+    const boardId = props.boardIdLocation.split('/')[2];
+    const organizationId = organization ? organization._id : null;
+
+    props.boardActions.updateBoardName(organizationId, boardId, formInput.boardName);
+  };
+
+  const renderUpdateBoardName = () => {
+    let boardName = starredBoardItem && starredBoardItem.name;
+
+    if (props.isUpdateBoardNameOpen) {
+      return (
+        <UpdateBoardName boardName={ boardName } onSubmit={ updateBoardName } />
+      );
     }
   };
 
   return (
     <div className="Board-View-Header">
-      <span>{ renderBoardName() }</span>
+      <span onClick={ handleBoardNameClicked }>{ renderBoardName() }</span>
       <span>{ renderOrganizationName() }</span>
       <FontAwesome 
         name="star-o" 
         className={ getBoardViewHeaderStarClass() }
         onClick={ handleStarClicked }
       />
+      { renderUpdateBoardName() }
     </div>
   );
 }

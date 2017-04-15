@@ -31,7 +31,7 @@ export const updateOrganization = (req, res) => {
   let organization = user.organizations.id(req.params.idOrganization);
 
   if (!organization) {
-    buildResponse(404, 'That organization does not existd', res);
+    buildResponse(404, 'That organization does not exist', res);
   } else {
     organization.name = req.body.name;
     organization.displayName = req.body.displayName;
@@ -45,7 +45,7 @@ export const removeOrganization = (req, res) => {
   let organization = user.organizations.id(req.params.idOrganization);
 
   if (!organization) {
-    buildResponse(404, 'That organization does not existd', res);
+    buildResponse(404, 'That organization does not exist', res);
   } else {
     organization.remove();
 
@@ -63,7 +63,7 @@ export const saveOrganizationBoard = (req, res) => {
   let organization = user.organizations.id(req.params.idOrganization);
 
   if (!organization) {
-    buildResponse(404, 'That organization does not existd', res);
+    buildResponse(404, 'That organization does not exist', res);
   } else {
     organization.boards.push(board);
 

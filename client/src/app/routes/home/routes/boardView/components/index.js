@@ -6,6 +6,7 @@ import Cards from './Cards/CardsContainer';
 import Card from './Card/CardContainer';
 
 import { 
+	UpdateBoardName,
 	CreateCardItem, 
 	CreateCard
 } from './Forms/index';
@@ -18,6 +19,7 @@ export {
 	Cards,
 	Card,
 
+	UpdateBoardName,
 	CreateCardItem,
 	CreateCard
 }

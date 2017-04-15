@@ -4,32 +4,32 @@
   display: flex;
 }
 
-.Board-View-Header span {
+.Board-View-Header > span {
   margin: 0;
   padding: 0px 10px;
   text-decoration: none;
   margin-right: 4px;
 }
 
-.Board-View-Header span:nth-child(1) { 
+.Board-View-Header > span:nth-child(1) { 
   color: #f6f6f6;
   font-size: 18px;
   font-weight: 700;
   line-height: 30px;
 }
 
-.Board-View-Header span:nth-child(2) {
+.Board-View-Header > span:nth-child(2) {
   color: #f6f6f6;
   font-size: 12px;
   display: flex;
   align-items: center;
 }
 
-.Board-View-Header span:nth-child(3) {
+.Board-View-Header > span:nth-child(3) {
   -webkit-text-stroke: 0.7px;
 }
 
-.Board-View-Header span:hover {
+.Board-View-Header > span:hover {
   cursor: pointer;
   border-radius: 3px;
   background: #006DAC;

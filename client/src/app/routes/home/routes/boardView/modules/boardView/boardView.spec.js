@@ -41,7 +41,10 @@ describe('boardView reducer', () => {
       reducer(undefined, {})
     ).toEqual({
         isFocusOnCreateCardForm: false,
-        isCreateCardFormOpen: false
+        isCreateCardFormOpen: false,
+
+        isFocusOnUpdateBoardNameForm: false,
+        isUpdateBoardNameOpen: false
       }
     )
   })
@@ -68,6 +71,28 @@ describe('boardView reducer', () => {
     )
   })
 
+  it('should handle OPEN_UPDATE_BOARD_NAME_FORM', () => {
+    expect(
+      reducer([], {
+        type: 'OPEN_UPDATE_BOARD_NAME_FORM'
+      })
+    ).toEqual({
+        isUpdateBoardNameOpen: true
+      }
+    )
+  })
+
+  it('should handle CLOSE_UPDATE_BOARD_NAME_FORM', () => {
+    expect(
+      reducer([], {
+        type: 'CLOSE_UPDATE_BOARD_NAME_FORM'
+      })
+    ).toEqual({
+        isUpdateBoardNameOpen: false
+      }
+    )
+  })
+
   it('should handle FOCUS_CREATE_CARD_FORM', () => {
     expect(
       reducer([], {
@@ -86,6 +111,28 @@ describe('boardView reducer', () => {
       })
     ).toEqual({
         isFocusOnCreateCardForm: false
+      }
+    )
+  })
+
+  it('should handle FOCUS_ON_UPDATE_BOARD_NAME_FORM', () => {
+    expect(
+      reducer([], {
+        type: 'FOCUS_ON_UPDATE_BOARD_NAME_FORM'
+      })
+    ).toEqual({
+        isFocusOnUpdateBoardNameForm: true
+      }
+    )
+  })
+
+  it('should handle BLUR_ON_UPDATE_BOARD_NAME_FORM', () => {
+    expect(
+      reducer([], {
+        type: 'BLUR_ON_UPDATE_BOARD_NAME_FORM'
+      })
+    ).toEqual({
+        isFocusOnUpdateBoardNameForm: false
       }
     )
   })

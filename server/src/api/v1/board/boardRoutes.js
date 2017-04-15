@@ -7,6 +7,7 @@ import {
   removeUserBoardStar,
   saveUserBoardStar,
   removeUserBoard,
+  renameBoardName,
   saveUserBoard
 } from './boardController';
 
@@ -20,6 +21,7 @@ import {
 import {
   removeUserBoardStarSchema,
   saveUserBoardStarSchema,
+  renameBoardNameSchema,
   removeUserBoardSchema,
   saveUserBoardSchema
 } from './boardValidation';
@@ -37,12 +39,13 @@ router.route('/')
     .post(validate(saveUserBoardSchema), saveUserBoard);
 
 router.route('/:idBoard')
-    .get(validate(getUserBoardCardsSchema), getUserBoardCards)
-    .put(validate(updateUserBoardCardsSchema), updateUserBoardCards)
-    .delete(validate(removeUserBoardSchema), removeUserBoard);
+    .delete(validate(removeUserBoardSchema), removeUserBoard)
+    .put(validate(renameBoardNameSchema), renameBoardName);
 
 router.route('/:idBoard/cards')
-    .post(validate(saveUserBoardCardSchema), saveUserBoardCard);
+    .get(validate(getUserBoardCardsSchema), getUserBoardCards)
+    .post(validate(saveUserBoardCardSchema), saveUserBoardCard)
+    .put(validate(updateUserBoardCardsSchema), updateUserBoardCards);
 
 router.route('/:idBoard/cards/:idCard')
     .post(validate(saveUserBoardCardItemSchema), saveUserBoardCardItem);
