@@ -3,7 +3,8 @@ import fetch from 'isomorphic-fetch';
 import { 
   organizationActionCreators, 
   notificationActionCreators,
-  modalActionCreators
+  modalActionCreators,
+  formActionCreators
 } from '../index';
 
 import { url } from '../../../../../utils/url.js';
@@ -143,6 +144,7 @@ function saveBoard(url, boardName, methodType) {
           }
         } else {
           dispatch(modalActionCreators.closeAllModals());
+          dispatch(formActionCreators.closeAllForms());
 
           if (methodType === 'POST') {
             dispatch(addBoardSuccess());

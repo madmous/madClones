@@ -10,6 +10,7 @@ import * as notificationActionCreators from './notification/notification';
 import * as organizationActionCreators from './organization/organization';
 import * as modalActionCreators from './modals/modals';
 import * as boardActionCreators from './board/board';
+import * as formActionCreators from './forms/forms';
 import * as homeActionCreators from './home/home';
 
 export {
@@ -18,6 +19,7 @@ export {
 	organizationActionCreators,
 	modalActionCreators,
 	boardActionCreators,
+	formActionCreators,
 	homeActionCreators,
 
 	notification,

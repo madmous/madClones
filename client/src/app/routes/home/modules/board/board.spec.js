@@ -126,7 +126,9 @@ describe('board async actions', () => {
 
       const expectedActions = [
         { type: 'ADD_BOARD_REQUEST' },
-        { type: 'CLOSE_ALL_MODALS' }, 
+        { type: 'CLOSE_ALL_MODALS' },
+        { type: 'CLOSE_ALL_FORMS' },
+        { type: 'CLOSE_UPDATE_BOARD_NAME_FORM' },
         { type: 'ADD_BOARD_SUCCESS' }, 
         {
           type: 'UPDATE_BOARDS',
@@ -205,7 +207,9 @@ describe('board async actions', () => {
 
       const expectedActions = [
         { type: 'ADD_BOARD_REQUEST' },
-        { type: 'CLOSE_ALL_MODALS' }, 
+        { type: 'CLOSE_ALL_MODALS' },
+        { type: 'CLOSE_ALL_FORMS' },
+        { type: 'CLOSE_UPDATE_BOARD_NAME_FORM' },
         { type: 'ADD_BOARD_SUCCESS' }, 
         {
           type: 'UPDATE_BOARDS',
@@ -285,7 +289,9 @@ describe('board async actions', () => {
 
       const expectedActions = [
         { type: 'UPDATE_BOARD_NAME_REQUEST' },
-        { type: 'CLOSE_ALL_MODALS' }, 
+        { type: 'CLOSE_ALL_MODALS' },
+        { type: 'CLOSE_ALL_FORMS' },
+        { type: 'CLOSE_UPDATE_BOARD_NAME_FORM' }, 
         { type: 'UPDATE_BOARD_NAME_SUCCESS' }, 
         {
           type: 'UPDATE_BOARDS',
