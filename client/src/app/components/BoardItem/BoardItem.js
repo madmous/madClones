@@ -61,14 +61,13 @@ export default function BoardItem(props) {
       starredBoardActions,
       isStarredBoardItem, 
       organizationId, 
-      boardId,
-      userId
+      boardId
     } = props;
 
     if (isStarredBoardItem) {
-      starredBoardActions.removeBoardStar(userId, organizationId, boardId);
+      starredBoardActions.removeBoardStar(organizationId, boardId);
     } else {
-      starredBoardActions.addBoardStar(userId, organizationId, boardId);
+      starredBoardActions.addBoardStar(organizationId, boardId);
     }
   };
 
