@@ -12,6 +12,8 @@ import BoardItemContainer from './BoardItemContainer';
 import BoardItem from './BoardItem';
 
 const setupShallow = () => {
+  let removeBoardStar = sinon.spy();
+  let addBoardStar = sinon.spy();
   let addBoard = sinon.spy();
 
   const props = {
@@ -24,12 +26,19 @@ const setupShallow = () => {
 
     boardActions: {
       addBoard
+    },
+
+    starredBoardActions: {
+      removeBoardStar,
+      addBoardStar
     }
   }
 
   const wrapper = shallow(<BoardItem {...props} />)
 
   return {
+    removeBoardStar,
+    addBoardStar,
     addBoard,
 
     wrapper
@@ -99,6 +108,58 @@ describe('.Boards-Board-Tile', () => {
       const { wrapper } = setupShallow();
 
       chai.expect(wrapper.find('.Boards-Board-Tile-Title-Name').props().boardName).to.equal('boardName');
+    })
+  })
+})
+
+describe('FontAwesome (regular star)', () => {
+  describe('onClick event', () => {
+    it('should have an onClick defined', () => {
+      const { wrapper } = setupShallow();
+
+      wrapper.setProps({
+        isStarredBoardItem: false
+      });
+
+      chai.expect(wrapper.find('.Boards-Board-Item-Tile-Option').props().onClick).to.be.defined;
+    })
+
+    it('should call removeBoardStar action', () => {
+      const { addBoardStar, wrapper } = setupShallow();
+
+      wrapper.setProps({
+        isStarredBoardItem: false
+      });
+
+      wrapper.find('.Boards-Board-Item-Tile-Option').simulate('click', { stopPropagation() {} });
+
+      chai.expect(addBoardStar.calledOnce).to.be.true;
+    })
+  })
+})
+
+describe('FontAwesome (yellow star)', () => {
+  describe('onClick event', () => {
+    it('should have an onClick defined', () => {
+      const { wrapper } = setupShallow();
+
+      wrapper.setProps({
+        isStarredBoardItem: true
+      });
+
+      chai.expect(wrapper.find('.Boards-Board-Item-Tile-Starred').props().onClick).to.be.defined;
+    })
+
+    it('should call removeBoardStar action', () => {
+      const { removeBoardStar, wrapper } = setupShallow();
+
+      wrapper.setProps({
+        isStarredBoardItem: true
+      });
+
+      wrapper.find('.Boards-Board-Item-Tile-Starred').simulate('click', { stopPropagation() {} });
+
+      chai.expect(removeBoardStar.calledOnce).to.be.true;
     })
   })
 })
