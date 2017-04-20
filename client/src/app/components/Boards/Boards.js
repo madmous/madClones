@@ -127,18 +127,28 @@ export default function Boards(props) {
   };
 
   const renderBoards = () => {
-    const { boardsClassName, userInput } = props;
-    let { starredBoards, organizations, boards } = props;
+    const { boardsClassName, boardsMenuInput } = props;
+    const { starredBoards, organizations, boards } = props;
 
-    if (boardsClassName === 'BoardsMenu' && userInput !== '') {
-      starredBoards = filterBoards(starredBoards);
-      boards = filterBoards(boards);
+    if (boardsClassName === 'BoardsMenu' && boardsMenuInput !== '') {
+      let filteredStarredBoards = filterBoards(starredBoards);
+      let filteredBoards = filterBoards(boards);
 
-      organizations = organizations.map(organization => {
-        organization.boards = filterBoards(organization.boards);
+      let filteredOrganizations = organizations.map(organization => {
+        let organizationClone = {...organization};
 
-        return organization;
-      })
+        organizationClone.boards = filterBoards(organizationClone.boards);
+
+        return organizationClone;
+      });
+
+      return (
+        <div>
+          { renderStarredBoards(filteredStarredBoards) }
+          { renderPersonalBoards(filteredBoards) }
+          { renderOrganizationBoards(filteredOrganizations) }
+        </div>
+      )
     }
 
     return (
