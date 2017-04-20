@@ -134,10 +134,16 @@ export default function BoardItem(props) {
     boardActions.addBoard(userId, organizationId, formInput.name);
   };
 
+  const renderCreateBoard = () => {
+    if (!props.isActiveBoard) {
+      return (<CreateBoard onSubmit={ addBoard } />);
+    }
+  };
+
   return (
     <li className={ getClassName() }>
       { isActiveBoard() }
-      <CreateBoard onSubmit={ addBoard } />
+      { renderCreateBoard() }
     </li>
   );
 }
