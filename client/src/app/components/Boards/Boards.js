@@ -23,10 +23,6 @@ const propTypes = {
   popOverActions: PropTypes.object.isRequired,
   boardActions: PropTypes.object.isRequired,
   modalActions: PropTypes.object.isRequired
-}
-
-const defaultTypes = {
-  userInput: ''
 };
 
 export default function Boards(props) {
@@ -165,5 +161,4 @@ export default function Boards(props) {
   );
 }
 
-Boards.defaultTypes = defaultTypes;
 Boards.propTypes = propTypes;
