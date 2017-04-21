@@ -6,6 +6,7 @@
     "chai": "^3.5.0",
     "enzyme": "^2.7.1",
     "es6-promise": "^4.0.5",
+    "flow-bin": "^0.44.2",
     "isomorphic-fetch": "^2.2.1",
     "nock": "^9.0.2",
     "react-addons-test-utils": "^15.3.0",
@@ -37,6 +38,7 @@
     "start:dev": "NODE_ENV=development react-scripts start",
     "build": "react-scripts build",
     "test": "NODE_ENV=test react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   }
 }
