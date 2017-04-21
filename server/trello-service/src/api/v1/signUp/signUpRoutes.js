@@ -3,7 +3,7 @@
 import validate from 'express-validation';
 import express from 'express';
 
-import { saveUserSchema } from './signupValidation';
+import { saveUserSchema } from './signUpValidation';
 import { saveUser }  from './signUpController';
 
 const router  = express.Router();
