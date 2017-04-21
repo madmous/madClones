@@ -1,11 +1,14 @@
-FROM node:6
+FROM node:7.8
 
-RUN mkdir -p /src/app
-COPY . /src/app
-WORKDIR /src/app
+RUN mkdir -p /src
+
+COPY . /src
+
+WORKDIR /src
+
 RUN npm install --production
 
 ENV PORT 80
 EXPOSE  $PORT
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

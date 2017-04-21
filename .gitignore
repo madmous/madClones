@@ -1,5 +1,6 @@
 node_modules/
 .idea/
+server/trello-service/dist
 npm-debug.log
 coverage
 .DS_Store
