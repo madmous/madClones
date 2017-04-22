@@ -1,0 +1,1 @@
+dbURI = 'mysql://usersmicroserviceuser:M@+=mm26xt22$%)(@localhost:3306/usersmicroservice'
