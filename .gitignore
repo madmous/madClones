@@ -5,3 +5,5 @@ npm-debug.log
 coverage
 .DS_Store
 /*.env
+*.pyc
+.vscode/
