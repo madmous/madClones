@@ -1,4 +1,4 @@
-from index import db
+from index import db, brcypt
 
 class UserModel(db.Model):
 
@@ -16,8 +16,15 @@ class UserModel(db.Model):
         self.fullname = fullname
         self.initials = initials
         self.email = email
-        self.password = password
         self.application = application
+
+        self.set_password(password)
 
     def __repr__(self):
         return self.name
+
+    def set_password(self, password):
+        self.password = bcrypt.generate_password_hash(password)
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
