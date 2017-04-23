@@ -9,6 +9,6 @@ WORKDIR /src
 RUN npm install --production
 
 ENV PORT 80
-EXPOSE  $PORT
+EXPOSE $PORT
 
 CMD ["yarn", "start"]
