@@ -1,0 +1,1 @@
+jwtSecret = 'jwt secret for users microservice access token'
