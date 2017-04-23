@@ -1,0 +1,19 @@
+version: "2"
+services:
+  users-microservice:
+    image: madmous/usersmicroservice
+    ports:
+      - "3002:80"
+    depends_on:
+      - mysql
+    links:
+      - mysql
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: usersmicroservice
