@@ -3,7 +3,7 @@ services:
   users-microservice:
     image: madmous/usersmicroservice
     ports:
-      - "3002:80"
+      - "3002:5000"
     depends_on:
       - mysql
     links:

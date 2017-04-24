@@ -128,4 +128,4 @@ api.add_resource(SignInController, '/signin')
 api.add_resource(SignUpController, '/signup')
 
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', debug = True, port = 80)
+    app.run(host = '0.0.0.0', port = 5000)
