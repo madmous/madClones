@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 ENV PORT 80
 EXPOSE $PORT
 
-CMD python src/index.py
+CMD export FLASK_ENV=prod; python src/index.py

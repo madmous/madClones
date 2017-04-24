@@ -4,16 +4,22 @@ from flask_bcrypt import Bcrypt
 from flask import Flask, jsonify, request
 
 from api.users.userSchema import UserSchema
-from config.database import dbURI
+from config.database import dbURI, dbDevURI
 from config.config import jwtSecret
 
 import requests
 import json
 import jwt
+import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = dbURI
+if 'FLASK_ENV' in os.environ.keys() and os.environ['FLASK_ENV'] == 'prod':
+    app.config['SQLALCHEMY_DATABASE_URI'] = dbURI
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = dbDevURI
+    app.config['DEBUG'] = True
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False;
 
 api = Api(app)
