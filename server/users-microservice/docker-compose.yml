@@ -3,11 +3,12 @@ services:
   users-microservice:
     image: madmous/usersmicroservice
     ports:
-      - "3002:5000"
+      - "3002:3002"
     depends_on:
       - mysql
     links:
       - mysql
+    restart: always
   mysql:
     image: mysql
     ports:
@@ -17,3 +18,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: usersmicroservice
+    restart: always
