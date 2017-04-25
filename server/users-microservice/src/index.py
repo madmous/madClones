@@ -3,9 +3,10 @@ from flask_restful import Resource, Api
 from flask_bcrypt import Bcrypt
 from flask import Flask, jsonify, request
 
-from api.users.userSchema import UserSchema
 from config.database import dbURI, dbDevURI
 from config.config import jwtSecret
+
+from api.users.userSchema import UserSchema
 
 import requests
 import json
@@ -55,14 +56,6 @@ class UserModel(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
-class UserController(Resource):
-    
-    def get(self):
-        user_schema = UserSchema(many = True)
-        result = user_schema.dump(list(UserModel.query.all()))
-
-        return result.data, 200
-
 class SignInController(Resource):
     
     def post(self):
@@ -111,16 +104,22 @@ class SignUpController(Resource):
 
         return result.data, 200
 
+class UserController(Resource):
+    
+    def get(self):
+        user_schema = UserSchema(many=True)
+        result = user_schema.dump(list(UserModel.query.all()))
+
+        return result.data, 200
+
 class TestController(Resource):
     
     def get(self):
         payload = {'some': 'data'}
-        t = requests.post('http://127.0.0.1:3001/api/v1/signup', data=payload)
+        t = requests.post('http://trello-microservice:80/api/v1/signup', data = payload)
+        # t = requests.post('http://localhost:3001/api/v1/signup', data = payload) // TODO env variable
 
-        response = jsonify(data = 'Test')
-        response.status_code = 200
-
-        return response
+        return t.json(), t.status_code
 
 api.add_resource(UserController, '/')
 api.add_resource(TestController, '/test')
