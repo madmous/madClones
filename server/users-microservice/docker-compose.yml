@@ -6,16 +6,24 @@ services:
       - "3002:3002"
     depends_on:
       - mysql
-    links:
-      - mysql
+    networks:
+      - usersdb
     restart: always
   mysql:
     image: mysql
     ports:
       - "3306:3306"
     volumes:
-      - /var/lib/mysql
+      - mysql:/var/lib/mysql
+    networks:
+      - usersdb
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: usersmicroservice
-    restart: always
+
+volumes:
+  mysql:
+
+networks:
+  usersdb:

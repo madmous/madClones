@@ -5,27 +5,47 @@ services:
     image: madmous/trellomicroservice
     ports:
       - "3001:80"
-    links:
-      - mongo
+    networks:
+      - trellodb
+      - trello
+    restart: always
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - trellodb
+    restart: always
   users-microservice:
     image: madmous/usersmicroservice
     ports:
       - "3002:3002"
     depends_on:
       - mysql
-    links:
-      - mysql
-      - trello-microservice
+    networks:
+      - usersdb
+      - trello
+    restart: always
   mysql:
     image: mysql
     ports:
       - "3306:3306"
     volumes:
-      - /var/lib/mysql
+      - mysql:/var/lib/mysql
+    networks:
+      - usersdb
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: usersmicroservice
+
+volumes:
+  mongodb:
+  mysql:
+
+networks:
+  trellodb:
+  usersdb:
+  trello:

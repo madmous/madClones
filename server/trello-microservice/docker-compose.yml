@@ -1,14 +1,26 @@
 version: "2"
 services:
-  web:
+  trello-microservice:
     image: madmous/trellomicroservice
     ports:
       - "3001:80"
-    links:
-      - mongo
+    networks:
+      - trellodb
+      - trello
+    restart: always
   mongo:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
-      - /data/mongodb:/data/db
+      - mongodb:/data/db
+    networks:
+      - trellodb
+    restart: always
+
+volumes:
+  mongodb:
+
+networks:
+  trellodb:
+  trello:
