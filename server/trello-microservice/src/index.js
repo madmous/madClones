@@ -2,11 +2,13 @@
 
 import expressValidation from 'express-validation';
 
+import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import express from 'express';
 import winston from 'winston';
 import helmet from 'helmet';
+import csurf from 'csurf';
 import cors from 'cors';
 
 import getLogger from './libs/winston';
@@ -35,11 +37,15 @@ const log = getLogger(module);
 
 const app = express ();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
+
 app.use(passport.initialize());
 app.use(helmet());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cookieParser());
 
 app.disable('x-powered-by');
 
@@ -51,6 +57,8 @@ app.use('/api/v1/organizations', authenticatedWithToken, organizationRoutes);
 app.use('/api/v1/boards', authenticatedWithToken, boardRoutes);
 app.use('/api/v1/users', authenticatedWithToken, userRoutes);
 app.use('/api/v1/home', authenticatedWithToken, homeRoutes);
+
+app.use(csurf({ cookie: true }));
 
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {

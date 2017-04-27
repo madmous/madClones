@@ -1,7 +1,7 @@
 import { BasicStrategy } from 'passport-http';
 import passport from 'passport';
 import async from 'async';
-import jwt from 'jwt-simple';
+import jwt from 'jsonwebtoken';
 
 import { userModel } from '../models/index';
 import { secret } from '../config/config';
@@ -34,9 +34,16 @@ passport.use(new BasicStrategy(
           return callback(null, { err: { passwordErr: 'Invalid password' } }); 
         }
 
-        const token = jwt.encode(user._id, secret)
+        let payload = {
+          'iss': 'users-microservice',
+          'userId': user._id,
+          'userName': user.name,
+          'userEmail': user.email
+        };
 
-        return callback(null, { token: token });
+        const token = jwt.sign(payload, secret)
+
+        return callback(null, { token });
       });
     });
   }
@@ -44,12 +51,22 @@ passport.use(new BasicStrategy(
 
 let opts = {};
 
-opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
+let cookieExtractor = function(req) {
+  let token = null;
+
+  if (req && req.cookies){
+    token = req.cookies['jwt'];
+  }
+
+  return token;
+};
+
+opts.jwtFromRequest = ExtractJwt.fromExtractors([cookieExtractor]);
 opts.secretOrKey = secret;
 
 passport.use(new Strategy(opts, 
   function(jwt_payload, callback) {
-    const userId = jwt_payload;
+    const { userId } = jwt_payload;
     
     userModel.findById(userId, function(err, user) {
       

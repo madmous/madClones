@@ -1,7 +1,7 @@
 'use strict';
 
+import jwt from 'jsonwebtoken';
 import Boom from 'boom';
-import jwt from 'jwt-simple';
 
 import { userModel } from '../../../models/index';
 import { secret } from '../../../config/config';
@@ -25,7 +25,16 @@ export const saveUser = (req, res) => {
         return user.save();
       }
     })
-    .then(user => buildResponse(200, jwt.encode(user._id, secret), res))
+    .then(user => {
+      let payload = {
+        'iss': 'users-microservice',
+        'userId': user._id,
+        'userName': user.name,
+        'userEmail': user.email
+      };
+
+      buildResponse(200, jwt.sign(payload, secret), res)
+    })
     .catch(error => {
       if (error.isBoom) {
         buildResponse(err.output.statusCode, error.message, res);

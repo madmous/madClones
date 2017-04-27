@@ -14,9 +14,11 @@ export function authenticate(req, res) {
       }
     });
   } else {
+    res.cookie('jwt', reqUser.token, { httpOnly: true });
+
     return res.status(200).json({
       data: {
-				token: reqUser.token
+				message: 'success'
 			}
     });
 	}
