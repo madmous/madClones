@@ -49,9 +49,7 @@ export function getHome() {
 
     return fetch(url + `api/v1/home/`, 
       { method: 'GET',
-        headers: {
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
-        },
+        credentials: 'include'
       })
       .then(response => {
         if (response.status === 401) {

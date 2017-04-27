@@ -55,6 +55,7 @@ export function authenticate(formInputs, redirectUrl) {
           'Content-Type': 'application/json; charset=utf-8',
           'Authorization': 'Basic ' + btoa(formInputs.username + ':' + formInputs.password)
         },
+        credentials: 'include'
       })
       .then(response => response.json())
       .then(json => {
@@ -73,8 +74,6 @@ export function authenticate(formInputs, redirectUrl) {
 
         } else {
           dispatch(authenticationSuccess());
-
-          localStorage.setItem('userId', jsonData.token);
           
           if (redirectUrl && redirectUrl.query && redirectUrl.query.redirect) {
             dispatch(push(redirectUrl.query.redirect))
@@ -96,8 +95,6 @@ function unAuthenticateUser() {
 export function logoutUser() {
   return dispatch => {
     dispatch(modalActionCreators.closeAllModals());
-
-    localStorage.removeItem('userId');
 
     dispatch(unAuthenticateUser());
     dispatch(push('/login'));

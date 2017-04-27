@@ -192,9 +192,9 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
           cards
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
+          'Content-Type': 'application/json; charset=utf-8'
         },
+        credentials: 'include'
       })
       .then(response => {
         if (response.status === 401) {
@@ -219,9 +219,7 @@ export function getCards(pathname) {
 
     return fetch(url + `api/v1${pathname}/cards`, 
       { method: 'GET',
-        headers: {
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
-        },
+        credentials: 'include'
       })
       .then(response => {
         if (response.status === 401) {
@@ -256,9 +254,9 @@ export function saveCard(pathname, cardName) {
           name: cardName
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
+          'Content-Type': 'application/json; charset=utf-8'
         },
+        credentials: 'include'
       })
       .then(response => {
         if (response.status === 401) {
@@ -289,9 +287,9 @@ export function saveCardItem(pathname, cardId, cardItemName) {
           name: cardItemName
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
+          'Content-Type': 'application/json; charset=utf-8'
         },
+        credentials: 'include'
       })
       .then(response => {
         if (response.status === 401) {

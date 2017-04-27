@@ -42,9 +42,7 @@ export function getUser() {
 
     return fetch(url + `api/v1/users/`, 
       { method: 'GET',
-        headers: {
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
-        },
+        credentials: 'include'
       })
       .then(response => {
         if (response.status === 401) {

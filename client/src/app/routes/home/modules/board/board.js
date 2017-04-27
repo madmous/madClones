@@ -123,9 +123,9 @@ function saveBoard(url, boardName, methodType) {
           name: boardName
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
+          'Content-Type': 'application/json; charset=utf-8'
         },
+        credentials: 'include'
       })
       .then(response => response.json())
       .then(json => {

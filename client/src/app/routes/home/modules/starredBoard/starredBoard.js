@@ -90,9 +90,9 @@ function saveBoardStar(urlToFetch, method) {
     return fetch(urlToFetch, 
       { method: method, 
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-          'Authorization': 'JWT ' + localStorage.getItem('userId')
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
         },
+        credentials: 'include'
       })
       .then(response => response.json())
       .then(json => {
