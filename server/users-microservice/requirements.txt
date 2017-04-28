@@ -4,5 +4,6 @@ Flask-SQLAlchemy
 JWT
 marshmallow
 requests
-flask_bcrypt
+bcrypt
 mysqlclient
+uuid
