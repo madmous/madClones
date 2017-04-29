@@ -41,7 +41,8 @@ export function getUser() {
     dispatch(loadUserRequest())
 
     return fetch(url + `api/v1/users/`, 
-      { method: 'GET',
+      { 
+        method: 'GET',
         headers: {
           'csrf': localStorage.getItem('csrf')
         },
@@ -49,7 +50,7 @@ export function getUser() {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(loginActionCreators.logoutUser());
+          throw '401 error'
         } else {
           return response.json();
         }
@@ -63,8 +64,8 @@ export function getUser() {
           dispatch(loadUserSuccess())
           dispatch(updateUser(jsonData));
         }
-      }
-    );
+      })
+      .catch(error => dispatch(loginActionCreators.logoutUser()))
   };
 }
 
