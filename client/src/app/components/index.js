@@ -15,8 +15,7 @@ import BoardItem from './BoardItem/BoardItemContainer';
 import Boards from './Boards/BoardsContainer';
 
 import { 
-	CreateOrganization, 
-	UpdateBoardName,
+	CreateOrganization,
 	CreateBoard 
 } from './Forms/index';
 
