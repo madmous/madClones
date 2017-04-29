@@ -186,7 +186,7 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
     dispatch(moveCard(previousAndNextPositions));
     dispatch(updateCardsRequest());
     
-    return fetch(url + `api/v1${pathname}`, 
+    return fetch(`${url}api/v1${pathname}/cards`, 
       { method: 'PUT',
         body: JSON.stringify({
           cards

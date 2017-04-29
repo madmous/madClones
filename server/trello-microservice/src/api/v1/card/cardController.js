@@ -58,10 +58,14 @@ export const updateUserBoardCards = async (req, res) => {
     } else {
       cards.cards = req.body.cards;
 
-      let cards = await cards.save();
+      let savedCards = await cards.save();
 
-      if (cards) {
-        buildResponse(200, cards.cards, res);
+      if (savedCards) {
+        let response = {
+          cards: cards.cards
+        };
+
+        buildResponse(200, response, res);
       }     
     }    
   } catch (error) {
