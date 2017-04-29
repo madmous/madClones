@@ -139,7 +139,19 @@ export const saveUserBoardCardItem = async (req, res) => {
 
         card.cardItems.push(cardItem);
 
-        return cards.save();
+        try {
+          let savedCards = await cards.save();
+          
+          if (savedCards) {
+            let response = {
+              cards: savedCards.cards
+            };
+
+            buildResponse(200, response, res);
+          }
+        } catch (error) {
+          buildResponse(500, error, res);
+        }
       }
     }
   } catch (error) {
