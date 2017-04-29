@@ -2,7 +2,7 @@ import { change } from 'redux-form';
 import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 
-import { url } from '../../../../../utils/url.js';
+import { usersUrl } from '../../../../../utils/url';
 
 import { modalActionCreators } from '../../../home/modules/index';
 
@@ -49,7 +49,7 @@ export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest());
 
-    return fetch(url + `api/v1/login`, 
+    return fetch(usersUrl + `signin`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

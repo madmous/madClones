@@ -4,7 +4,7 @@ import { change } from 'redux-form';
 import { loginActionCreators } from '../../../login/modules/index';
 import { push } from 'react-router-redux';
 
-import { url } from '../../../../../utils/url';
+import { usersUrl } from '../../../../../utils/url';
 
 const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
 const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
@@ -33,7 +33,7 @@ export function createUser(formInput) {
   return dispatch => {
     dispatch(signUpRequest())
 
-    return fetch(url + `api/v1/signup`, 
+    return fetch(usersUrl + `signup`, 
       { method: 'POST',
         body: JSON.stringify({
           name: formInput.username,
@@ -41,6 +41,7 @@ export function createUser(formInput) {
           initials: formInput.initials,
           email: formInput.email,
           password: formInput.password,
+          application: 'trello-clone'
         }),
        headers: {
           'Content-Type': 'application/json; charset=utf-8',
