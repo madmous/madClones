@@ -5,8 +5,9 @@ from flask import Flask, jsonify, request
 from jwt.algorithms import HMACAlgorithm, RSAAlgorithm
 from config.database import dbURI, dbDevURI
 from config.config import jwtSecret
+from flask_cors import CORS
 from datetime import datetime
-from bcrypt import hashpw
+from bcrypt import hashpw, gensalt
 
 from api.users.userSchema import UserSchema
 
@@ -28,6 +29,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False;
 
 api = Api(app)
 db = SQLAlchemy(app)
+CORS(app, supports_credentials=True)
 
 class UserModel(db.Model):
 
@@ -53,7 +55,7 @@ class UserModel(db.Model):
         return self.name
 
     def set_password(self, password):
-        self.password = hashpw(password.encode('UTF_8'), bcrypt.gensalt())
+        self.password = hashpw(password.encode('UTF_8'), gensalt())
 
     def check_password(self, password):
         return password == self.password.decode()
@@ -65,8 +67,14 @@ class SignInController(Resource):
         user = UserModel.query.filter_by(name=auth.username).first()
 
         if user is None:
-            response = jsonify(error = 'There is not an account for this username')
-            response.status_code = 404
+            data =  {
+                'uiError': {
+                    'usernameErr': 'There is not an account for this username'
+                }
+            }
+
+            response = jsonify(data=data)
+            response.status_code = 401
 
             return response
         else :
@@ -84,37 +92,53 @@ class SignInController(Resource):
 
                 token = jwt.encode(payload, jwtSecret, 'HS256')
 
-                response = jsonify(token=token_identifier)
+                data =  {
+                    'csrf': token_identifier
+                }
+
+                response = jsonify(data=data)
                 response.status_code = 200
                 response.set_cookie('jwt', value=token, httponly=True)
 
                 return response
             else:
-                response = jsonify(message='Invalid password')
-                response.status_code = 404
+                data =  {
+                    'uiError': {
+                        'passwordErr': 'Invalid password'
+                    }
+                }
+
+                response = jsonify(data=data)
+                response.status_code = 401
 
                 return response
 
 class SignCheckController(Resource):
     
     def get(self):
-        token = request.cookies['jwt']
+        if 'jwt' in request.headers and 'csrf' in request.headers:
+            token = request.headers['jwt']
 
-        options = {
-            'verify_exp': False,
-            'verify_aud': False,
-            'verify_iat': False
-        }
+            options = {
+                'verify_exp': False,
+                'verify_aud': False,
+                'verify_iat': False
+            }
 
-        decoded_token = jwt.decode(token, key=jwtSecret, options=options)
+            decoded_token = jwt.decode(token, key=jwtSecret, options=options)
 
-        if decoded_token['csrf'] == request.headers['csrf']:
-            response = jsonify(name=decoded_token['userName'], email=decoded_token['userEmail'])
-            response.status_code = 200
+            if decoded_token['csrf'] == request.headers['csrf']:
+                response = jsonify(name=decoded_token['userName'], email=decoded_token['userEmail'])
+                response.status_code = 200
 
-            return response
+                return response
+            else:
+                response = jsonify(message = 'The token is not valid')
+                response.status_code = 401
+
+                return response
         else:
-            response = jsonify(message = 'The token is not valid')
+            response = jsonify(message = 'Token and or Cookie missing')
             response.status_code = 401
 
             return response
@@ -122,12 +146,14 @@ class SignCheckController(Resource):
 class SignUpController(Resource):
     
     def post(self):
-        name = request.form['name']
-        fullname = request.form['fullname']
-        initials = request.form['initials']
-        email = request.form['email']
-        password = request.form['password']
-        application = request.form['application']
+        userToAdd = request.get_json()
+
+        name = userToAdd['name']
+        fullname = userToAdd['fullname']
+        initials = userToAdd['initials']
+        email = userToAdd['email']
+        password = userToAdd['password']
+        application = userToAdd['application']
 
         user = UserModel(name, fullname, initials, email, password, application)
 
@@ -136,6 +162,17 @@ class SignUpController(Resource):
 
         user_schema = UserSchema(many=False)
         result = user_schema.dump(user)
+
+        payload = {
+            'name': name,
+            'fullname': fullname,
+            'email': 'email'
+        }
+
+        #response = requests.post('http://localhost:3001/api/v1/users', data = payload)
+
+        #if response.status_code == 200
+        #    return result.data, 200
 
         return result.data, 200
 
@@ -147,17 +184,7 @@ class UserController(Resource):
 
         return result.data, 200
 
-class TestController(Resource):
-    
-    def get(self):
-        #payload = {'some': 'data'}
-        #t = requests.post('http://trello-microservice:80/api/v1/signup', data = payload)
-        # t = requests.post('http://localhost:3001/api/v1/signup', data = payload) // TODO env variable
-
-        return jsonify(uuid.uuid4())
-
 api.add_resource(UserController, '/')
-api.add_resource(TestController, '/test')
 api.add_resource(SignInController, '/signin')
 api.add_resource(SignUpController, '/signup')
 api.add_resource(SignCheckController, '/signcheck')
