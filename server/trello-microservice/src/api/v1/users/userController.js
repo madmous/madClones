@@ -23,7 +23,7 @@ export const getUser = (req, res) => {
   const user = req.user;
 
   if (!user) {
-    buildResponse(404, req.err, res);
+    buildResponse(401, req.err, res);
   } else {
     buildResponse(200, user, res);
 	}
