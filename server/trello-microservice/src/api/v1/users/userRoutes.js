@@ -8,6 +8,7 @@ import { updateUserSchema } from './userValidation';
 import {
   updateUser,
   removeUser,
+  saveUser,
   getUser
 } from './userController';
 
