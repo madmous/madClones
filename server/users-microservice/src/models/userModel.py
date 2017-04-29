@@ -1,4 +1,5 @@
-from index import db, brcypt
+from bcrypt import hashpw, checkpw, gensalt
+from models.index import db
 
 class UserModel(db.Model):
 
@@ -24,7 +25,7 @@ class UserModel(db.Model):
         return self.name
 
     def set_password(self, password):
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = hashpw(password.encode('UTF_8'), gensalt())
 
     def check_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
+        return checkpw(password.encode('UTF_8'), self.password.encode('UTF_8'))
