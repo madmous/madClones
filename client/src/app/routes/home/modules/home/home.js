@@ -49,6 +49,9 @@ export function getHome() {
 
     return fetch(url + `api/v1/home/`, 
       { method: 'GET',
+        headers: {
+          'csrf': localStorage.getItem('csrf')
+        },
         credentials: 'include'
       })
       .then(response => {

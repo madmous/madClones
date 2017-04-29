@@ -28,7 +28,7 @@ import './index.css';
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
-if (localStorage.getItem('userId')) {
+if (localStorage.getItem('csrf')) {
   store.dispatch(loginActionCreators.authenticateIfNeeded());
 }
 

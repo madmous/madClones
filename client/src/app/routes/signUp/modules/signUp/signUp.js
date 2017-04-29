@@ -69,7 +69,7 @@ export function createUser(formInput) {
           dispatch(signUpSuccess());
           dispatch(loginActionCreators.authenticateUser());
 
-          localStorage.setItem('userId', jsonData.token);
+          localStorage.setItem('csrf', jsonData.csrf);
 
           dispatch(push('/'));
         }

@@ -90,7 +90,8 @@ function saveBoardStar(urlToFetch, method) {
     return fetch(urlToFetch, 
       { method: method, 
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+          'csrf': localStorage.getItem('csrf')
         },
         credentials: 'include'
       })

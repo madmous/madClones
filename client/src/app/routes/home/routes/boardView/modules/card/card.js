@@ -192,7 +192,8 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
           cards
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'csrf': localStorage.getItem('csrf')
         },
         credentials: 'include'
       })
@@ -219,6 +220,9 @@ export function getCards(pathname) {
 
     return fetch(url + `api/v1${pathname}/cards`, 
       { method: 'GET',
+        headers: {
+          'csrf': localStorage.getItem('csrf')
+        },
         credentials: 'include'
       })
       .then(response => {
@@ -254,7 +258,8 @@ export function saveCard(pathname, cardName) {
           name: cardName
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'csrf': localStorage.getItem('csrf')
         },
         credentials: 'include'
       })
@@ -287,7 +292,8 @@ export function saveCardItem(pathname, cardId, cardItemName) {
           name: cardItemName
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'csrf': localStorage.getItem('csrf')
         },
         credentials: 'include'
       })

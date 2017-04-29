@@ -74,6 +74,9 @@ export function authenticate(formInputs, redirectUrl) {
 
         } else {
           dispatch(authenticationSuccess());
+
+          localStorage.setItem('csrf', jsonData.csrf);
+
           
           if (redirectUrl && redirectUrl.query && redirectUrl.query.redirect) {
             dispatch(push(redirectUrl.query.redirect))
@@ -95,6 +98,8 @@ function unAuthenticateUser() {
 export function logoutUser() {
   return dispatch => {
     dispatch(modalActionCreators.closeAllModals());
+
+    localStorage.removeItem('csrf');
 
     dispatch(unAuthenticateUser());
     dispatch(push('/login'));

@@ -69,7 +69,8 @@ function saveOrganization(url, organizationName) {
           displayName: organizationName,
         }),
         headers: {
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'csrf': localStorage.getItem('csrf')
         },
         credentials: 'include'
       })
