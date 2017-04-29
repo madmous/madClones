@@ -71,18 +71,6 @@ export const updateUserBoardCards = async (req, res) => {
   }
 };
 
-const saveCards = async (cards, res) => {
-  try {
-    let cards = await cards.save();
-
-    if (cards) {
-      buildResponse(200, cards.cards, res);
-    }
-  } catch (error) {
-    buildResponse(500, error, res);
-  }
-};
-
 export const saveUserBoardCard = async (req, res) => {
   try {
     let cards = await cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard });
@@ -94,15 +82,39 @@ export const saveUserBoardCard = async (req, res) => {
     if (cards) {
       cards.cards.push(card);
 
-      saveCards(cards, res);
+      try {
+        let savedCards = await cards.save();
+
+        if (savedCards) {
+          let response = {
+            cards: cards.cards
+          };
+
+          buildResponse(200, response, res);
+        }
+      } catch (error) {
+        buildResponse(500, error, res);
+      }
     } else {
-      let cards = new cardsModel({
+      let cardsToSave = new cardsModel({
         boardId: req.params.idBoard,
         userId: req.user._id,
         cards: card
       });
 
-      saveCards(cards, res);
+      try {
+        let savedCards = await cardsToSave.save();
+
+        if (savedCards) {
+          let response = {
+            cards: savedCards.cards
+          };
+
+          buildResponse(200, response, res);
+        }
+      } catch (error) {
+        buildResponse(500, error, res);
+      }
     }
   } catch (error) {
     buildResponse(500, error, res);
