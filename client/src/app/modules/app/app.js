@@ -42,6 +42,9 @@ export function getUser() {
 
     return fetch(url + `api/v1/users/`, 
       { method: 'GET',
+        headers: {
+          'csrf': localStorage.getItem('csrf')
+        },
         credentials: 'include'
       })
       .then(response => {
