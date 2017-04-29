@@ -50,7 +50,7 @@ export function getUser() {
       })
       .then(response => {
         if (response.status === 401) {
-          throw '401 error'
+          throw new Error ('401 error')
         } else {
           return response.json();
         }
