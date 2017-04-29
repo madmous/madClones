@@ -20,9 +20,7 @@ export default function BoardViewHeader(props) {
     } = props;
 
     const findBoardIdInBoards = boards && boards.find(value => {
-      if (value._id === boardIdLocation.split('/')[2]) {
-        return value;
-      }
+      return value._id === boardIdLocation.split('/')[2]
     });
 
     let findBoardIdInOrganizations;
@@ -30,9 +28,7 @@ export default function BoardViewHeader(props) {
     if (!findBoardIdInBoards && organizations) {
       for (let i = 0; i < organizations.length; i++) {
         findBoardIdInOrganizations = organizations[i].boards.find(value => {
-          if (value._id === boardIdLocation.split('/')[2]) {
-            return value;
-          }
+          return value._id === boardIdLocation.split('/')[2]
         }); 
 
         if (findBoardIdInOrganizations) {
