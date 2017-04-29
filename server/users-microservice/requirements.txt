@@ -7,3 +7,4 @@ requests
 bcrypt
 mysqlclient
 uuid
+flask-cors
