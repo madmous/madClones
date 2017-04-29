@@ -49,10 +49,6 @@ app.use(cookieParser());
 
 app.disable('x-powered-by');
 
-app.use('/api/v1/signup', signUpRoutes);
-
-app.use('/api/v1/login', authenticatedWithBasic, loginRoutes);
-
 app.use('/api/v1/organizations', authenticatedWithToken, organizationRoutes);
 app.use('/api/v1/boards', authenticatedWithToken, boardRoutes);
 app.use('/api/v1/users', authenticatedWithToken, userRoutes);
