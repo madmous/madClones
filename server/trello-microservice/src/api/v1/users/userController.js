@@ -1,5 +1,10 @@
 'use strict';
 
+import {
+  removeUserService,
+  saveUserService 
+} from '../../../utils/userService';
+
 import { userModel } from '../../../models/index';
 
 const buildResponse = (statusCode, data, res) => {
@@ -29,7 +34,7 @@ export const getUser = (req, res) => {
 	}
 };
 
-export const updateUser = (req, res) => {
+export const updateUser = async (req, res) => {
   const errorMessage = 'Sorry. I could not update that user';
   const user = req.user;
 
@@ -37,16 +42,12 @@ export const updateUser = (req, res) => {
   user.fullname = req.body.fullname;
   user.initials = req.body.initials;
 
-  user.save()
-    .then(user => buildResponse(200, user, res))
-    .catch(error => buildResponse(404, errorMessage, res));
+  saveUserService(user, res);
 };
 
 export const removeUser = (req, res) => {
   const errorMessage = 'Sorry. I could not remove that user';
   const user = req.user;
 
-  user.remove()
-    .then(user => buildResponse(200, user, res))
-    .catch(error => buildResponse(404, errorMessage, res));
+  removeUserService(user, res);
 };
