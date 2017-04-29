@@ -15,117 +15,126 @@ import { buildResponse } from '../../../utils/responseService';
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 const log = getLogger(module);
 
-export const getUserBoardCards = (req, res) => {
+export const getUserBoardCards = async (req, res) => {
   const reqUser = req.user;
 
-  cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
-    .then(cards => {
-      if (!cards) {
-        const response = {
-          boards: reqUser.boards,
-          organizations: reqUser.organizations,
-          boardStars: reqUser.boardStars,
-          cards: []
-        };
+  try {
+    let cards = await cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard });
 
-        return buildResponse(200, response, res);  
-      } else {
-        const response = {
-          boards: reqUser.boards,
-          organizations: reqUser.organizations,
-          boardStars: reqUser.boardStars,
-          cards: cards.cards
-        };
+    if (!cards) {
+      const response = {
+        boards: reqUser.boards,
+        organizations: reqUser.organizations,
+        boardStars: reqUser.boardStars,
+        cards: []
+      };
 
-        return buildResponse(200, response, res);     
-      }
-    })
-    .catch(error => {
-      if (error.isBoom) {
-        buildResponse(error.output.statusCode, error.message, res)
-      } else {
-        buildResponse(500, error, res)
-      }
-    });
+      return buildResponse(200, response, res);  
+    } else {
+      const response = {
+        boards: reqUser.boards,
+        organizations: reqUser.organizations,
+        boardStars: reqUser.boardStars,
+        cards: cards.cards
+      };
+
+      return buildResponse(200, response, res);     
+    }
+  } catch (error) {
+    if (error.isBoom) {
+      buildResponse(error.output.statusCode, error.message, res)
+    } else {
+      buildResponse(500, error, res)
+    }
+  }
 };
 
-export const updateUserBoardCards= (req, res) => {
-  cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
-    .then(cards => {
-      if (!cards) {
-        buildResponse(400, 'This board does not have any cards', res);
-      } else {
-        cards.cards = req.body.cards;
+export const updateUserBoardCards = async (req, res) => {
+  try {
+    let cards = await cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard });
 
-        return cards.save()
-          .then(cards => buildResponse(200, cards.cards, res))
-          .catch(error => buildResponse(500, error, res));         
-      }
-    })
-    .catch(error => {
-      log.error(error);
+    if (!cards) {
+      buildResponse(400, 'This board does not have any cards', res);
+    } else {
+      cards.cards = req.body.cards;
 
-      buildResponse(500, error, res);
-    });
-};
-
-const saveCards = (cards, res) => {
-  cards.save()
-    .then(cards => buildResponse(200, cards.cards, res))
-    .catch(error => buildResponse(500, error, res));
-};
-
-export const saveUserBoardCard = (req, res) => {
-  cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
-    .then(cards => {
-      let card = new cardModel({
-        header: req.body.name
-      });
+      let cards = await cards.save();
 
       if (cards) {
-        cards.cards.push(card);
+        buildResponse(200, cards.cards, res);
+      }     
+    }    
+  } catch (error) {
+    log.error(error);
 
-        saveCards(cards, res);
-      } else {
-        let cards = new cardsModel({
-          boardId: req.params.idBoard,
-          userId: req.user._id,
-          cards: card
-        });
-
-        saveCards(cards, res);
-      }
-    })
-    .catch(error => buildResponse(500, error, res));
+    buildResponse(500, error, res);
+  }
 };
 
-export const saveUserBoardCardItem = (req, res) => {
-  cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard })
-    .then(cards => {
-      if (!cards) {
-        throw Boom.create(400, 'This board does not have any cards');
-      } else {
-        let card = cards.cards.id(req.params.idCard);
+const saveCards = async (cards, res) => {
+  try {
+    let cards = await cards.save();
 
-        if (!card) {
-          throw Boom.create(400, 'That card does not exist');
-        } else {
-          let cardItem = new cardItemModel({
-            name: req.body.name
-          })
+    if (cards) {
+      buildResponse(200, cards.cards, res);
+    }
+  } catch (error) {
+    buildResponse(500, error, res);
+  }
+};
 
-          card.cardItems.push(cardItem);
+export const saveUserBoardCard = async (req, res) => {
+  try {
+    let cards = await cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard });
 
-          return cards.save();
-        }
-      }
-    })
-    .then(cards => buildResponse(200, cards.cards, res))
-    .catch(error => {
-      if (error.isBoom) {
-        buildResponse(error.output.statusCode, error.message, res);
-      } else {
-        buildResponse(500, error, res)
-      }
+    let card = new cardModel({
+      header: req.body.name
     });
+
+    if (cards) {
+      cards.cards.push(card);
+
+      saveCards(cards, res);
+    } else {
+      let cards = new cardsModel({
+        boardId: req.params.idBoard,
+        userId: req.user._id,
+        cards: card
+      });
+
+      saveCards(cards, res);
+    }
+  } catch (error) {
+    buildResponse(500, error, res);
+  }
+};
+
+export const saveUserBoardCardItem = async (req, res) => {
+  try {
+    let cards = await  cardsModel.findOne({ userId: req.user._id, boardId: req.params.idBoard });
+
+    if (!cards) {
+      throw Boom.create(400, 'This board does not have any cards');
+    } else {
+      let card = cards.cards.id(req.params.idCard);
+
+      if (!card) {
+        throw Boom.create(400, 'That card does not exist');
+      } else {
+        let cardItem = new cardItemModel({
+          name: req.body.name
+        })
+
+        card.cardItems.push(cardItem);
+
+        return cards.save();
+      }
+    }
+  } catch (error) {
+    if (error.isBoom) {
+      buildResponse(error.output.statusCode, error.message, res);
+    } else {
+      buildResponse(500, error, res)
+    }
+  }
 };
