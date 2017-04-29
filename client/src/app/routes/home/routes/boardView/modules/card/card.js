@@ -276,7 +276,7 @@ export function saveCard(pathname, cardName) {
         } else {
           dispatch(saveCardSuccess());
           dispatch(reset('createCardForm'));
-          dispatch(updateCards(json.data))
+          dispatch(updateCards(json.data));
         }
       })
   }
@@ -308,6 +308,7 @@ export function saveCardItem(pathname, cardId, cardItemName) {
         if (json.uiError || json.error) {
           dispatch(saveCardItemFail(json))
         } else {
+          dispatch(closeCreateCardItemForm());
           dispatch(saveCardItemSuccess());
           dispatch(reset('createCardItemForm'));
           dispatch(updateCards(json.data))
