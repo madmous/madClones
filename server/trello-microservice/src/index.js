@@ -16,9 +16,7 @@ import { port } from './config/config';
 
 import {
   organizationRoutes,
-  signUpRoutes,
   boardRoutes,
-  loginRoutes,
   userRoutes,
   homeRoutes
 } from './api/v1/indexRoutes';
