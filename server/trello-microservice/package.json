@@ -47,6 +47,7 @@
     "lodash": "^4.17.4",
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0",
+    "node-fetch": "^1.6.3",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
