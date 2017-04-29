@@ -22,9 +22,11 @@ export default class BoardView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.cardActions.getCards(nextProps.location.pathname);
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      this.props.cardActions.getCards(nextProps.location.pathname);
+    }
   }
-
+  
   handleDocumentClick = () => {
     const { 
       isFocusOnUpdateBoardNameForm,
