@@ -30,7 +30,7 @@ class SignInController(Resource):
                 token_identifier = str(uuid.uuid4()) + str(uuid.uuid4());
 
                 payload = {
-                    'iss': 'users-microservice',
+                    'iss': 'users_microservice',
                     'sub': 'user_token',
                     'csrf': token_identifier,
                     'iat': datetime.now(),
