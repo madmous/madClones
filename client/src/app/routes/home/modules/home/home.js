@@ -47,7 +47,7 @@ export function getHome() {
   return dispatch => {
     dispatch(loadHomeRequest())
 
-    return fetch(url + `api/v1/home/`, 
+    return fetch(`${url}api/v1/home/`, 
       { method: 'GET',
         headers: {
           'csrf': localStorage.getItem('csrf')

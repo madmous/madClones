@@ -49,7 +49,7 @@ export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest());
 
-    return fetch(usersUrl + `signin`, 
+    return fetch(`${usersUrl}signin`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

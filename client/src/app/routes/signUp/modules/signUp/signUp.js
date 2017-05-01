@@ -33,7 +33,7 @@ export function createUser(formInput) {
   return dispatch => {
     dispatch(signUpRequest())
 
-    return fetch(usersUrl + `signup`, 
+    return fetch(`${usersUrl}signup`, 
       { method: 'POST',
         body: JSON.stringify({
           name: formInput.username,

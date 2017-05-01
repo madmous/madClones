@@ -40,7 +40,7 @@ export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(url + `api/v1/users/`, 
+    return fetch(`${url}api/v1/users/`, 
       { 
         method: 'GET',
         headers: {
