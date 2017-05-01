@@ -4,7 +4,6 @@ import expressValidation from 'express-validation';
 
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import passport from 'passport';
 import express from 'express';
 import winston from 'winston';
 import helmet from 'helmet';
@@ -22,10 +21,7 @@ import {
   homeRoutes
 } from './api/v1/indexRoutes';
 
-import {
-  authenticatedWithBasic,
-  authenticatedWithToken
-} from './utils/passportMiddleweare';
+import { authenticatedWithToken } from './utils/passportMiddleweare';
 
 import {
   dbTest,
@@ -38,7 +34,6 @@ const app = express ();
 
 app.use(cors({ origin: true, credentials: true }));
 
-app.use(passport.initialize());
 app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: true }));
