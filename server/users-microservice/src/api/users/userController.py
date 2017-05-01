@@ -1,5 +1,8 @@
 from flask_restful import Resource
 
+from api.users.userSchema import UserSchema
+from models.userModel import UserModel
+
 class UserController(Resource):
     
     def get(self):
