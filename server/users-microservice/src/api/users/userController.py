@@ -1,7 +1,7 @@
 from flask_restful import Resource
 
-from api.users.userSchema import UserSchema
-from models.userModel import UserModel
+from api.users.UserSchema import UserSchema
+from models.UserModel import UserModel
 
 class UserController(Resource):
     
