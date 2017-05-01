@@ -25,7 +25,7 @@ import {
 	card 
 } from '../app/routes/home/routes/boardView/modules/index';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
 	organization,
 	starredBoard,
 	notification,
@@ -46,5 +46,13 @@ const rootReducer = combineReducers({
 	form: formReducer,
 	routing: routerReducer
 })
+
+const rootReducer = (state, action) => {
+	if (action.type === 'UN_AUTHENTICATE_USER') {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
 
 export default rootReducer;
