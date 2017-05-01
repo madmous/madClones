@@ -6,14 +6,16 @@ export const dbURI = (() => {
   }
 })();
 
-export const port = (() => {
+export const usersMicroserviceUrl = (() => {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 3001;
+    return 'http://localhost:3002';
   } else {
-    return 80;
+    return 'http://usersmicroservice:3002';
   }
 })();
 
 export const dbTestURI = 'mongodb://localhost/trelloCloneApiTest';
 
 export const secret = 'apiTest';
+
+export const port = 3001;
