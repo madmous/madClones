@@ -15,6 +15,7 @@ import { port } from './config/config';
 
 import {
   organizationRoutes,
+  signInRoutes,
   signUpRoutes,
   boardRoutes,
   userRoutes,
@@ -43,6 +44,7 @@ app.use(cookieParser());
 
 app.disable('x-powered-by');
 
+app.use('/api/v1/signin', signInRoutes);
 app.use('/api/v1/signup', signUpRoutes);
 
 app.use('/api/v1/organizations', authenticatedWithToken, organizationRoutes);
