@@ -2,9 +2,10 @@ This project was entirely written from scratch.
 
 ## Main Libraries
 
-* Passport (basic and jwt strategies)
-* JWT simple
-* Winston
+* Babel
+* Bluebird
+* Mongoose
+* Lodash
 
 ## Achievements
 
