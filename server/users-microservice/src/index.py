@@ -10,7 +10,11 @@ from api.signup.signUpController import SignUpController
 from api.users.userController import UserController
 from api.users.userSchema import UserSchema
 from models.index import db
+from aiohttp import client
 
+from config.config import trelloMicroserviceUrl
+
+import requests
 import os
 
 app = Flask(__name__)
@@ -24,6 +28,8 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False;
 
 db.init_app(app)
+db.app = app
+db.create_all()
 
 api = Api(app)
 CORS(app, supports_credentials=True)
