@@ -1,8 +1,18 @@
 from flask_restful import Resource
+from datetime import datetime
 from flask import jsonify, request
 
 from api.users.userSchema import UserSchema
 from models.userModel import UserModel
+from config.config import trelloMicroserviceUrl
+
+from config.config import jwtSecret
+from models.index import db
+
+import requests
+import uuid
+import json
+import jwt
 
 class SignUpController(Resource):
     
@@ -30,9 +40,11 @@ class SignUpController(Resource):
             'email': email
         }
 
-        response = requests.post('http://localhost:3001/api/v1/signup', data = payload)
+        headers = {'Content-type': 'application/json; charset=utf-8'}
 
-        if response.status_code == 200:
+        trello_response = requests.post(trelloMicroserviceUrl + '/api/v1/signup', data=json.dumps(payload), headers=headers)
+
+        if trello_response.status_code == 200:
             token_identifier = str(uuid.uuid4()) + str(uuid.uuid4());
 
             payload = {
