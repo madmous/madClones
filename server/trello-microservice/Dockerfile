@@ -6,9 +6,10 @@ COPY . /src
 
 WORKDIR /src
 
-RUN npm install --production
+RUN yarn install
+RUN yarn build
 
-ENV PORT 80
+ENV PORT 3001
 EXPOSE $PORT
 
 CMD ["yarn", "start"]
