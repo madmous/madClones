@@ -56,7 +56,7 @@ export function getHome() {
       })
       .then(response => {
         if (response.status === 401) {
-          dispatch(loginActionCreators.logoutUser());
+          throw new Error('Error 401');
         } else {
           return response.json();
         }
@@ -75,8 +75,8 @@ export function getHome() {
           dispatch(boardActionCreators.updateBoards(jsonData));
           dispatch(cardActionCreators.resetCards());
         }
-      }
-    );
+      })
+      .catch(error => dispatch(loginActionCreators.logoutUser()));
   };
 }
 
