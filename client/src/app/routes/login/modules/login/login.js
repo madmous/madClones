@@ -84,8 +84,7 @@ export function authenticate(formInputs, redirectUrl) {
             dispatch(push('/'));
           }
         }
-      }
-    );
+      });
   };
 }
 
@@ -99,10 +98,16 @@ export function logoutUser() {
   return dispatch => {
     dispatch(modalActionCreators.closeAllModals());
 
-    localStorage.removeItem('csrf');
+    return fetch(`${usersUrl}signout`, 
+      { method: 'GET',
+        credentials: 'include'
+      })
+      .then(response => {
+        localStorage.removeItem('csrf');
 
-    dispatch(unAuthenticateUser());
-    dispatch(push('/login'));
+        dispatch(unAuthenticateUser());
+        dispatch(push('/login'));
+      });
   };
 }
 
