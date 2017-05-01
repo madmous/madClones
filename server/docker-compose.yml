@@ -1,32 +1,35 @@
 version: "2"
 
 services:
-  trello-microservice:
+  trellomicroservice:
     image: madmous/trellomicroservice
     ports:
-      - "3001:80"
+      - "3001:3001"
     networks:
+      - trellousers
       - trellodb
-      - trello
     restart: always
+    depends_on:
+      - usersmicroservice
+      - mongo
   mongo:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
-      - mongodb:/data/db
+      - mongo:/data/db
     networks:
       - trellodb
     restart: always
-  users-microservice:
+  usersmicroservice:
     image: madmous/usersmicroservice
     ports:
       - "3002:3002"
     depends_on:
       - mysql
     networks:
+      - trellousers
       - usersdb
-      - trello
     restart: always
   mysql:
     image: mysql
@@ -42,10 +45,10 @@ services:
       MYSQL_DATABASE: usersmicroservice
 
 volumes:
-  mongodb:
+  mongo:
   mysql:
 
 networks:
+  trellousers:
   trellodb:
   usersdb:
-  trello:
