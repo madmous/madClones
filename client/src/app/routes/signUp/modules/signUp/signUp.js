@@ -43,9 +43,10 @@ export function createUser(formInput) {
           password: formInput.password,
           application: 'trello-clone'
         }),
-       headers: {
+        headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
+        credentials: 'include'
       })
       .then(response => response.json())
       .then(json => {
