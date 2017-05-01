@@ -3,6 +3,7 @@ from flask import jsonify, request
 
 import jwt
 
+from utils.TokenController import TokenController
 from config.config import jwtSecret
 
 class SignCheckController(Resource):
@@ -17,7 +18,7 @@ class SignCheckController(Resource):
                 'verify_iat': False
             }
 
-            decoded_token = jwt.decode(token, key=jwtSecret, options=options)
+            decoded_token = TokenController.decodeToken(token)
 
             if decoded_token['csrf'] == request.headers['csrf']:
                 response = jsonify(name=decoded_token['userName'], email=decoded_token['userEmail'])

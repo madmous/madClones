@@ -2,8 +2,9 @@ from flask_restful import Resource
 from datetime import datetime
 from flask import jsonify, request
 
-from api.users.userSchema import UserSchema
-from models.userModel import UserModel
+from utils.TokenController import TokenController
+from api.users.UserSchema import UserSchema
+from models.UserModel import UserModel
 from config.config import trelloMicroserviceUrl
 
 from config.config import jwtSecret
@@ -42,29 +43,17 @@ class SignUpController(Resource):
 
         headers = {'Content-type': 'application/json; charset=utf-8'}
 
+        # TODO: dynamic request to the correct micro service. Put it in the body
         trello_response = requests.post(trelloMicroserviceUrl + '/api/v1/signup', data=json.dumps(payload), headers=headers)
 
         if trello_response.status_code == 200:
-            token_identifier = str(uuid.uuid4()) + str(uuid.uuid4());
+            tokens = TokenController.generateToken(name, email)
 
-            payload = {
-                'iss': 'users-microservice',
-                'sub': 'user_token',
-                'csrf': token_identifier,
-                'iat': datetime.now(),
-                'userName': user.name,
-                'userEmail': user.email,
-            }
+            print(tokens)
 
-            token = jwt.encode(payload, jwtSecret, 'HS256')
-
-            data =  {
-                'csrf': token_identifier
-            }
-
-            response = jsonify(data=data)
+            response = jsonify(data=tokens['csrf'])
             response.status_code = 200
-            response.set_cookie('jwt', value=token, httponly=True)
+            response.set_cookie('jwt', value=tokens['token'], httponly=True)
 
             return response
         else:

@@ -2,11 +2,15 @@ from flask_restful import Resource
 from datetime import datetime
 from flask import jsonify, request
 
+import requests
 import uuid
+import json
 import jwt
 
-from models.userModel import UserModel
+from utils.TokenController import TokenController
+from models.UserModel import UserModel
 from config.config import jwtSecret
+from config.config import trelloMicroserviceUrl
 
 class SignInController(Resource):
     
@@ -15,48 +19,53 @@ class SignInController(Resource):
         user = UserModel.query.filter_by(name=auth.username).first()
 
         if user is None:
-            data =  {
+            response = jsonify(data={
                 'uiError': {
                     'usernameErr': 'There is not an account for this username'
                 }
-            }
+            })
 
-            response = jsonify(data=data)
             response.status_code = 401
 
             return response
         else:
             if user.check_password(auth.password):
-                token_identifier = str(uuid.uuid4()) + str(uuid.uuid4());
+                # TODO: dynamic request to the correct micro service. Put it in the body
+                trello_response = requests.get(
+                    trelloMicroserviceUrl + '/api/v1/signin', 
+                    data=json.dumps({
+                        'name': user.name,
+                        'email': user.email
+                    }), 
+                    headers={'Content-type': 'application/json; charset=utf-8'}
+                )
 
-                payload = {
-                    'iss': 'users_microservice',
-                    'sub': 'user_token',
-                    'csrf': token_identifier,
-                    'iat': datetime.now(),
-                    'userName': user.name,
-                    'userEmail': user.email,
-                }
+                if trello_response.status_code == 200:
+                    tokens = TokenController.generateToken(user.name, user.email)
 
-                token = jwt.encode(payload, jwtSecret, 'HS256')
+                    response = jsonify(data=tokens['csrf'])
+                    response.status_code = 200
+                    response.set_cookie('jwt', value=tokens['token'], httponly=True)
 
-                data =  {
-                    'csrf': token_identifier
-                }
+                    return response
+                else:
+                    response = jsonify(data={
+                        'uiError': {
+                            'usernameErr': 'This user is not registered in Trello Clone'
+                        }
+                    })
 
-                response = jsonify(data=data)
-                response.status_code = 200
-                response.set_cookie('jwt', value=token, httponly=True)
+                    response.status_code = 401
 
-                return response
+                    return response
+                    
             else:
-                data =  {
+                response = jsonify(data={
                     'uiError': {
                         'passwordErr': 'Invalid password'
                     }
-                }
+                })
 
-                response = jsonify(data=data)
                 response.status_code = 401
 
                 return response
