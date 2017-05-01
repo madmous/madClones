@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 
+import { usersMicroserviceUrl } from '../config/config'
 import { userModel } from '../models/index';
 
 export const authenticatedWithToken = async (req, res, next) => {
@@ -14,19 +15,18 @@ export const authenticatedWithToken = async (req, res, next) => {
       }
     };
 
-    let res = await fetch('http://localhost:3002/signcheck', opts);
+    let res = await fetch(`${usersMicroserviceUrl}/signcheck`, opts);
+    let data = await res.json();
 
     if (res.status === 401) {
       return null;
     }
 
-    let resJson = await res.json();
-
-    if (!resJson) {
+    if (!data) {
       next();
     } else {
       try {
-        let user = await userModel.findOne({name: resJson.name}).exec();
+        let user = await userModel.findOne({name: data.name});
 
         if (user) {
           req.user = user;
