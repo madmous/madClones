@@ -4,13 +4,14 @@ from flask import Flask
 from config.database import dbURI, dbDevURI
 from flask_cors import CORS
 
-from api.signcheck.signCheckController import SignCheckController
-from api.signin.signInController import SignInController
-from api.signup.signUpController import SignUpController
-from api.users.userController import UserController
-from api.users.userSchema import UserSchema
+from api.signcheck.SignCheckController import SignCheckController
+from api.signout.SignOutController import SignOutController
+from api.signin.SignInController import SignInController
+from api.signup.SignUpController import SignUpController
+from api.users.UserController import UserController
+from api.users.UserSchema import UserSchema
+
 from models.index import db
-from aiohttp import client
 
 from config.config import trelloMicroserviceUrl
 
@@ -37,6 +38,7 @@ CORS(app, supports_credentials=True)
 api.add_resource(UserController, '/')
 api.add_resource(SignInController, '/signin')
 api.add_resource(SignUpController, '/signup')
+api.add_resource(SignOutController, '/signout')
 api.add_resource(SignCheckController, '/signcheck')
 
 if __name__ == '__main__':
