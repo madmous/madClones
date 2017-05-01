@@ -1,5 +1,5 @@
 import organizationRoutes from './organizations/organizationRoutes';
-import signUpRoutes from './signup/signUpRoutes';
+import signUpRoutes from './signup/signupRoutes';
 import boardRoutes from './board/boardRoutes';
 import userRoutes from './users/userRoutes';
 import homeRoutes from './home/homeRoutes';

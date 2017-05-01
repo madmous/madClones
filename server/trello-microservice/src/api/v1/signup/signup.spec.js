@@ -25,7 +25,7 @@ describe('Signup' , () => {
     it ('should signup - sucess', done => {
 			const user = {
 				name: 'testName',
-				fullname: 'testFullname'
+				fullname: 'testFullname',
 				email: 'testEmail@email.com'
 			};
 
