@@ -1,10 +1,12 @@
 Flask
 Flask-RESTful
 Flask-SQLAlchemy
-JWT
+PyJWT
 marshmallow
 requests
 bcrypt
 mysqlclient
 uuid
 flask-cors
+ujson
+aiohttp
