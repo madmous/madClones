@@ -29,7 +29,7 @@ export const getUserBoardCards = async (req, res) => {
         cards: []
       };
 
-      return buildResponse(200, response, res);  
+      return buildResponse(200, response, res);
     } else {
       const response = {
         boards: reqUser.boards,
@@ -41,10 +41,12 @@ export const getUserBoardCards = async (req, res) => {
       return buildResponse(200, response, res);     
     }
   } catch (error) {
+    log.error(error);
+
     if (error.isBoom) {
       buildResponse(error.output.statusCode, error.message, res)
     } else {
-      buildResponse(500, error, res)
+      buildResponse(401, error, res)
     }
   }
 };
