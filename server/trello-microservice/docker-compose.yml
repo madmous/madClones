@@ -3,24 +3,24 @@ services:
   trello-microservice:
     image: madmous/trellomicroservice
     ports:
-      - "3001:80"
+      - "3001:3001"
     networks:
       - trellodb
-      - trello
+    depends_on:
+      - mongo
     restart: always
   mongo:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
-      - mongodb:/data/db
+      - mongo:/data/db
     networks:
       - trellodb
     restart: always
 
 volumes:
-  mongodb:
+  mongo:
 
 networks:
   trellodb:
-  trello:
