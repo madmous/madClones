@@ -1,67 +1,32 @@
-This repo is now under maintenance since I started a [HipChat-Clone](https://github.com/Madmous/HipChat-Clone) project. For now the plan is to fix issues and add less new features. Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous).
+Welcome to my mono repo weClone. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 
-Version 1.0.0 covered the login, sign up and home page: you can create a team and add boards in it or directly add them in your personal boards. 
-You can also star and unstar all your boards. 
-
-Version 2.0.0 added the card view that allows to add cards, card items and move them between cards.
-
-Version 3.0.0 added the boards menu. The user clicks on the boards button available in the header and can see all the boards (starred, personal and organiations) previously created..
-
-## Live demo
-
-[Login](http://d2et1tad5mldzf.cloudfront.net/) with Test (name) and Test(password). The redux logger was added to show the process.
-Expect a lot of changes and database to be cleared often.
-
-## Description
-
-[Trello](http://trello.com) clone being built with MongoDB, Express, React, NodeJS; my mean stack revisited.
+You will not only see a wide variety of front end technolgies and a couple of microservices written with different languages and frameworks, but also an emphesis on design and architecture.
 
 I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
 all the coding standard and best practices.
 
 ## Main technologies
 
-* MongoDB
+* ReactJs
+* Vue.js
 * Express
-* React
 * NodeJS
+* Flask
+* MongoDB
+* MySQL
+* Docker
+
+## Technologies to be added
+
+* Spring Boot
+* Kubernetes
+* Rabbimq (not sure yet)
 
 ## Support
 
 * Star the repo
 * Follow me on twitter [@datmadmmous](https://twitter.com/datmadmous)
 * Submit pull requests and improve the repo overall quality
-
-## Prerequisite
-
-Before you install the project, make sure [Yarn](https://yarnpkg.com/en/docs/install) (prefered one) or Npm 
-and [MongoDB](https://docs.mongodb.com/v3.2/administration/install-community/) are installed.
-
-## Installation instructions
-
-Once your package management is installed these commands will run your application.
-
-1. Database
-
-  `mongod` : handles data requests, manages data access and performs background management operations.
-  
-  `mongo` : starts the mongo shell and connect to your MongoDB instance running on localhost with default port.
-  
-1. Server
-  
-  `cd server`
-  
-  `yarn install`
-  
-  `yarn start`
-
-2. Client
-
-  `cd client`
-  
-  `yarn install` 
-  
-  `yarn start`
 
 ## Where to get help
 
@@ -90,10 +55,6 @@ to another level by making you think about the correct data structure, api and a
 5. Make a pull request.
 6. End to end testing are not required for now.
 
-## Next release (3.1.0)
-
-* Complete the board view that displays cards
-
 ## Updates
 
 * 1.0.0 first release of trello clone
@@ -116,6 +77,6 @@ to another level by making you think about the correct data structure, api and a
 
 ## Repository structure
 
-The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which is the react application and the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which is the express server.
+The repository is divided into two folders. The [Client](https://github.com/Madmous/Trello-Clone/blob/develop/client/) which contains a react and a vue application and the [Server](https://github.com/Madmous/Trello-Clone/blob/develop/server/) which contains microservices.
 
 I am very happy with the way both applications are structured and working daily to improve on it.

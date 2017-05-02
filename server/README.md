@@ -1,6 +1,6 @@
 Server completely being rewritten with microservices in mind.
 
-So far there is a tello service and a users service(that zwill be used for authentication)
+So far there is a tello service and a users service(that will be used for authentication)
 
 # Ideas
 
