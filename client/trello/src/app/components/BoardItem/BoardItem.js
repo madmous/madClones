@@ -121,7 +121,7 @@ export default function BoardItem(props) {
     return (
       <div
         className={ `${getClassName()}-Tile-Add` }
-        onClick={ () => openModal(event) }
+        onClick={ openModal }
       >
         <span>{ boardName }</span>
       </div>
