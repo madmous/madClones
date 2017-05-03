@@ -1,4 +1,4 @@
-Welcome to my mono repo weClone. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
+Welcome to my mono repo madClones. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 
 You will not only see a wide variety of front end technolgies and a couple of microservices written with different languages and frameworks, but also an emphesis on design and architecture.
 
