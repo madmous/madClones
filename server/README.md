@@ -20,12 +20,12 @@ Your server is up and running.
 
 Most of the times I deploy my server without using docker. I do not usually need to deploy the entire backend since working with 1 microservice is usually more than enough.
 
-# Build Trello service
+### Build Trello service
 
 1. cd trello-microservice
 2. yarn start:dev
 
-# Build Users service
+### Build Users service
 
 1. mysql.server start (tested on mac)
 2. python src/index.py
