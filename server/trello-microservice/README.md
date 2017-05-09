@@ -1,4 +1,4 @@
-This project was entirely written from scratch.
+A nodejs microservice that is built with Express. It represents the trello microservice with users's boards and cards. You could argue that the these 2 could be split into different microservices but for now I am keeping them together.
 
 ## Main Libraries
 
@@ -11,12 +11,4 @@ This project was entirely written from scratch.
 
 * Reach 91.67% test coverage
 * Improve the database schema and send back a response that can be used without normalizing it
-
-## Areas for Improvements / involvement
-
-* Replace callbacks with promises
-
---
-
-* Added basic authentication for login and token authentication on all remaining routes
 * Setup docker for nodejs and mongodb
