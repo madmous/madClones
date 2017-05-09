@@ -22,6 +22,8 @@ Most of the times I deploy my server without using docker. I do not usually need
 
 ### Build Trello service
 
+1. mongod
+2. mongo
 1. cd trello-microservice
 2. yarn start:dev
 
