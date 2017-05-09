@@ -5,6 +5,17 @@ You will not only see a wide variety of front end technolgies and a couple of mi
 I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
 all the coding standard and best practices.
 
+Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous).
+
+## Releases
+
+Version 1.0.0 covered the login, sign up and home page: you can create a team and add boards in it or directly add them in your personal boards. 
+You can also star and unstar all your boards. 
+
+Version 2.0.0 added the card view that allows to add cards, card items and move them between cards.
+
+Version 3.0.0 added the boards menu. The user clicks on the boards button available in the header and can see all the boards (starred, personal and organiations) previously created.
+
 ## Main technologies
 
 * ReactJs
