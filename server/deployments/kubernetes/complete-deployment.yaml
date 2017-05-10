@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: mongo
+ name: mongo
+spec:
+ ports:
+  - port: 27017
+    targetPort: 27017
+ selector:
+   name: mongo
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mongo
+    spec:
+      containers:
+        - image: mongo
+          name: mongo
+          ports:
+            - name: mongo
+              containerPort: 27017
+          volumeMounts:
+            - name: mongo
+              mountPath: /data/db
+      volumes:
+        - name: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: mysql
+ name: mysql
+spec:
+ ports:
+   - port: 3306
+ selector:
+   name: mysql
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mysql
+    spec:
+      containers:
+        - image: "mysql"
+          name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: root
+            - name: MYSQL_DATABASE
+              value: usersmicroservice
+          ports:
+            - name: mysql
+              containerPort: 3306
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trellomicroservice
+  labels:
+    name: trellomicroservice
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3001
+      targetPort: 3001
+      protocol: TCP
+  selector:
+    name: trellomicroservice
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: trellomicroservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: trellomicroservice
+    spec:
+      containers:
+        - name: trellomicroservice
+          image: "madmous/trellomicroservice"
+          ports:
+            - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usersmicroservice
+  labels:
+    name: usersmicroservice
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3002
+      targetPort: 3002
+      protocol: TCP
+  selector:
+    name: usersmicroservice
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: usersmicroservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: usersmicroservice
+    spec:
+      containers:
+        - name: usersmicroservice
+          image: "madmous/usersmicroservice"
+          ports:
+            - containerPort: 3002

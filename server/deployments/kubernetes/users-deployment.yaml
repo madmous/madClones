@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: mysql
+ name: mysql
+spec:
+ ports:
+   - port: 3306
+ selector:
+   name: mysql
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mysql
+    spec:
+      containers:
+        - image: "mysql"
+          name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: root
+            - name: MYSQL_DATABASE
+              value: usersmicroservice
+          ports:
+            - name: mysql
+              containerPort: 3306
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usersmicroservice
+  labels:
+    name: usersmicroservice
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3002
+      targetPort: 3002
+      protocol: TCP
+  selector:
+    name: usersmicroservice
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: usersmicroservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: usersmicroservice
+    spec:
+      containers:
+        - name: usersmicroservice
+          image: "madmous/usersmicroservice"
+          ports:
+            - containerPort: 3002
