@@ -19,6 +19,14 @@ export let db = {};
 db.connect = () => {
   const mongooseConnection = mongoose.connection;
 
+  let options = {
+    server:{
+      auto_reconnect:true,
+      reconnectTries: 10,
+      reconnectInterval: 5000,
+    }
+  }
+
   mongoose.connect(dbURI);
 
   mongooseConnection.on('connected', () => {  
@@ -27,10 +35,12 @@ db.connect = () => {
 
   mongooseConnection.on('error', (err) => {  
     log.error('Mongoose default connection error: ' + err);
+    process.exit(0); 
   }); 
 
   mongooseConnection.on('disconnected', () => {
     log.info('Mongoose default connection disconnected'); 
+    process.exit(0); 
   });
 
   process.on('SIGINT', () => {  
