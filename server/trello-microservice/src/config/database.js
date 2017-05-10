@@ -19,14 +19,6 @@ export let db = {};
 db.connect = () => {
   const mongooseConnection = mongoose.connection;
 
-  let options = {
-    server:{
-      auto_reconnect:true,
-      reconnectTries: 10,
-      reconnectInterval: 5000,
-    }
-  }
-
   mongoose.connect(dbURI);
 
   mongooseConnection.on('connected', () => {  
