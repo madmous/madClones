@@ -26,6 +26,12 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
+before_script:
+  - docker-compose -f docker-compose.test.yml up -d
+
 script:  
-  - docker version
-  - docker-compose version
+  - docker logs -f trellomicroservice_trello-microservice_1
+
+after_script:
+  - docker-compose down trellomicroservice_trello-microservice_1
+  - docker-compose down trellomicroservice_mongo_1

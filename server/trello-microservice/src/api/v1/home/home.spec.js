@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import chai from 'chai';
 
 import {
@@ -12,6 +13,8 @@ import {
 
 import app from '../../../../src/index';
 
+import { authenticatedWithToken } from '../../../utils/passportMiddleweare';
+
 chai.use(chaiHttp);
 
 const loginUrl = '/api/v1/login/';
@@ -19,8 +22,6 @@ const homeUrl = '/api/v1/home/';
 const assert   = chai.assert;
 
 describe('Home' , () => {
-
-  let token = '';
 
   before(done => {
 		const organizationBoard = new boardModel({
@@ -40,12 +41,16 @@ describe('Home' , () => {
     const userTest = new userModel({
       name: 'testName',
       fullname: 'testFullname',
-      password: 'testPassword',
-      initials: 'testInitials',
       email: 'testEmail@email.com',
       organizations : [organization],
       boards: [board]
     });
+
+		/*sinon.stub(authenticatedWithToken, function (req, res, next) {
+			req.user = userTest;
+			
+			return next();
+		});*/
 
     userTest.save(err => {
       done();
@@ -60,41 +65,9 @@ describe('Home' , () => {
 
 	describe('/GET', () => {
 
-    it ('should login - success', done => {
-			chai.request(app)
-				.post(loginUrl)
-				.auth('testName', 'testPassword')
-				.end((err, res) => {
-					assert.equal(res.status, '200', 'status equals 200');
-          token = res.body.data.token;
-
-					done();
-				});
-		});
-
 		it ('should get boards and organizations - success', done => {
-			chai.request(app)
-				.get(homeUrl)
-				.set('Authorization', `JWT ${token}`)
-				.end((err, res) => {
-					assert.equal(res.status, '200', 'status equals 200');
-					assert.equal(1, res.body.data.boards.length);
-					assert.equal(1, res.body.data.organizations.length);
-					assert.equal(0, res.body.data.boardStars.length);
-
-					done();
-				});
-		});
-
-    it ('should get boards and organizations - fail', done => {
-			chai.request(app)
-				.get(homeUrl)
-				.set('Authorization', `JWT`)
-				.end((err, res) => {
-					assert.equal(res.status, '401', 'status equals 401');
-
-					done();
-				});
+			assert.equal(1, 2);
+			done();
 		});
 	});
 });
