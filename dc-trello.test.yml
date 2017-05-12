@@ -3,8 +3,8 @@ services:
   trello:
     image: trellotest
     build:
-      context: ./
-      dockerfile: /Dockerfile.test
+      context: ./server/trello-microservice
+      dockerfile: Dockerfile.test
     ports:
       - "3001:3001"
     networks:
