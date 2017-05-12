@@ -32,8 +32,10 @@ before_script:
 script:  
   - docker logs -f madclones_trello-microservice_1
   - docker wait madclones_trello-microservice_1
-  - if [ $? = 0 ] then exit 0;
-    else exit 1;
+  - if [ $? = 0 ]; then 
+      exit 0;
+    else 
+      exit 1;
 
 after_script:
   - docker-compose down trellomicroservice_trello-microservice_1
