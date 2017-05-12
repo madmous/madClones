@@ -27,7 +27,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 before_script:
-  - docker-compose -f docker-compose.test.yml up -d
+  - docker-compose -f ./trello-microservice/docker-compose.test.yml up -d
 
 script:  
   - docker logs -f trellomicroservice_trello-microservice_1
