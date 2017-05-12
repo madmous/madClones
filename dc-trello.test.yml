@@ -1,6 +1,6 @@
 version: "2"
 services:
-  trello:
+  trello-microservice:
     image: trellotest
     build:
       context: ./server/trello-microservice

@@ -30,7 +30,7 @@ before_script:
   - docker-compose -f dc-trello.test.yml up -d
 
 script:  
-  - docker logs -f trellomicroservice_trello-microservice_1
+  - docker logs -f madclones_trello-microservice_1
 
 after_script:
   - docker-compose down trellomicroservice_trello-microservice_1
