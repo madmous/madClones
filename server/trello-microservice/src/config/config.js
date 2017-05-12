@@ -14,8 +14,12 @@ export const usersMicroserviceUrl = (() => {
   }
 })();
 
-export const dbTestURI = 'mongodb://localhost/trelloCloneApiTest';
-
-export const secret = 'apiTest';
+export const dbTestURI = (() => {
+  if (process.env.NODE_ENV === 'docker-test') {
+    return 'mongodb://mongo:27017/trelloCloneApiTest';
+  } else if (process.env.NODE_ENV === 'test'){
+    return 'mongodb://localhost/trelloCloneApiTest';
+  }
+})();
 
 export const port = 3001;

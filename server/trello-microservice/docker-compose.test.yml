@@ -1,0 +1,22 @@
+version: "2"
+services:
+  trello:
+    image: trellotest
+    build:
+      context: ./
+      dockerfile: /Dockerfile.test
+    ports:
+      - "3001:3001"
+    networks:
+      - trellodb
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - trellodb
+
+networks:
+  trellodb:
