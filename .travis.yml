@@ -1,26 +1,31 @@
 sudo: required
 
 services:  
-    - docker
+  - docker
 
 env:  
-    global:
-        - DOCKER_VERSION=1.10.1-0~trusty
-        - DOCKER_COMPOSE_VERSION=1.6.0
+  DOCKER_COMPOSE_VERSION: 1.8.0
 
 before_install:  
-    # list docker-engine versions
-    - apt-cache madison docker-engine
+  - sudo apt-get update
 
-    # upgrade docker-engine to specific version
-    - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
+  # Now we can install the newer docker-engine which is required for the newer
+  # docker-composer we will install next. The messy options are to force it to
+  # be non-interactive (normally it asks you a bunch of config questions).
+  - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
 
-    # reinstall docker-compose at specific version
-    - sudo rm -f /usr/local/bin/docker-compose
-    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-    - chmod +x docker-compose
-    - sudo mv docker-compose /usr/local/bin
+  # Print out the current docker-compose version. Once this reports 1.6+ then we
+  # do not need the following steps.
+  - docker-compose --version
+
+  # As of the writing of this script Travis has docker-compose v1.4.2, we need
+  # to update it to 1.8+. $DOCKER_COMPOSE_VERSION is provide from the `env`
+  # above.
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 
 script:  
-    - docker version
-    - docker-compose version
+  - docker version
+  - docker-compose version
