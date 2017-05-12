@@ -4,7 +4,7 @@ services:
   - docker
 
 env:  
-  DOCKER_COMPOSE_VERSION: 1.8.0
+  DOCKER_COMPOSE_VERSION: 1.13.0
 
 before_install:  
   - sudo apt-get update
@@ -32,6 +32,7 @@ before_script:
 script:  
   - docker logs -f madclones_trello-microservice_1
   - docker wait madclones_trello-microservice_1
+  - echo "$?"
 
 after_script:
   - docker-compose down trellomicroservice_trello-microservice_1
