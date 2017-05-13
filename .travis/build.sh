@@ -4,8 +4,9 @@ docker logs -f madclones_trello-microservice_1
 
 docker wait madclones_trello-microservice_1
 
-if [[ "$?" == '0' ]]
+if [ "$?" == '0' ]
+then
   exit 0
-else 
+else
   exit 1
 fi
