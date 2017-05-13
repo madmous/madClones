@@ -66,7 +66,7 @@ describe('Home' , () => {
 	describe('/GET', () => {
 
 		it ('should get boards and organizations - success', done => {
-			assert.equal(1, 1);
+			assert.equal(1, 2);
 			done();
 		});
 	});
