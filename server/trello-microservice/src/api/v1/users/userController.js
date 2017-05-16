@@ -11,10 +11,8 @@ const buildResponse = (statusCode, data, res) => {
   if (statusCode === 200) {
     return res.status(200).json({
       data: {
-        user: {
-          _id: data._id,
-          fullname: data.fullname,
-        }
+        _id: data._id,
+        fullname: data.fullname,
       }
     });
   } else {
@@ -40,7 +38,7 @@ export const updateUser = async (req, res) => {
 
   user.name = req.body.name; 
   user.fullname = req.body.fullname;
-  user.initials = req.body.initials;
+  user.email = req.body.email;
 
   saveUserService(user, res);
 };

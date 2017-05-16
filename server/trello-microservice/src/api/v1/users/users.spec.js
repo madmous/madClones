@@ -2,10 +2,12 @@
 
 import mongoose from 'mongoose';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import chai from 'chai';
 
 import { userModel } from '../../../../src/models/index';
-import app from '../../../../src/index';
+
+import prepareServer from '../../../../test/index';
 
 chai.use(chaiHttp);
 
@@ -14,80 +16,65 @@ const userUrl 	= '/api/v1/users/';
 const assert 	 	= chai.assert;
 
 describe('Users' , () => {
+	let server;
+	let stub;
+	let app;
 
-	let token = '';
+  before(done => {
+		const userTest = new userModel({
+      name: 'test',
+			fullname: 'testFullname',
+			email: 'test@email.com'
+    });
+
+		prepareServer(userTest, (arg1, arg2, arg3) => {
+			server = arg1;
+			stub = arg2;
+			app = arg3;
+
+			done();
+		});
+  });
 
 	after(done => {
 		userModel.find().remove().exec();
+		stub.restore();
 
-		done();
-	});
-
-	it ('should signup - success', done => {
-		const user = {
-			name: 'testName',
-			fullname: 'testFullname',
-			password: 'testPassword',
-			initials: 'testInitials',
-			email: 'testEmail@email.com'
-		};
-
-		chai.request(app)
-			.post(signupUrl)
-			.send(user)
-			.end((err, res) => {
-				assert.equal(res.status, '200', 'status equals 200');
-				token = res.body.data;
-
-				done();
-			});
+		server.close(done);
 	});
 
 	describe('/GET', () => {
-  
-		it ('should get user - success', done => {
+
+ 		it ('should get user', done => {
 			chai.request(app)
 				.get(userUrl)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
-					assert.notEqual(res.body.data.user, undefined, 'The response contains the user object');
-					assert.notEqual(res.body.data.user._id, undefined, 'User has an id value');
-					assert.equal(res.body.data.user.fullname, 'testFullname', 'User fullname is testFullname');
+					assert.notEqual(res.body.data, undefined, 'The response contains the user object');
+					assert.notEqual(res.body.data._id, undefined, 'User has an id value');
+					assert.equal(res.body.data.fullname, 'testFullname', 'User fullname is testFullname');
 
 					done();
 				});
 		});
-
-		it ('should get user - fail', done => {
-			chai.request(app)
-				.get(userUrl)
-				.set('Authorization', `JWT`)
-				.end((err, res) => {
-					assert.equal(res.status, '401', 'status equals 401');
-
-					done();
-				});
-		});
-	});
+  });
 
 	describe('/PUT', () => {
 
-		it ('should update user - success', done => {
+		it ('should update user', done => {
 			const user = {
-				name: 'testNameUpdated',
+				name: 'testUpdated',
 				fullname: 'testFullnameUpdated',
-				initials: 'testInitialsUpdated',
+				email: 'testUpdated@email.com'
 			};
 			
 			chai.request(app)
 				.put(userUrl)
-				.set('Authorization', `JWT ${token}`)
 				.send(user)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
-					assert.notEqual(res.body.data.user._id, undefined, 'User has an id value');
-					assert.equal(res.body.data.user.fullname, 'testFullnameUpdated', 'User fullname is testFullnameUpdated');
+					assert.notEqual(res.body.data._id, undefined, 'User has an id value');
+					assert.equal(res.body.data.fullname, 'testFullnameUpdated', 'User fullname is testFullnameUpdated');
 
 					done();
 				});
@@ -96,10 +83,9 @@ describe('Users' , () => {
 
 	describe('/DELETE', () => {
   
-		it ('should delete user - success', done => {
+		it ('should delete user', done => {
 			chai.request(app)
 				.delete(userUrl)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
 
@@ -110,16 +96,5 @@ describe('Users' , () => {
 					done();
 				});
 		});
-
-		it ('should delete user - fail', done => {
-			chai.request(app)
-				.delete(userUrl)
-				.set('Authorization', `JWT`)
-				.end((err, res) => {
-					assert.equal(res.status, '401', 'status equals 401');
-
-					done();
-				});
-		});
 	});
-});
+})

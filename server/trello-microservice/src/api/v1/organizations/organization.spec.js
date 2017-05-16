@@ -2,10 +2,12 @@
 
 import mongoose from 'mongoose';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import chai from 'chai';
 
 import { userModel } from '../../../../src/models/index';
-import app from '../../../../src/index';
+
+import prepareServer from '../../../../test/index';
 
 chai.use(chaiHttp);
 
@@ -20,38 +22,32 @@ describe('Organization' , () => {
   let organizationBoardId = '';
   let organizationId = '';
   let boardStarId = '';
-  let token = '';
+
+	let server;
+	let stub;
+	let app;
 
   before(done => {
-    const userTest = new userModel({
-      name: 'testName',
-      fullname: 'testFullname',
-      password: 'testPassword',
-      initials: 'testInitials',
-      email: 'testEmail@email.com'
+		const userTest = new userModel({
+      name: 'test',
+			fullname: 'testFullname',
+			email: 'test@email.com'
     });
 
-    userTest.save(err => {
-      done();
-    });
+		prepareServer(userTest, (arg1, arg2, arg3) => {
+			server = arg1;
+			stub = arg2;
+			app = arg3;
+
+			done();
+		});
   });
 
 	after(done => {
 		userModel.find().remove().exec();
+		stub.restore();
 
-		done();
-	});
-
-	it ('should login - success', done => {
-		chai.request(app)
-			.post(loginUrl)
-			.auth('testName', 'testPassword')
-			.end((err, res) => {
-				assert.equal(res.status, '200', 'status equals 200');
-				token = res.body.data.token;
-
-				done();
-			});
+		server.close(done);
 	});
 
 	describe('/POST organization', () => {
@@ -64,7 +60,6 @@ describe('Organization' , () => {
 
 			chai.request(app)
 				.post(organizationsUrl)
-				.set('Authorization', `JWT ${token}`)
         .send(organization)
 				.end((err, res) => {
           organizationId = res.body.data.organizations[0]._id;
@@ -89,7 +84,6 @@ describe('Organization' , () => {
 
 			chai.request(app)
 				.put(`${organizationsUrl}/${organizationId}`)
-				.set('Authorization', `JWT ${token}`)
         .send(organization)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
@@ -111,7 +105,6 @@ describe('Organization' , () => {
 
 			chai.request(app)
 				.post(`${organizationsUrl}/${organizationId}/boards`)
-				.set('Authorization', `JWT ${token}`)
         .send(board)
 				.end((err, res) => {
 					organizationBoardId = res.body.data.organizations[0].boards[0]._id;
@@ -128,7 +121,6 @@ describe('Organization' , () => {
 
 			chai.request(app)
 				.post(`${organizationsUrl}/${organizationId}/boards`)
-				.set('Authorization', `JWT ${token}`)
         .send()
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
@@ -150,7 +142,6 @@ describe('Organization' , () => {
 
 			chai.request(app)
 				.put(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}`)
-				.set('Authorization', `JWT ${token}`)
 				.send(board)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
@@ -165,7 +156,6 @@ describe('Organization' , () => {
 		it ('should star an organization board - success', done => {
 			chai.request(app)
 				.post(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}/boardstars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					boardStarId = res.body.data.boardStars[0]._id;
 
@@ -183,7 +173,6 @@ describe('Organization' , () => {
 		it ('should star an organization board - fail', done => {
 			chai.request(app)
 				.post(`${organizationsUrl}/null/boards/${organizationBoardId}/boardStars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because organization id is not valid');
@@ -195,7 +184,6 @@ describe('Organization' , () => {
 		it ('should star an organization board - fail', done => {
 			chai.request(app)
 				.post(`${organizationsUrl}/${organizationId}/boards/null/boardStars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because organization board id is not valid');
@@ -210,7 +198,6 @@ describe('Organization' , () => {
 		it ('should star an organization board - success', done => {
 			chai.request(app)
 				.delete(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}/boardStars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.boardStars.length);
@@ -225,7 +212,6 @@ describe('Organization' , () => {
 		it ('should update a board to an organization - success', done => {
 			chai.request(app)
 				.delete(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.organizations[0].boards.length);
@@ -240,7 +226,6 @@ describe('Organization' , () => {
 		it ('should update a board to an organization - success', done => {
 			chai.request(app)
 				.delete(`${organizationsUrl}/${organizationId}`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.organizations.length);

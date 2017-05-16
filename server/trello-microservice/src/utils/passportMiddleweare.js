@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import { usersMicroserviceUrl } from '../config/config'
+import { usersMicroserviceUrl } from '../config/config';
 import { userModel } from '../models/index';
 import getLogger from '../libs/winston';
 

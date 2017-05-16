@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import chai from 'chai';
 
 import {
@@ -9,7 +10,7 @@ import {
   userModel
 } from '../../../../src/models/index';
 
-import app from '../../../../src/index';
+import prepareServer from '../../../../test/index';
 
 chai.use(chaiHttp);
 
@@ -18,44 +19,38 @@ const loginUrl = '/api/v1/login/';
 
 const assert   = chai.assert;
 
-describe('Card' , () => {
+describe('Board' , () => {
 
   let boardStarId = '';
   let boardId = '';
   let cardId = '';
-  let token = '';
+
+	let server;
+	let stub;
+	let app;
 
   before(done => {
     const userTest = new userModel({
-      name: 'testName',
-      fullname: 'testFullname',
-      password: 'testPassword',
-      initials: 'testInitials',
-      email: 'testEmail@email.com'
+      name: 'test',
+			fullname: 'testFullname',
+			email: 'test@email.com'
     });
 
-    userTest.save(err => {
-      done();
-    });
+		prepareServer(userTest, (arg1, arg2, arg3) => {
+			server = arg1;
+			stub = arg2;
+			app = arg3;
+
+			done();
+		});
   });
 
 	after(done => {
 		cardsModel.find().remove().exec();
 		userModel.find().remove().exec();
+		stub.restore();
 
-		done();
-	});
-
-	it ('should login - success', done => {
-		chai.request(app)
-			.post(loginUrl)
-			.auth('testName', 'testPassword')
-			.end((err, res) => {
-				assert.equal(res.status, '200', 'status equals 200');
-				token = res.body.data.token;
-
-				done();
-			});
+		server.close(done);
 	});
 
 	describe('/POST/board', () => {
@@ -65,9 +60,8 @@ describe('Card' , () => {
 				name: 'boardName',
 			};
 
-			chai.request(app)
+			chai.request(server)
 				.post(boardsUrl)
-				.set('Authorization', `JWT ${token}`)
         .send(organization)
 				.end((err, res) => {
           boardId = res.body.data.boards[0]._id;
@@ -88,16 +82,15 @@ describe('Card' , () => {
 				name: 'cardName',
 			};
 
-			chai.request(app)
+			chai.request(server)
 				.post(`${boardsUrl}/${boardId}/cards`)
-				.set('Authorization', `JWT ${token}`)
         .send(card)
 				.end((err, res) => {
-          cardId = res.body.data[0]._id;
+          cardId = res.body.data.cards[0]._id;
           
 					assert.equal(res.status, '200', 'status equals 200');
-					assert.equal('cardName', res.body.data[0].header);
-					assert.equal(0, res.body.data[0].cardItems.length);
+					assert.equal('cardName', res.body.data.cards[0].header);
+					assert.equal(0, res.body.data.cards[0].cardItems.length);
 
 					done();
 				});
@@ -111,14 +104,13 @@ describe('Card' , () => {
 				name: 'cardItem',
 			};
 
-			chai.request(app)
+			chai.request(server)
 				.post(`${boardsUrl}/${boardId}/cards/${cardId}`)
-				.set('Authorization', `JWT ${token}`)
         .send(cardItem)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
-					assert.equal(1, res.body.data[0].cardItems.length);
-					assert.equal('cardItem', res.body.data[0].cardItems[0].name);
+					assert.equal(1, res.body.data.cards[0].cardItems.length);
+					assert.equal('cardItem', res.body.data.cards[0].cardItems[0].name);
 
 					done();
 				});
@@ -128,9 +120,8 @@ describe('Card' , () => {
 	describe('/POST/boardstars', () => {
 
 		it ('should star a user board - success', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(`${boardsUrl}/${boardId}/boardstars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					boardStarId = res.body.data.boardStars[0]._id;
 
@@ -144,9 +135,8 @@ describe('Card' , () => {
 		});
 
 		it ('should star a user board - fail', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(`${boardsUrl}/null/boardStars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because board id is not valid');
@@ -159,9 +149,8 @@ describe('Card' , () => {
 	describe('/PUT/card', () => {
 
 		it ('should create a board card - fail', done => {
-			chai.request(app)
+			chai.request(server)
 				.put(`${boardsUrl}/${boardId}`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because new card is missing');
 
@@ -173,9 +162,8 @@ describe('Card' , () => {
 	describe('/GET/card', () => {
 
 		it ('should get user board cards - success', done => {
-			chai.request(app)
+			chai.request(server)
 				.get(`${boardsUrl}/${boardId}/cards`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200');
 
@@ -184,9 +172,8 @@ describe('Card' , () => {
 		});
 
 		it ('should get user board cards - fail', done => {
-			chai.request(app)
+			chai.request(server)
 				.get(`${boardsUrl}/null`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '404',
 							'status equals 400 because board id is not valid');
@@ -203,9 +190,8 @@ describe('Card' , () => {
 				name: 'renamedBoardName',
 			};
 
-			chai.request(app)
+			chai.request(server)
 				.put(`${boardsUrl}/${boardId}`)
-				.set('Authorization', `JWT ${token}`)
         .send(renamedBoardName)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
@@ -218,9 +204,8 @@ describe('Card' , () => {
 	describe('/DELETE/boardstars', () => {
 
 		it ('should unstar a starred user board - success', done => {
-			chai.request(app)
+			chai.request(server)
 				.delete(`${boardsUrl}/${boardId}/boardstars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.boardStars.length);
@@ -230,9 +215,8 @@ describe('Card' , () => {
 		});
 
 		it ('should star a user board - fail', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(`${boardsUrl}/null/boardStars`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because board id is not valid');
@@ -245,9 +229,8 @@ describe('Card' , () => {
 	describe('/DELETE/board', () => {
 
 		it ('should delete a user board - success', done => {
-			chai.request(app)
+			chai.request(server)
 				.delete(`${boardsUrl}/${boardId}`)
-				.set('Authorization', `JWT ${token}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.boards.length);

@@ -4,6 +4,6 @@ export const updateUserSchema = {
   body: {
     name: Joi.string().required(),
     fullname: Joi.string().required(),
-    initials: Joi.string().required()
+    email: Joi.string().email()
   }
 };

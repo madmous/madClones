@@ -11,17 +11,17 @@ import {
   userModel
 } from '../../../../src/models/index';
 
-import app from '../../../../src/index';
-
-import { authenticatedWithToken } from '../../../utils/passportMiddleweare';
+import prepareServer from '../../../../test/index';
 
 chai.use(chaiHttp);
 
-const loginUrl = '/api/v1/login/';
 const homeUrl = '/api/v1/home/';
 const assert   = chai.assert;
 
 describe('Home' , () => {
+	let server;
+	let stub;
+	let app;
 
   before(done => {
 		const organizationBoard = new boardModel({
@@ -46,28 +46,34 @@ describe('Home' , () => {
       boards: [board]
     });
 
-		/*sinon.stub(authenticatedWithToken, function (req, res, next) {
-			req.user = userTest;
-			
-			return next();
-		});*/
+		prepareServer(userTest, (arg1, arg2, arg3) => {
+			server = arg1;
+			stub = arg2;
+			app = arg3;
 
-    userTest.save(err => {
-      done();
-    });
+			done();
+		});
   });
 
 	after(done => {
 		userModel.find().remove().exec();
+		stub.restore();
 
-		done();
+		server.close(done);
 	});
 
 	describe('/GET', () => {
 
-		it ('should get boards and organizations - success', done => {
-			assert.equal(1, 1);
-			done();
+ 		it ('should get boards and organizations', done => {
+			chai.request(server)
+				.get(homeUrl)
+				.end((err, res) => {
+					assert.equal(res.status, '200', 'status equals 200');
+					assert.equal(1, res.body.data.boards.length);
+					assert.equal(1, res.body.data.organizations.length);
+  				assert.equal(0, res.body.data.boardStars.length);
+					done();
+				});
 		});
-	});
-});
+  });
+})
