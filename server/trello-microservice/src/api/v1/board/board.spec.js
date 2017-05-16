@@ -239,8 +239,4 @@ describe('Board' , () => {
 				});
 		});
 	});
-
-	describe('fail', () => {
-		assert.equal(1, 2)
-	})
 });
