@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import sinon from 'sinon';
 
 import { dbTest } from '../src/config/database';
@@ -19,7 +20,9 @@ const prepareServer = (user, done) => {
   let app = require('../src/app').default;
 
   let server = app.listen(30001, (err) => {
-    dbTest.connect();
+    if (mongoose.connection.readyState === 0) {
+      dbTest.connect();
+    }
 
     user.save().then(user => done(server, stub, app));
   });
