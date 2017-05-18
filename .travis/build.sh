@@ -14,6 +14,10 @@ after() {
   docker-compose down trellomicroservice_mongo_1 
 }
 
+success() {
+  cat ./trello_coverage/lcov.info | ./node_modules/.bin/coveralls
+}
+
 case "$1" in
   before)
       before
@@ -25,5 +29,9 @@ case "$1" in
     
   after)
       after
+      ;;
+
+  success)
+      success
       ;;
 esac

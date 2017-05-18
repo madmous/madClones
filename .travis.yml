@@ -35,3 +35,6 @@ script:
 
 after_script:
   - .travis/build.sh after
+
+after_success:
+  - .travis/build.sr success
