@@ -5,12 +5,13 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 
 import { userModel } from '../../../../src/models/index';
-import app from '../../../../src/index';
+import app from '../../../../src/app';
 
 chai.use(chaiHttp);
 
 const signupUrl = '/api/v1/signup/';
-const assert   = chai.assert;
+
+const assert = chai.assert;
 
 describe('Signup' , () => {
 

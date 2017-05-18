@@ -6,14 +6,15 @@ import sinon from 'sinon';
 import chai from 'chai';
 
 import { userModel } from '../../../../src/models/index';
+import app from '../../../../src/app';
 
 chai.use(chaiHttp);
 
 const signinUrl = '/api/v1/signin/';
-const assert 	 	= chai.assert;
+
+const assert = chai.assert;
 
 describe('Signin' , () => {
-	let app;
 
   before(done => {
 		const userTest = new userModel({
@@ -21,8 +22,6 @@ describe('Signin' , () => {
 			fullname: 'testFullname',
 			email: 'test@email.com'
     });
-
-		app = require('../../../../src/index').default;
 
     userTest.save(err => {
       done();
