@@ -7,3 +7,4 @@ coverage
 *.pyc
 .vscode/
 server/trello-microservice/dist/
+.coveralls.yml

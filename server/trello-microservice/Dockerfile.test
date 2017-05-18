@@ -11,4 +11,4 @@ RUN yarn install
 ENV PORT 3001
 EXPOSE $PORT
 
-CMD ["yarn", "run", "docker-test:cover"]
+CMD ["yarn", "run", "docker-test"]
