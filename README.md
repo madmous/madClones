@@ -1,5 +1,4 @@
-
-# MadClones &middot; [![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones)
+# MadClones
 
 Welcome to my mono repo madClones. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 

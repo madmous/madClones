@@ -1,3 +1,5 @@
+# Trello Clone Service &middot; [![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones)
+
 A nodejs microservice that is built with Express. It represents the trello microservice with users's boards and cards. You could argue that the these 2 could be split into different microservices but for now I am keeping them together.
 
 ## Main Libraries
