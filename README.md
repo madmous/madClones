@@ -1,3 +1,6 @@
+
+# MadClones &middot; [![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones)
+
 Welcome to my mono repo madClones. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 
 You will not only see a wide variety of front end technolgies and a couple of microservices written in different languages and frameworks, but also an emphasis on software design and architecture.
