@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 const boardsUrl = '/api/v1/boards/';
 const loginUrl = '/api/v1/login/';
 
-const assert   = chai.assert;
+const assert = chai.assert;
 
 describe('Board' , () => {
 

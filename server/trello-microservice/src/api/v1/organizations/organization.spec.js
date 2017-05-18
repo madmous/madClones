@@ -15,7 +15,7 @@ const organizationsUrl = '/api/v1/organizations';
 const loginUrl = '/api/v1/login/';
 const homeUrl = '/api/v1/home/';
 
-const assert   = chai.assert;
+const assert = chai.assert;
 
 describe('Organization' , () => {
 

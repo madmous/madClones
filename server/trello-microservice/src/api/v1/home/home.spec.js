@@ -16,7 +16,8 @@ import prepareServer from '../../../../test/index';
 chai.use(chaiHttp);
 
 const homeUrl = '/api/v1/home/';
-const assert   = chai.assert;
+
+const assert = chai.assert;
 
 describe('Home' , () => {
 	let server;
