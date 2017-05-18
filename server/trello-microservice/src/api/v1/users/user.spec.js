@@ -13,7 +13,8 @@ chai.use(chaiHttp);
 
 const signupUrl = '/api/v1/signup/';
 const userUrl 	= '/api/v1/users/';
-const assert 	 	= chai.assert;
+
+const assert = chai.assert;
 
 describe('Users' , () => {
 	let server;
