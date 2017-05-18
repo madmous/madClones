@@ -28,10 +28,10 @@ before_install:
   - chmod +x .travis/build.sh
 
 before_script:
-  - ./travis/build.sh before
+  - .travis/build.sh before
 
 script:
   - .travis/build.sh main
 
 after_script:
-  - ./travis/build.sh after
+  - .travis/build.sh after
