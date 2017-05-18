@@ -12,7 +12,8 @@
     "test": "NODE_ENV=test ./node_modules/.bin/mocha ./src/api/v1/**/*.spec.js --compilers js:babel-register",
     "docker-test": "NODE_ENV=docker-test ./node_modules/.bin/mocha ./src/api/v1/**/*.spec.js --compilers js:babel-register",
     "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha ./test --recursive --compilers js:babel-register --inspect --recursive --debug-brk",
-    "test:cover": "NODE_ENV=test istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*.spec.js"
+    "test:cover": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./src/api/v1/**/*.spec.js -- --require babel-register",
+    "docker-test:cover": "NODE_ENV=docker-test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./src/api/v1/**/*.spec.js -- --require babel-register"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
@@ -22,7 +23,8 @@
     "babel-register": "^6.24.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
-    "istanbul": "^0.4.5",
+    "coveralls": "^2.13.1",
+    "istanbul": "1.1.0-alpha.1",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "sinon": "^2.2.0",
