@@ -6,7 +6,7 @@ COPY . /src
 
 WORKDIR /src
 
-RUN yarn install
+RUN yarn install --production
 RUN yarn build
 
 ENV PORT 3001
