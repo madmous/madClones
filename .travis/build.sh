@@ -15,7 +15,7 @@ after() {
 }
 
 success() {
-  cat ./trello_coverage/lcov.info | ./node_modules/.bin/coveralls
+  cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
 }
 
 case "$1" in
@@ -26,12 +26,12 @@ case "$1" in
   main)
       main
       ;;
-    
-  after)
-      after
-      ;;
 
   success)
       success
+      ;;
+    
+  after)
+      after
       ;;
 esac

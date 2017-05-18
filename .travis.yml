@@ -33,8 +33,8 @@ before_script:
 script:
   - .travis/build.sh main
 
+after_success:
+  - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
+
 after_script:
   - .travis/build.sh after
-
-after_success:
-  - .travis/build.sr success
