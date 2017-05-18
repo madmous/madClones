@@ -28,11 +28,10 @@ before_install:
   - chmod +x .travis/build.sh
 
 before_script:
-  - docker-compose -f dc-trello.test.yml up -d
+  - ./travis/build.sh before
 
 script:
-  - .travis/build.sh
+  - .travis/build.sh main
 
 after_script:
-  - docker-compose down trellomicroservice_trello-microservice_1
-  - docker-compose down trellomicroservice_mongo_1
+  - ./travis/build.sh after
