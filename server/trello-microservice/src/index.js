@@ -5,10 +5,7 @@ import app from './app';
 
 import getLogger from './libs/winston';
 
-import {
-  dbTest,
-  db
-} from './config/database';
+import { db } from './config/database';
 
 const log = getLogger(module);
 
@@ -17,8 +14,6 @@ let server = app.listen(port, (err) => {
 
   if (err) {
     log.error('something bad happened', err);
-  } else if (process.env.NODE_ENV === 'test') {
-     dbTest.connect();
   } else {
     db.connect();
   }
