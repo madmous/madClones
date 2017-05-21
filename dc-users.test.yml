@@ -1,22 +1,22 @@
 version: "2"
 services:
-  trellomicroservice:
-    image: trellotest
+  usersmicroservice:
+    image: userstest
     build:
-      context: ./server/trello-microservice
+      context: ./server/users-microservice
       dockerfile: Dockerfile.test
     ports:
       - "3001:3001"
     networks:
-      - trello
+      - users
     depends_on:
-      - trellodb
-  trellodb:
+      - usersdb
+  usersdb:
     image: mongo
     ports:
       - "27017:27017"
     networks:
-      - trello
+      - users
 
 networks:
-  trello:
+  users:

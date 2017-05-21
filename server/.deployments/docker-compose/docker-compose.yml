@@ -3,52 +3,55 @@ version: "2"
 services:
   trellomicroservice:
     image: madmous/trellomicroservice
+    build:
+      context: ../../trello-microservice/
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
     networks:
-      - trellousers
-      - trellodb
+      - trelloandusers
+      - trello
     restart: always
     depends_on:
       - usersmicroservice
-      - mongo
-  mongo:
+      - trellodb
+  trellodb:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
-      - mongo:/data/db
+      - trellodbvol:/data/db
     networks:
-      - trellodb
+      - trello
     restart: always
   usersmicroservice:
     image: madmous/usersmicroservice
+    build:
+      context: ../../users-microservice/
+      dockerfile: Dockerfile
     ports:
       - "3002:3002"
+    networks:
+      - trelloandusers
+      - users
     depends_on:
-      - mysql
-    networks:
-      - trellousers
       - usersdb
     restart: always
-  mysql:
-    image: mysql
+  usersdb:
+    image: mongo
     ports:
-      - "3306:3306"
+      - "27018:27017"
     volumes:
-      - mysql:/var/lib/mysql
+      - usersdbvol:/data/db
     networks:
-      - usersdb
+      - users
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: usersmicroservice
 
 volumes:
-  mongo:
-  mysql:
+  trellodbvol:
+  usersdbvol:
 
 networks:
-  trellousers:
-  trellodb:
-  usersdb:
+  trelloandusers:
+  trello:
+  users:
