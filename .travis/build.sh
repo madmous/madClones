@@ -9,8 +9,8 @@ main() {
   docker logs -f madclones_trellomicroservice_1
   docker logs -f madclones_usersmicroservice_1
 
-  [ $(docker wait madclones_trellomicroservice_1) = 0 ] && 
-  [ $(docker wait madclones_usersmicroservice_1) = 0 ]
+  [[ $(docker wait madclones_trellomicroservice_1) = 0 ]] && 
+  [[ $(docker wait madclones_usersmicroservice_1) = 0 ]]
 }
 
 after() {
