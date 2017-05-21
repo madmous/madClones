@@ -1,29 +1,29 @@
 version: "2"
 services:
-  users-microservice:
+  usersmicroservice:
     image: madmous/usersmicroservice
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - "3002:3002"
+    networks:
+      - users
     depends_on:
-      - mysql
-    networks:
       - usersdb
     restart: always
-  mysql:
-    image: mysql
+  usersdb:
+    image: mongo
     ports:
-      - "3306:3306"
+      - "27018:27017"
     volumes:
-      - mysql:/var/lib/mysql
+      - usersdbvol:/data/db
     networks:
-      - usersdb
+      - users
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: usersmicroservice
 
 volumes:
-  mysql:
+  usersdbvol:
 
 networks:
-  usersdb:
+  users:

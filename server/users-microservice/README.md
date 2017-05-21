@@ -1,4 +1,9 @@
-I started learning Python a couple weeks ago so there is a lot of work that needs to be done.
+# Users Service
 
-* Read Python standardsd on cean code
-* Add unit tests
+A nodejs microservice that is built with Express. It is used as an authentication module that creates users, signs them in by generating/decoding tokens and signin the users out.
+
+## Main Libraries
+
+* Passport
+* Passport-http
+* Request

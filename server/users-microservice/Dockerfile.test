@@ -7,9 +7,8 @@ COPY . /src
 WORKDIR /src
 
 RUN yarn install
-RUN yarn build
 
 ENV PORT 3001
 EXPOSE $PORT
 
-CMD ["yarn", "start"]
+CMD ["yarn", "run", "docker-test"]
