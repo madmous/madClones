@@ -31,7 +31,7 @@ Version 3.0.0 added the boards menu. The user clicks on the boards button availa
 
 ## Technologies to be added
 
-* Spring Boot
+* Electron
 * Kubernetes
 * Rabbimq (not sure yet)
 
