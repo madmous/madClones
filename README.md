@@ -1,4 +1,4 @@
-# MadClones &middot; [![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones) [![Join the chat at https://gitter.im/dwyl/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/madmous/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+# MadClones &middot; [![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones) [![Join the chat at https://gitter.im/dwyl/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/madmous/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/datMadmous)
 
 Welcome to my mono repo madClones. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 
