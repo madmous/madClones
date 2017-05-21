@@ -49,7 +49,7 @@ export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest());
 
-    return fetch(`${usersUrl}signin`, 
+    return fetch(`${usersUrl}api/signin`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -98,7 +98,7 @@ export function logoutUser() {
   return dispatch => {
     dispatch(modalActionCreators.closeAllModals());
 
-    return fetch(`${usersUrl}signout`, 
+    return fetch(`${usersUrl}api/signout`, 
       { method: 'GET',
         credentials: 'include'
       })

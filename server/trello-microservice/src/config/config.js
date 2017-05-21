@@ -1,24 +1,24 @@
 export const dbURI = (() => {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'mongodb://localhost/trelloCloneApi';
+    return 'mongodb://localhost/trelloService';
   } else {
-    return 'mongodb://mongo:27017/trelloCloneApi';
+    return 'mongodb://trellodb:27017/trelloService';
   }
 })();
 
 export const usersMicroserviceUrl = (() => {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'http://localhost:3002';
+    return 'http://localhost:3002/';
   } else {
-    return 'http://usersmicroservice:3002';
+    return 'http://usersmicroservice:3002/';
   }
 })();
 
 export const dbTestURI = (() => {
   if (process.env.NODE_ENV === 'docker-test') {
-    return 'mongodb://mongo:27017/trelloCloneApiTest';
+    return 'mongodb://trellodb:27017/trelloService';
   } else if (process.env.NODE_ENV === 'test'){
-    return 'mongodb://localhost/trelloCloneApiTest';
+    return 'mongodb://localhost/trelloServiceTest';
   }
 })();
 

@@ -47,8 +47,8 @@
     "lodash": "^4.17.4",
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0",
-    "node-fetch": "^1.6.3",
     "nodemon": "^1.11.0",
+    "request": "^2.81.0",
     "winston": "^2.3.0"
   },
   "engines": {

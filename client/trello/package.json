@@ -35,9 +35,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "NODE_ENV=development react-scripts start",
+    "start:dev": "NODE_ENV=dev react-scripts start",
+    "docker-start:dev": "NODE_ENV=docker-dev react-scripts start",
     "build": "react-scripts build",
-    "test": "NODE_ENV=test react-scripts test --env=jsdom",
+    "test": "NODE_ENV=tst react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow"
   }

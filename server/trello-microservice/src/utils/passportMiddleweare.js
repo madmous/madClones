@@ -1,4 +1,6 @@
-import fetch from 'node-fetch';
+'use strict';
+
+import request from 'request';
 
 import { usersMicroserviceUrl } from '../config/config';
 import { userModel } from '../models/index';
@@ -11,45 +13,42 @@ export const authenticatedWithToken = async (req, res, next) => {
     let csrf = req.headers.csrf;
     let jwt = req.cookies.jwt;
 
-    const opts = {
+    const options = {
+      uri: `${usersMicroserviceUrl}api/signcheck`,
+      method: 'GET',
       headers: {
         csrf,
         jwt
-      }
+      },
+      json: true
     };
 
-    try {
-      let res = await fetch(`${usersMicroserviceUrl}/signcheck`, opts);
-      let data = await res.json();
-
-      if (res.status === 401) {
-        return null;
-      }
-
-      if (!data) {
+    request(options, function (error, res2, body) {
+      if (error) {
         next();
       } else {
-        try {
-          let user = await userModel.findOne({name: data.name});
+        userModel
+          .findOne({name: body.data.name})
+          .then(user => {
+            if (user) {
+              req.user = user;
+              next();
+            }
+          })
+          .catch(err => {
+            const msg = 'User not found';
 
-          if (user) {
-            req.user = user;
+            log.error(msg);
+            req.err = msg;
             next();
-          }
-        } catch (error) {
-          log.error('User not found');
-          req.err = 'User not found';
-          next();
-        }
+          });
       }
-    } catch (error) {
-      log.error('The sign check failed');
-      req.err = 'The sign check failed';
-      next();
-    }
+    });
   } else {
-    log.error('Either the cookie or the token is missing');
-    req.err = 'Either the cookie or the token is missing';
+    const msg = 'Either the cookie or the token is missing';
+
+    log.error(msg);
+    req.err = msg;
 
     next();
   }

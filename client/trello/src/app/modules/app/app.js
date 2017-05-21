@@ -40,7 +40,7 @@ export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`${url}api/v1/users/`, 
+    return fetch(`${url}api/v1/users`, 
       { 
         method: 'GET',
         headers: {
@@ -98,8 +98,8 @@ export default function user(state = initialState, action) {
       });
     case UPDATE_USER:
       return Object.assign({}, state, {
-        userId: action.payload.user._id,
-        fullName: action.payload.user.fullname,
+        userId: action.payload._id,
+        fullName: action.payload.fullname,
       });
     default: return state;
   }
