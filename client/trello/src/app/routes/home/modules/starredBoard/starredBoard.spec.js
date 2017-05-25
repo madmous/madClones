@@ -14,7 +14,7 @@ describe('starredBoard actions', () => {
     nock.cleanAll();
   })
 
-  it('should create an action to addBoardStar when the orgId is null', () => {
+  xit('should create an action to addBoardStar when the orgId is null', () => {
     const data = {
       organizations: [],
       starredBoards: [],
@@ -56,7 +56,7 @@ describe('starredBoard actions', () => {
     );
   })
 
-  it('should create an action to addBoardStar', () => {
+  xit('should create an action to addBoardStar', () => {
     const data = {
       organizations: [],
       starredBoard: [],

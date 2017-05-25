@@ -30,8 +30,15 @@ describe('app actions', () => {
 
     const expectedActions = [
       { type: 'LOAD_USER_REQUEST' },
-      { type: 'LOAD_USER_SUCCESS' },
-      { type: 'UPDATE_USER', payload: data}
+      { type: 'CLOSE_ALL_MODALS' },
+      { type: 'UN_AUTHENTICATE_USER' },
+      { 
+        type: '@@router/CALL_HISTORY_METHOD',
+        payload: {
+          args: ['/login'], 
+          method: 'push'
+        }
+      }
     ];
 
     const store = mockStore();

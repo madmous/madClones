@@ -50,7 +50,7 @@ describe('login actions', () => {
 
     const store = mockStore();
 
-    nock('http://localhost:3001/api/v1/login/', { 
+    nock('http://localhost:3002/api/signin/', { 
       reqheaders: {
         'Content-Type': 'application/json; charset=utf-8',
         'authorization': 'Basic ' + btoa(formInputs.username + ':' + formInputs.password) 
@@ -87,7 +87,22 @@ describe('login actions', () => {
       { type: 'AUTHENTICATION_REQUEST' },
       { 
         type: 'AUTHENTICATION_FAIL',
-        payload: data
+        payload: {
+          uiError: {
+            usernameErr: 'There is not an account for this username',
+            code: 404
+          }
+        }
+      },
+      { 
+        type: '@@redux-form/CHANGE',
+        payload: '',
+        meta: {
+          field: 'username',
+          form: 'loginForm',
+          persistentSubmitErrors: undefined,
+          touch: undefined,
+        } 
       }
     ];
 
@@ -111,15 +126,7 @@ describe('login actions', () => {
 
   it('should create an action to logoutUser', () => {
     const expectedActions = [
-      { type: 'CLOSE_ALL_MODALS' }, 
-      { type: 'UN_AUTHENTICATE_USER' },
-      {
-        type: '@@router/CALL_HISTORY_METHOD',
-        payload: {
-          args: ['/login'], 
-          method: 'push'
-        }
-      }
+      { type: 'CLOSE_ALL_MODALS' }
     ];
 
     const store = mockStore();

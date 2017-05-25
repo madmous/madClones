@@ -67,6 +67,10 @@ describe('<BoardItem />', () => {
 describe('<CreateBoard />', () => {
   it('should render CreateBoard', () => {
     const { wrapper } = setupShallow();
+
+    wrapper.setProps({
+      isActiveBoard: false
+    });
     
     chai.expect(wrapper.find('Connect(ReduxForm)')).to.have.length(1);
   })
@@ -74,6 +78,10 @@ describe('<CreateBoard />', () => {
   describe('onClick event', () => {
     it('should have an onClick defined', () => {
       const { wrapper } = setupShallow();
+
+      wrapper.setProps({
+        isActiveBoard: false
+      });
 
       chai.expect(wrapper.find('Connect(ReduxForm)').props().onSubmit).to.be.defined;
     })

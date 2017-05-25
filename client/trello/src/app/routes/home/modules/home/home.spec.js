@@ -24,22 +24,14 @@ describe('home actions', () => {
     const expectedActions = [
       { type: 'LOAD_HOME_REQUEST' },
       { type: 'CLOSE_ALL_MODALS' },
-      { type: 'LOAD_HOME_SUCCESS' }, 
+      { type: 'UN_AUTHENTICATE_USER' }, 
       {
-        type: 'UPDATE_ORGANIZATIONS',
-        payload: data
-      },
-      {
-        type: 'UPDATE_STARRED_BOARDS',
-        payload: data
-      },
-      {
-        type: 'UPDATE_BOARDS',
-        payload: data
-      },
-      {
-        type: 'RESET_CARDS'
-      },
+        type: '@@router/CALL_HISTORY_METHOD',
+        payload: {
+          args: ['/login'], 
+          method: 'push'
+        }
+      }
     ];
 
     const store = mockStore();
@@ -65,10 +57,15 @@ describe('home actions', () => {
     };
 
     const expectedActions = [
-      { type: 'LOAD_HOME_REQUEST' },
-      { 
-        type: 'LOAD_HOME_FAIL',
-        payload: data
+      { type: 'LOAD_HOME_REQUEST'}, 
+      { type: 'CLOSE_ALL_MODALS'}, 
+      { type: 'UN_AUTHENTICATE_USER'}, 
+      { payload: 
+        {
+          args: ['/login'], 
+          method: 'push'
+        }, 
+        type: '@@router/CALL_HISTORY_METHOD'
       }
     ];
 
