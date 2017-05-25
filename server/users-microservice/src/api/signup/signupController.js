@@ -29,7 +29,7 @@ export const saveUser = (req, res) => {
     })
     .then(async user => {
       const options = {
-        uri: `${trelloMicroserviceUrl}api/v1/signup`,
+        uri: `${trelloMicroserviceUrl}trello/api/signup`,
         method: 'POST',
         json: {
           name: user.name,

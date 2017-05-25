@@ -3,20 +3,19 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 
-import { userModel } from '../../../src/models/index';
+import { userModel } from '../../models/index';
 import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signcheckUrl = '/api/signcheck';
-const signinUrl = '/api/signin';
+const signcheckUrl = '/users/api/signcheck';
+const signinUrl = '/users/api/signin';
 
 const assert = chai.assert;
 const expect = chai.expect;
 
 describe('Signup' , () => {
 	let server;
-	let app;
 
 	before(done => {
 		const user = new userModel({
@@ -28,9 +27,8 @@ describe('Signup' , () => {
 			password: 'testPassword'
 		});
 
-		prepareServer(user, (arg1, arg2) => {
+		prepareServer(user, false, (arg1, arg2) => {
 			server = arg1;
-			app = arg2;
 
 			done();
 		});
@@ -45,7 +43,7 @@ describe('Signup' , () => {
 		let csrf;
     
     xit ('should get cookies', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(signinUrl)
 				.auth('testName', 'testPassword')
 				.end((err, res) => {

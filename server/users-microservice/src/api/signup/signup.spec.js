@@ -5,26 +5,24 @@ import nock from 'nock';
 import chai from 'chai';
 
 import { trelloMicroserviceUrl } from '../../config/config';
-import { userModel } from '../../../src/models/index';
-import prepareServer from '../../../test/index';
+import { userModel } from '../../models/index';
+import { runServer } from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signupUrl = '/api/signup';
+const signupUrl = '/users/api/signup';
 
 const assert = chai.assert;
 
 describe('Signup' , () => {
 	let server;
-	let app;
 
 	before(done => {
 
-		prepareServer(null, (arg1, arg2) => {
-			server = arg1;
-			app = arg2;
+		runServer(arg => {
+			server = arg;
 
-			nock(`${trelloMicroserviceUrl}api/v1/signup/`)
+			nock(`${trelloMicroserviceUrl}trello/api/signup/`)
 				.post('', {
 					name: 'testName',
 					fullname: 'testFullname',
@@ -53,7 +51,7 @@ describe('Signup' , () => {
 				password: 'testPassword'
 			};
 
-			chai.request(app)
+			chai.request(server)
 				.post(signupUrl)
 				.send(user)
 				.end((err, res) => {

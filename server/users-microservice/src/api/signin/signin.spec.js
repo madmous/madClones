@@ -3,18 +3,17 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 
-import { userModel } from '../../../src/models/index';
+import { userModel } from '../../models/index';
 import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signinUrl = '/api/signin';
+const signinUrl = '/users/api/signin';
 
 const assert = chai.assert;
 
 describe('Signin' , () => {
 	let server;
-	let app;
 
 	before(done => {
 		const user = new userModel({
@@ -26,9 +25,8 @@ describe('Signin' , () => {
 			password: 'testPassword'
 		});
 
-		prepareServer(user, (arg1, arg2) => {
+		prepareServer(user, false, (arg1, arg2) => {
 			server = arg1;
-			app = arg2;
 
 			done();
 		});
@@ -42,7 +40,7 @@ describe('Signin' , () => {
 	describe('/POST', () => {
     
     xit ('should signin - sucess', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(signinUrl)
 				.auth('testName', 'testPassword')
 				.end((err, res) => {
@@ -56,7 +54,7 @@ describe('Signin' , () => {
 		});
 
 		it ('should signin - fail', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(signinUrl)
 				.auth('testNames', 'testPassword')
 				.end((err, res) => {
@@ -67,7 +65,7 @@ describe('Signin' , () => {
 		});
 
 		xit ('should signin - fail', done => {
-			chai.request(app)
+			chai.request(server)
 				.post(signinUrl)
 				.auth('testName', 'testPasswords')
 				.end((err, res) => {

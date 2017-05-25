@@ -3,11 +3,11 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 
-import prepareServer from '../../../test/index';
+import { runServer } from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signoutUrl = '/api/signout';
+const signoutUrl = '/users/api/signout';
 
 const assert = chai.assert;
 
@@ -16,10 +16,8 @@ describe('Signout' , () => {
 	let app;
 
 	before(done => {
-
-		prepareServer(null, (arg1, arg2) => {
-			server = arg1;
-			app = arg2;
+		runServer(arg => {
+			server = arg;
 
 			done();
 		});
@@ -32,7 +30,7 @@ describe('Signout' , () => {
 	describe('/POST', () => {
     
     it ('should signout - sucess', done => {
-			chai.request(app)
+			chai.request(server)
 				.get(signoutUrl)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
