@@ -1,8 +1,8 @@
 #!/bin/bash
 
 before() {
-  docker-compose -f dc-trello.test.yml up -d
-  docker-compose -f dc-users.test.yml up -d
+  docker-compose -f dc-trello-service.test.yml up -d
+  docker-compose -f dc-users-service.test.yml up -d
 }
 
 main() {
@@ -21,10 +21,6 @@ after() {
   docker-compose down madclones_usersdb_1
 }
 
-success() {
-  cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
-}
-
 case "$1" in
   before)
       before
@@ -32,10 +28,6 @@ case "$1" in
     
   main)
       main
-      ;;
-
-  success)
-      success
       ;;
     
   after)
