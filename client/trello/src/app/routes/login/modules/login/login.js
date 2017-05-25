@@ -49,7 +49,7 @@ export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest());
 
-    return fetch(`${trelloUrl}api/v1/signin`, 
+    return fetch(`${trelloUrl}api/signin`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

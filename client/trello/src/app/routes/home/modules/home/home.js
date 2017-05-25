@@ -47,7 +47,7 @@ export function getHome() {
   return dispatch => {
     dispatch(loadHomeRequest())
 
-    return fetch(`${trelloUrl}api/v1/home`, 
+    return fetch(`${trelloUrl}api/home`, 
       { method: 'GET',
         headers: {
           'csrf': localStorage.getItem('csrf')

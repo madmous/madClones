@@ -65,18 +65,18 @@ export function updateStarredBoards(payload) {
 
 export function addBoardStar(orgId, boardId) {
   if (orgId) {
-    return saveBoardStar(`${trelloUrl}api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
+    return saveBoardStar(`${trelloUrl}api/organizations/${orgId}/boards/${boardId}/boardstars`, 'POST');
   }
 
-  return saveBoardStar(`${trelloUrl}api/v1/boards/${boardId}/boardstars`, 'POST');
+  return saveBoardStar(`${trelloUrl}api/boards/${boardId}/boardstars`, 'POST');
 }
 
 export function removeBoardStar(orgId, boardId) {
   if (orgId) {
-    return saveBoardStar(`${trelloUrl}api/v1/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
+    return saveBoardStar(`${trelloUrl}api/organizations/${orgId}/boards/${boardId}/boardstars`, 'DELETE');  
   }
 
-  return saveBoardStar(`${trelloUrl}api/v1/boards/${boardId}/boardstars`, 'DELETE');
+  return saveBoardStar(`${trelloUrl}api/boards/${boardId}/boardstars`, 'DELETE');
 }
 
 function saveBoardStar(urlToFetch, method) {

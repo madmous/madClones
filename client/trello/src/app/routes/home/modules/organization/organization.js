@@ -55,7 +55,7 @@ export function closeModal() {
 }
 
 export function addOrganization(userId, organizationName) {
-  return saveOrganization(`${trelloUrl}api/v1/organizations`, organizationName);
+  return saveOrganization(`${trelloUrl}api/organizations`, organizationName);
 }
 
 function saveOrganization(url, organizationName) {

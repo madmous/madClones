@@ -40,7 +40,7 @@ export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`${trelloUrl}api/v1/users`, 
+    return fetch(`${trelloUrl}api/users`, 
       { 
         method: 'GET',
         headers: {

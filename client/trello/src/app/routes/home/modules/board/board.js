@@ -95,18 +95,18 @@ export function closeModal() {
 
 export function addBoard(userId, orgId, boardName) {
   if (orgId) {
-    return saveBoard(trelloUrl + `api/v1/organizations/${orgId}/boards`, boardName, 'POST');
+    return saveBoard(`${trelloUrl}api/organizations/${orgId}/boards`, boardName, 'POST');
   }
 
-  return saveBoard(trelloUrl + `api/v1/boards`, boardName, 'POST');
+  return saveBoard(`${trelloUrl}api/boards`, boardName, 'POST');
 }
 
 export function updateBoardName(orgId, boardId, boardName) {
   if (orgId) {
-    return saveBoard(trelloUrl + `api/v1/organizations/${orgId}/boards/${boardId}`, boardName, 'PUT');
+    return saveBoard(`${trelloUrl}api/organizations/${orgId}/boards/${boardId}`, boardName, 'PUT');
   }
 
-  return saveBoard(trelloUrl + `api/v1/boards/${boardId}`, boardName, 'PUT');
+  return saveBoard(`${trelloUrl}api/boards/${boardId}`, boardName, 'PUT');
 }
 
 function saveBoard(url, boardName, methodType) {
