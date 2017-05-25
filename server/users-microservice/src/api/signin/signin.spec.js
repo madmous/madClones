@@ -41,7 +41,7 @@ describe('Signin' , () => {
 
 	describe('/POST', () => {
     
-    it ('should signin - sucess', done => {
+    xit ('should signin - sucess', done => {
 			chai.request(app)
 				.post(signinUrl)
 				.auth('testName', 'testPassword')
@@ -66,7 +66,7 @@ describe('Signin' , () => {
 				});
 		});
 
-		it ('should signin - fail', done => {
+		xit ('should signin - fail', done => {
 			chai.request(app)
 				.post(signinUrl)
 				.auth('testName', 'testPasswords')

@@ -46,13 +46,14 @@ export const saveUser = (req, res) => {
 
           buildResponse(200, csrf, res);
         } else {
+          // TODO: delete user that was just createdw
           buildResponse(500, 'The user was not created successfully', res);
         }
       });
     })
     .catch(error => {
       if (error.isBoom) {
-        buildResponse(err.output.statusCode, error.message, res);
+        buildResponse(error.output.statusCode, error.message, res);
       } else {
         buildResponse(500, error, res);
       }

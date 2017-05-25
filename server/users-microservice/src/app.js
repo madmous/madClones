@@ -35,11 +35,10 @@ app.use(cookieParser());
 
 app.disable('x-powered-by');
 
-app.use('/api/signin', authenticatedWithBasic, signInRoutes);
-
 app.use('/api/signcheck', signCheckRoutes);
 app.use('/api/signout', signOutRoutes);
 app.use('/api/signup', signUpRoutes);
+app.use('/api/signin', signInRoutes);
 
 app.use(csurf({ cookie: true }));
 
