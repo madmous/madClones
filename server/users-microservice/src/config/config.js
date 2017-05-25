@@ -18,9 +18,9 @@ export const dbTestURI = (() => {
 
 export const trelloMicroserviceUrl = (() => {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    return 'http://127.0.0.1:3001/';
+    return 'http://127.0.0.1:3001/trello/';
   } else {
-    return 'http://trellomicroservice:3001/';
+    return 'http://trellomicroservice:3001/trello/';
   }
 })();
 
