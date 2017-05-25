@@ -2,7 +2,7 @@ import { change } from 'redux-form';
 import { push } from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 
-import { usersUrl } from '../../../../../utils/url';
+import { trelloUrl, usersUrl } from '../../../../../utils/url';
 
 import { modalActionCreators } from '../../../home/modules/index';
 
@@ -49,7 +49,7 @@ export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest());
 
-    return fetch(`${usersUrl}api/signin`, 
+    return fetch(`${trelloUrl}api/v1/signin`, 
       { method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 import { loginActionCreators } from '../../routes/login/modules/index';
 
-import { url } from '../../../utils/url';
+import { trelloUrl } from '../../../utils/url';
 
 const UPDATE_USER = 'UPDATE_USER';
 
@@ -40,7 +40,7 @@ export function getUser() {
   return dispatch => {
     dispatch(loadUserRequest())
 
-    return fetch(`${url}api/v1/users`, 
+    return fetch(`${trelloUrl}api/v1/users`, 
       { 
         method: 'GET',
         headers: {

@@ -5,7 +5,7 @@ import {
   modalActionCreators 
 } from '../index';
 
-import { url } from '../../../../../utils/url.js';
+import { trelloUrl } from '../../../../../utils/url';
 
 const UPDATE_ORGANIZATIONS = 'UPDATE_ORGANIZATIONS';
 
@@ -55,7 +55,7 @@ export function closeModal() {
 }
 
 export function addOrganization(userId, organizationName) {
-  return saveOrganization(url + `api/v1/organizations`, organizationName);
+  return saveOrganization(`${trelloUrl}api/v1/organizations`, organizationName);
 }
 
 function saveOrganization(url, organizationName) {

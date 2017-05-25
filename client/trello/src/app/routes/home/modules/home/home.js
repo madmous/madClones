@@ -10,7 +10,7 @@ import {
 import { cardActionCreators } from '../../routes/boardView/modules/index';
 import { loginActionCreators } from '../../../login/modules/index';
 
-import { url } from '../../../../../utils/url';
+import { trelloUrl } from '../../../../../utils/url';
 
 const LOAD_HOME_REQUEST = 'LOAD_HOME_REQUEST';
 const LOAD_HOME_SUCCESS = 'LOAD_HOME_SUCCESS';
@@ -47,7 +47,7 @@ export function getHome() {
   return dispatch => {
     dispatch(loadHomeRequest())
 
-    return fetch(`${url}api/v1/home/`, 
+    return fetch(`${trelloUrl}api/v1/home`, 
       { method: 'GET',
         headers: {
           'csrf': localStorage.getItem('csrf')

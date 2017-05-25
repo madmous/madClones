@@ -46,7 +46,7 @@ describe('signUp actions', () => {
 
     const store = mockStore();
 
-    nock('http://localhost:3001/api/v1/signup/',{
+    nock('http://localhost:3002/api/signup/',{
       body: JSON.stringify({
         name: formInput.username,
         fullname: formInput.username,
@@ -103,7 +103,7 @@ describe('signUp actions', () => {
 
     const store = mockStore();
 
-    nock('http://localhost:3001/api/v1/signup/',{
+    nock('http://localhost:3002/api/signup/',{
       body: JSON.stringify({
         name: formInput.username,
         fullname: formInput.username,

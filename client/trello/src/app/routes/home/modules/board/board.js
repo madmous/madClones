@@ -7,7 +7,7 @@ import {
   formActionCreators
 } from '../index';
 
-import { url } from '../../../../../utils/url.js';
+import { trelloUrl } from '../../../../../utils/url.js';
 
 const CLOSE_MODAL = 'CLOSE_MODAL';
 const OPEN_MODAL = 'OPEN_MODAL';
@@ -95,18 +95,18 @@ export function closeModal() {
 
 export function addBoard(userId, orgId, boardName) {
   if (orgId) {
-    return saveBoard(url + `api/v1/organizations/${orgId}/boards`, boardName, 'POST');
+    return saveBoard(trelloUrl + `api/v1/organizations/${orgId}/boards`, boardName, 'POST');
   }
 
-  return saveBoard(url + `api/v1/boards`, boardName, 'POST');
+  return saveBoard(trelloUrl + `api/v1/boards`, boardName, 'POST');
 }
 
 export function updateBoardName(orgId, boardId, boardName) {
   if (orgId) {
-    return saveBoard(url + `api/v1/organizations/${orgId}/boards/${boardId}`, boardName, 'PUT');
+    return saveBoard(trelloUrl + `api/v1/organizations/${orgId}/boards/${boardId}`, boardName, 'PUT');
   }
 
-  return saveBoard(url + `api/v1/boards/${boardId}`, boardName, 'PUT');
+  return saveBoard(trelloUrl + `api/v1/boards/${boardId}`, boardName, 'PUT');
 }
 
 function saveBoard(url, boardName, methodType) {
