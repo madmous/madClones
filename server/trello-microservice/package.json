@@ -48,6 +48,8 @@
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0",
     "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
     "request": "^2.81.0",
     "winston": "^2.3.0"
   },
