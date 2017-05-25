@@ -2,37 +2,38 @@ apiVersion: v1
 kind: Service
 metadata:
  labels:
-   name: mongo
- name: mongo
+   name: trellodb
+ name: trellodb
 spec:
  ports:
   - port: 27017
     targetPort: 27017
  selector:
-   name: mongo
+   name: trellodb
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: mongo
+  name: trellodb
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: mongo
+        name: trellodb
     spec:
       containers:
         - image: mongo
-          name: mongo
+          name: trellodb
+          imagePullPolicy: Always
           ports:
-            - name: mongo
+            - name: trellodb
               containerPort: 27017
           volumeMounts:
-            - name: mongo
+            - name: trellodbvol
               mountPath: /data/db
       volumes:
-        - name: mongo
+        - name: trellodbvol
 ---
 apiVersion: v1
 kind: Service
@@ -55,13 +56,19 @@ metadata:
   name: trellomicroservice
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      name: trellomicroservice
+  minReadySeconds: 10
   template:
     metadata:
       labels:
         name: trellomicroservice
+        version: 3.0.0
     spec:
       containers:
         - name: trellomicroservice
-          image: "madmous/trellomicroservice"
+          image: madmous/trellomicroservice:3.0.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 3001
