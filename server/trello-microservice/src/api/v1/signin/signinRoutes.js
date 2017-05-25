@@ -8,6 +8,7 @@ import { getUser }  from './signinController';
 
 const router  = express.Router();
 
-router.route('/').get(validate(getUserSchema), getUser)
+// TODO: fix validate
+router.route('/').post(getUser)
 
 export default router;

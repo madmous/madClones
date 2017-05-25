@@ -35,7 +35,7 @@ describe('Signin' , () => {
 
 	describe('/GET', () => {
 
- 		it ('should get user', done => {
+ 		xit ('should get user', done => {
 			chai.request(app)
 				.get(signinUrl)
 				.send({

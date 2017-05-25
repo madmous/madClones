@@ -21,7 +21,10 @@ import {
   homeRoutes
 } from './api/v1/indexRoutes';
 
-import { authenticatedWithToken } from './utils/passportMiddleweare';
+import { 
+  authenticatedWithToken,
+  authenticatedWithBasic 
+} from './utils/passportMiddleweare';
 
 const log = getLogger(module);
 
@@ -38,7 +41,7 @@ app.use(cookieParser());
 
 app.disable('x-powered-by');
 
-app.use('/api/v1/signin', signInRoutes);
+app.use('/api/v1/signin', authenticatedWithBasic, signInRoutes);
 app.use('/api/v1/signup', signUpRoutes);
 
 app.use('/api/v1/organizations', authenticatedWithToken, organizationRoutes);

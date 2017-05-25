@@ -1,5 +1,7 @@
 'use strict';
 
+import { BasicStrategy } from 'passport-http';
+import passport from 'passport';
 import request from 'request';
 
 import { usersMicroserviceUrl } from '../config/config';
@@ -53,3 +55,41 @@ export const authenticatedWithToken = async (req, res, next) => {
     next();
   }
 };
+
+passport.use(new BasicStrategy(
+  function(username, password, callback) {
+    userModel.findOne({ name: username }, function (err, user) {
+
+      if (err) { 
+				return callback(err); 
+			}
+
+      if (!user) { 
+        return callback(null, { err: {usernameErr: 'There is not an account for this username', code: 404 } });
+			}
+
+      const options = {
+        uri: `${usersMicroserviceUrl}api/signin`,
+        method: 'POST',
+        json: {
+          username,
+          password
+        }
+      };
+
+      request(options, function (error, res, body) {
+        if (!error && res.statusCode === 200) {
+          let tokens = res.body.data;
+
+          return callback(null, tokens);
+        } else {
+          return callback(null, { err: {passwordErr: 'Wrong password', code: 401 } });
+          // TODO: delete user that was just createdw
+          // buildResponse(500, 'The user was not created successfully', res);
+        }
+      });
+    });
+  }
+));
+
+export const authenticatedWithBasic = passport.authenticate('basic', { session : false });
