@@ -9,20 +9,19 @@ import {
 	organizationModel,
   boardModel,
   userModel
-} from '../../../../src/models/index';
+} from '../../models/index';
 
-import prepareServer from '../../../../test/index';
+import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const homeUrl = '/api/v1/home/';
+const homeUrl = '/trello/api/home/';
 
 const assert = chai.assert;
 
 describe('Home' , () => {
 	let server;
 	let stub;
-	let app;
 
   before(done => {
 		const organizationBoard = new boardModel({
@@ -47,10 +46,9 @@ describe('Home' , () => {
       boards: [board]
     });
 
-		prepareServer(userTest, (arg1, arg2, arg3) => {
+		prepareServer(userTest, true, (arg1, arg2) => {
 			server = arg1;
 			stub = arg2;
-			app = arg3;
 
 			done();
 		});

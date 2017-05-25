@@ -5,33 +5,31 @@ import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import chai from 'chai';
 
-import { userModel } from '../../../../src/models/index';
+import { userModel } from '../../models/index';
 
-import prepareServer from '../../../../test/index';
+import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signupUrl = '/api/v1/signup/';
-const userUrl 	= '/api/v1/users/';
+const signupUrl = '/trello/api/signup/';
+const userUrl 	= '/trello/api/users/';
 
 const assert = chai.assert;
 
 describe('Users' , () => {
 	let server;
 	let stub;
-	let app;
 
-  before(done => {
+	before(done => {
 		const userTest = new userModel({
       name: 'test',
 			fullname: 'testFullname',
 			email: 'test@email.com'
     });
 
-		prepareServer(userTest, (arg1, arg2, arg3) => {
+		prepareServer(userTest, true, (arg1, arg2) => {
 			server = arg1;
 			stub = arg2;
-			app = arg3;
 
 			done();
 		});
@@ -47,7 +45,7 @@ describe('Users' , () => {
 	describe('/GET', () => {
 
  		it ('should get user', done => {
-			chai.request(app)
+			chai.request(server)
 				.get(userUrl)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
@@ -69,7 +67,7 @@ describe('Users' , () => {
 				email: 'testUpdated@email.com'
 			};
 			
-			chai.request(app)
+			chai.request(server)
 				.put(userUrl)
 				.send(user)
 				.end((err, res) => {
@@ -85,7 +83,7 @@ describe('Users' , () => {
 	describe('/DELETE', () => {
   
 		it ('should delete user', done => {
-			chai.request(app)
+			chai.request(server)
 				.delete(userUrl)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');

@@ -3,9 +3,9 @@
 import {
   removeUserService,
   saveUserService 
-} from '../../../utils/userService';
+} from '../../utils/userService';
 
-import { userModel } from '../../../models/index';
+import { userModel } from '../../models/index';
 
 const buildResponse = (statusCode, data, res) => {
   if (statusCode === 200) {

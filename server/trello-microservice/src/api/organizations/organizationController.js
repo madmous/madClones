@@ -6,10 +6,10 @@ import {
   organizationModel,
   boardStarModel,
   boardModel
-} from '../../../models/index';
+} from '../../models/index';
 
-import { saveUserService } from '../../../utils/userService';
-import { buildResponse } from '../../../utils/responseService';
+import { saveUserService } from '../../utils/userService';
+import { buildResponse } from '../../utils/responseService';
 
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 

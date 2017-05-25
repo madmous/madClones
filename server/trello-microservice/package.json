@@ -9,11 +9,11 @@
     "start": "node dist/index.js",
     "start:dev": "NODE_ENV=development nodemon ./src/index --exec babel-node",
     "start:debug": "NODE_ENV=development babel-node ./src/index --debug-brk --inspect",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha ./src/api/v1/**/*.spec.js --compilers js:babel-register",
-    "docker-test": "NODE_ENV=docker-test ./node_modules/.bin/mocha ./src/api/v1/**/*.spec.js --compilers js:babel-register",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha ./src/api/**/*.spec.js --compilers js:babel-register",
+    "docker-test": "NODE_ENV=docker-test ./node_modules/.bin/mocha ./src/api/**/*.spec.js --compilers js:babel-register",
     "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha ./test --recursive --compilers js:babel-register --inspect --recursive --debug-brk",
-    "test:cover": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly ./src/api/v1/**/*.spec.js -- --require babel-register",
-    "docker-test:cover": "NODE_ENV=docker-test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./src/api/v1/**/*.spec.js -- --require babel-register"
+    "test:cover": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly ./src/api/**/*.spec.js -- --require babel-register",
+    "docker-test:cover": "NODE_ENV=docker-test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./src/api/**/*.spec.js -- --require babel-register"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",

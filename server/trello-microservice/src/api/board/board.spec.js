@@ -8,14 +8,14 @@ import chai from 'chai';
 import {
   cardsModel,
   userModel
-} from '../../../../src/models/index';
+} from '../../models/index';
 
-import prepareServer from '../../../../test/index';
+import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const boardsUrl = '/api/v1/boards/';
-const loginUrl = '/api/v1/login/';
+const boardsUrl = '/trello/api/boards/';
+const loginUrl = '/trello/api/login/';
 
 const assert = chai.assert;
 
@@ -27,7 +27,6 @@ describe('Board' , () => {
 
 	let server;
 	let stub;
-	let app;
 
   before(done => {
     const userTest = new userModel({
@@ -36,10 +35,9 @@ describe('Board' , () => {
 			email: 'test@email.com'
     });
 
-		prepareServer(userTest, (arg1, arg2, arg3) => {
+		prepareServer(userTest, true, (arg1, arg2) => {
 			server = arg1;
 			stub = arg2;
-			app = arg3;
 
 			done();
 		});
@@ -83,7 +81,7 @@ describe('Board' , () => {
 			};
 
 			chai.request(server)
-				.post(`${boardsUrl}/${boardId}/cards`)
+				.post(`${boardsUrl}${boardId}/cards`)
         .send(card)
 				.end((err, res) => {
           cardId = res.body.data.cards[0]._id;
@@ -105,7 +103,7 @@ describe('Board' , () => {
 			};
 
 			chai.request(server)
-				.post(`${boardsUrl}/${boardId}/cards/${cardId}`)
+				.post(`${boardsUrl}${boardId}/cards/${cardId}`)
         .send(cardItem)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
@@ -121,7 +119,7 @@ describe('Board' , () => {
 
 		it ('should star a user board - success', done => {
 			chai.request(server)
-				.post(`${boardsUrl}/${boardId}/boardstars`)
+				.post(`${boardsUrl}${boardId}/boardstars`)
 				.end((err, res) => {
 					boardStarId = res.body.data.boardStars[0]._id;
 
@@ -136,7 +134,7 @@ describe('Board' , () => {
 
 		it ('should star a user board - fail', done => {
 			chai.request(server)
-				.post(`${boardsUrl}/null/boardStars`)
+				.post(`${boardsUrl}null/boardStars`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because board id is not valid');
@@ -150,7 +148,7 @@ describe('Board' , () => {
 
 		it ('should create a board card - fail', done => {
 			chai.request(server)
-				.put(`${boardsUrl}/${boardId}`)
+				.put(`${boardsUrl}${boardId}`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 'status equals 400 because new card is missing');
 
@@ -163,7 +161,7 @@ describe('Board' , () => {
 
 		it ('should get user board cards - success', done => {
 			chai.request(server)
-				.get(`${boardsUrl}/${boardId}/cards`)
+				.get(`${boardsUrl}${boardId}/cards`)
 				.end((err, res) => {
 					assert.equal(res.status, '200');
 
@@ -173,7 +171,7 @@ describe('Board' , () => {
 
 		it ('should get user board cards - fail', done => {
 			chai.request(server)
-				.get(`${boardsUrl}/null`)
+				.get(`${boardsUrl}null`)
 				.end((err, res) => {
 					assert.equal(res.status, '404',
 							'status equals 400 because board id is not valid');
@@ -191,7 +189,7 @@ describe('Board' , () => {
 			};
 
 			chai.request(server)
-				.put(`${boardsUrl}/${boardId}`)
+				.put(`${boardsUrl}${boardId}`)
         .send(renamedBoardName)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
@@ -205,7 +203,7 @@ describe('Board' , () => {
 
 		it ('should unstar a starred user board - success', done => {
 			chai.request(server)
-				.delete(`${boardsUrl}/${boardId}/boardstars`)
+				.delete(`${boardsUrl}${boardId}/boardstars`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.boardStars.length);
@@ -216,7 +214,7 @@ describe('Board' , () => {
 
 		it ('should star a user board - fail', done => {
 			chai.request(server)
-				.post(`${boardsUrl}/null/boardStars`)
+				.post(`${boardsUrl}null/boardStars`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because board id is not valid');
@@ -230,7 +228,7 @@ describe('Board' , () => {
 
 		it ('should delete a user board - success', done => {
 			chai.request(server)
-				.delete(`${boardsUrl}/${boardId}`)
+				.delete(`${boardsUrl}${boardId}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.boards.length);

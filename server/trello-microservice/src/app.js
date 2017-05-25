@@ -19,7 +19,7 @@ import {
   boardRoutes,
   userRoutes,
   homeRoutes
-} from './api/v1/indexRoutes';
+} from './api/indexRoutes';
 
 import { 
   authenticatedWithToken,
@@ -29,6 +29,8 @@ import {
 const log = getLogger(module);
 
 const app = express ();
+
+const rootUrl = '/trello/api/';
 
 app.use(cors({ origin: true, credentials: true }));
 
@@ -41,13 +43,13 @@ app.use(cookieParser());
 
 app.disable('x-powered-by');
 
-app.use('/api/v1/signin', authenticatedWithBasic, signInRoutes);
-app.use('/api/v1/signup', signUpRoutes);
+app.use(`${rootUrl}signin`, authenticatedWithBasic, signInRoutes);
+app.use(`${rootUrl}signup`, signUpRoutes);
 
-app.use('/api/v1/organizations', authenticatedWithToken, organizationRoutes);
-app.use('/api/v1/boards', authenticatedWithToken, boardRoutes);
-app.use('/api/v1/users', authenticatedWithToken, userRoutes);
-app.use('/api/v1/home', authenticatedWithToken, homeRoutes);
+app.use(`${rootUrl}organizations`, authenticatedWithToken, organizationRoutes);
+app.use(`${rootUrl}boards`, authenticatedWithToken, boardRoutes);
+app.use(`${rootUrl}users`, authenticatedWithToken, userRoutes);
+app.use(`${rootUrl}home`, authenticatedWithToken, homeRoutes);
 
 app.use(csurf({ cookie: true }));
 

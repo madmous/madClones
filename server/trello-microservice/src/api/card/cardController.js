@@ -2,15 +2,15 @@
 
 import Boom from 'boom';
 
-import getLogger from '../../../libs/winston';
+import getLogger from '../../libs/winston';
 
 import {
   cardItemModel,
   cardsModel,
   cardModel
-} from '../../../models/index';
+} from '../../models/index';
 
-import { buildResponse } from '../../../utils/responseService';
+import { buildResponse } from '../../utils/responseService';
 
 const objectIdRegex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 const log = getLogger(module);

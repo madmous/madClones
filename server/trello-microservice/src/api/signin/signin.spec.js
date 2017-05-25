@@ -5,16 +5,17 @@ import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import chai from 'chai';
 
-import { userModel } from '../../../../src/models/index';
-import app from '../../../../src/app';
+import prepareServer from '../../../test/index';
+import { userModel } from '../../models/index';
 
 chai.use(chaiHttp);
 
-const signinUrl = '/api/v1/signin/';
+const signinUrl = '/trello/api/signin/';
 
 const assert = chai.assert;
 
 describe('Signin' , () => {
+	let server;
 
   before(done => {
 		const userTest = new userModel({
@@ -23,20 +24,22 @@ describe('Signin' , () => {
 			email: 'test@email.com'
     });
 
-    userTest.save(err => {
-      done();
-    });
+		prepareServer(userTest, false, (arg1, arg2) => {
+			server = arg1;
+
+			done();
+		});
   });
 
 	after(done => {
 		userModel.find().remove().exec();
-		done();
+		server.close(done);
 	});
 
 	describe('/GET', () => {
 
  		xit ('should get user', done => {
-			chai.request(app)
+			chai.request(server)
 				.get(signinUrl)
 				.send({
 					name: 'test',

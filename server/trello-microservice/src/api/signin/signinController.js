@@ -3,8 +3,8 @@
 import request from 'request';
 import Boom from 'boom';
 
-import { buildResponse } from '../../../utils/responseService';
-import { userModel } from '../../../models/index';
+import { buildResponse } from '../../utils/responseService';
+import { userModel } from '../../models/index';
 
 export const getUser = async (req, res) => {
   const user = req.user;

@@ -5,15 +5,15 @@ import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import chai from 'chai';
 
-import { userModel } from '../../../../src/models/index';
+import { userModel } from '../../models/index';
 
-import prepareServer from '../../../../test/index';
+import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const organizationsUrl = '/api/v1/organizations';
-const loginUrl = '/api/v1/login/';
-const homeUrl = '/api/v1/home/';
+const organizationsUrl = '/trello/api/organizations/';
+const loginUrl = '/trello/api/login/';
+const homeUrl = '/trello/api/home/';
 
 const assert = chai.assert;
 
@@ -25,7 +25,6 @@ describe('Organization' , () => {
 
 	let server;
 	let stub;
-	let app;
 
   before(done => {
 		const userTest = new userModel({
@@ -34,10 +33,9 @@ describe('Organization' , () => {
 			email: 'test@email.com'
     });
 
-		prepareServer(userTest, (arg1, arg2, arg3) => {
+		prepareServer(userTest, true, (arg1, arg2) => {
 			server = arg1;
 			stub = arg2;
-			app = arg3;
 
 			done();
 		});
@@ -58,7 +56,7 @@ describe('Organization' , () => {
 				displayName: 'organizationDisplayName'
 			};
 
-			chai.request(app)
+			chai.request(server)
 				.post(organizationsUrl)
         .send(organization)
 				.end((err, res) => {
@@ -82,8 +80,8 @@ describe('Organization' , () => {
 				displayName: 'organizationDisplayNameUpdated'
 			};
 
-			chai.request(app)
-				.put(`${organizationsUrl}/${organizationId}`)
+			chai.request(server)
+				.put(`${organizationsUrl}${organizationId}`)
         .send(organization)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
@@ -103,8 +101,8 @@ describe('Organization' , () => {
 				name: 'boardName',
 			};
 
-			chai.request(app)
-				.post(`${organizationsUrl}/${organizationId}/boards`)
+			chai.request(server)
+				.post(`${organizationsUrl}${organizationId}/boards`)
         .send(board)
 				.end((err, res) => {
 					organizationBoardId = res.body.data.organizations[0].boards[0]._id;
@@ -119,8 +117,8 @@ describe('Organization' , () => {
 
 		it ('should create a board to an organization - fail', done => {
 
-			chai.request(app)
-				.post(`${organizationsUrl}/${organizationId}/boards`)
+			chai.request(server)
+				.post(`${organizationsUrl}${organizationId}/boards`)
         .send()
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
@@ -140,8 +138,8 @@ describe('Organization' , () => {
 				name: 'boardNameUpdated',
 			};
 
-			chai.request(app)
-				.put(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}`)
+			chai.request(server)
+				.put(`${organizationsUrl}${organizationId}/boards/${organizationBoardId}`)
 				.send(board)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
@@ -154,8 +152,8 @@ describe('Organization' , () => {
 	describe('/POST star an organization board', () => {
 
 		it ('should star an organization board - success', done => {
-			chai.request(app)
-				.post(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}/boardstars`)
+			chai.request(server)
+				.post(`${organizationsUrl}${organizationId}/boards/${organizationBoardId}/boardstars`)
 				.end((err, res) => {
 					boardStarId = res.body.data.boardStars[0]._id;
 
@@ -171,8 +169,8 @@ describe('Organization' , () => {
 		});
 
 		it ('should star an organization board - fail', done => {
-			chai.request(app)
-				.post(`${organizationsUrl}/null/boards/${organizationBoardId}/boardStars`)
+			chai.request(server)
+				.post(`${organizationsUrl}null/boards/${organizationBoardId}/boardStars`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because organization id is not valid');
@@ -182,8 +180,8 @@ describe('Organization' , () => {
 		});
 
 		it ('should star an organization board - fail', done => {
-			chai.request(app)
-				.post(`${organizationsUrl}/${organizationId}/boards/null/boardStars`)
+			chai.request(server)
+				.post(`${organizationsUrl}${organizationId}/boards/null/boardStars`)
 				.end((err, res) => {
 					assert.equal(res.status, '400', 
 							'status equals 400 because organization board id is not valid');
@@ -196,8 +194,8 @@ describe('Organization' , () => {
 	describe('/DELETE remove a starred organization board', () => {
 
 		it ('should star an organization board - success', done => {
-			chai.request(app)
-				.delete(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}/boardStars`)
+			chai.request(server)
+				.delete(`${organizationsUrl}${organizationId}/boards/${organizationBoardId}/boardStars`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.boardStars.length);
@@ -210,8 +208,8 @@ describe('Organization' , () => {
 	describe('/DELETE remove an organization board', () => {
 
 		it ('should update a board to an organization - success', done => {
-			chai.request(app)
-				.delete(`${organizationsUrl}/${organizationId}/boards/${organizationBoardId}`)
+			chai.request(server)
+				.delete(`${organizationsUrl}${organizationId}/boards/${organizationBoardId}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.organizations[0].boards.length);
@@ -224,8 +222,8 @@ describe('Organization' , () => {
 	describe('/DELETE remove an organization', () => {
 
 		it ('should update a board to an organization - success', done => {
-			chai.request(app)
-				.delete(`${organizationsUrl}/${organizationId}`)
+			chai.request(server)
+				.delete(`${organizationsUrl}${organizationId}`)
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200')
 					assert.equal(0, res.body.data.organizations.length);
