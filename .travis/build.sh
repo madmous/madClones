@@ -1,8 +1,8 @@
 #!/bin/bash
 
 before() {
-  docker-compose -f dc-trello-service.test.yml up -d
-  docker-compose -f dc-users-service.test.yml up -d
+  docker-compose -f dc-trello-service.test.yml up -d --build
+  docker-compose -f dc-users-service.test.yml up -d --build
 }
 
 main() {
@@ -19,6 +19,8 @@ after() {
   
   docker-compose down madclones_usersmicroservice_1
   docker-compose down madclones_usersdb_1
+
+  docker rm $(docker ps -a -q)
 }
 
 case "$1" in
