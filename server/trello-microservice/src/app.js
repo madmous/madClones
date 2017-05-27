@@ -30,7 +30,7 @@ const log = getLogger(module);
 
 const app = express ();
 
-const rootUrl = '/trello/api/';
+const rootUrl = '/api/';
 
 app.use(cors({ origin: true, credentials: true }));
 

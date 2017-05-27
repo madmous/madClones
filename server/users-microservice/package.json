@@ -7,8 +7,8 @@
   "scripts": {
     "build": "babel ./src -d dist",
     "start": "node dist/index.js",
-    "start:dev": "NODE_ENV=development nodemon ./src/index --exec babel-node",
-    "start:debug": "NODE_ENV=development babel-node ./src/index --debug-brk --inspect",
+    "start:dev": "NODE_ENV=dev nodemon ./src/index --exec babel-node",
+    "start:debug": "NODE_ENV=dev babel-node ./src/index --debug-brk --inspect",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha ./src/api/**/*.spec.js --compilers js:babel-register",
     "docker-test": "NODE_ENV=docker-test ./node_modules/.bin/mocha ./src/api/**/*.spec.js --compilers js:babel-register",
     "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha ./src/api/**/*.spec.js --compilers js:babel-register --inspect --recursive --debug-brk",

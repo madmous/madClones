@@ -8,7 +8,6 @@ import { generateToken } from '../../utils/tokenController';
 import { buildResponse } from '../../utils/responseService';
 import { userModel } from '../../models/index';
 
-
 export const saveUser = (req, res) => {
   userModel.findOne({name: req.body.name})
     .then(user => {
@@ -29,7 +28,7 @@ export const saveUser = (req, res) => {
     })
     .then(async user => {
       const options = {
-        uri: `${trelloMicroserviceUrl}trello/api/signup`,
+        uri: `${trelloMicroserviceUrl}api/signup`,
         method: 'POST',
         json: {
           name: user.name,
@@ -38,18 +37,26 @@ export const saveUser = (req, res) => {
         }
       };
 
-      request(options, function (error, res2, body) {
-        if (!error && res2.statusCode === 200) {
-          let { token, csrf } = generateToken(user.name, user.email, user._id);
-      
-          res.cookie('jwt', token, { httpOnly: true });
+      request.post(
+        `${trelloMicroserviceUrl}api/signup`,
+        { json: {
+          name: user.name,
+          fullname: user.fullname,
+          email: user.email
+        } },
+        function (error, res2, body) {
+          if (!error && res2.statusCode === 200) {
+            let { token, csrf } = generateToken(user.name, user.email, user._id);
+        
+            res.cookie('jwt', token, { httpOnly: true });
 
-          buildResponse(200, csrf, res);
-        } else {
-          // TODO: delete user that was just createdw
-          buildResponse(500, 'The user was not created successfully', res);
+            buildResponse(200, csrf, res);
+          } else {
+            // TODO: delete user that was just createdw
+            buildResponse(500, 'The user was not created successfully', res);
+          }
         }
-      });
+      );
     })
     .catch(error => {
       if (error.isBoom) {

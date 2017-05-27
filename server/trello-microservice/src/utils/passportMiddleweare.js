@@ -69,7 +69,7 @@ passport.use(new BasicStrategy(
 			}
 
       const options = {
-        uri: `${usersMicroserviceUrl}api/signin`,
+        url: `${usersMicroserviceUrl}api/signin`,
         method: 'POST',
         json: {
           username,

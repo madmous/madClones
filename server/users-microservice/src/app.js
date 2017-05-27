@@ -24,7 +24,7 @@ const log = getLogger(module);
 
 const app = express ();
 
-const rootUrl = '/users/api/';
+const rootUrl = '/api/';
 
 app.use(cors({ origin: true, credentials: true }));
 
