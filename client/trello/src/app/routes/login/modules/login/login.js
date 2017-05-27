@@ -10,9 +10,8 @@ const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST';
 const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
 const AUTHENTICATION_FAIL = 'AUTHENTICATION_FAIL';
 
-const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
-
 const UN_AUTHENTICATE_USER = 'UN_AUTHENTICATE_USER';
+const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 
 function authenticationRequest() {
   return {
@@ -61,7 +60,7 @@ export function authenticate(formInputs, redirectUrl) {
       .then(json => {
         const jsonData = json.data;
 
-        if (jsonData.uiError || jsonData.error) {
+        if (jsonData.error) {
           dispatch(authenticationFail(jsonData));
 
           if (jsonData.error.usernameErr) {
@@ -76,7 +75,6 @@ export function authenticate(formInputs, redirectUrl) {
           dispatch(authenticationSuccess());
 
           localStorage.setItem('csrf', jsonData.csrf);
-
           
           if (redirectUrl && redirectUrl.query && redirectUrl.query.redirect) {
             dispatch(push(redirectUrl.query.redirect))
@@ -84,7 +82,8 @@ export function authenticate(formInputs, redirectUrl) {
             dispatch(push('/'));
           }
         }
-      });
+      }
+    );
   };
 }
 
