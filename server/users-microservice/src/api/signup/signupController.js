@@ -26,17 +26,7 @@ export const saveUser = (req, res) => {
         return user.save();
       }
     })
-    .then(async user => {
-      const options = {
-        uri: `${trelloMicroserviceUrl}api/signup`,
-        method: 'POST',
-        json: {
-          name: user.name,
-          fullname: user.fullname,
-          email: user.email
-        }
-      };
-
+    .then(user => {
       request.post(
         `${trelloMicroserviceUrl}api/signup`,
         { json: {
@@ -49,7 +39,6 @@ export const saveUser = (req, res) => {
             let { token, csrf } = generateToken(user.name, user.email, user._id);
         
             res.cookie('jwt', token, { httpOnly: true });
-
             buildResponse(200, csrf, res);
           } else {
             // TODO: delete user that was just createdw
