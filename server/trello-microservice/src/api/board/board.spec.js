@@ -14,8 +14,8 @@ import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const boardsUrl = '/trello/api/boards/';
-const loginUrl = '/trello/api/login/';
+const boardsUrl = '/api/boards/';
+const loginUrl = '/api/login/';
 
 const assert = chai.assert;
 

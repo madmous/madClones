@@ -11,9 +11,9 @@ import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const organizationsUrl = '/trello/api/organizations/';
-const loginUrl = '/trello/api/login/';
-const homeUrl = '/trello/api/home/';
+const organizationsUrl = '/api/organizations/';
+const loginUrl = '/api/login/';
+const homeUrl = '/api/home/';
 
 const assert = chai.assert;
 
@@ -29,7 +29,7 @@ describe('Organization' , () => {
   before(done => {
 		const userTest = new userModel({
       name: 'test',
-			fullname: 'testFullname',
+			fullname: 'test fn',
 			email: 'test@email.com'
     });
 

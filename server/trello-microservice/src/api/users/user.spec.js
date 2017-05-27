@@ -11,8 +11,8 @@ import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signupUrl = '/trello/api/signup/';
-const userUrl 	= '/trello/api/users/';
+const signupUrl = '/api/signup/';
+const userUrl 	= '/api/users/';
 
 const assert = chai.assert;
 
@@ -23,7 +23,7 @@ describe('Users' , () => {
 	before(done => {
 		const userTest = new userModel({
       name: 'test',
-			fullname: 'testFullname',
+			fullname: 'test fn',
 			email: 'test@email.com'
     });
 
@@ -51,7 +51,7 @@ describe('Users' , () => {
 					assert.equal(res.status, '200', 'status equals 200');
 					assert.notEqual(res.body.data, undefined, 'The response contains the user object');
 					assert.notEqual(res.body.data._id, undefined, 'User has an id value');
-					assert.equal(res.body.data.fullname, 'testFullname', 'User fullname is testFullname');
+					assert.equal(res.body.data.fullname, 'test fn', 'User full name is test fn');
 
 					done();
 				});
@@ -62,9 +62,9 @@ describe('Users' , () => {
 
 		it ('should update user', done => {
 			const user = {
-				name: 'testUpdated',
-				fullname: 'testFullnameUpdated',
-				email: 'testUpdated@email.com'
+				name: 'test updated',
+				fullname: 'test fn updated',
+				email: 'testupdated@email.com'
 			};
 			
 			chai.request(server)
@@ -73,7 +73,7 @@ describe('Users' , () => {
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
 					assert.notEqual(res.body.data._id, undefined, 'User has an id value');
-					assert.equal(res.body.data.fullname, 'testFullnameUpdated', 'User fullname is testFullnameUpdated');
+					assert.equal(res.body.data.fullname, user.fullname, `User full name is ${user.fullname}`);
 
 					done();
 				});
@@ -88,8 +88,8 @@ describe('Users' , () => {
 				.end((err, res) => {
 					assert.equal(res.status, '200', 'status equals 200');
 
-					userModel.find({name: 'testFullnameUpdated'}, (err, res) => {
-						assert.equal(0, res.length, 'No result for name testFullnameUpdated')
+					userModel.find({name: 'test fn updated'}, (err, res) => {
+						assert.equal(0, res.length, 'No result for name test fn updated')
 					})
 
 					done();

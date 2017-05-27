@@ -9,7 +9,7 @@ import { runServer } from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signupUrl = '/trello/api/v1/signup/';
+const signupUrl = '/api/v1/signup/';
 
 const assert = chai.assert;
 

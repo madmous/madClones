@@ -10,7 +10,7 @@ import { userModel } from '../../models/index';
 
 chai.use(chaiHttp);
 
-const signinUrl = '/trello/api/signin/';
+const signinUrl = '/api/signin/';
 
 const assert = chai.assert;
 
