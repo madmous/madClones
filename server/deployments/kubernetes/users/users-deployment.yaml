@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: usersmicroservice
+  labels:
+    app: madclones
+    madclones: usersmicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: madclones
+      task: usersmicroservice
+      name: usersmicroservice
+  template:
+    metadata:
+      labels:
+        app: madclones
+        task: usersmicroservice
+        name: usersmicroservice
+        version: 3.0.0
+    spec:
+      containers:
+        - name: usersmicroservice
+          image: madmous/usersmicroservice:3.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001

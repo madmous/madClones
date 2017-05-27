@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: usersdb
+ name: usersdb
+spec:
+ ports:
+  - port: 27017
+    targetPort: 27017
+ selector:
+   name: usersdb

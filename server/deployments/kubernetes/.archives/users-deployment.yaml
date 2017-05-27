@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: usersmicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: usersmicroservice
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        name: usersmicroservice
+        version: 3.0.0
+    spec:
+      containers:
+        - name: usersmicroservice
+          image: madmous/usersmicroservice:3.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3002

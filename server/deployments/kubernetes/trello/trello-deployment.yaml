@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: trellomicroservice
+  labels:
+    app: madclones
+    madclones: trellomicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: madclones
+      task: trellomicroservice
+      name: trellomicroservice
+  template:
+    metadata:
+      labels:
+        app: madclones
+        task: trellomicroservice
+        name: trellomicroservice
+        version: 3.0.0
+    spec:
+      containers:
+        - name: trellomicroservice
+          image: madmous/trellomicroservice:3.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001

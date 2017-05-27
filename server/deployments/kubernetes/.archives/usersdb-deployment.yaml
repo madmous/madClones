@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: usersdb
+ name: usersdb
+spec:
+ ports:
+  - port: 27017
+    targetPort: 27017
+ selector:
+   name: usersdb
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: usersdb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: usersdb
+    spec:
+      containers:
+        - image: mongo
+          name: usersdb
+          imagePullPolicy: Always
+          ports:
+            - name: usersdb
+              containerPort: 27017
+          volumeMounts:
+            - name: usersdbvol
+              mountPath: /data/db
+      volumes:
+        - name: usersdbvol
