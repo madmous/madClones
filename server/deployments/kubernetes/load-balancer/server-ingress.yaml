@@ -7,7 +7,7 @@ metadata:
     traefik.frontend.rule.type: pathprefixstrip
 spec:
   rules:
-  - host: madclones.local
+  - host: madmous-madclones-server.com
     http:
       paths:
       - path: /trello
