@@ -41,8 +41,15 @@ export const saveUser = (req, res) => {
             res.cookie('jwt', token, { httpOnly: true });
             buildResponse(200, csrf, res);
           } else {
-            // TODO: delete user that was just createdw
-            buildResponse(500, 'The user was not created successfully', res);
+            user
+              .remove()
+              .then(err => {
+                if (err) {
+                  buildResponse(500, err, res);
+                } else {
+                  buildResponse(500, 'The user was not created successfully', res);
+                }
+              })
           }
         }
       );

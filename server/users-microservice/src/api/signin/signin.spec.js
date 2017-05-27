@@ -8,7 +8,7 @@ import prepareServer from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signinUrl = '/users/api/signin';
+const signinUrl = '/api/signin';
 
 const assert = chai.assert;
 
@@ -17,12 +17,12 @@ describe('Signin' , () => {
 
 	before(done => {
 		const user = new userModel({
-			name: 'testName',
-			fullname: 'testFullname',
+			name: 'test',
+			fullname: 'test fn',
 			initials: 'TFN',
-			email: 'testEmail@email.com',
+			email: 'test@email.com',
 			application: 'test application',
-			password: 'testPassword'
+			password: 'test'
 		});
 
 		prepareServer(user, false, (arg1, arg2) => {

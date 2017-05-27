@@ -7,7 +7,7 @@ import { runServer } from '../../../test/index';
 
 chai.use(chaiHttp);
 
-const signoutUrl = '/users/api/signout';
+const signoutUrl = '/api/signout';
 
 const assert = chai.assert;
 
