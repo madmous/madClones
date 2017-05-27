@@ -5,7 +5,9 @@ export const buildResponse = (statusCode, data, res) => {
     })
   } else {
     return res.status(statusCode).json({
-      error: data
+      data: {
+        error: data
+      }
     })
   }
 };

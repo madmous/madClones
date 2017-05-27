@@ -64,11 +64,11 @@ export function authenticate(formInputs, redirectUrl) {
         if (jsonData.uiError || jsonData.error) {
           dispatch(authenticationFail(jsonData));
 
-          if (jsonData.uiError.usernameErr) {
+          if (jsonData.error.usernameErr) {
             dispatch(change('loginForm', 'username', ''))
           }
           
-          if (jsonData.uiError.passwordErr) {
+          if (jsonData.error.passwordErr) {
             dispatch(change('loginForm', 'password', ''))
           }
 
@@ -138,7 +138,7 @@ export default function login(state = initialState, action) {
         isAuthenticating: false,
         isAuthenticated: false,
 
-        errorMessage: action.payload.uiError
+        errorMessage: action.payload.error
       });
     case AUTHENTICATE_USER:
       return Object.assign({}, state, {

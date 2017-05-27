@@ -8,13 +8,13 @@ import { userModel } from '../../models/index';
 
 export const getUser = async (req, res) => {
   const user = req.user;
+  const { err, token, csrf } = user;
 
-  if (user) {
-
-    res.cookie('jwt', user.token, { domain: '', httpOnly: true, secure: false });
-
-    buildResponse(200, user.csrf, res);
+  if (err) {
+    buildResponse(err.code, err, res);
   } else {
-    throw Boom.create(404, 'There is not an account for this name and email');
+    res.cookie('jwt', token, { domain: '', httpOnly: true, secure: false });
+
+    buildResponse(200, csrf, res);
   }
 };

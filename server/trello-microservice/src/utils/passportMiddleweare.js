@@ -10,7 +10,7 @@ import getLogger from '../libs/winston';
 
 const log = getLogger(module);
 
-export const authenticatedWithToken = async (req, res, next) => {
+export const authenticatedWithToken = (req, res, next) => {
   if (req && req.cookies && req.cookies.jwt && req.headers && req.headers.csrf) {
     let csrf = req.headers.csrf;
     let jwt = req.cookies.jwt;
@@ -59,7 +59,6 @@ export const authenticatedWithToken = async (req, res, next) => {
 passport.use(new BasicStrategy(
   function(username, password, callback) {
     userModel.findOne({ name: username }, function (err, user) {
-
       if (err) { 
 				return callback(err); 
 			}
@@ -68,26 +67,22 @@ passport.use(new BasicStrategy(
         return callback(null, { err: {usernameErr: 'There is not an account for this username', code: 404 } });
 			}
 
-      const options = {
-        url: `${usersMicroserviceUrl}api/signin`,
-        method: 'POST',
-        json: {
+      request.post(
+        `${usersMicroserviceUrl}api/signin`,
+        { json: {
           username,
           password
-        }
-      };
+        } },
+        function (error, res2, body) {
+          if (!error && res2.statusCode === 200) {
+            let tokens = res2.body.data;
 
-      request(options, function (error, res, body) {
-        if (!error && res.statusCode === 200) {
-          let tokens = res.body.data;
-
-          return callback(null, tokens);
-        } else {
-          return callback(null, { err: {passwordErr: 'Wrong password', code: 401 } });
-          // TODO: delete user that was just createdw
-          // buildResponse(500, 'The user was not created successfully', res);
+            return callback(null, tokens);
+          } else {
+            return callback(null, { err: {passwordErr: 'Wrong password', code: 401 } });
+          }
         }
-      });
+      );
     });
   }
 ));
