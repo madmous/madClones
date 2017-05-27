@@ -186,7 +186,7 @@ export function moveCardItemAndUpdateCards(previousAndNextPositions, cards, path
     dispatch(moveCard(previousAndNextPositions));
     dispatch(updateCardsRequest());
     
-    return fetch(`${trelloUrl}api/v1${pathname}/cards`, 
+    return fetch(`${trelloUrl}api${pathname}/cards`, 
       { method: 'PUT',
         body: JSON.stringify({
           cards
@@ -218,7 +218,7 @@ export function getCards(pathname) {
   return dispatch => {
     dispatch(loadCardsRequest(pathname))
 
-    return fetch(`${trelloUrl}api/v1${pathname}/cards`, 
+    return fetch(`${trelloUrl}api${pathname}/cards`, 
       { method: 'GET',
         headers: {
           'csrf': localStorage.getItem('csrf')
@@ -252,7 +252,7 @@ export function saveCard(pathname, cardName) {
   return dispatch => {
     dispatch(saveCardRequest())
 
-    return fetch(`${trelloUrl}api/v1${pathname}/cards`, 
+    return fetch(`${trelloUrl}api${pathname}/cards`, 
       { method: 'POST', 
         body: JSON.stringify({
           name: cardName
@@ -286,7 +286,7 @@ export function saveCardItem(pathname, cardId, cardItemName) {
   return dispatch => {
     dispatch(saveCardItemRequest())
 
-    return fetch(`${trelloUrl}api/v1` + pathname + `/cards/${cardId}`, 
+    return fetch(`${trelloUrl}api${pathname}/cards/${cardId}`, 
       { method: 'POST', 
         body: JSON.stringify({
           name: cardItemName
