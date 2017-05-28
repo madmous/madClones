@@ -1,4 +1,4 @@
-kind: Deployment
+kind: DaemonSet
 apiVersion: extensions/v1beta1
 metadata:
   name: traefik-ingress-controller
@@ -6,10 +6,6 @@ metadata:
   labels:
     k8s-app: traefik-ingress-lb
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      k8s-app: traefik-ingress-lb
   template:
     metadata:
       labels:
@@ -18,6 +14,7 @@ spec:
     spec:
       serviceAccountName: traefik-ingress-controller
       terminationGracePeriodSeconds: 60
+      hostNetwork: true
       containers:
       - image: traefik
         name: traefik-ingress-lb
@@ -29,9 +26,15 @@ spec:
             cpu: 100m
             memory: 20Mi
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 80
           hostPort: 80
-        - containerPort: 8080
+        - name: admin
+          containerPort: 8081
+        securityContext:
+          privileged: true
         args:
+        - -d
         - --web
+        - --web.address=:8081
         - --kubernetes

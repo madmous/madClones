@@ -3,13 +3,12 @@ kind: Ingress
 metadata:
   name: traefik-web-ui
   namespace: kube-system
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - host: madmous.com
+  - host: madmous-madclones-traefik.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: traefik-web-ui
-          servicePort: 80
+          servicePort: web

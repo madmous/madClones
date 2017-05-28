@@ -1,0 +1,165 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: trellomicroservice
+  labels:
+    app: madclones
+    madclones: trellomicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: madclones
+      task: trellomicroservice
+      name: trellomicroservice
+  template:
+    metadata:
+      labels:
+        app: madclones
+        task: trellomicroservice
+        name: trellomicroservice
+        version: 3.0.0
+    spec:
+      containers:
+        - name: trellomicroservice
+          image: madmous/trellomicroservice:3.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trellomicroservice
+  labels:
+    name: trellomicroservice
+spec:
+  ports:
+    - name: http
+      targetPort: 3001
+      port: 3001
+      protocol: TCP
+  selector:
+    app: madclones
+    task: trellomicroservice
+    name: trellomicroservice
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: trellodb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: trellodb
+    spec:
+      containers:
+        - image: mongo
+          name: trellodb
+          imagePullPolicy: Always
+          ports:
+            - name: trellodb
+              containerPort: 27017
+          volumeMounts:
+            - name: trellodbvol
+              mountPath: /data/db
+      volumes:
+        - name: trellodbvol
+---
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: trellodb
+ name: trellodb
+spec:
+ ports:
+  - port: 27017
+    targetPort: 27017
+ selector:
+   name: trellodb
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: usersmicroservice
+  labels:
+    app: madclones
+    madclones: usersmicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: madclones
+      task: usersmicroservice
+      name: usersmicroservice
+  template:
+    metadata:
+      labels:
+        app: madclones
+        task: usersmicroservice
+        name: usersmicroservice
+        version: 3.0.0
+    spec:
+      containers:
+        - name: usersmicroservice
+          image: madmous/usersmicroservice:3.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usersmicroservice
+  labels:
+    name: usersmicroservice
+spec:
+  ports:
+    - name: http
+      targetPort: 3002
+      port: 3002
+      protocol: TCP
+  selector:
+    app: madclones
+    task: usersmicroservice
+    name: usersmicroservice
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: usersdb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: usersdb
+    spec:
+      containers:
+        - image: mongo
+          name: usersdb
+          imagePullPolicy: Always
+          ports:
+            - name: usersdb
+              containerPort: 27017
+          volumeMounts:
+            - name: usersdbvol
+              mountPath: /data/db
+      volumes:
+        - name: usersdbvol
+---
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   name: usersdb
+ name: usersdb
+spec:
+ ports:
+  - port: 27017
+    targetPort: 27017
+ selector:
+   name: usersdb

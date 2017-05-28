@@ -8,5 +8,6 @@ spec:
   selector:
     k8s-app: traefik-ingress-lb
   ports:
-  - port: 80
-    targetPort: 8080
+  - name: web
+    port: 80
+    targetPort: 8081

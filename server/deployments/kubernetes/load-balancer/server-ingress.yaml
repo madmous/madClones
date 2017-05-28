@@ -2,9 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: madclones
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    traefik.frontend.rule.type: pathprefixstrip
 spec:
   rules:
   - host: madmous-madclones-server.com
