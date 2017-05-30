@@ -2,8 +2,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Live demo
 
-[Login](http://d1ugf45u5klnwp.cloudfront.net/) with Test (name) and Test(password). The redux logger was added to show the process.
+### 3.0.0
+
+[Login](http://d2et1tad5mldzf.cloudfront.net/) with Test (name) and Test(password). The redux logger was added to show the process.
 Expect a lot of changes and database to be cleared often.
+  
+### 4.0.0
+
+I am having gateway issues setting up the server on Google Cloud so I am working on a fix. In the meantime, the 3.0.0 is still vavilable
+[Login](http://d1ugf45u5klnwp.cloudfront.net/) with Test (name) and Test(password)
 
 ## Description
 
