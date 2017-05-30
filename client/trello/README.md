@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   
 ### 4.0.0
 
-I am having gateway issues setting up the server on Google Cloud so I am working on a fix. In the meantime, the 3.0.0 is still vavilable.
+If you are having issues with token and cookie validation that keeps sending you to the login page clear your local and cookie storage and try again.
 [Login](http://d1ugf45u5klnwp.cloudfront.net/) with Test (name) and Test(password)
 
 ## Description
