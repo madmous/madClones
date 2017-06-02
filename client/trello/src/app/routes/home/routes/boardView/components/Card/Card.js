@@ -21,6 +21,8 @@ export default function Card(props) {
     cardActions,
     cardHeader,
     cardItems,
+    moveCard,
+    id,
     x
   } = props;
 
@@ -44,14 +46,14 @@ export default function Card(props) {
             className="Card-Content-Header-Text" 
             spellCheck="false" 
             dir="auto"
-            defaultValue={cardHeader}
+            value={cardHeader}
           ></textarea>
         </div>
         <CardItems
           cardItems={cardItems}
-          moveCard={props.moveCard}
-          cardId={props.id}
-          x={props.x} 
+          moveCard={moveCard}
+          cardId={id}
+          x={x} 
         />
         { renderAddCardItemSpan() }
       </div>
