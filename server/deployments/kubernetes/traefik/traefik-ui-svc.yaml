@@ -4,7 +4,6 @@ metadata:
   name: traefik-web-ui
   namespace: kube-system
 spec:
-  type: LoadBalancer
   selector:
     k8s-app: traefik-ingress-lb
   ports:
