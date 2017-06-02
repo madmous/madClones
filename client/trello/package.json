@@ -34,7 +34,7 @@
     "redux-thunk": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_ENV=prod react-scripts start",
     "start:dev": "REACT_APP_ENV=dev react-scripts start",
     "start:kuber-dev": "REACT_APP_ENV=kuber-dev react-scripts start",
     "start:docker-dev": "REACT_APP_ENV=docker-dev react-scripts start",
