@@ -38,7 +38,7 @@ export function updateUser(payload) {
 
 export function getUser() {
   return dispatch => {
-    dispatch(loadUserRequest())
+    dispatch(loadUserRequest());
 
     return fetch(`${trelloUrl}api/users`, 
       { 
@@ -48,9 +48,9 @@ export function getUser() {
         },
         credentials: 'include'
       })
-      .then(response => {
-        if (response.status === 401) {
-          throw new Error ('401 error')
+      .then(response  => {
+        if (response.status !== 200) {
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }
@@ -59,9 +59,9 @@ export function getUser() {
         const jsonData = json.data;
 
         if (jsonData.uiError || jsonData.error) {
-          dispatch(loadUserFail(jsonData))
+          dispatch(loadUserFail(jsonData));
         } else {
-          dispatch(loadUserSuccess())
+          dispatch(loadUserSuccess());
           dispatch(updateUser(jsonData));
         }
       })
@@ -76,7 +76,7 @@ const initialState = {
 
   isFetchingUserSuccessful: false,
   isFetchingUser: false
-}
+};
 
 export default function user(state = initialState, action) {
   switch (action.type) {

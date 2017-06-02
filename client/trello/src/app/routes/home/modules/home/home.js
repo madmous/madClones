@@ -55,8 +55,8 @@ export function getHome() {
         credentials: 'include'
       })
       .then(response => {
-        if (response.status === 401) {
-          throw new Error('Error 401');
+        if (response.status !== 200) {
+          dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
         }

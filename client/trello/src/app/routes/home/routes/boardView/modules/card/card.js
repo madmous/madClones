@@ -298,7 +298,7 @@ export function saveCardItem(pathname, cardId, cardItemName) {
         credentials: 'include'
       })
       .then(response => {
-        if (response.status === 401) {
+        if (response.status !== 200) {
           dispatch(loginActionCreators.logoutUser());
         } else {
           return response.json();
@@ -306,12 +306,12 @@ export function saveCardItem(pathname, cardId, cardItemName) {
       })
       .then(json => {
         if (json.uiError || json.error) {
-          dispatch(saveCardItemFail(json))
+          dispatch(saveCardItemFail(json));
         } else {
           dispatch(closeCreateCardItemForm());
           dispatch(saveCardItemSuccess());
           dispatch(reset('createCardItemForm'));
-          dispatch(updateCards(json.data))
+          dispatch(updateCards(json.data));
         }
       })
   }

@@ -56,7 +56,13 @@ export function authenticate(formInputs, redirectUrl) {
         },
         credentials: 'include'
       })
-      .then(response => response.json())
+      .then(response  => {
+        if (response.status !== 200) {
+          dispatch(logoutUser());
+        } else {
+          return response.json();
+        }
+      })
       .then(json => {
         const jsonData = json.data;
 
@@ -82,8 +88,8 @@ export function authenticate(formInputs, redirectUrl) {
             dispatch(push('/'));
           }
         }
-      }
-    );
+      })
+      .catch(error => dispatch(logoutUser()));
   };
 }
 
