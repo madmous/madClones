@@ -2,14 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Live demo
 
-### 3.0.0
-
-[Login](http://d2et1tad5mldzf.cloudfront.net/) with Test (name) and Test(password).
-  
-### 4.0.0
-
 If you are having issues with token and cookie validation that keeps sending you to the login page clear your local and cookie storage and try again.
-[Login](http://d1ugf45u5klnwp.cloudfront.net/) with Test (name) and Test(password)
+[Login](http://d1ugf45u5klnwp.cloudfront.net/) with Test (name) and Test (password).
 
 ## Description
 
