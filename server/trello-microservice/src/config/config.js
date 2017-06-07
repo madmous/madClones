@@ -16,7 +16,7 @@ export const dbTestURI = (() => {
 
 export const usersMicroserviceUrl = (() => {
   if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
-    return 'http://localhost:3002/users/';
+    return 'http://localhost:3002/';
   } else {
     return 'http://usersmicroservice:3002/';
   }
