@@ -13,12 +13,12 @@ let server = app.listen(port, (err) => {
   server.address().port;
 
   if (err) {
-    log.error('something bad happened', err);
+    log.error('Something bad happened', err);
   } else {
     db.connect();
   }
 
-  log.info(`server is listening on ${port}`);
+  log.info(`Server is listening on ${port}`);
 });
 
 export default server;
