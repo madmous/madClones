@@ -16,7 +16,6 @@
     "sinon": "^1.17.7"
   },
   "dependencies": {
-    "axios": "^0.15.3",
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.3.0",
     "react-dnd": "^2.1.4",
