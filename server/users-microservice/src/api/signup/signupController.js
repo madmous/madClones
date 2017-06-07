@@ -28,12 +28,13 @@ export const saveUser = (req, res) => {
     })
     .then(user => {
       request.post(
-        `${trelloMicroserviceUrl}api/signup`,
-        { json: {
-          name: user.name,
-          fullname: user.fullname,
-          email: user.email
-        } },
+        `${trelloMicroserviceUrl}api/signup`,{ 
+          json: {
+            name: user.name,
+            fullname: user.fullname,
+            email: user.email
+          }
+        },
         function (error, res2, body) {
           if (!error && res2.statusCode === 200) {
             let { token, csrf } = generateToken(user.name, user.email, user._id);

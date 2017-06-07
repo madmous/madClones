@@ -67,12 +67,15 @@ passport.use(new BasicStrategy(
         return callback(null, { err: {usernameErr: 'There is not an account for this username', code: 404 } });
 			}
 
+      log.info(`Sign in to users microservice - ${usersMicroserviceUrl}`);
+
       request.post(
-        `${usersMicroserviceUrl}api/signin`,
-        { json: {
-          username,
-          password
-        } },
+        `${usersMicroserviceUrl}api/signin`,{ 
+          json: {
+            username,
+            password
+          }
+        },
         function (error, res2, body) {
           if (!error && res2.statusCode === 200) {
             let tokens = res2.body.data;
