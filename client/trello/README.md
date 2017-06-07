@@ -7,7 +7,7 @@ If you are having issues with token and cookie validation that keeps sending you
 
 ## Description
 
-[Trello](http://trello.com) clone being built with MongoDB, Express, React, NodeJS; my mean stack revisited.
+[Trello](http://trello.com) clone being built with React and ES6.
 
 ## Main Libraries
 
