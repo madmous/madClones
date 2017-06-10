@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+
 import { Field, reduxForm } from 'redux-form';
 import FontAwesome from 'react-fontawesome';
+import PropTypes from 'prop-types'; 
 
 import '../Form.css';
 

@@ -8,3 +8,4 @@ coverage
 .vscode/
 server/trello-microservice/dist/
 .coveralls.yml
+client/trello_old

@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types'; 
 
 import { CreateOrganization, Board } from '../../components/index';
 
@@ -164,7 +166,7 @@ export default function Boards(props) {
     <div className={ getClassName() }>
       { renderBoards() }
       <div className={ getClassName() + "-Create" }>
-        <span onClick={ () => openModal(event) }>Create a new team...</span>
+        <span onClick={ event => openModal(event) }>Create a new team...</span>
       </div>
       <CreateOrganization onSubmit={ addOrganization } />
     </div>

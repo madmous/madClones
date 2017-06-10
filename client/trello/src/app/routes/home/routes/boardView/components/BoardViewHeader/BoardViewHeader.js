@@ -1,5 +1,7 @@
+import React from 'react';
+
 import FontAwesome from 'react-fontawesome';
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types'; 
 
 import { UpdateBoardName } from '../../components/index';
 

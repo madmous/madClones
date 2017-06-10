@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { RequiresAuthentication } from './utils/authentiationWrappers';
+import registerServiceWorker from './registerServiceWorker';
 
 import { loginActionCreators} from '../src/app/routes/login/modules/index';
 import configureStore from './store/configureStore';
@@ -45,3 +46,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+registerServiceWorker();
