@@ -2,9 +2,9 @@
 
 Welcome to my mono repo madClones. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 
-You will not only see a wide variety of front end technolgies and a couple of microservices written in different languages and frameworks, but also an emphasis on software design and architecture.
+You will not only see a wide variety of front end technologies and a couple of microservices written in different languages and frameworks, but also an emphasis on software design and architecture.
 
-I am a fan of Software Craftmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
+I am a fan of Software Craftsmanship, TDD, BDD and CI practices; therefore this project's main goal is to follow 
 all the coding standard and best practices.
 
 Do no hesitate to contribute and/or send me feedback on [twitter](https://twitter.com/datmadmous).
@@ -23,7 +23,7 @@ Do no hesitate to contribute and/or send me feedback on [twitter](https://twitte
 
 ### Version 3.0.0
 
-* Boards menu. The user clicks on the boards button available in the header and can see all the boards (starred, personal and organiations) previously created.
+* Boards menu. The user clicks on the boards button available in the header and can see all the boards (starred, personal and organisations) previously created.
 
 ### Version 4.0.0
 
@@ -65,7 +65,7 @@ NodeJS: again I will redirect you to [RisingStack](https://blog.risingstack.com/
 They are awesome and they care about open source.
 
 [CodinGame](https://www.codingame.com/home): practicing your algorithm solving skills is a great way to write better code. CodinGame will push you 
-to another level by making you think about the correct data structure, api and algorith, to use.
+to another level by making you think about the correct data structure, api and algorithm, to use.
 
 ## Inspiration
 
@@ -75,8 +75,8 @@ to another level by making you think about the correct data structure, api and a
 
 1. Start with the open issues
 1. No direct commit on master or develop.
-2. Create a branch from develop with issue number as a name. Exemple: TOC I#1 (TOC = Trello Clone and I = issue)
-4. Code should be accompined with unit tests with 100% code coverage (whether it is on the client side or the server side).
+2. Create a branch from develop with issue number as a name. Example: TOC I#1 (TOC = Trello Clone and I = issue)
+4. Code should be accompanied with unit tests with 100% code coverage (whether it is on the client side or the server side).
 5. Make a pull request.
 6. End to end testing are not required for now.
 
