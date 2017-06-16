@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-import { CardItemSchema } from '../cardItem/cardItemModel';
+import { CardItemSchema } from "../cardItem/cardItemModel";
 
 const Schema = mongoose.Schema;
 
@@ -12,4 +12,4 @@ export const CardItemsSchema = new Schema({
   cardItems: [CardItemSchema]
 });
 
-export default mongoose.model('CardItems', CardItemsSchema);
+export default mongoose.model("CardItems", CardItemsSchema);

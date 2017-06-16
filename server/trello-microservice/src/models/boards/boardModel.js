@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -14,9 +14,9 @@ export const BoardSchema = new Schema({
     type: Date
   },
   isStarredBoard: {
-    type: Boolean, 
+    type: Boolean,
     default: false
   }
 });
 
-export default mongoose.model('Board', BoardSchema);
+export default mongoose.model("Board", BoardSchema);

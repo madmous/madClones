@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -18,9 +18,9 @@ export const BoardStarSchema = new Schema({
     type: Schema.Types.ObjectId
   },
   isStarredBoard: {
-    type: Boolean, 
+    type: Boolean,
     default: true
   }
 });
 
-export default mongoose.model('BoardStar', BoardStarSchema);
+export default mongoose.model("BoardStar", BoardStarSchema);

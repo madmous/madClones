@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-import { BoardSchema } from '../boards/boardModel';
+import { BoardSchema } from "../boards/boardModel";
 
 const Schema = mongoose.Schema;
 
@@ -16,4 +16,4 @@ export const OrganizationSchema = new Schema({
   boards: [BoardSchema]
 });
 
-export default mongoose.model('Organization', OrganizationSchema);
+export default mongoose.model("Organization", OrganizationSchema);

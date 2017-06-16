@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-import { OrganizationSchema } from '../organizations/organizationModel';
-import { BoardStarSchema } from '../boardStars/boardStarModel';
-import { BoardSchema } from '../boards/boardModel';
+import { OrganizationSchema } from "../organizations/organizationModel";
+import { BoardStarSchema } from "../boardStars/boardStarModel";
+import { BoardSchema } from "../boards/boardModel";
 
 const Schema = mongoose.Schema;
 
@@ -26,4 +26,4 @@ export const UserSchema = new Schema({
   boardStars: [BoardStarSchema]
 });
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model("User", UserSchema);
