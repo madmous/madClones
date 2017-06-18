@@ -9,7 +9,7 @@ Make sure you have docker installed on your machine and are inside madClones fol
 1. cd trello-microservice
 2. docker build -t madmous/trellomicroservice .
 3. cd ../users-microservice
-4. docker built -t madmous/usersmicroservice
+4. docker build -t madmous/usersmicroservice .
 5. cd ..
 6. mysql.server stop (command tested on mac. Since I am mapping the port 3306 of the mysql docker image, you need to make sure your local mysql is not running already on that same port).
 7. docker-compose up
