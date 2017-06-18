@@ -10,7 +10,7 @@ services:
     networks:
       - trello
     depends_on:
-      - mongo
+      - trellodb
     restart: always
   trellodb:
     image: mongo
