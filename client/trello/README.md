@@ -2,12 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Live demo
 
-<!---
 If you are having issues with token and cookie validation that keeps sending you to the login page clear your local and cookie storage and try again.
-[Login](http://d1ugf45u5klnwp.cloudfront.net/) with Test (name) and Test (password).
--->
-
-Demo will be up again soon. I am working on a k8s migration.
+[Login](http://d1ugf45u5klnwp.cloudfront.net/)  with the credentials Test/Test.
 
 ## Description
 
