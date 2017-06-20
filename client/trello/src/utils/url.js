@@ -4,7 +4,7 @@ export const usersUrl = (() => {
   if (process.env.REACT_APP_ENV === 'kuber-dev') {
     users = 'http://madclones.local/users/';
   } else {
-    users = 'http://104.154.41.57:3002/'
+    users = 'http://35.184.109.176:3002/'
   }
 
   return users;
@@ -16,7 +16,7 @@ export const trelloUrl = (() => {
   if (process.env.REACT_APP_ENV === 'kuber-dev') {
     trello = 'http://madclones.local/trello/';
   } else {
-    trello = 'http://130.211.201.76:3001/'
+    trello = 'http://35.184.11.102:3001/'
   }
 
   return trello;
