@@ -23,10 +23,6 @@ after() {
   docker rm $(docker ps -a -q)
 }
 
-after_success() {
-
-}
-
 case "$1" in
   before)
     before
