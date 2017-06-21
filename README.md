@@ -1,4 +1,12 @@
-# MadClones &middot; [![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones) [![Join the chat at https://gitter.im/dwyl/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/madmous/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/datMadmous)
+# MadClones
+
+Dev | Staging | Master
+
+[![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=develop)](https://travis-ci.org/Madmous/madClones) 
+[![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=staging)](https://travis-ci.org/Madmous/madClones) 
+[![Build Status](https://travis-ci.org/Madmous/madClones.svg?branch=master)](https://travis-ci.org/Madmous/madClones) 
+
+[![Join the chat at https://gitter.im/dwyl/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/madmous/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/datMadmous)
 
 Welcome to my mono repo madClones. Started as a small monolith project to build a trello clone, it turned out to be the best project I ever started: it is basically my playground and I have lots of fun with it. 
 
@@ -29,7 +37,7 @@ Do no hesitate to contribute and/or send me feedback on [twitter](https://twitte
 
 * Client: Fix the boards menu filter Fix cards view not rendering correctly when it updates Update board name and star it from the cards view
 
-* Server: Users microservice that handles authentication (signin: validates user and generate token, signup, signout, signcheck: validates token) Trello microservice that handles boards and cards Deploy microservices with kubernetes on google cloud Add continuous integration with travis
+* Server: Users microservice that handles authentication (signin: validates user and generate token, signup, signout, signcheck: validates token). Trello microservice that handles boards and cards. Deploy microservices with kubernetes on google cloud. Add continuous integration with travis
 
 ## Main technologies
 
