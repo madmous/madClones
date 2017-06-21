@@ -23,16 +23,25 @@ after() {
   docker rm $(docker ps -a -q)
 }
 
+after_success() {
+
+}
+
 case "$1" in
   before)
-      before
-      ;;
+    before
+    ;;
     
   main)
-      main
-      ;;
+    main
+    ;;
     
   after)
-      after
-      ;;
+    after
+    ;;
+
+  after_success)
+    after_success
+    ;;
+
 esac

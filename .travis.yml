@@ -14,6 +14,12 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
 
+branches:
+  only:
+  - develop
+  - staging
+  - master
+
 before_install:  
   - sudo apt-get update
 
@@ -41,5 +47,5 @@ before_script:
 script:
   - .travis/build.sh main
 
-after_script:
-  - .travis/build.sh after
+# after_success:
+#   - .travis/build.sh after_success
