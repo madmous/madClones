@@ -16,7 +16,7 @@ function CreateCardItem(props) {
 	const handleEnterKey = event => {
 		if (event.keyCode === 13) {
 			event.preventDefault();
-			this.props.handleSubmit();
+			props.handleSubmit();
 		}
 	}
 
