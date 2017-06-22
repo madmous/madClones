@@ -18,6 +18,7 @@ import configureStore from './store/configureStore';
 
 import logPageView from './analytics';
 
+import BoardDetails from './app/routes/home/routes/boardDetails/BoardDetailsContainer';
 import BoardView from './app/routes/home/routes/boardView/BoardViewContainer';
 import SignUp from './app/routes/signUp/SignUpContainer';
 import Login from './app/routes/login/LoginContainer';
@@ -41,6 +42,7 @@ ReactDOM.render(
       <Route path="/" component={RequiresAuthentication(App)} >
         <IndexRoute component={Home} />
         <Route path="boards/:id" component={BoardView} />
+        <Route path="/:boardName" component={BoardDetails} />
       </Route>
     </Router>
   </Provider>,

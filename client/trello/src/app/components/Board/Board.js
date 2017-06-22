@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types'; 
-import FontAwesome from 'react-fontawesome';
+import PropTypes from "prop-types";
+import FontAwesome from "react-fontawesome";
 
-import { BoardOptions, BoardItem } from '../index';
+import { BoardOptions, BoardItem } from "../index";
 
-import './Board.css';
+import "./Board.css";
 
 const propTypes = {
   displayCreateNewBoard: PropTypes.bool.isRequired,
@@ -21,8 +21,8 @@ const defaultProps = {
   displayCreateNewBoard: true,
   isOrganizationBoard: false,
   isStarredBoardItem: false,
-  
-  organizationId: '',
+
+  organizationId: ""
 };
 
 export default function Board(props) {
@@ -35,89 +35,91 @@ export default function Board(props) {
   };
 
   const renderUserClassName = () => {
-    let fontName = 'user';
+    let fontName = "user";
 
     if (props.isOrganizationBoard) {
-      fontName = 'users';
+      fontName = "users";
     } else if (props.isStarredBoard) {
-      fontName = 'star';
+      fontName = "star";
     }
 
-    return <FontAwesome name={ fontName } />;
+    return <FontAwesome name={fontName} />;
   };
 
   const renderBoardOptions = () => {
     if (props.displayBoardOptions) {
       return (
-        <div className={ getClassName() + "-Header-Options" }>
-          <BoardOptions />
+        <div className={getClassName() + "-Header-Options"}>
+          <BoardOptions boardTitle={props.boardTitle} />
         </div>
-      )
+      );
     }
   };
-  
+
   const renderBoardList = () => {
     const { displayCreateNewBoard, boardsToDisplay, isStarredBoard } = props;
-    let organizationId = '';
+    let organizationId = "";
 
-    const boardItems = boardsToDisplay && boardsToDisplay.map((board) => {
-      let boardId = board._id;
+    const boardItems =
+      boardsToDisplay &&
+      boardsToDisplay.map(board => {
+        let boardId = board._id;
 
-      if (board.organizationId) {
-        organizationId = board.organizationId;
-      } else {
-        organizationId = props.organizationId;
-      }
+        if (board.organizationId) {
+          organizationId = board.organizationId;
+        } else {
+          organizationId = props.organizationId;
+        }
 
-      if (board.id && board.isStarredBoard) {
-        boardId = board.id;
-      } else {
-        boardId = board._id;
-      }
+        if (board.id && board.isStarredBoard) {
+          boardId = board.id;
+        } else {
+          boardId = board._id;
+        }
 
-      return (
-        <BoardItem
-          boardItemClassName={ getClassName() }
-          organizationName={board.organizationName}
-          isStarredBoardItem={board.isStarredBoard}
-          organizationId={organizationId}
-          boardId={boardId}
-          isActiveBoard
-          boardName={board.name} 
-          key={board._id} 
-        />
-      );
-    });
+        return (
+          <BoardItem
+            boardItemClassName={getClassName()}
+            organizationName={board.organizationName}
+            isStarredBoardItem={board.isStarredBoard}
+            organizationId={organizationId}
+            boardId={boardId}
+            isActiveBoard
+            boardName={board.name}
+            key={board._id}
+          />
+        );
+      });
 
     if (!isStarredBoard && displayCreateNewBoard) {
       boardItems.push(
         <BoardItem
-          boardItemClassName={ getClassName() }
-          isActiveBoard={false} 
+          boardItemClassName={getClassName()}
+          isActiveBoard={false}
           organizationId={props.organizationId}
-          boardName='Create new board...'
+          boardName="Create new board..."
           key={boardItems.length}
         />
-      )
+      );
     }
 
     return (
-      <ul className={ getClassName() + "-List" }>
-        { boardItems }
+      <ul className={getClassName() + "-List"}>
+        {boardItems}
       </ul>
     );
-  }
+  };
 
   return (
-    <div className={ getClassName() }>
-      <div className={ getClassName() + "-Header" }>
-        <div className={ getClassName() + "-Header-Icon" }>
-          { renderUserClassName() }
+    <div className={getClassName()}>
+      <div className={getClassName() + "-Header"}>
+        <div className={getClassName() + "-Header-Icon"}>
+          {renderUserClassName()}
         </div>
-        <h3>{ props.boardTitle }</h3>
-        { renderBoardOptions() }
+        <h3>{props.boardTitle}</h3>
+        {renderBoardOptions()}
       </div>
-      { renderBoardList() }
+      {renderBoardList()}
     </div>
   );
 }

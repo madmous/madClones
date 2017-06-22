@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types'; 
+import PropTypes from "prop-types";
 
-import { BoardViewHeader, Cards } from './components/index';
+import { BoardViewHeader, Cards } from "./components/index";
 
-import './BoardView.css';
+import "./BoardView.css";
 
 const propTypes = {
   isFocusOnCreateCardForm: PropTypes.bool.isRequired,
@@ -15,11 +15,11 @@ const propTypes = {
 
   boardViewActions: PropTypes.object.isRequired,
   cardActions: PropTypes.object.isRequired
-}
+};
 
 export default class BoardView extends Component {
-  componentDidMount () {
-    document.title = 'BoardView | Trello';
+  componentDidMount() {
+    document.title = "BoardView | Trello";
     this.props.cardActions.getCards(this.props.location.pathname);
   }
 
@@ -28,17 +28,17 @@ export default class BoardView extends Component {
       this.props.cardActions.getCards(nextProps.location.pathname);
     }
   }
-  
+
   handleDocumentClick = () => {
-    const { 
+    const {
       isFocusOnUpdateBoardNameForm,
       isUpdateBoardNameOpen,
 
-      isFocusOnCreateCardForm, 
-      isCreateCardFormOpen, 
+      isFocusOnCreateCardForm,
+      isCreateCardFormOpen,
 
-      isFocusOnCreateCardItemForm, 
-      isCreateCardItemFormOpen, 
+      isFocusOnCreateCardItemForm,
+      isCreateCardItemFormOpen,
 
       boardViewActions,
       cardActions
@@ -47,7 +47,7 @@ export default class BoardView extends Component {
     if (!isFocusOnUpdateBoardNameForm && isUpdateBoardNameOpen) {
       boardViewActions.closeUpdateBoardNameForm();
     }
-    
+
     if (!isFocusOnCreateCardForm && isCreateCardFormOpen) {
       boardViewActions.closeCreateCardForm();
     }
@@ -55,20 +55,19 @@ export default class BoardView extends Component {
     if (!isFocusOnCreateCardItemForm && isCreateCardItemFormOpen) {
       cardActions.closeCreateCardItemForm();
     }
-  }
+  };
 
   handleEscKey = event => {
     const {
       isCreateCardItemFormOpen,
       isUpdateBoardNameOpen,
-      isCreateCardFormOpen, 
+      isCreateCardFormOpen,
 
       boardViewActions,
       cardActions
     } = this.props;
 
     if (event.keyCode === 27) {
-      
       if (isUpdateBoardNameOpen) {
         boardViewActions.closeUpdateBoardNameForm();
       }
@@ -81,17 +80,17 @@ export default class BoardView extends Component {
         cardActions.closeCreateCardItemForm();
       }
     }
-  }
+  };
 
-  render () {
+  render() {
     return (
-      <div 
+      <div
         className="Board-View"
-        tabIndex="0" 
-        onClickCapture={ this.handleDocumentClick }
-        onKeyDown={ this.handleEscKey } 
+        tabIndex="0"
+        onClickCapture={this.handleDocumentClick}
+        onKeyDown={this.handleEscKey}
       >
-        <BoardViewHeader boardIdLocation={ this.props.location.pathname } />
+        <BoardViewHeader boardIdLocation={this.props.location.pathname} />
         <Cards />
       </div>
     );

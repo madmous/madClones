@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { BoardOptionsItems } from '../index';
+import { BoardOptionsItems } from "../index";
 
-import './BoardOptions.css';
+import "./BoardOptions.css";
 
-export default function BoardOptions() {
+export default function BoardOptions(props) {
   return (
     <div className="BoardOptions">
-      <BoardOptionsItems />
+      <BoardOptionsItems boardTitle={props.boardTitle} />
     </div>
   );
 }
