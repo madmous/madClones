@@ -1,4 +1,4 @@
-kind: DaemonSet
+kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: traefik-ingress-controller
@@ -6,6 +6,7 @@ metadata:
   labels:
     k8s-app: traefik-ingress-lb
 spec:
+  replicas: 1
   template:
     metadata:
       labels:
@@ -38,3 +39,4 @@ spec:
         - --web
         - --web.address=:8081
         - --kubernetes
+        - --logLevel=DEBUG
