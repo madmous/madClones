@@ -1,23 +1,22 @@
-import fetch from 'isomorphic-fetch';
-
-import { 
+import {
   starredBoardActionCreators,
   organizationActionCreators,
   boardActionCreators,
-  modalActionCreators,
-} from '../index';
+  modalActionCreators
+} from "../index";
 
-import { cardActionCreators } from '../../routes/boardView/modules/index';
-import { loginActionCreators } from '../../../login/modules/index';
+import { cardActionCreators } from "../../routes/boardView/modules/index";
+import { loginActionCreators } from "../../../login/modules/index";
 
-import { trelloUrl } from '../../../../../utils/url';
+import { trelloUrl } from "../../../../../utils/url";
+import request from "../../../../../utils/request";
 
-const LOAD_HOME_REQUEST = 'LOAD_HOME_REQUEST';
-const LOAD_HOME_SUCCESS = 'LOAD_HOME_SUCCESS';
-const LOAD_HOME_FAIL = 'LOAD_HOME_FAIL';
+const LOAD_HOME_REQUEST = "LOAD_HOME_REQUEST";
+const LOAD_HOME_SUCCESS = "LOAD_HOME_SUCCESS";
+const LOAD_HOME_FAIL = "LOAD_HOME_FAIL";
 
 const initialState = {
-  errorMessage: '',
+  errorMessage: "",
 
   isFetchingHomeSuccessful: false,
   isFetchingHome: false,
@@ -45,38 +44,34 @@ function loadHomeFail(payload) {
 
 export function getHome() {
   return dispatch => {
-    dispatch(loadHomeRequest())
+    dispatch(loadHomeRequest());
 
-    return fetch(`${trelloUrl}api/home`, 
-      { method: 'GET',
-        headers: {
-          'csrf': localStorage.getItem('csrf')
-        },
-        credentials: 'include'
-      })
-      .then(response => {
-        if (response.status !== 200) {
+    return request(`${trelloUrl}api/home`, {
+      method: "GET",
+      headers: {
+        csrf: localStorage.getItem("csrf")
+      },
+      credentials: "include"
+    }).then(
+      response => {
+        const responseData = response.data;
+
+        dispatch(modalActionCreators.closeAllModals());
+        dispatch(loadHomeSuccess());
+
+        dispatch(organizationActionCreators.updateOrganizations(responseData));
+        dispatch(starredBoardActionCreators.updateStarredBoards(responseData));
+        dispatch(boardActionCreators.updateBoards(responseData));
+        dispatch(cardActionCreators.resetCards());
+      },
+      response => {
+        dispatch(loadHomeFail(response));
+
+        if (response.status === 401) {
           dispatch(loginActionCreators.logoutUser());
-        } else {
-          return response.json();
         }
-      })
-      .then(json => {
-        const jsonData = json.data;
-
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(loadHomeFail(jsonData))
-        } else {
-          dispatch(modalActionCreators.closeAllModals());
-          dispatch(loadHomeSuccess());
-
-          dispatch(organizationActionCreators.updateOrganizations(jsonData));
-          dispatch(starredBoardActionCreators.updateStarredBoards(jsonData));
-          dispatch(boardActionCreators.updateBoards(jsonData));
-          dispatch(cardActionCreators.resetCards());
-        }
-      })
-      .catch(error => dispatch(loginActionCreators.logoutUser()));
+      }
+    );
   };
 }
 
@@ -84,7 +79,7 @@ export default function user(state = initialState, action) {
   switch (action.type) {
     case LOAD_HOME_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
+        isFetching: true
       });
     case LOAD_HOME_SUCCESS:
       return Object.assign({}, state, {
@@ -95,6 +90,7 @@ export default function user(state = initialState, action) {
       return Object.assign({}, state, {
         errorMessage: action.payload.error
       });
-    default: return state;
+    default:
+      return state;
   }
 }

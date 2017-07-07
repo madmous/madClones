@@ -1,26 +1,25 @@
-import fetch from 'isomorphic-fetch';
-
-import { 
-  organizationActionCreators, 
+import {
+  organizationActionCreators,
   notificationActionCreators,
   modalActionCreators,
   formActionCreators
-} from '../index';
+} from "../index";
 
-import { trelloUrl } from '../../../../../utils/url.js';
+import { trelloUrl } from "../../../../../utils/url";
+import request from "../../../../../utils/request";
 
-const CLOSE_MODAL = 'CLOSE_MODAL';
-const OPEN_MODAL = 'OPEN_MODAL';
+const CLOSE_MODAL = "CLOSE_MODAL";
+const OPEN_MODAL = "OPEN_MODAL";
 
-const UPDATE_BOARDS = 'UPDATE_BOARDS';
+const UPDATE_BOARDS = "UPDATE_BOARDS";
 
-const ADD_BOARD_REQUEST = 'ADD_BOARD_REQUEST';
-const ADD_BOARD_SUCCESS = 'ADD_BOARD_SUCCESS';
-const ADD_BOARD_FAIL = 'ADD_BOARD_FAIL';
+const ADD_BOARD_REQUEST = "ADD_BOARD_REQUEST";
+const ADD_BOARD_SUCCESS = "ADD_BOARD_SUCCESS";
+const ADD_BOARD_FAIL = "ADD_BOARD_FAIL";
 
-const UPDATE_BOARD_NAME_REQUEST = 'UPDATE_BOARD_NAME_REQUEST';
-const UPDATE_BOARD_NAME_SUCCESS = 'UPDATE_BOARD_NAME_SUCCESS';
-const UPDATE_BOARD_NAME_FAIL = 'UPDATE_BOARD_NAME_FAIL';
+const UPDATE_BOARD_NAME_REQUEST = "UPDATE_BOARD_NAME_REQUEST";
+const UPDATE_BOARD_NAME_SUCCESS = "UPDATE_BOARD_NAME_SUCCESS";
+const UPDATE_BOARD_NAME_FAIL = "UPDATE_BOARD_NAME_FAIL";
 
 const initialState = {
   isFetchingBoardSuccessful: false,
@@ -31,9 +30,9 @@ const initialState = {
 
   isModalOpen: false,
 
-  errorMessage: '',
+  errorMessage: "",
 
-  boards:[]
+  boards: []
 };
 
 function addBoardRequest() {
@@ -76,85 +75,91 @@ function updateBoardNameFail(payload) {
 
 export function updateBoards(payload) {
   return {
-		type: UPDATE_BOARDS,
-		payload
-	};
+    type: UPDATE_BOARDS,
+    payload
+  };
 }
 
 export function openModal() {
   return {
-		type: OPEN_MODAL
-	};
+    type: OPEN_MODAL
+  };
 }
 
 export function closeModal() {
   return {
-		type: CLOSE_MODAL
-	};
+    type: CLOSE_MODAL
+  };
 }
 
 export function addBoard(userId, orgId, boardName) {
   if (orgId) {
-    return saveBoard(`${trelloUrl}api/organizations/${orgId}/boards`, boardName, 'POST');
+    return saveBoard(
+      `${trelloUrl}api/organizations/${orgId}/boards`,
+      boardName,
+      "POST"
+    );
   }
 
-  return saveBoard(`${trelloUrl}api/boards`, boardName, 'POST');
+  return saveBoard(`${trelloUrl}api/boards`, boardName, "POST");
 }
 
 export function updateBoardName(orgId, boardId, boardName) {
   if (orgId) {
-    return saveBoard(`${trelloUrl}api/organizations/${orgId}/boards/${boardId}`, boardName, 'PUT');
+    return saveBoard(
+      `${trelloUrl}api/organizations/${orgId}/boards/${boardId}`,
+      boardName,
+      "PUT"
+    );
   }
 
-  return saveBoard(`${trelloUrl}api/boards/${boardId}`, boardName, 'PUT');
+  return saveBoard(`${trelloUrl}api/boards/${boardId}`, boardName, "PUT");
 }
 
 function saveBoard(url, boardName, methodType) {
   return dispatch => {
-    if (methodType === 'POST') {
+    if (methodType === "POST") {
       dispatch(addBoardRequest());
     } else {
       dispatch(updateBoardNameRequest());
     }
 
-    return fetch(url, 
-      { method: methodType, 
-        body: JSON.stringify({
-          name: boardName
-        }),
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'csrf': localStorage.getItem('csrf')
-        },
-        credentials: 'include'
-      })
-      .then(response => response.json())
-      .then(json => {
-        const jsonData = json.data;
+    return request(url, {
+      method: methodType,
+      body: JSON.stringify({
+        name: boardName
+      }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        csrf: localStorage.getItem("csrf")
+      },
+      credentials: "include"
+    }).then(
+      response => {
+        dispatch(modalActionCreators.closeAllModals());
+        dispatch(formActionCreators.closeAllForms());
 
-        if (jsonData.uiError || jsonData.error) {
-          if (methodType === 'POST') {
-            dispatch(addBoardFail(jsonData));
-            dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
-
-            setTimeout(() => {
-              dispatch(notificationActionCreators.hideNotification())
-            }, 3000)
-          } else {
-            dispatch(updateBoardNameFail(jsonData));
-          }
+        if (methodType === "POST") {
+          dispatch(addBoardSuccess());
         } else {
-          dispatch(modalActionCreators.closeAllModals());
-          dispatch(formActionCreators.closeAllForms());
+          dispatch(updateBoardNameSuccess());
+        }
 
-          if (methodType === 'POST') {
-            dispatch(addBoardSuccess());
-          } else {
-            dispatch(updateBoardNameSuccess());
-          }
-          
-          dispatch(updateBoards(jsonData));
-          dispatch(organizationActionCreators.updateOrganizations(jsonData));
+        dispatch(updateBoards(response));
+        dispatch(organizationActionCreators.updateOrganizations(response));
+      },
+      response => {
+        if (methodType === "POST") {
+          dispatch(addBoardFail(response));
+          dispatch(
+            notificationActionCreators.updateNotification(response.uiError)
+          );
+
+          setTimeout(() => {
+            dispatch(notificationActionCreators.hideNotification());
+          }, 3000);
+        } else {
+          dispatch(updateBoardNameFail(response));
         }
       }
     );
@@ -165,7 +170,7 @@ export default function board(state = initialState, action) {
   switch (action.type) {
     case ADD_BOARD_REQUEST:
       return Object.assign({}, state, {
-        isFetchingBoard: true,
+        isFetchingBoard: true
       });
     case ADD_BOARD_SUCCESS:
       return Object.assign({}, state, {
@@ -180,7 +185,7 @@ export default function board(state = initialState, action) {
       });
     case UPDATE_BOARD_NAME_REQUEST:
       return Object.assign({}, state, {
-        isUpdatingBoardName: true,
+        isUpdatingBoardName: true
       });
     case UPDATE_BOARD_NAME_SUCCESS:
       return Object.assign({}, state, {
@@ -193,18 +198,19 @@ export default function board(state = initialState, action) {
         isUpdatingBoardName: false,
         errorMessage: action.payload.error
       });
-		case UPDATE_BOARDS:
-			return Object.assign({}, state, {
-				boards: action.payload.boards
-			});
+    case UPDATE_BOARDS:
+      return Object.assign({}, state, {
+        boards: action.payload.boards
+      });
     case OPEN_MODAL:
-			return Object.assign({}, state, {
-				isModalOpen: true
-			});
+      return Object.assign({}, state, {
+        isModalOpen: true
+      });
     case CLOSE_MODAL:
-			return Object.assign({}, state, {
-				isModalOpen: false
-			});
-    default: return state;
+      return Object.assign({}, state, {
+        isModalOpen: false
+      });
+    default:
+      return state;
   }
 }

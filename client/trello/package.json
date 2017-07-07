@@ -15,7 +15,7 @@
     "react-redux": "^5.0.5",
     "react-router": "^3.0.5",
     "react-router-redux": "^4.0.8",
-    "redux": "^3.7.0",
+    "redux": "^3.7.1",
     "redux-auth-wrapper": "^1.1.0",
     "redux-form": "^6.8.0",
     "redux-logger": "^3.0.6",
@@ -23,14 +23,14 @@
   },
   "devDependencies": {
     "chai": "^4.0.2",
-    "enzyme": "^2.9.0",
-    "es6-promise": "^4.1.0",
+    "enzyme": "^2.9.1",
+    "es6-promise": "^4.1.1",
     "flow-bin": "^0.47.0",
     "nock": "^9.0.13",
     "react-addons-test-utils": "^15.6.0",
     "react-scripts": "1.0.7",
     "redux-mock-store": "^1.2.3",
-    "sinon": "^2.3.5"
+    "sinon": "^2.3.6"
   },
   "scripts": {
     "start": "REACT_APP_ENV=prod react-scripts start",

@@ -1,17 +1,18 @@
-import { change } from 'redux-form';
-import { push } from 'react-router-redux';
-import fetch from 'isomorphic-fetch';
+import { change } from "redux-form";
+import { push } from "react-router-redux";
+import fetch from "isomorphic-fetch";
 
-import { trelloUrl, usersUrl } from '../../../../../utils/url';
+import { trelloUrl, usersUrl } from "../../../../../utils/url";
+import request from "../../../../../utils/request";
 
-import { modalActionCreators } from '../../../home/modules/index';
+import { modalActionCreators } from "../../../home/modules/index";
 
-const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST';
-const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
-const AUTHENTICATION_FAIL = 'AUTHENTICATION_FAIL';
+const AUTHENTICATION_REQUEST = "AUTHENTICATION_REQUEST";
+const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
+const AUTHENTICATION_FAIL = "AUTHENTICATION_FAIL";
 
-const UN_AUTHENTICATE_USER = 'UN_AUTHENTICATE_USER';
-const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+const UN_AUTHENTICATE_USER = "UN_AUTHENTICATE_USER";
+const AUTHENTICATE_USER = "AUTHENTICATE_USER";
 
 function authenticationRequest() {
   return {
@@ -48,48 +49,38 @@ export function authenticate(formInputs, redirectUrl) {
   return dispatch => {
     dispatch(authenticationRequest());
 
-    return fetch(`${trelloUrl}api/signin`, 
-      { method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'Basic ' + btoa(formInputs.username + ':' + formInputs.password)
-        },
-        credentials: 'include'
-      })
-      .then(response  => {
-        if (response.status !== 200) {
-          dispatch(logoutUser());
+    return request(`${trelloUrl}api/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization:
+          "Basic " + btoa(formInputs.username + ":" + formInputs.password)
+      },
+      credentials: "include"
+    }).then(
+      response => {
+        dispatch(authenticationSuccess());
+
+        localStorage.setItem("csrf", response.data.csrf);
+
+        if (redirectUrl && redirectUrl.query && redirectUrl.query.redirect) {
+          dispatch(push(redirectUrl.query.redirect));
         } else {
-          return response.json();
+          dispatch(push("/"));
         }
-      })
-      .then(json => {
-        const jsonData = json.data;
+      },
+      response => {
+        dispatch(authenticationFail(response));
 
-        if (jsonData.error) {
-          dispatch(authenticationFail(jsonData));
-
-          if (jsonData.error.usernameErr) {
-            dispatch(change('loginForm', 'username', ''))
-          }
-          
-          if (jsonData.error.passwordErr) {
-            dispatch(change('loginForm', 'password', ''))
-          }
-
-        } else {
-          dispatch(authenticationSuccess());
-
-          localStorage.setItem('csrf', jsonData.csrf);
-          
-          if (redirectUrl && redirectUrl.query && redirectUrl.query.redirect) {
-            dispatch(push(redirectUrl.query.redirect))
-          } else {
-            dispatch(push('/'));
-          }
+        if (response.error.usernameErr) {
+          dispatch(change("loginForm", "username", ""));
         }
-      })
-      .catch(error => dispatch(logoutUser()));
+
+        if (response.error.passwordErr) {
+          dispatch(change("loginForm", "password", ""));
+        }
+      }
+    );
   };
 }
 
@@ -103,26 +94,25 @@ export function logoutUser() {
   return dispatch => {
     dispatch(modalActionCreators.closeAllModals());
 
-    return fetch(`${usersUrl}api/signout`, 
-      { method: 'GET',
-        credentials: 'include'
-      })
-      .then(response => {
-        localStorage.removeItem('csrf');
+    return fetch(`${usersUrl}api/signout`, {
+      method: "GET",
+      credentials: "include"
+    }).then(response => {
+      localStorage.removeItem("csrf");
 
-        dispatch(unAuthenticateUser());
-        dispatch(push('/login'));
-      });
+      dispatch(unAuthenticateUser());
+      dispatch(push("/login"));
+    });
   };
 }
 
 const initialState = {
   isAuthenticatingSuccessful: false,
-  isAuthenticating : false,
+  isAuthenticating: false,
   isAuthenticated: false,
 
   errorMessage: {}
-}
+};
 
 export default function login(state = initialState, action) {
   switch (action.type) {
@@ -153,6 +143,7 @@ export default function login(state = initialState, action) {
       return Object.assign({}, state, {
         isAuthenticated: false
       });
-    default: return state;
+    default:
+      return state;
   }
 }

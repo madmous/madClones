@@ -1,101 +1,106 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import nock from 'nock';
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import nock from "nock";
 
-import * as signUpActions from './signUp';
+import * as signUpActions from "./signUp";
+import { usersUrl } from "../../../../../utils/url";
+import reducer from "./signUp";
 
-import reducer from './signUp';
-
-const middlewares = [ thunk ];
+const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('signUp actions', () => {
+describe("signUp actions", () => {
   afterEach(() => {
     nock.cleanAll();
-  })
+  });
 
-  it('should create an action to createUser - success', () => {
+  it("should create an action to createUser - success", () => {
     const redirectUrl = {
-      query : {}
+      query: {}
     };
 
     const data = {
-      token: 'token'
+      csrf: "csrf"
     };
 
     const formInput = {
-      username: 'username',
-      fullname: 'username',
-      initials: 'initials',
-      email: 'email',
-      password: 'password',
+      username: "username",
+      fullname: "username",
+      initials: "initials",
+      email: "email",
+      password: "password"
     };
 
     const expectedActions = [
-      { type: 'SIGN_UP_REQUEST' },
-      { type: 'SIGN_UP_SUCCESS' },
-      { type: 'AUTHENTICATE_USER' }, 
+      { type: "SIGN_UP_REQUEST" },
+      { type: "SIGN_UP_SUCCESS" },
+      { type: "AUTHENTICATE_USER" },
       {
-        type: '@@router/CALL_HISTORY_METHOD',
+        type: "@@router/CALL_HISTORY_METHOD",
         payload: {
-          args: ['/'], 
-          method: 'push'
+          args: ["/"],
+          method: "push"
         }
       }
     ];
 
     const store = mockStore();
 
-    nock('http://localhost:3002/api/signup/',{
-      body: JSON.stringify({
-        name: formInput.username,
-        fullname: formInput.username,
-        initials: formInput.initials,
-        email: formInput.email,
-        password: formInput.password,
-      })},{ 
-      reqheaders: {
-        'Content-Type': 'application/json; charset=utf-8'
+    nock(
+      `${usersUrl}api/signup`,
+      {
+        body: JSON.stringify({
+          name: formInput.username,
+          fullname: formInput.username,
+          initials: formInput.initials,
+          email: formInput.email,
+          password: formInput.password
+        })
+      },
+      {
+        reqheaders: {
+          "Content-Type": "application/json; charset=utf-8"
+        }
       }
-    })
-    .post('')
-    .reply(200, { data });
+    )
+      .post("")
+      .reply(200, { data });
 
-    return store.dispatch(signUpActions.createUser(formInput))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      }
-    );
-  })
+    return store.dispatch(signUpActions.createUser(formInput)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
 
-  it('should create an action to createUser - fail', () => {
+  it("should create an action to createUser - fail", () => {
     const redirectUrl = {
-      query : {}
+      query: {}
     };
 
     const data = {
       uiError: {
-        usernameErr: '',
-        emailErr: ''
+        missingUsername: "",
+        missingFullname: "",
+        missingEmail: ""
       }
     };
 
     const formInput = {
-      username: 'username',
-      fullname: 'username',
-      initials: 'initials',
-      email: 'email',
-      password: 'password',
+      username: "username",
+      fullname: "username",
+      initials: "initials",
+      email: "email",
+      password: "password"
     };
 
     const expectedActions = [
-      { type: 'SIGN_UP_REQUEST' },
-      { 
-        type: 'SIGN_UP_FAIL',
-        payload:  {
+      { type: "SIGN_UP_REQUEST" },
+      {
+        type: "SIGN_UP_FAIL",
+        payload: {
           uiError: {
-            'emailErr': '',
-            'usernameErr': '',
+            missingUsername: "",
+            missingFullname: "",
+            missingEmail: ""
           }
         }
       }
@@ -103,84 +108,81 @@ describe('signUp actions', () => {
 
     const store = mockStore();
 
-    nock('http://localhost:3002/api/signup/',{
-      body: JSON.stringify({
-        name: formInput.username,
-        fullname: formInput.username,
-        initials: formInput.initials,
-        email: formInput.email,
-        password: formInput.password,
-      })},{ 
-      reqheaders: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    })
-    .post('')
-    .reply(400, { data });
-
-    return store.dispatch(signUpActions.createUser(formInput))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      }
-    );
-  })
-})
-
-describe('signUp reducer', () => {
-  it('should return the initial state', () => {
-    expect(
-      reducer(undefined, {})
-    ).toEqual({
-        isFetchingSuccessful: false,
-        isFetching: false,
-
-        errorMessage: {}
+    nock(
+      `${usersUrl}api/signup`,
+      {
+        body: JSON.stringify({
+          name: formInput.username,
+          fullname: formInput.username,
+          initials: formInput.initials,
+          email: formInput.email,
+          password: formInput.password
+        })
+      },
+      {
+        reqheaders: {
+          "Content-Type": "application/json; charset=utf-8"
+        }
       }
     )
-  })
+      .post("")
+      .reply(400, { data });
 
-  it('should handle SIGN_UP_REQUEST', () => {
-    expect(
-      reducer([], {
-        type: 'SIGN_UP_REQUEST'
-      })
-    ).toEqual({
-        isFetching: true
-      }
-    )
-  })
+    return store.dispatch(signUpActions.createUser(formInput)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
 
-  it('should handle SIGN_UP_SUCCESS', () => {
+describe("signUp reducer", () => {
+  it("should return the initial state", () => {
+    expect(reducer(undefined, {})).toEqual({
+      isFetchingSuccessful: false,
+      isFetching: false,
+
+      errorMessage: {}
+    });
+  });
+
+  it("should handle SIGN_UP_REQUEST", () => {
     expect(
       reducer([], {
-        type: 'SIGN_UP_SUCCESS'
+        type: "SIGN_UP_REQUEST"
       })
     ).toEqual({
-        isFetchingSuccessful: true,
-        isFetching: false
-      }
-    )
-  })
+      isFetching: true
+    });
+  });
 
-  it('should handle SIGN_UP_FAIL', () => {
+  it("should handle SIGN_UP_SUCCESS", () => {
+    expect(
+      reducer([], {
+        type: "SIGN_UP_SUCCESS"
+      })
+    ).toEqual({
+      isFetchingSuccessful: true,
+      isFetching: false
+    });
+  });
+
+  it("should handle SIGN_UP_FAIL", () => {
     const payload = {
       uiError: {
-        usernameErr: 'Please enter a name',
-        fullNameErr: 'Please enter a full name',
+        usernameErr: "Please enter a name",
+        fullNameErr: "Please enter a full name"
       }
     };
-    
+
     expect(
       reducer([], {
-        type: 'SIGN_UP_FAIL',
+        type: "SIGN_UP_FAIL",
         payload
       })
     ).toEqual({
-        isFetchingSuccessful: true,
-        isFetching: false,
+      isFetchingSuccessful: true,
+      isFetching: false,
 
-        errorMessage: payload.uiError
-      }
-    )
-  })
-})
+      errorMessage: payload.uiError
+    });
+  });
+});

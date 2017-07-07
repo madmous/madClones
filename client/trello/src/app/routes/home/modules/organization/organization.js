@@ -1,57 +1,53 @@
-import fetch from 'isomorphic-fetch';
+import { notificationActionCreators, modalActionCreators } from "../index";
 
-import {
-  notificationActionCreators, 
-  modalActionCreators 
-} from '../index';
+import { trelloUrl } from "../../../../../utils/url";
+import request from "../../../../../utils/request";
 
-import { trelloUrl } from '../../../../../utils/url';
+const UPDATE_ORGANIZATIONS = "UPDATE_ORGANIZATIONS";
 
-const UPDATE_ORGANIZATIONS = 'UPDATE_ORGANIZATIONS';
+const OPEN_MODAL = "OPEN_MODAL";
+const CLOSE_MODAL = "CLOSE_MODAL";
 
-const OPEN_MODAL = 'OPEN_MODAL';
-const CLOSE_MODAL = 'CLOSE_MODAL';
-
-const ADD_ORGANIZATION_REQUEST = 'ADD_ORGANIZATION_REQUEST';
-const ADD_ORGANIZATION_SUCCESS = 'ADD_ORGANIZATION_SUCCESS';
-const ADD_ORGANIZATION_FAIL = 'ADD_ORGANIZATION_FAIL';
+const ADD_ORGANIZATION_REQUEST = "ADD_ORGANIZATION_REQUEST";
+const ADD_ORGANIZATION_SUCCESS = "ADD_ORGANIZATION_SUCCESS";
+const ADD_ORGANIZATION_FAIL = "ADD_ORGANIZATION_FAIL";
 
 export function updateOrganizations(payload) {
   return {
-		type: UPDATE_ORGANIZATIONS,
-		payload
-	};
+    type: UPDATE_ORGANIZATIONS,
+    payload
+  };
 }
 
 export function addOrganizationRequest() {
   return {
-		type: ADD_ORGANIZATION_REQUEST
-	};
+    type: ADD_ORGANIZATION_REQUEST
+  };
 }
 
 export function addOrganizationSuccess() {
   return {
-		type: ADD_ORGANIZATION_SUCCESS
-	};
+    type: ADD_ORGANIZATION_SUCCESS
+  };
 }
 
 export function addOrganizationFail(payload) {
   return {
-		type: ADD_ORGANIZATION_FAIL,
+    type: ADD_ORGANIZATION_FAIL,
     payload
-	};
+  };
 }
 
 export function openModal() {
   return {
-		type: OPEN_MODAL
-	};
+    type: OPEN_MODAL
+  };
 }
 
 export function closeModal() {
   return {
-		type: CLOSE_MODAL
-	};
+    type: CLOSE_MODAL
+  };
 }
 
 export function addOrganization(userId, organizationName) {
@@ -60,36 +56,34 @@ export function addOrganization(userId, organizationName) {
 
 function saveOrganization(url, organizationName) {
   return dispatch => {
-    dispatch(addOrganizationRequest())
+    dispatch(addOrganizationRequest());
 
-    return fetch(url, 
-      { method: 'POST', 
-        body: JSON.stringify({
-          name: organizationName,
-          displayName: organizationName,
-        }),
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'csrf': localStorage.getItem('csrf')
-        },
-        credentials: 'include'
-      })
-      .then(response => response.json())
-      .then(json => {
-        const jsonData = json.data;
+    return request(url, {
+      method: "POST",
+      body: JSON.stringify({
+        name: organizationName,
+        displayName: organizationName
+      }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        csrf: localStorage.getItem("csrf")
+      },
+      credentials: "include"
+    }).then(
+      response => {
+        dispatch(modalActionCreators.closeAllModals());
+        dispatch(addOrganizationSuccess());
+        dispatch(updateOrganizations(response));
+      },
+      response => {
+        dispatch(addOrganizationFail(response));
+        dispatch(
+          notificationActionCreators.updateNotification(response.uiError)
+        );
 
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(addOrganizationFail(jsonData));
-          dispatch(notificationActionCreators.updateNotification(jsonData.uiError));
-
-          setTimeout(() => {
-            dispatch(notificationActionCreators.hideNotification())
-          }, 3000)
-        } else {
-          dispatch(modalActionCreators.closeAllModals());
-          dispatch(addOrganizationSuccess());
-          dispatch(updateOrganizations(jsonData));
-        }
+        setTimeout(() => {
+          dispatch(notificationActionCreators.hideNotification());
+        }, 3000);
       }
     );
   };
@@ -98,11 +92,11 @@ function saveOrganization(url, organizationName) {
 const initialState = {
   isFetchingOrganization: false,
   isFetchingOrganizationSuccessful: false,
-  errorMessage: '',
+  errorMessage: "",
 
   isModalOpen: false,
 
-  organizations:[]
+  organizations: []
 };
 
 export default function organization(state = initialState, action) {
@@ -123,13 +117,14 @@ export default function organization(state = initialState, action) {
         errorMessage: action.payload.error
       });
     case OPEN_MODAL:
-			return Object.assign({}, state, {
-				isModalOpen: true
-			});
+      return Object.assign({}, state, {
+        isModalOpen: true
+      });
     case CLOSE_MODAL:
-			return Object.assign({}, state, {
-				isModalOpen: false
-			});
-    default: return state;
+      return Object.assign({}, state, {
+        isModalOpen: false
+      });
+    default:
+      return state;
   }
 }

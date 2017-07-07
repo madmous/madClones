@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
 
@@ -75,7 +75,7 @@ describe('<span />', () => {
   it('should have an onClick defined', () => {
     const { wrapper } = setupShallow();
 
-    expect(wrapper.find('span').props().onClick).to.be.defined;
+    assert.isDefined(wrapper.find('span').props().onClick);
   })
 
   xit('should call openCreateOrganizationModal, closeAllModals, hidePopOver', () => {

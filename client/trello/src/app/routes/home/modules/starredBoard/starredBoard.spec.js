@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 
 import * as starredBoardActions from './starredBoard';
-
+import { trelloUrl } from "../../../../../utils/url";
 import reducer from './starredBoard';
 
 const middlewares = [ thunk ];
@@ -40,7 +40,8 @@ describe('starredBoard actions', () => {
 
     const store = mockStore();
 
-    nock('http://localhost:3001/api/v1/boards/boardId/boardstars', { 
+    nock(
+      `${trelloUrl}api/boards/boardId/boardstars`, { 
       reqheaders: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         'authorization': 'JWT ' + localStorage.getItem('userId')
@@ -82,7 +83,8 @@ describe('starredBoard actions', () => {
     
     const store = mockStore();
 
-    nock('http://localhost:3001/api/v1/organizations/orgId/boards/boardId/boardstars', { 
+    nock(
+      `${trelloUrl}api/organizations/orgId/boards/boardId/boardstars`, { 
       reqheaders: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         'authorization': 'JWT ' + localStorage.getItem('userId')

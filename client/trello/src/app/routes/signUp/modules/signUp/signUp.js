@@ -1,14 +1,14 @@
-import fetch from 'isomorphic-fetch';
-import { change } from 'redux-form';
+import { change } from "redux-form";
 
-import { loginActionCreators } from '../../../login/modules/index';
-import { push } from 'react-router-redux';
+import { loginActionCreators } from "../../../login/modules/index";
+import { push } from "react-router-redux";
 
-import { usersUrl } from '../../../../../utils/url';
+import { usersUrl } from "../../../../../utils/url";
+import request from "../../../../../utils/request";
 
-const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
-const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
-const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
+const SIGN_UP_REQUEST = "SIGN_UP_REQUEST";
+const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS";
+const SIGN_UP_FAIL = "SIGN_UP_FAIL";
 
 function signUpRequest() {
   return {
@@ -31,49 +31,44 @@ function signUpFail(payload) {
 
 export function createUser(formInput) {
   return dispatch => {
-    dispatch(signUpRequest())
+    dispatch(signUpRequest());
 
-    return fetch(`${usersUrl}api/signup`, 
-      { method: 'POST',
-        body: JSON.stringify({
-          name: formInput.username,
-          fullname: formInput.fullname,
-          initials: formInput.initials,
-          email: formInput.email,
-          password: formInput.password,
-          application: 'trello-clone'
-        }),
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        credentials: 'include'
-      })
-      .then(response => response.json())
-      .then(json => {
-        const jsonData = json.data;
+    return request(`${usersUrl}api/signup`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: formInput.username,
+        fullname: formInput.fullname,
+        initials: formInput.initials,
+        email: formInput.email,
+        password: formInput.password,
+        application: "trello-clone"
+      }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      credentials: "include"
+    }).then(
+      response => {
+        dispatch(signUpSuccess());
+        dispatch(loginActionCreators.authenticateUser());
 
-        if (jsonData.uiError || jsonData.error) {
-          dispatch(signUpFail(jsonData));
+        localStorage.setItem("csrf", response.data.csrf);
 
-          if (jsonData.uiError.missingUsername) {
-            dispatch(change('signUpForm', 'username', ''))
-          }
+        dispatch(push("/"));
+      },
+      response => {
+        dispatch(signUpFail(response));
 
-          if (jsonData.uiError.missingFullname) {
-            dispatch(change('signUpForm', 'fullname', ''))
-          }
-          
-          if (jsonData.uiError.missingEmail) {
-            dispatch(change('signUpForm', 'email', ''))
-          }
+        if (response && response.uiError.missingUsername) {
+          dispatch(change("signUpForm", "username", ""));
+        }
 
-        } else {
-          dispatch(signUpSuccess());
-          dispatch(loginActionCreators.authenticateUser());
+        if (response && response.uiError.missingFullname) {
+          dispatch(change("signUpForm", "fullname", ""));
+        }
 
-          localStorage.setItem('csrf', jsonData.csrf);
-
-          dispatch(push('/'));
+        if (response && response.uiError.missingEmail) {
+          dispatch(change("signUpForm", "email", ""));
         }
       }
     );
@@ -85,26 +80,27 @@ const initialState = {
   isFetching: false,
 
   errorMessage: {}
-}
+};
 
 export default function signUp(state = initialState, action) {
   switch (action.type) {
     case SIGN_UP_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
-      })
+      });
     case SIGN_UP_SUCCESS:
       return Object.assign({}, state, {
         isFetchingSuccessful: true,
         isFetching: false
-      })
+      });
     case SIGN_UP_FAIL:
       return Object.assign({}, state, {
         isFetchingSuccessful: true,
         isFetching: false,
 
         errorMessage: action.payload.uiError
-      })
-    default: return state;
+      });
+    default:
+      return state;
   }
 }

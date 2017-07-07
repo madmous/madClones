@@ -31,7 +31,7 @@ describe('<div />', () => {
   it('should have onClick defined', () => {
     const { wrapper } = setupShallow();
 
-    chai.expect(wrapper.find('div').first().props().onClick).to.be.defined;
+    chai.assert.isDefined(wrapper.find('div').first().props().onClick);
   })
 
   it('should call openBoardsMenu', () => {

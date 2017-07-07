@@ -1,11 +1,11 @@
 import { shallow } from "enzyme";
-import { expect } from "chai";
+import { assert } from "chai";
 import React from "react";
 
 import BoardOptions from "./BoardOptions";
 
 function setup() {
-  const prop = {
+  const props = {
     boardTitle: "boardTitle"
   };
 
@@ -16,6 +16,6 @@ describe("BoardOptions", () => {
   it("should render BoardOptionsItems component", () => {
     const wrapper = setup();
 
-    expect(wrapper.find("BoardOptionsItems")).to.have.length(1);
+    assert.isDefined(wrapper.find("BoardOptionsItems"));
   });
 });
