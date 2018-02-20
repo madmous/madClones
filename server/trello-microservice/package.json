@@ -55,8 +55,5 @@
     "request": "^2.81.0",
     "winston": "^2.3.0"
   },
-  "engines": {
-    "node": "7.8.0"
-  },
   "proxy": "http:://localhost"
 }
